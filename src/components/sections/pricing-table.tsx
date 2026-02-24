@@ -14,48 +14,64 @@ const features = [
 
 export function PricingTableSection() {
     return (
-        <section className="section-padding bg-white" id="pricing">
+        <section className="section-padding" style={{ backgroundColor: "#111827" }} id="pricing">
             <div className="container-marketing">
                 {/* Header */}
                 <div className="text-center mb-14">
-                    <h2 className="text-h3 text-foreground font-bold mb-2">
+                    <h2 className="text-h3 font-bold mb-2" style={{ color: "#F1F5F9" }}>
                         Simple, Transparent Pricing
                     </h2>
-                    <p className="text-body text-gray-500">
+                    <p className="text-body" style={{ color: "#94A3B8" }}>
                         Start for free, upgrade when you need deeper insights.
                     </p>
                 </div>
 
                 {/* Pricing Table */}
                 <div className="max-w-[680px] mx-auto">
-                    {/* Header Row — shaded background matching Stitch */}
-                    <div className="grid grid-cols-[1fr_110px_110px] items-end bg-gray-50 rounded-t-xl px-5 py-3.5 border border-gray-200 border-b-0">
-                        <span className="text-sm font-semibold text-gray-500">Features</span>
+                    {/* Header Row */}
+                    <div
+                        className="grid grid-cols-[1fr_110px_110px] items-end rounded-t-xl px-5 py-3.5"
+                        style={{
+                            backgroundColor: "rgba(15, 23, 42, 0.6)",
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            borderBottom: "none",
+                        }}
+                    >
+                        <span className="text-sm font-semibold" style={{ color: "#64748B" }}>Features</span>
                         <div className="text-center">
-                            <span className="text-sm font-bold text-foreground block">Free</span>
-                            <span className="text-xs text-gray-400">₹0 forever</span>
+                            <span className="text-sm font-bold block" style={{ color: "#F1F5F9" }}>Free</span>
+                            <span className="text-xs" style={{ color: "#64748B" }}>₹0 forever</span>
                         </div>
                         <div className="text-center">
-                            <span className="text-sm font-bold text-accent block">Premium</span>
-                            <span className="text-xs text-gray-400">₹499/year</span>
+                            <span className="text-sm font-bold block" style={{ color: "#10B981" }}>Premium</span>
+                            <span className="text-xs" style={{ color: "#64748B" }}>₹499/year</span>
                         </div>
                     </div>
 
                     {/* Feature Rows */}
-                    <div className="border border-gray-200 border-t-0 rounded-b-xl overflow-hidden">
+                    <div
+                        className="rounded-b-xl overflow-hidden"
+                        style={{
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            borderTop: "none",
+                        }}
+                    >
                         {features.map((f, i) => (
                             <div
                                 key={i}
-                                className="grid grid-cols-[1fr_110px_110px] items-center py-3.5 px-5 border-b border-gray-100 last:border-b-0"
+                                className="grid grid-cols-[1fr_110px_110px] items-center py-3.5 px-5"
+                                style={{
+                                    borderBottom: i < features.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                                }}
                             >
-                                <span className="text-sm text-foreground">{f.name}</span>
+                                <span className="text-sm" style={{ color: "#F1F5F9" }}>{f.name}</span>
                                 <div className="flex justify-center">
                                     {f.free ? (
                                         <span className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
                                             <Check size={12} className="text-white" strokeWidth={3} />
                                         </span>
                                     ) : (
-                                        <span className="text-gray-300">—</span>
+                                        <span style={{ color: "#334155" }}>—</span>
                                     )}
                                 </div>
                                 <div className="flex justify-center">
@@ -64,7 +80,7 @@ export function PricingTableSection() {
                                             <Check size={12} className="text-white" strokeWidth={3} />
                                         </span>
                                     ) : (
-                                        <span className="text-gray-300">—</span>
+                                        <span style={{ color: "#334155" }}>—</span>
                                     )}
                                 </div>
                             </div>
@@ -75,7 +91,11 @@ export function PricingTableSection() {
                     <div className="mt-8 text-center">
                         <a
                             href="#"
-                            className="inline-flex items-center px-8 py-3.5 bg-accent text-white text-sm font-semibold rounded-xl hover:bg-accent-dark transition-colors"
+                            className="inline-flex items-center px-8 py-3.5 text-white text-sm font-semibold rounded-xl transition-colors"
+                            style={{
+                                backgroundColor: "#10B981",
+                                boxShadow: "0 0 20px -4px rgba(16,185,129,0.3)",
+                            }}
                         >
                             Start Free Assessment →
                         </a>

@@ -1,22 +1,26 @@
 /**
- * MyFinancial Design Tokens
+ * MyFinancial Design Tokens — Dark Premium
  * Centralized theme configuration for the design system.
- * Import these values in components or reference via CSS custom properties in globals.css.
  */
 
 export const tokens = {
     colors: {
-        background: "#FFFFFF",
-        foreground: "#0F172A",       // slate-900
-        muted: "#F8FAFC",            // slate-50
-        mutedForeground: "#64748B",  // slate-500
-        border: "#E2E8F0",           // slate-200
-        accent: "#059669",           // emerald-600
-        accentDark: "#047857",       // emerald-700
+        background: "#0B1120",
+        foreground: "#F1F5F9",        // slate-100
+        muted: "#111827",             // slate-900
+        mutedForeground: "#94A3B8",   // slate-400
+        border: "#1E293B",            // slate-800
+        accent: "#10B981",            // emerald-500
+        accentDark: "#059669",        // emerald-600
         accentForeground: "#FFFFFF",
-        accentLight: "#D1FAE5",      // emerald-100
-        accentLighter: "#ECFDF5",    // emerald-50
-        destructive: "#DC2626",      // red-600
+        accentLight: "rgba(16, 185, 129, 0.15)",
+        accentLighter: "rgba(16, 185, 129, 0.08)",
+        destructive: "#EF4444",       // red-500
+        card: "rgba(15, 23, 42, 0.6)",
+        cardSolid: "#0F172A",
+        surface: "#111827",
+        textSecondary: "#94A3B8",
+        textTertiary: "#64748B",
     },
 
     typography: {
@@ -55,12 +59,13 @@ export const tokens = {
     },
 
     shadows: {
-        sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-        lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-        xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-        accent: "0 10px 25px -5px rgb(5 150 105 / 0.2)",
-        accentLg: "0 20px 35px -5px rgb(5 150 105 / 0.3)",
+        sm: "0 1px 2px 0 rgb(0 0 0 / 0.3)",
+        md: "0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3)",
+        lg: "0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3)",
+        xl: "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3)",
+        accent: "0 10px 25px -5px rgb(16 185 129 / 0.25)",
+        accentLg: "0 20px 35px -5px rgb(16 185 129 / 0.3)",
+        glow: "0 0 40px -10px rgb(16 185 129 / 0.3)",
     },
 
     breakpoints: {

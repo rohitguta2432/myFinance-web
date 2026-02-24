@@ -2,7 +2,13 @@ import { Shield, ArrowRight } from "lucide-react";
 
 export function FinalCTASection() {
     return (
-        <section style={{ backgroundColor: "#f8fafc", paddingTop: 96, paddingBottom: 96 }}>
+        <section
+            style={{
+                paddingTop: 96,
+                paddingBottom: 96,
+                background: "linear-gradient(180deg, #111827 0%, #0B1120 100%)",
+            }}
+        >
             <div className="container-7xl" style={{ textAlign: "center" }}>
                 <div style={{ maxWidth: 600, margin: "0 auto" }}>
                     {/* Shield Icon */}
@@ -12,11 +18,11 @@ export function FinalCTASection() {
                             width: 56,
                             height: 56,
                             borderRadius: 16,
-                            backgroundColor: "rgba(5, 148, 103, 0.1)",
+                            backgroundColor: "rgba(16, 185, 129, 0.12)",
                             margin: "0 auto 24px",
                         }}
                     >
-                        <Shield size={28} style={{ color: "#059467" }} />
+                        <Shield size={28} style={{ color: "#10B981" }} />
                     </div>
 
                     {/* Overline */}
@@ -26,7 +32,7 @@ export function FinalCTASection() {
                             fontWeight: 700,
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
-                            color: "#059467",
+                            color: "#10B981",
                             marginBottom: 16,
                         }}
                     >
@@ -40,7 +46,7 @@ export function FinalCTASection() {
                             fontWeight: 700,
                             lineHeight: 1.15,
                             letterSpacing: "-0.025em",
-                            color: "#0f172a",
+                            color: "#F1F5F9",
                             marginBottom: 16,
                         }}
                     >
@@ -48,7 +54,7 @@ export function FinalCTASection() {
                     </h2>
 
                     {/* Subtext */}
-                    <p style={{ fontSize: 16, color: "#6b7280", marginBottom: 32 }}>
+                    <p style={{ fontSize: 16, color: "#94A3B8", marginBottom: 32 }}>
                         10 minutes. Zero data shared. Complete clarity.
                     </p>
 
@@ -58,10 +64,10 @@ export function FinalCTASection() {
                         className="inline-flex items-center justify-center text-white font-semibold transition-all"
                         style={{
                             padding: "16px 32px",
-                            backgroundColor: "#059467",
+                            backgroundColor: "#10B981",
                             borderRadius: 12,
                             fontSize: 16,
-                            boxShadow: "0 8px 24px -4px rgba(5, 150, 105, 0.35)",
+                            boxShadow: "0 8px 30px -4px rgba(16, 185, 129, 0.35)",
                             textDecoration: "none",
                         }}
                     >
@@ -71,7 +77,7 @@ export function FinalCTASection() {
                     {/* Trust micro-text */}
                     <div
                         className="flex items-center justify-center"
-                        style={{ gap: 12, marginTop: 24, fontSize: 12, color: "#9ca3af" }}
+                        style={{ gap: 12, marginTop: 24, fontSize: 12, color: "#64748B" }}
                     >
                         <span>• NO NAME</span>
                         <span>• NO PHONE</span>

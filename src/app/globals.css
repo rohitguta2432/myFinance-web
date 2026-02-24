@@ -1,22 +1,26 @@
 @import "tailwindcss";
 
-/* ── Design Tokens ──────────────────────────────────────────── */
+/* ── Design Tokens (Dark Premium) ──────────────────────────── */
 @theme {
-  /* Colors */
-  --color-background: #FFFFFF;
-  --color-foreground: #111827;
-  --color-muted: #F9FAFB;
-  --color-muted-foreground: #6B7280;
-  --color-border: #E5E7EB;
-  --color-accent: #059669;
-  --color-accent-dark: #047857;
+  /* Colors — Dark Premium Palette */
+  --color-background: #0B1120;
+  --color-foreground: #F1F5F9;
+  --color-muted: #111827;
+  --color-muted-foreground: #94A3B8;
+  --color-border: #1E293B;
+  --color-accent: #10B981;
+  --color-accent-dark: #059669;
   --color-accent-foreground: #FFFFFF;
-  --color-accent-light: #D1FAE5;
-  --color-accent-lighter: #ECFDF5;
-  --color-accent-surface: #F0FDF4;
+  --color-accent-light: rgba(16, 185, 129, 0.15);
+  --color-accent-lighter: rgba(16, 185, 129, 0.08);
+  --color-accent-surface: rgba(16, 185, 129, 0.05);
   --color-destructive: #EF4444;
-  --color-card: #FFFFFF;
-  --color-card-hover: #F9FAFB;
+  --color-card: rgba(15, 23, 42, 0.6);
+  --color-card-hover: rgba(15, 23, 42, 0.8);
+  --color-card-solid: #0F172A;
+  --color-surface: #111827;
+  --color-text-secondary: #94A3B8;
+  --color-text-tertiary: #64748B;
 
   /* Typography */
   --font-size-display: 4rem;
@@ -49,14 +53,15 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
-  --shadow-accent: 0 8px 24px -4px rgb(5 150 105 / 0.25);
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-  --shadow-card-hover: 0 10px 30px -5px rgb(0 0 0 / 0.1);
+  /* Shadows — Dark-optimized */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-accent: 0 8px 24px -4px rgb(16 185 129 / 0.25);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+  --shadow-card-hover: 0 10px 30px -5px rgb(0 0 0 / 0.5);
+  --shadow-glow: 0 0 40px -10px rgb(16 185 129 / 0.3);
 }
 
 /* ── Global Resets ──────────────────────────────────────────── */
@@ -145,7 +150,6 @@ body {
 .container-7xl {
   width: 100%;
   max-width: 80rem;
-  /* 1280px = max-w-7xl */
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
@@ -198,9 +202,26 @@ body {
   padding-bottom: var(--spacing-5xl);
 }
 
-/* ── Card ────────────────────────────────────────────────────── */
-.card {
+/* ── Glassmorphism Card ──────────────────────────────────────── */
+.card-glass {
   background: var(--color-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  background: var(--color-card-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.card {
+  background: var(--color-card-solid);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--spacing-lg);
@@ -214,7 +235,7 @@ body {
 }
 
 .card-flat {
-  background: var(--color-card);
+  background: var(--color-card-solid);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--spacing-lg);
@@ -234,7 +255,7 @@ body {
 
 .badge-accent {
   background: var(--color-accent-light);
-  color: var(--color-accent-dark);
+  color: var(--color-accent);
 }
 
 .badge-muted {
@@ -267,7 +288,7 @@ body {
 
 .btn-primary:hover {
   background: var(--color-accent-dark);
-  box-shadow: 0 12px 28px -4px rgb(5 150 105 / 0.35);
+  box-shadow: 0 12px 28px -4px rgb(16 185 129 / 0.4);
   transform: translateY(-1px);
 }
 
@@ -282,7 +303,7 @@ body {
 
 .btn-primary-lg:hover {
   background: var(--color-accent-dark);
-  box-shadow: 0 16px 32px -4px rgb(5 150 105 / 0.4);
+  box-shadow: 0 16px 32px -4px rgb(16 185 129 / 0.45);
   transform: translateY(-1px);
 }
 
@@ -295,6 +316,18 @@ body {
 
 .btn-outline:hover {
   background: var(--color-accent-lighter);
+}
+
+/* ── Glow Effects ────────────────────────────────────────────── */
+.glow-accent {
+  box-shadow: 0 0 30px -5px rgb(16 185 129 / 0.2);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
 }
 
 /* ── Responsive Typography ──────────────────────────────────── */

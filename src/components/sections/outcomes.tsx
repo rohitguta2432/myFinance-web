@@ -13,10 +13,12 @@ const cardStyle: React.CSSProperties = {
     position: "relative",
     overflow: "hidden",
     borderRadius: 12,
-    border: "1px solid #e2e8f0",
-    backgroundColor: "#fff",
+    border: "1px solid rgba(255,255,255,0.06)",
+    backgroundColor: "rgba(15, 23, 42, 0.6)",
+    backdropFilter: "blur(12px)",
     padding: 24,
-    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+    boxShadow: "0 1px 2px rgba(0,0,0,0.3)",
+    transition: "all 0.3s ease",
 };
 
 const iconBoxStyle: React.CSSProperties = {
@@ -26,13 +28,13 @@ const iconBoxStyle: React.CSSProperties = {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
-    backgroundColor: "#ecfdf5",
-    color: "#059467",
+    backgroundColor: "rgba(16, 185, 129, 0.12)",
+    color: "#10B981",
     marginBottom: 16,
 };
 
 const dividerStyle: React.CSSProperties = {
-    borderTop: "1px solid #f1f5f9",
+    borderTop: "1px solid rgba(255,255,255,0.06)",
     paddingTop: 16,
     marginTop: "auto",
 };
@@ -41,7 +43,7 @@ export function OutcomesSection() {
     return (
         <section
             id="outcomes"
-            style={{ backgroundColor: "#fff", paddingTop: 80, paddingBottom: 80 }}
+            style={{ backgroundColor: "#0B1120", paddingTop: 80, paddingBottom: 80 }}
         >
             <div className="container-7xl">
                 {/* Header */}
@@ -53,7 +55,7 @@ export function OutcomesSection() {
                             fontWeight: 700,
                             textTransform: "uppercase",
                             letterSpacing: "0.05em",
-                            color: "#059467",
+                            color: "#10B981",
                             marginBottom: 16,
                         }}
                     >
@@ -64,7 +66,7 @@ export function OutcomesSection() {
                             fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
                             fontWeight: 700,
                             letterSpacing: "-0.025em",
-                            color: "#0f172a",
+                            color: "#F1F5F9",
                             lineHeight: 1.3,
                         }}
                     >
@@ -88,18 +90,18 @@ export function OutcomesSection() {
                             <div style={iconBoxStyle}>
                                 <Wallet size={24} />
                             </div>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>
                                 Post-Tax Reality
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748b", marginBottom: 16 }}>
+                            <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 16 }}>
                                 Understand your actual disposable income after all deductions.
                             </p>
                             <div className="flex items-baseline gap-2" style={dividerStyle}>
-                                <span style={{ fontSize: 24, fontWeight: 700, color: "#94a3b8", textDecoration: "line-through" }}>
+                                <span style={{ fontSize: 24, fontWeight: 700, color: "#64748B", textDecoration: "line-through" }}>
                                     ₹45.7L
                                 </span>
-                                <ArrowRight size={14} style={{ color: "#94a3b8" }} />
-                                <span style={{ fontSize: 24, fontWeight: 700, color: "#059467" }}>
+                                <ArrowRight size={14} style={{ color: "#64748B" }} />
+                                <span style={{ fontSize: 24, fontWeight: 700, color: "#10B981" }}>
                                     ₹38.2L
                                 </span>
                             </div>
@@ -110,20 +112,20 @@ export function OutcomesSection() {
                             <div style={iconBoxStyle}>
                                 <Calculator size={24} />
                             </div>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>
                                 Tax Regime Optimizer
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748b", marginBottom: 16 }}>
+                            <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 16 }}>
                                 Compare New vs Old regime for FY26-27 instantly.
                             </p>
                             <div style={dividerStyle}>
                                 <div className="flex items-center justify-between" style={{ fontSize: 14 }}>
-                                    <span style={{ fontWeight: 500, color: "#475569" }}>Old Regime</span>
-                                    <span style={{ fontWeight: 700, color: "#ef4444" }}>Higher Tax</span>
+                                    <span style={{ fontWeight: 500, color: "#94A3B8" }}>Old Regime</span>
+                                    <span style={{ fontWeight: 700, color: "#EF4444" }}>Higher Tax</span>
                                 </div>
                                 <div className="flex items-center justify-between" style={{ fontSize: 14, marginTop: 8 }}>
-                                    <span style={{ fontWeight: 500, color: "#475569" }}>New Regime</span>
-                                    <span style={{ fontWeight: 700, color: "#059467" }}>Save ₹45k</span>
+                                    <span style={{ fontWeight: 500, color: "#94A3B8" }}>New Regime</span>
+                                    <span style={{ fontWeight: 700, color: "#10B981" }}>Save ₹45k</span>
                                 </div>
                             </div>
                         </div>
@@ -133,10 +135,10 @@ export function OutcomesSection() {
                             <div style={iconBoxStyle}>
                                 <Shield size={24} />
                             </div>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>
                                 Insurance Gap Check
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748b", marginBottom: 16 }}>
+                            <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 16 }}>
                                 Are your dependents truly protected if something happens?
                             </p>
                             <div style={dividerStyle}>
@@ -144,9 +146,9 @@ export function OutcomesSection() {
                                     className="flex items-center gap-2"
                                     style={{
                                         borderRadius: 8,
-                                        backgroundColor: "#fef2f2",
+                                        backgroundColor: "rgba(239, 68, 68, 0.1)",
                                         padding: 8,
-                                        color: "#b91c1c",
+                                        color: "#EF4444",
                                     }}
                                 >
                                     <AlertTriangle size={20} />
@@ -173,16 +175,16 @@ export function OutcomesSection() {
                             <div style={iconBoxStyle}>
                                 <Flag size={24} />
                             </div>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>
                                 Goal Feasibility
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748b", marginBottom: 16 }}>
+                            <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 16 }}>
                                 Can you actually afford that house or early retirement?
                             </p>
                             <div style={dividerStyle}>
                                 <div className="flex items-center justify-between">
-                                    <span style={{ fontWeight: 500, color: "#334155" }}>Retire at 50?</span>
-                                    <div className="flex items-center gap-1" style={{ color: "#059467" }}>
+                                    <span style={{ fontWeight: 500, color: "#94A3B8" }}>Retire at 50?</span>
+                                    <div className="flex items-center gap-1" style={{ color: "#10B981" }}>
                                         <CheckCircle size={20} />
                                         <span style={{ fontWeight: 700 }}>On Track</span>
                                     </div>
@@ -193,7 +195,7 @@ export function OutcomesSection() {
                                         height: 8,
                                         width: "100%",
                                         borderRadius: 9999,
-                                        backgroundColor: "#f1f5f9",
+                                        backgroundColor: "#1E293B",
                                         overflow: "hidden",
                                     }}
                                 >
@@ -202,7 +204,8 @@ export function OutcomesSection() {
                                             height: "100%",
                                             width: "85%",
                                             borderRadius: 9999,
-                                            backgroundColor: "#059467",
+                                            backgroundColor: "#10B981",
+                                            boxShadow: "0 0 10px rgba(16,185,129,0.4)",
                                         }}
                                     />
                                 </div>
@@ -214,10 +217,10 @@ export function OutcomesSection() {
                             <div style={iconBoxStyle}>
                                 <ListChecks size={24} />
                             </div>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>
                                 Action Plan
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748b", marginBottom: 16 }}>
+                            <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 16 }}>
                                 Clear next steps to optimize your financial health.
                             </p>
                             <div style={dividerStyle}>
@@ -230,7 +233,7 @@ export function OutcomesSection() {
                                         <li
                                             key={i}
                                             className="flex items-start gap-2"
-                                            style={{ fontSize: 14, color: "#475569", marginTop: i > 0 ? 8 : 0 }}
+                                            style={{ fontSize: 14, color: "#94A3B8", marginTop: i > 0 ? 8 : 0 }}
                                         >
                                             <span
                                                 className="flex items-center justify-center shrink-0"
@@ -238,7 +241,7 @@ export function OutcomesSection() {
                                                     width: 16,
                                                     height: 16,
                                                     borderRadius: 9999,
-                                                    backgroundColor: "#059467",
+                                                    backgroundColor: "#10B981",
                                                     color: "#fff",
                                                     fontSize: 10,
                                                     fontWeight: 700,

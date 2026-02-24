@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/sections/hero";
+import { WhyItMattersSection } from "@/components/sections/why-it-matters";
 import { OutcomesSection } from "@/components/sections/outcomes";
 import { HowItWorksSection } from "@/components/sections/how-it-works";
 import { PrivacyFirstSection } from "@/components/sections/privacy-first";
@@ -12,6 +13,7 @@ export default function HomePage() {
     return (
         <>
             <HeroSection />
+            <WhyItMattersSection />
             <OutcomesSection />
             <HowItWorksSection />
             <PrivacyFirstSection />

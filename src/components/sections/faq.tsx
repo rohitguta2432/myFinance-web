@@ -45,12 +45,12 @@ export function FAQSection() {
     const [openIndex, setOpenIndex] = useState(0);
 
     return (
-        <section className="section-padding bg-white" id="faq">
+        <section className="section-padding" style={{ backgroundColor: "#0B1120" }} id="faq">
             <div className="container-marketing">
                 {/* Header */}
                 <div className="text-center mb-14">
                     <p className="text-overline text-accent mb-3">FAQ</p>
-                    <h2 className="text-h2 text-foreground">
+                    <h2 className="text-h2" style={{ color: "#F1F5F9" }}>
                         Common questions, honest answers
                     </h2>
                 </div>
@@ -85,7 +85,7 @@ function FAQItem({
     const panelId = `faq-panel-${id}`;
 
     return (
-        <div className="border-b border-gray-100 last:border-b-0" role="listitem">
+        <div className="last:border-b-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} role="listitem">
             <h3>
                 <button
                     id={triggerId}
@@ -93,22 +93,24 @@ function FAQItem({
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     className="w-full flex items-center justify-between py-5 text-left group"
+                    style={{ background: "none", border: "none", cursor: "pointer" }}
                 >
-                    <span className="text-sm font-semibold text-foreground pr-6 group-hover:text-accent transition-colors">
+                    <span className="text-sm font-semibold pr-6" style={{ color: "#F1F5F9" }}>
                         {faq.question}
                     </span>
-                    {/* Stitch: open = green down-chevron, closed = green right-arrow */}
                     {isOpen ? (
                         <ChevronDown
                             size={16}
                             aria-hidden="true"
-                            className="flex-shrink-0 text-accent"
+                            className="flex-shrink-0"
+                            style={{ color: "#10B981" }}
                         />
                     ) : (
                         <ChevronRight
                             size={16}
                             aria-hidden="true"
-                            className="flex-shrink-0 text-accent"
+                            className="flex-shrink-0"
+                            style={{ color: "#10B981" }}
                         />
                     )}
                 </button>
@@ -117,11 +119,10 @@ function FAQItem({
                 id={panelId}
                 role="region"
                 aria-labelledby={triggerId}
-                className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[500px] pb-5" : "max-h-0"
-                    }`}
+                className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[500px] pb-5" : "max-h-0"}`}
                 hidden={!isOpen}
             >
-                <p className="text-sm text-gray-500 leading-relaxed pr-10">
+                <p className="text-sm leading-relaxed pr-10" style={{ color: "#94A3B8" }}>
                     {faq.answer}
                 </p>
             </div>

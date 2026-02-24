@@ -24,13 +24,13 @@ const columnHeaderStyle: React.CSSProperties = {
     fontWeight: 700,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
-    color: "#0f172a",
+    color: "#F1F5F9",
     marginBottom: 16,
 };
 
 const linkStyle: React.CSSProperties = {
     fontSize: 14,
-    color: "#9ca3af",
+    color: "#64748B",
     textDecoration: "none",
     display: "block",
     marginBottom: 10,
@@ -38,7 +38,7 @@ const linkStyle: React.CSSProperties = {
 
 export function Footer() {
     return (
-        <footer style={{ borderTop: "1px solid #f3f4f6", backgroundColor: "#fff" }}>
+        <footer style={{ borderTop: "1px solid #1E293B", backgroundColor: "#0B1120" }}>
             <div className="container-7xl" style={{ paddingTop: 56, paddingBottom: 56 }}>
                 {/* Grid */}
                 <div
@@ -61,19 +61,19 @@ export function Footer() {
                                     width: 28,
                                     height: 28,
                                     borderRadius: 8,
-                                    backgroundColor: "#059467",
+                                    backgroundColor: "#10B981",
                                 }}
                             >
                                 <span style={{ color: "#fff", fontWeight: 700, fontSize: 10 }}>M</span>
                             </div>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
-                                My<span style={{ color: "#059467" }}>Financial</span>
+                            <span style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9" }}>
+                                My<span style={{ color: "#10B981" }}>Financial</span>
                             </span>
                         </Link>
                         <p
                             style={{
                                 fontSize: 12,
-                                color: "#9ca3af",
+                                color: "#64748B",
                                 lineHeight: 1.6,
                                 marginBottom: 16,
                                 maxWidth: 200,
@@ -81,8 +81,8 @@ export function Footer() {
                         >
                             Empowering Indians with clear, unbiased financial insights.
                         </p>
-                        <div className="flex items-center" style={{ gap: 6, fontSize: 12, color: "#9ca3af" }}>
-                            <Shield size={12} style={{ color: "#059467" }} />
+                        <div className="flex items-center" style={{ gap: 6, fontSize: 12, color: "#64748B" }}>
+                            <Shield size={12} style={{ color: "#10B981" }} />
                             Data stays on your device
                         </div>
                     </div>
@@ -134,16 +134,16 @@ export function Footer() {
                 <div
                     className="flex items-center justify-between"
                     style={{
-                        borderTop: "1px solid #f3f4f6",
+                        borderTop: "1px solid #1E293B",
                         marginTop: 40,
                         paddingTop: 24,
                     }}
                 >
-                    <p style={{ fontSize: 12, color: "#9ca3af" }}>
+                    <p style={{ fontSize: 12, color: "#64748B" }}>
                         © 2024 MyFinancial. Made for modern India.
                     </p>
-                    <div className="flex items-center" style={{ gap: 6, fontSize: 12, color: "#9ca3af" }}>
-                        <Shield size={12} style={{ color: "#059467" }} />
+                    <div className="flex items-center" style={{ gap: 6, fontSize: 12, color: "#64748B" }}>
+                        <Shield size={12} style={{ color: "#10B981" }} />
                         <span>Privacy-first design</span>
                     </div>
                 </div>

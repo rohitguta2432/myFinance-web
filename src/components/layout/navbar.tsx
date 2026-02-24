@@ -17,11 +17,10 @@ export function Navbar() {
         <nav
             className="sticky top-0 z-50 w-full backdrop-blur-md"
             style={{
-                borderBottom: "1px solid #e2e8f0",
-                backgroundColor: "rgba(255,255,255,0.8)",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                backgroundColor: "rgba(11, 17, 32, 0.85)",
             }}
         >
-            {/* Use same max-width as Stitch: max-w-7xl = 80rem, with px-4 sm:px-6 lg:px-8 */}
             <div
                 style={{
                     maxWidth: "80rem",
@@ -40,13 +39,14 @@ export function Navbar() {
                                 width: 32,
                                 height: 32,
                                 borderRadius: 6,
-                                backgroundColor: "#059467",
+                                backgroundColor: "#10B981",
+                                boxShadow: "0 0 20px -4px rgba(16, 185, 129, 0.4)",
                             }}
                         >
                             <span style={{ fontSize: 18, fontWeight: 700 }}>M</span>
                         </div>
-                        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.025em", color: "#0f172a" }}>
-                            My<span style={{ color: "#059467" }}>Financial</span>
+                        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.025em", color: "#F1F5F9" }}>
+                            My<span style={{ color: "#10B981" }}>Financial</span>
                         </span>
                     </Link>
 
@@ -57,7 +57,7 @@ export function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className="transition-colors"
-                                style={{ fontSize: 14, fontWeight: 500, color: "#475569" }}
+                                style={{ fontSize: 14, fontWeight: 500, color: "#94A3B8" }}
                             >
                                 {link.label}
                             </Link>
@@ -70,10 +70,11 @@ export function Navbar() {
                                 paddingRight: 20,
                                 fontSize: 14,
                                 fontWeight: 600,
-                                backgroundColor: "#059467",
+                                backgroundColor: "#10B981",
                                 borderRadius: "0.5rem",
                                 border: "none",
                                 cursor: "pointer",
+                                boxShadow: "0 0 20px -4px rgba(16, 185, 129, 0.3)",
                             }}
                         >
                             Start Free{" "}
@@ -85,7 +86,7 @@ export function Navbar() {
                     <button
                         onClick={() => setMobileOpen(!mobileOpen)}
                         className="md:hidden"
-                        style={{ color: "#64748b", background: "none", border: "none", cursor: "pointer" }}
+                        style={{ color: "#94A3B8", background: "none", border: "none", cursor: "pointer" }}
                     >
                         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -94,14 +95,14 @@ export function Navbar() {
 
             {/* Mobile Menu */}
             {mobileOpen && (
-                <div className="md:hidden" style={{ borderTop: "1px solid #e2e8f0", backgroundColor: "#fff" }}>
+                <div className="md:hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", backgroundColor: "#0F172A" }}>
                     <div style={{ padding: 16 }}>
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
                                 className="block"
-                                style={{ fontSize: 14, fontWeight: 500, color: "#475569", padding: "8px 0" }}
+                                style={{ fontSize: 14, fontWeight: 500, color: "#94A3B8", padding: "8px 0" }}
                                 onClick={() => setMobileOpen(false)}
                             >
                                 {link.label}
@@ -114,7 +115,7 @@ export function Navbar() {
                                 textAlign: "center",
                                 fontSize: 14,
                                 fontWeight: 600,
-                                backgroundColor: "#059467",
+                                backgroundColor: "#10B981",
                                 borderRadius: "0.5rem",
                                 padding: "12px 20px",
                                 marginTop: 12,
