@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MyFinancial Premium Landing Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#059467",
+        "primary-light": "#dcfce7",
+        "primary-dark": "#022c22",
+        "background-light": "#f8fafc",
+        "background-dark": "#0f172a",
+      },
+      fontFamily: {
+        "display": ["Inter", "sans-serif"]
+      },
+      borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+    },
+  },
+}
+</script>
+</head>
+<body class="bg-background-light font-display text-slate-900 antialiased overflow-x-hidden">
+<nav class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex size-8 items-center justify-center rounded bg-primary text-white">
+<span class="text-lg font-bold">M</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900">My<span class="text-primary">Financial</span></span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">How it Works</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Privacy</a>
+<button class="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-white transition-all hover:bg-opacity-90 active:scale-95">
+Start Free <span class="material-symbols-outlined ml-1 text-sm leading-none">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="relative w-full overflow-hidden">
+<section class="relative pt-20 pb-16 lg:pt-32 lg:pb-24">
+<div class="absolute inset-0 -z-10 overflow-hidden">
+<div class="absolute -top-[20%] left-[20%] h-[500px] w-[500px] rounded-full bg-primary/10 blur-[100px]"></div>
+<div class="absolute top-[10%] right-[10%] h-[300px] w-[300px] rounded-full bg-emerald-200/20 blur-[80px]"></div>
+</div>
+<div class="container mx-auto px-4 text-center">
+<div class="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-4 py-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">lock</span>
+<span class="text-sm font-medium text-primary">100% Private · No signup required</span>
+</div>
+<h1 class="mx-auto max-w-4xl text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+Know Your Money. <br class="hidden sm:block"/>
+<span class="text-primary">Own Your Future.</span>
+</h1>
+<p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+Understand your true post-tax reality and goal feasibility without sharing personal data. Get clarity in minutes.
+</p>
+<div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+<button class="inline-flex h-14 min-w-[240px] items-center justify-center rounded-xl bg-primary px-8 text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all hover:-translate-y-0.5 hover:shadow-emerald-500/30 active:translate-y-0">
+Start Free Assessment <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+<div class="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-6 text-left sm:grid-cols-3 sm:text-center">
+<div class="flex flex-col items-center gap-2 p-4 sm:p-0">
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-900">
+<span class="material-symbols-outlined">person_off</span>
+</div>
+<h3 class="font-bold text-slate-900">No Name / Phone / Email</h3>
+<p class="text-sm text-slate-500">We don't need to know who you are.</p>
+</div>
+<div class="flex flex-col items-center gap-2 p-4 sm:p-0">
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-900">
+<span class="material-symbols-outlined">devices</span>
+</div>
+<h3 class="font-bold text-slate-900">Data stays on device</h3>
+<p class="text-sm text-slate-500">Your financial data never leaves.</p>
+</div>
+<div class="flex flex-col items-center gap-2 p-4 sm:p-0">
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-900">
+<span class="material-symbols-outlined">delete</span>
+</div>
+<h3 class="font-bold text-slate-900">Export / Delete anytime</h3>
+<p class="text-sm text-slate-500">You are in complete control.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white py-20">
+<div class="container mx-auto px-4">
+<div class="mx-auto mb-16 max-w-3xl text-center">
+<span class="mb-4 block text-sm font-bold uppercase tracking-wider text-primary">What You Get</span>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+Five outcomes. Ten minutes. <br/>Zero data shared.
+</h2>
+</div>
+<div class="mx-auto max-w-6xl">
+<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md">
+<div class="mb-4 flex size-12 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<h3 class="mb-2 text-xl font-bold text-slate-900">Post-Tax Reality</h3>
+<p class="mb-4 text-sm text-slate-500">Understand your actual disposable income after all deductions.</p>
+<div class="mt-auto flex items-baseline gap-2 border-t border-slate-100 pt-4">
+<span class="text-2xl font-bold text-slate-400 line-through">₹45.7L</span>
+<span class="material-symbols-outlined text-sm text-slate-400">arrow_right_alt</span>
+<span class="text-2xl font-bold text-primary">₹38.2L</span>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md">
+<div class="mb-4 flex size-12 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+<span class="material-symbols-outlined">calculate</span>
+</div>
+<h3 class="mb-2 text-xl font-bold text-slate-900">Tax Regime Optimizer</h3>
+<p class="mb-4 text-sm text-slate-500">Compare New vs Old regime for FY26-27 instantly.</p>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<div class="flex items-center justify-between text-sm">
+<span class="font-medium text-slate-600">Old Regime</span>
+<span class="font-bold text-red-500">Higher Tax</span>
+</div>
+<div class="mt-2 flex items-center justify-between text-sm">
+<span class="font-medium text-slate-600">New Regime</span>
+<span class="font-bold text-primary">Save ₹45k</span>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md">
+<div class="mb-4 flex size-12 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<h3 class="mb-2 text-xl font-bold text-slate-900">Insurance Gap Check</h3>
+<p class="mb-4 text-sm text-slate-500">Are your dependents truly protected if something happens?</p>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<div class="flex items-center gap-2 rounded-lg bg-red-50 p-2 text-red-700">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-bold">₹1.6Cr Coverage Gap</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mx-auto lg:max-w-4xl">
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md">
+<div class="mb-4 flex size-12 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<h3 class="mb-2 text-xl font-bold text-slate-900">Goal Feasibility</h3>
+<p class="mb-4 text-sm text-slate-500">Can you actually afford that house or early retirement?</p>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<div class="flex items-center justify-between">
+<span class="font-medium text-slate-700">Retire at 50?</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-bold">On Track</span>
+</div>
+</div>
+<div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+<div class="h-full w-[85%] rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-md">
+<div class="mb-4 flex size-12 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+<span class="material-symbols-outlined">list_alt</span>
+</div>
+<h3 class="mb-2 text-xl font-bold text-slate-900">Action Plan</h3>
+<p class="mb-4 text-sm text-slate-500">Clear next steps to optimize your financial health.</p>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm text-slate-600">
+<span class="mt-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">1</span>
+<span>Increase term insurance cover</span>
+</li>
+<li class="flex items-start gap-2 text-sm text-slate-600">
+<span class="mt-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">2</span>
+<span>Start ₹5k SIP for Tax Saving</span>
+</li>
+<li class="flex items-start gap-2 text-sm text-slate-600">
+<span class="mt-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">3</span>
+<span>Review emergency fund</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="border-t border-slate-200 bg-white py-8 text-center">
+<p class="text-sm text-slate-500">© 2024 MyFinancial. Made for modern India 🇮🇳</p>
+</footer>
+</main>
+</body></html>

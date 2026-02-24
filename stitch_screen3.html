@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MyFinancial - Insights &amp; FAQ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#059467",
+                        "primary-dark": "#047a55",
+                        "background-light": "#ffffff",
+                        "background-alt": "#f8fafc",
+                        "background-dark": "#0f231d",
+                        "text-main": "#1e293b",
+                        "text-muted": "#64748b",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "0.75rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-text-main antialiased selection:bg-primary/20 selection:text-primary">
+<div class="flex min-h-screen w-full flex-col">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined" style="font-size: 20px;">pie_chart</span>
+</div>
+<span class="text-lg font-bold tracking-tight text-slate-900">MyFinancial</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Product</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Resources</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">FAQ</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">About</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                        Start Free Assessment
+                    </button>
+<!-- Mobile menu button -->
+<button class="md:hidden p-2 text-slate-600">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Sample Insights Section -->
+<section class="py-20 bg-background-alt border-b border-slate-100">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-12">
+<span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary ring-1 ring-inset ring-primary/20">
+                            SAMPLE REPORT
+                        </span>
+<h2 class="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Uncover hidden gaps in your finances</h2>
+<p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">See exactly where your money goes and what you need to do next with our comprehensive analysis.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+<!-- Card 1 -->
+<div class="relative flex flex-col overflow-hidden rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md hover:ring-primary/20">
+<div class="flex items-center justify-between mb-4">
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">EXAMPLE</span>
+<span class="material-symbols-outlined text-primary/60">account_balance_wallet</span>
+</div>
+<h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Post-Tax Take-Home</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-4xl font-bold text-slate-900">₹38.2L</span>
+<span class="text-sm text-slate-500">/ yr</span>
+</div>
+<div class="mt-6 border-t border-slate-100 pt-4">
+<div class="flex items-center gap-2 text-red-600">
+<span class="material-symbols-outlined text-lg">trending_down</span>
+<span class="text-sm font-semibold">-₹7.5L from gross</span>
+</div>
+<p class="mt-1 text-xs text-slate-500">Significant tax leakage identified</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="relative flex flex-col overflow-hidden rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md hover:ring-primary/20">
+<div class="flex items-center justify-between mb-4">
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">EXAMPLE</span>
+<span class="material-symbols-outlined text-primary/60">shield</span>
+</div>
+<h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Insurance Gap</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-4xl font-bold text-slate-900">₹1.6Cr</span>
+</div>
+<div class="mt-6 border-t border-slate-100 pt-4">
+<div class="flex items-center gap-2 text-amber-600">
+<span class="material-symbols-outlined text-lg">warning</span>
+<span class="text-sm font-semibold">Cover 13.5 yrs gap</span>
+</div>
+<p class="mt-1 text-xs text-slate-500">Family protection is critical</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="relative flex flex-col overflow-hidden rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md hover:ring-primary/20">
+<div class="flex items-center justify-between mb-4">
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">EXAMPLE</span>
+<span class="material-symbols-outlined text-primary/60">savings</span>
+</div>
+<h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Retirement Corpus</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-4xl font-bold text-slate-900">₹2.4Cr</span>
+<span class="text-sm text-slate-500">needed</span>
+</div>
+<div class="mt-6 border-t border-slate-100 pt-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-lg">add_chart</span>
+<span class="text-sm font-semibold">₹1.3Cr shortfall</span>
+</div>
+<p class="mt-1 text-xs text-slate-500">Action plan ready to bridge gap</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-20 bg-white">
+<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-wide uppercase text-sm">FAQ</span>
+<h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Common questions, honest answers</h2>
+</div>
+<div class="space-y-4">
+<!-- Item 1 (Open) -->
+<details class="group border-b border-slate-200 pb-4" open="">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>Is MyFinancial really free?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                Yes, the basic assessment is completely free. We monetize through optional premium features and expert consultations, never by selling your data. Our goal is to provide transparency first.
+                            </div>
+</details>
+<!-- Item 2 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>How is my data kept private?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                We use local storage processing where possible. Your sensitive financial data is processed in your browser and is not stored on our servers unless you explicitly create an account to save your progress.
+                            </div>
+</details>
+<!-- Item 3 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>Do I need to sign up?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                No signup is required to get your initial assessment. You can see your insights immediately. Signup is only needed if you want to save your report for later viewing.
+                            </div>
+</details>
+<!-- Item 4 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>Can I export my report?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                Yes, you can export your financial health report as a PDF for free. This allows you to discuss it with your partner or a financial advisor offline.
+                            </div>
+</details>
+<!-- Item 5 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>How accurate are the projections?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                Our projections are based on standard Indian market inflation rates and average returns on various asset classes. However, these are estimates to guide your planning, not guarantees.
+                            </div>
+</details>
+<!-- Item 6 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>What assumptions are used?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                We assume a standard inflation rate of 6% and conservative investment returns based on your risk profile. You can customize these assumptions in the advanced settings.
+                            </div>
+</details>
+<!-- Item 7 -->
+<details class="group border-b border-slate-200 pb-4">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-lg font-medium text-slate-900 transition-colors hover:text-primary">
+<span>Is this regulated advice?</span>
+<span class="transition-transform duration-300 group-open:rotate-90">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</span>
+</summary>
+<div class="mt-2 text-base leading-relaxed text-slate-600">
+                                No, MyFinancial provides educational insights and analysis tools. We are not a SEBI registered investment advisor. For personalized advice, please consult a certified professional.
+                            </div>
+</details>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="relative overflow-hidden py-24">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-white/50 -z-10"></div>
+<div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+<div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20">
+<span class="material-symbols-outlined text-3xl">lock</span>
+</div>
+<p class="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">No signup required</p>
+<h2 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Ready to see your real financial picture?</h2>
+<p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-600">
+                        10 minutes. Zero data shared. Complete clarity.
+                    </p>
+<div class="mt-10 flex flex-col items-center gap-6">
+<button class="flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-bold text-white shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:bg-primary-dark hover:shadow-primary/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                            Start Free Assessment
+                            <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+<div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-slate-500 uppercase tracking-wide">
+<span class="flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> No Name
+                            </span>
+<span class="hidden sm:inline text-slate-300">•</span>
+<span class="flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> No Phone
+                            </span>
+<span class="hidden sm:inline text-slate-300">•</span>
+<span class="flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> No Email
+                            </span>
+<span class="hidden sm:inline text-slate-300">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-emerald-600">verified_user</span> 
+                                Data stays on your device
+                            </span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-slate-200 bg-slate-50 pt-16 pb-8">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 gap-12 md:grid-cols-4 lg:gap-16">
+<!-- Column 1: Brand -->
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-4">
+<div class="flex h-6 w-6 items-center justify-center rounded bg-primary text-white">
+<span class="material-symbols-outlined text-sm">pie_chart</span>
+</div>
+<span class="text-base font-bold text-slate-900">MyFinancial</span>
+</div>
+<p class="text-sm leading-6 text-slate-600 mb-6">
+                            Empowering Indians with clear, unbiased financial insights. 
+                        </p>
+<div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-3 py-1.5 shadow-sm">
+<span class="material-symbols-outlined text-primary text-sm">shield_lock</span>
+<span class="text-xs font-medium text-slate-700">Data stays on your device</span>
+</div>
+</div>
+<!-- Column 2: Product -->
+<div>
+<h3 class="text-sm font-semibold leading-6 text-slate-900">Product</h3>
+<ul class="mt-4 space-y-3" role="list">
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Assessment</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Retirement Planner</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Tax Optimizer</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Pricing</a></li>
+</ul>
+</div>
+<!-- Column 3: Resources -->
+<div>
+<h3 class="text-sm font-semibold leading-6 text-slate-900">Resources</h3>
+<ul class="mt-4 space-y-3" role="list">
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Blog</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Calculators</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Financial Glossary</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Help Center</a></li>
+</ul>
+</div>
+<!-- Column 4: Legal -->
+<div>
+<h3 class="text-sm font-semibold leading-6 text-slate-900">Legal</h3>
+<ul class="mt-4 space-y-3" role="list">
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Privacy Policy</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Terms of Service</a></li>
+<li><a class="text-sm leading-6 text-slate-600 hover:text-primary hover:underline" href="#">Disclaimer</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-16 border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-xs leading-5 text-slate-500">© 2024 MyFinancial. All rights reserved.</p>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>No data leaves your browser</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

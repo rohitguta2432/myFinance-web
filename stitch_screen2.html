@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MyFinancial - Features &amp; Pricing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#059467",
+              "background-light": "#ffffff",
+              "background-dark": "#0f172a", 
+              "surface-light": "#f8fafc",
+              "surface-dark": "#1e293b",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased selection:bg-primary/20 selection:text-primary">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+</div>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">MyFinancial</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors" href="#">How it Works</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors" href="#">Calculators</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex text-sm font-semibold text-slate-900 hover:text-primary dark:text-white dark:hover:text-primary transition-colors">
+                    Log In
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-emerald-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                    Get Started
+                </button>
+</div>
+</div>
+</header>
+<main class="flex flex-col">
+<!-- How It Works Section -->
+<section class="py-24 bg-white dark:bg-background-dark">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="mb-16 text-center">
+<h2 class="text-primary font-bold tracking-wide uppercase text-sm mb-3">Process</h2>
+<h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                        Financial clarity in three steps
+                    </h3>
+<p class="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        We've simplified the complex world of personal finance into a streamlined process that respects your time.
+                    </p>
+</div>
+<div class="relative max-w-3xl mx-auto">
+<!-- Vertical Line -->
+<div class="absolute left-[27px] top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-700 md:left-1/2 md:-ml-px"></div>
+<!-- Step 1 -->
+<div class="relative flex flex-col gap-8 md:flex-row md:gap-0 mb-16 group">
+<div class="flex items-center md:w-1/2 md:justify-end md:pr-12">
+<div class="flex flex-col md:text-right">
+<h4 class="text-xl font-bold text-slate-900 dark:text-white">Enter Your Numbers</h4>
+<p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Input your income, expenses, and investments securely in your browser. No server uploads, ever.
+                                </p>
+</div>
+</div>
+<div class="absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-primary text-white shadow md:left-1/2 md:-ml-7 dark:border-background-dark">
+<span class="font-bold text-lg">01</span>
+</div>
+<div class="md:w-1/2"></div> <!-- Spacer for alternating layout -->
+</div>
+<!-- Step 2 -->
+<div class="relative flex flex-col gap-8 md:flex-row md:gap-0 mb-16 group">
+<div class="hidden md:block md:w-1/2"></div> <!-- Spacer -->
+<div class="absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-primary text-white shadow md:left-1/2 md:-ml-7 dark:border-background-dark">
+<span class="font-bold text-lg">02</span>
+</div>
+<div class="flex items-center md:w-1/2 md:pl-12">
+<div class="flex flex-col">
+<h4 class="text-xl font-bold text-slate-900 dark:text-white">Instant Analysis</h4>
+<p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Our algorithms analyze your cash flow, tax regime, and investment allocation instantly to find optimizations.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex flex-col gap-8 md:flex-row md:gap-0 group">
+<div class="flex items-center md:w-1/2 md:justify-end md:pr-12">
+<div class="flex flex-col md:text-right">
+<h4 class="text-xl font-bold text-slate-900 dark:text-white">Get Your Report</h4>
+<p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Receive a comprehensive PDF report with actionable insights and specific tax-saving tips tailored to you.
+                                </p>
+</div>
+</div>
+<div class="absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-primary text-white shadow md:left-1/2 md:-ml-7 dark:border-background-dark">
+<span class="font-bold text-lg">03</span>
+</div>
+<div class="md:w-1/2"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Privacy First Section -->
+<section class="py-24 bg-surface-light dark:bg-surface-dark border-y border-slate-200 dark:border-slate-800">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<!-- Left Content -->
+<div>
+<span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6">Privacy First</span>
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl mb-6">
+                            Your finances are yours. <br class="hidden sm:block"/>We never see them.
+                        </h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+                            Unlike other apps, we process everything locally. Your sensitive financial data never leaves your device.
+                        </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Feature 1 -->
+<div class="flex flex-col gap-3">
+<div class="h-10 w-10 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">storage</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Browser-Only Storage</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Data stays in local storage.</p>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="flex flex-col gap-3">
+<div class="h-10 w-10 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">block</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Zero Data Collection</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">No tracking servers.</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="flex flex-col gap-3">
+<div class="h-10 w-10 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">download</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Export Anytime</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">JSON or CSV download.</p>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="flex flex-col gap-3">
+<div class="h-10 w-10 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">delete</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Delete in One Click</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Wipe instantly.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Visual -->
+<div class="relative h-full min-h-[400px] w-full rounded-2xl bg-gradient-to-br from-emerald-50 to-white dark:from-slate-800 dark:to-slate-900 border border-slate-200 dark:border-slate-700 p-8 flex flex-col items-center justify-center text-center overflow-hidden">
+<!-- Abstract Pattern Background -->
+<div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(#059467 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="relative z-10 flex h-32 w-32 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-xl mb-6">
+<span class="material-symbols-outlined text-primary text-[64px]">lock</span>
+</div>
+<h3 class="relative z-10 text-2xl font-bold text-slate-900 dark:text-white">100% Local</h3>
+<p class="relative z-10 text-slate-500 dark:text-slate-400 mt-2 max-w-xs">Your browser is the vault. No data is transmitted to our cloud.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-24 bg-white dark:bg-background-dark">
+<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">Simple, Transparent Pricing</h2>
+<p class="mt-4 text-lg text-slate-600 dark:text-slate-400">Start for free, upgrade when you need deeper insights.</p>
+</div>
+<div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark shadow-sm overflow-hidden">
+<div class="grid grid-cols-3 divide-x divide-slate-200 dark:divide-slate-700 text-sm">
+<!-- Header Row -->
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 flex items-center">
+<span class="font-semibold text-slate-500 dark:text-slate-400">Features</span>
+</div>
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 flex flex-col justify-center text-center">
+<span class="font-bold text-slate-900 dark:text-white text-lg">Free</span>
+<span class="text-slate-500 text-xs mt-1">₹0 forever</span>
+</div>
+<div class="relative p-6 bg-emerald-50/50 dark:bg-emerald-900/20 flex flex-col justify-center text-center">
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+<span class="font-bold text-primary text-lg">Premium</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs mt-1">₹499/year</span>
+</div>
+<!-- Row 1 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Post-tax Income Analysis</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 2 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Old vs New Tax Regime</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 3 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Net Worth Tracking</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 4 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Basic Investment Allocation</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 5 (Differentiator) -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Detailed Portfolio X-Ray</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl">remove</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 6 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Real Inflation Impact</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl">remove</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 7 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Retirement Goal Planning</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl">remove</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 8 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Tax Harvesting Alerts</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl">remove</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+<!-- Row 9 -->
+<div class="p-4 px-6 flex items-center text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">Priority Support</div>
+<div class="p-4 px-6 flex justify-center items-center border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-xl">remove</span>
+</div>
+<div class="p-4 px-6 flex justify-center items-center bg-emerald-50/10 dark:bg-emerald-900/10 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-slate-900 shadow-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-all transform hover:-translate-y-0.5">
+                        Start Free Assessment <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- FD Real Return Calculator (Mini Demo) -->
+<section class="py-24 bg-surface-light dark:bg-surface-dark border-t border-slate-200 dark:border-slate-800">
+<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col items-center justify-center text-center mb-10">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800 dark:bg-blue-900 dark:text-blue-100 mb-4 border border-blue-200 dark:border-blue-800">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+</span>
+                        MINI DEMO
+                    </span>
+<h2 class="text-3xl font-black text-slate-900 dark:text-white">Real Return Calculator</h2>
+<p class="mt-2 text-slate-600 dark:text-slate-400">See what your Fixed Deposit is actually earning after inflation and taxes.</p>
+</div>
+<div class="bg-white dark:bg-background-dark rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-8 max-w-2xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="relative">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">FD Interest Rate</label>
+<div class="relative">
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-3 pr-8 text-slate-900 dark:text-white focus:border-primary focus:ring-primary font-bold text-lg" type="number" value="7.0"/>
+<span class="absolute right-3 top-3.5 text-slate-400 text-sm font-bold">%</span>
+</div>
+</div>
+<div class="relative">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Tax Slab</label>
+<div class="relative">
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-3 pr-8 text-slate-900 dark:text-white focus:border-primary focus:ring-primary font-bold text-lg" type="number" value="30"/>
+<span class="absolute right-3 top-3.5 text-slate-400 text-sm font-bold">%</span>
+</div>
+</div>
+<div class="relative">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Inflation</label>
+<div class="relative">
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-3 pr-8 text-slate-900 dark:text-white focus:border-primary focus:ring-primary font-bold text-lg" type="number" value="6.0"/>
+<span class="absolute right-3 top-3.5 text-slate-400 text-sm font-bold">%</span>
+</div>
+</div>
+</div>
+<!-- Result Placeholder -->
+<div class="mb-8 p-6 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 text-center">
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Your Real Return (Approx)</p>
+<div class="text-4xl font-black text-red-500 flex items-center justify-center gap-2">
+                            -1.1%
+                            <span class="material-symbols-outlined text-3xl">trending_down</span>
+</div>
+<p class="text-xs text-slate-400 mt-2">You are losing purchasing power.</p>
+</div>
+<button class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-4 text-base font-bold text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all hover:scale-[1.01]">
+                        Calculate Real Return <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-background-dark py-12 border-t border-slate-200 dark:border-slate-800">
+<div class="mx-auto max-w-7xl px-4 flex flex-col items-center justify-center gap-6">
+<div class="flex items-center gap-2 text-slate-900 dark:text-white">
+<div class="flex h-6 w-6 items-center justify-center rounded bg-primary text-white">
+<span class="material-symbols-outlined text-[14px]">account_balance_wallet</span>
+</div>
+<span class="text-base font-bold">MyFinancial</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2024 MyFinancial India. All rights reserved.</p>
+</div>
+</footer>
+</body></html>
