@@ -22,7 +22,9 @@ export function MobileStickyCTA() {
             aria-label="Start assessment"
         >
             <a
-                href="#"
+                href="https://app.myfinancial.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center w-full py-3.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors text-body"
             >
                 Start Free Assessment →

@@ -90,7 +90,9 @@ export function PricingTableSection() {
                     {/* CTA */}
                     <div className="mt-8 text-center">
                         <a
-                            href="#"
+                            href="https://app.myfinancial.in"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center px-8 py-3.5 text-white text-sm font-semibold rounded-xl transition-colors"
                             style={{
                                 backgroundColor: "#10B981",

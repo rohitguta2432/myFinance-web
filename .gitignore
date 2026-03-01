@@ -27,3 +27,6 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Domain setup docs (local only)
+domain-setup-readme.md

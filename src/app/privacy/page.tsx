@@ -50,34 +50,54 @@ export default function PrivacyPage() {
     return (
         <>
             {/* Hero */}
-            <section className="section-padding bg-white">
+            <section className="section-padding" style={{ backgroundColor: "#0B1120" }}>
                 <div className="container-marketing text-center">
-                    <p className="text-overline text-accent mb-4">PRIVACY POLICY</p>
-                    <h1 className="text-h1 text-foreground max-w-[600px] mx-auto mb-5">
+                    <p className="text-overline" style={{ color: "#10B981", marginBottom: 16 }}>PRIVACY POLICY</p>
+                    <h1 className="text-h1" style={{ color: "#F1F5F9", maxWidth: 600, marginLeft: "auto", marginRight: "auto", marginBottom: 20 }}>
                         Your data stays with you. Always.
                     </h1>
-                    <p className="text-body-lg text-muted-foreground max-w-[500px] mx-auto">
+                    <p className="text-body-lg" style={{ color: "#94A3B8", maxWidth: 500, marginLeft: "auto", marginRight: "auto" }}>
                         MyFinancial is built on a simple principle: we never see your financial data. It never leaves your device.
                     </p>
                 </div>
             </section>
 
             {/* Principles Grid */}
-            <section className="section-padding bg-muted">
+            <section className="section-padding" style={{ backgroundColor: "#111827" }}>
                 <div className="container-marketing">
-                    <h2 className="text-h3 text-foreground text-center mb-12">
+                    <h2 className="text-h3 text-center" style={{ color: "#F1F5F9", marginBottom: 48 }}>
                         Six principles that define our approach
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: 1000, marginLeft: "auto", marginRight: "auto" }}>
                         {principles.map((p, i) => (
-                            <div key={i} className="card-flat !p-7">
-                                <div className="w-12 h-12 rounded-xl bg-accent-lighter flex items-center justify-center text-accent mb-5">
+                            <div
+                                key={i}
+                                style={{
+                                    backgroundColor: "rgba(15, 23, 42, 0.6)",
+                                    border: "1px solid rgba(255,255,255,0.06)",
+                                    borderRadius: 16,
+                                    padding: 28,
+                                    backdropFilter: "blur(12px)",
+                                    transition: "all 0.3s ease",
+                                }}
+                            >
+                                <div
+                                    className="flex items-center justify-center"
+                                    style={{
+                                        width: 48,
+                                        height: 48,
+                                        borderRadius: 12,
+                                        backgroundColor: "rgba(16,185,129,0.08)",
+                                        color: "#10B981",
+                                        marginBottom: 20,
+                                    }}
+                                >
                                     {p.icon}
                                 </div>
-                                <h3 className="text-body font-semibold text-foreground mb-2">
+                                <h3 style={{ fontSize: 16, fontWeight: 600, color: "#F1F5F9", marginBottom: 8 }}>
                                     {p.title}
                                 </h3>
-                                <p className="text-body-sm text-muted-foreground leading-relaxed">
+                                <p className="text-body-sm" style={{ color: "#94A3B8", lineHeight: 1.6 }}>
                                     {p.description}
                                 </p>
                             </div>
@@ -87,14 +107,14 @@ export default function PrivacyPage() {
             </section>
 
             {/* Technical Details */}
-            <section className="section-padding bg-white">
-                <div className="container-marketing max-w-[700px]">
-                    <h2 className="text-h3 text-foreground mb-8">Technical implementation</h2>
+            <section className="section-padding" style={{ backgroundColor: "#0B1120" }}>
+                <div className="container-marketing" style={{ maxWidth: 700 }}>
+                    <h2 className="text-h3" style={{ color: "#F1F5F9", marginBottom: 32 }}>Technical implementation</h2>
 
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-h4 text-foreground mb-3">How localStorage works</h3>
-                            <p className="text-body text-muted-foreground leading-relaxed">
+                            <h3 className="text-h4" style={{ color: "#F1F5F9", marginBottom: 12 }}>How localStorage works</h3>
+                            <p className="text-body" style={{ color: "#94A3B8", lineHeight: 1.7 }}>
                                 localStorage is a browser API that allows web applications to store key-value pairs
                                 directly on your device. The data persists across browser sessions but is accessible
                                 only to this website on this specific browser. It cannot be accessed by other
@@ -103,8 +123,8 @@ export default function PrivacyPage() {
                         </div>
 
                         <div>
-                            <h3 className="text-h4 text-foreground mb-3">What we store</h3>
-                            <p className="text-body text-muted-foreground leading-relaxed">
+                            <h3 className="text-h4" style={{ color: "#F1F5F9", marginBottom: 12 }}>What we store</h3>
+                            <p className="text-body" style={{ color: "#94A3B8", lineHeight: 1.7 }}>
                                 Only the financial numbers you enter: income details, asset values, liability
                                 amounts, insurance coverage, and tax-related deductions. No names, no emails, no
                                 phone numbers, no identification documents.
@@ -112,8 +132,8 @@ export default function PrivacyPage() {
                         </div>
 
                         <div>
-                            <h3 className="text-h4 text-foreground mb-3">Data lifecycle</h3>
-                            <p className="text-body text-muted-foreground leading-relaxed">
+                            <h3 className="text-h4" style={{ color: "#F1F5F9", marginBottom: 12 }}>Data lifecycle</h3>
+                            <p className="text-body" style={{ color: "#94A3B8", lineHeight: 1.7 }}>
                                 Data exists only while you choose to keep it. You can export it (JSON) for backup,
                                 re-import it in another browser, or delete it entirely. Clearing your browser data
                                 also removes everything.
@@ -124,16 +144,16 @@ export default function PrivacyPage() {
             </section>
 
             {/* Contact */}
-            <section className="section-padding bg-muted">
-                <div className="container-marketing text-center max-w-[500px]">
-                    <h2 className="text-h3 text-foreground mb-4">Questions about privacy?</h2>
-                    <p className="text-body text-muted-foreground mb-6">
+            <section className="section-padding" style={{ backgroundColor: "#111827" }}>
+                <div className="container-marketing text-center" style={{ maxWidth: 500 }}>
+                    <h2 className="text-h3" style={{ color: "#F1F5F9", marginBottom: 16 }}>Questions about privacy?</h2>
+                    <p className="text-body" style={{ color: "#94A3B8", marginBottom: 24 }}>
                         If you have questions about this policy or how MyFinancial handles data, reach out to us.
                     </p>
-                    <p className="text-body font-semibold text-accent">
+                    <p style={{ fontSize: 16, fontWeight: 600, color: "#10B981" }}>
                         privacy@myfinancial.in
                     </p>
-                    <p className="text-caption text-muted-foreground mt-6">
+                    <p className="text-caption" style={{ color: "#64748B", marginTop: 24 }}>
                         Last updated: February 2026
                     </p>
                 </div>

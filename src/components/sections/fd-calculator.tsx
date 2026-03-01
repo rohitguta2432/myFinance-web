@@ -27,7 +27,7 @@ export function FDCalculatorSection() {
     };
 
     return (
-        <section className="section-padding" style={{ backgroundColor: "#111827" }} id="calculator">
+        <section style={{ paddingTop: 48, paddingBottom: 56, backgroundColor: "#111827" }} id="calculator">
             <div className="container-marketing">
                 {/* Header */}
                 <div className="text-center mb-10">

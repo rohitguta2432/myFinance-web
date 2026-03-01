@@ -6,6 +6,8 @@ export const metadata: Metadata = {
     description: "Simple, transparent pricing for MyFinancial. Start free, upgrade when ready.",
 };
 
+const APP_URL = "https://app.myfinancial.in";
+
 const plans = [
     {
         name: "Free",
@@ -18,7 +20,6 @@ const plans = [
             "Community Access",
         ],
         cta: "Start Free →",
-        ctaStyle: "border border-gray-200 text-foreground hover:bg-gray-50",
         highlight: false,
     },
     {
@@ -33,7 +34,6 @@ const plans = [
             "Priority Support",
         ],
         cta: "Get Premium →",
-        ctaStyle: "bg-accent text-white hover:bg-accent-dark",
         highlight: true,
         badge: "Recommended",
     },
@@ -82,58 +82,115 @@ const compareCategories = [
 
 export default function PricingPage() {
     return (
-        <main className="min-h-screen bg-white">
+        <main style={{ minHeight: "100vh", backgroundColor: "#0B1120" }}>
             {/* Hero */}
-            <section className="section-padding bg-gradient-to-b from-gray-50 to-white">
+            <section className="section-padding" style={{ background: "linear-gradient(180deg, #111827 0%, #0B1120 100%)" }}>
                 <div className="container-marketing text-center">
-                    <p className="text-overline text-accent mb-3">PRICING</p>
-                    <h1 className="text-h1 text-foreground mb-4">
+                    <p className="text-overline" style={{ color: "#10B981", marginBottom: 12 }}>PRICING</p>
+                    <h1 className="text-h1" style={{ color: "#F1F5F9", marginBottom: 16 }}>
                         Simple, Transparent Pricing
                     </h1>
-                    <p className="text-body-lg text-gray-500 max-w-[500px] mx-auto">
-                        Start for free, upgrade to Premium for advanced insights when you're ready to take control.
+                    <p className="text-body-lg" style={{ color: "#94A3B8", maxWidth: 500, marginLeft: "auto", marginRight: "auto" }}>
+                        Start for free, upgrade to Premium for advanced insights when you&apos;re ready to take control.
                     </p>
                 </div>
             </section>
 
             {/* Plan Cards */}
-            <section className="pb-20">
+            <section style={{ paddingBottom: 80, backgroundColor: "#0B1120" }}>
                 <div className="container-marketing">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[720px] mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>
                         {plans.map((plan, i) => (
                             <div
                                 key={i}
-                                className={`relative rounded-2xl p-8 border ${plan.highlight
-                                        ? "border-accent bg-white shadow-lg"
-                                        : "border-gray-200 bg-white"
-                                    }`}
+                                style={{
+                                    position: "relative",
+                                    borderRadius: 16,
+                                    padding: 32,
+                                    backgroundColor: plan.highlight ? "rgba(15, 23, 42, 0.8)" : "rgba(15, 23, 42, 0.6)",
+                                    border: plan.highlight
+                                        ? "1px solid rgba(16,185,129,0.3)"
+                                        : "1px solid rgba(255,255,255,0.06)",
+                                    backdropFilter: "blur(12px)",
+                                    boxShadow: plan.highlight
+                                        ? "0 0 40px -10px rgba(16,185,129,0.2)"
+                                        : "none",
+                                }}
                             >
                                 {plan.badge && (
-                                    <span className="absolute -top-3 right-6 text-xs font-bold text-white bg-accent px-3 py-1 rounded-full">
+                                    <span
+                                        style={{
+                                            position: "absolute",
+                                            top: -12,
+                                            right: 24,
+                                            fontSize: 12,
+                                            fontWeight: 700,
+                                            color: "#fff",
+                                            backgroundColor: "#10B981",
+                                            padding: "4px 12px",
+                                            borderRadius: 9999,
+                                            boxShadow: "0 0 12px -2px rgba(16,185,129,0.4)",
+                                        }}
+                                    >
                                         {plan.badge}
                                     </span>
                                 )}
-                                <h3 className={`text-lg font-bold mb-2 ${plan.highlight ? "text-accent" : "text-foreground"}`}>
+                                <h3
+                                    style={{
+                                        fontSize: 18,
+                                        fontWeight: 700,
+                                        marginBottom: 8,
+                                        color: plan.highlight ? "#10B981" : "#F1F5F9",
+                                    }}
+                                >
                                     {plan.name}
                                 </h3>
-                                <div className="mb-3">
-                                    <span className="text-3xl font-extrabold text-foreground">{plan.price}</span>
-                                    <span className="text-sm text-gray-400 ml-1">{plan.priceLabel}</span>
+                                <div style={{ marginBottom: 12 }}>
+                                    <span style={{ fontSize: 30, fontWeight: 800, color: "#F1F5F9" }}>{plan.price}</span>
+                                    <span style={{ fontSize: 14, color: "#64748B", marginLeft: 4 }}>{plan.priceLabel}</span>
                                 </div>
-                                <p className="text-sm text-gray-500 mb-6 leading-relaxed">{plan.description}</p>
-                                <ul className="space-y-2.5 mb-8">
+                                <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 24, lineHeight: 1.6 }}>{plan.description}</p>
+                                <ul style={{ listStyle: "none", padding: 0, margin: 0, marginBottom: 32 }} className="space-y-2.5">
                                     {plan.features.map((f, j) => (
-                                        <li key={j} className="flex items-center gap-2.5 text-sm text-foreground">
-                                            <span className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center">
-                                                <Check size={12} className="text-accent" />
+                                        <li key={j} className="flex items-center gap-2.5" style={{ fontSize: 14, color: "#F1F5F9" }}>
+                                            <span
+                                                className="flex items-center justify-center"
+                                                style={{
+                                                    width: 20,
+                                                    height: 20,
+                                                    borderRadius: 9999,
+                                                    backgroundColor: "rgba(16,185,129,0.1)",
+                                                }}
+                                            >
+                                                <Check size={12} style={{ color: "#10B981" }} />
                                             </span>
                                             {f}
                                         </li>
                                     ))}
                                 </ul>
                                 <a
-                                    href="#"
-                                    className={`block text-center text-sm font-semibold px-6 py-3 rounded-xl transition-colors ${plan.ctaStyle}`}
+                                    href={APP_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block text-center transition-all"
+                                    style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        padding: "12px 24px",
+                                        borderRadius: 12,
+                                        textDecoration: "none",
+                                        ...(plan.highlight
+                                            ? {
+                                                backgroundColor: "#10B981",
+                                                color: "#fff",
+                                                boxShadow: "0 0 20px -4px rgba(16,185,129,0.3)",
+                                            }
+                                            : {
+                                                backgroundColor: "transparent",
+                                                color: "#F1F5F9",
+                                                border: "1px solid rgba(255,255,255,0.1)",
+                                            }),
+                                    }}
                                 >
                                     {plan.cta}
                                 </a>
@@ -144,46 +201,56 @@ export default function PricingPage() {
             </section>
 
             {/* Compare Features */}
-            <section className="section-padding bg-gray-50">
+            <section className="section-padding" style={{ backgroundColor: "#111827" }}>
                 <div className="container-marketing">
-                    <h2 className="text-h3 text-foreground text-center mb-10">Compare Features</h2>
+                    <h2 className="text-h3 text-center" style={{ color: "#F1F5F9", marginBottom: 40 }}>Compare Features</h2>
 
-                    <div className="max-w-[800px] mx-auto">
+                    <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
                         {/* Header */}
-                        <div className="grid grid-cols-[1fr_100px_100px] items-end border-b border-gray-200 pb-3 mb-0">
-                            <span className="text-sm font-semibold text-gray-400">Feature</span>
-                            <span className="text-sm font-semibold text-foreground text-center">Free</span>
-                            <span className="text-sm font-semibold text-accent text-center">Premium</span>
+                        <div
+                            className="grid grid-cols-[1fr_100px_100px] items-end"
+                            style={{
+                                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                                paddingBottom: 12,
+                            }}
+                        >
+                            <span style={{ fontSize: 14, fontWeight: 600, color: "#64748B" }}>Feature</span>
+                            <span className="text-center" style={{ fontSize: 14, fontWeight: 600, color: "#F1F5F9" }}>Free</span>
+                            <span className="text-center" style={{ fontSize: 14, fontWeight: 600, color: "#10B981" }}>Premium</span>
                         </div>
 
                         {compareCategories.map((cat, ci) => (
                             <div key={ci}>
                                 {/* Category Header */}
-                                <div className="py-3 mt-4">
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{cat.title}</span>
+                                <div style={{ paddingTop: 16, paddingBottom: 12, marginTop: 16 }}>
+                                    <span style={{ fontSize: 10, fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>{cat.title}</span>
                                 </div>
                                 {cat.features.map((f, fi) => (
                                     <div
                                         key={fi}
-                                        className="grid grid-cols-[1fr_100px_100px] items-center py-3 border-b border-gray-100"
+                                        className="grid grid-cols-[1fr_100px_100px] items-center"
+                                        style={{
+                                            padding: "12px 0",
+                                            borderBottom: "1px solid rgba(255,255,255,0.04)",
+                                        }}
                                     >
-                                        <span className="text-sm text-foreground">{f.name}</span>
+                                        <span style={{ fontSize: 14, color: "#F1F5F9" }}>{f.name}</span>
                                         <div className="flex justify-center">
                                             {f.free === true ? (
-                                                <Check size={16} className="text-accent" />
+                                                <Check size={16} style={{ color: "#10B981" }} />
                                             ) : f.free === false ? (
-                                                <span className="text-gray-300">—</span>
+                                                <span style={{ color: "#334155" }}>—</span>
                                             ) : (
-                                                <span className="text-xs text-gray-400">{f.free}</span>
+                                                <span style={{ fontSize: 12, color: "#64748B" }}>{f.free}</span>
                                             )}
                                         </div>
                                         <div className="flex justify-center">
                                             {f.premium === true ? (
-                                                <Check size={16} className="text-accent" />
+                                                <Check size={16} style={{ color: "#10B981" }} />
                                             ) : f.premium === false ? (
-                                                <span className="text-gray-300">—</span>
+                                                <span style={{ color: "#334155" }}>—</span>
                                             ) : (
-                                                <span className="text-xs font-semibold text-accent">{f.premium}</span>
+                                                <span style={{ fontSize: 12, fontWeight: 600, color: "#10B981" }}>{f.premium}</span>
                                             )}
                                         </div>
                                     </div>

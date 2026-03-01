@@ -10,8 +10,14 @@ const navLinks = [
     { label: "Privacy", href: "/privacy" },
 ];
 
+const APP_URL = "https://app.myfinancial.in";
+
 export function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleStartFree = () => {
+        window.open(APP_URL, "_blank", "noopener,noreferrer");
+    };
 
     return (
         <nav
@@ -63,6 +69,7 @@ export function Navbar() {
                             </Link>
                         ))}
                         <button
+                            onClick={handleStartFree}
                             className="inline-flex items-center justify-center text-white transition-all active:scale-95"
                             style={{
                                 height: 40,
@@ -122,7 +129,10 @@ export function Navbar() {
                                 border: "none",
                                 cursor: "pointer",
                             }}
-                            onClick={() => setMobileOpen(false)}
+                            onClick={() => {
+                                setMobileOpen(false);
+                                window.open(APP_URL, "_blank", "noopener,noreferrer");
+                            }}
                         >
                             Start Free →
                         </button>
