@@ -26,22 +26,48 @@ export function FDCalculatorSection() {
         outline: "none",
     };
 
+    const labelStyle: React.CSSProperties = {
+        display: "block",
+        fontSize: 11,
+        fontWeight: 600,
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        color: "#64748B",
+        marginBottom: 8,
+    };
+
+    const percentStyle: React.CSSProperties = {
+        position: "absolute",
+        right: 12,
+        top: "50%",
+        transform: "translateY(-50%)",
+        fontSize: 12,
+        color: "#64748B",
+    };
+
     return (
         <section style={{ paddingTop: 48, paddingBottom: 56, backgroundColor: "#111827" }} id="calculator">
             <div className="container-marketing">
                 {/* Header */}
-                <div className="text-center mb-10">
+                <div style={{ textAlign: "center", marginBottom: 40 }}>
                     <div
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-4"
                         style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 8,
+                            padding: "6px 16px",
+                            borderRadius: 9999,
+                            fontSize: 14,
+                            fontWeight: 500,
                             backgroundColor: "rgba(16,185,129,0.1)",
                             color: "#10B981",
+                            marginBottom: 16,
                         }}
                     >
                         <Calculator size={14} />
                         MINI DEMO
                     </div>
-                    <h2 className="text-h2 mb-3" style={{ color: "#F1F5F9" }}>
+                    <h2 className="text-h2" style={{ color: "#F1F5F9", marginBottom: 12 }}>
                         Real Return Calculator
                     </h2>
                     <p className="text-body" style={{ color: "#94A3B8" }}>
@@ -51,20 +77,22 @@ export function FDCalculatorSection() {
 
                 {/* Calculator Card */}
                 <div
-                    className="max-w-[560px] mx-auto rounded-2xl p-8"
                     style={{
+                        maxWidth: 560,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        borderRadius: 16,
+                        padding: 32,
                         backgroundColor: "rgba(15, 23, 42, 0.6)",
                         border: "1px solid rgba(255,255,255,0.06)",
                         backdropFilter: "blur(12px)",
                     }}
                 >
                     {/* Input Row */}
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748B" }}>
-                                FD Interest Rate
-                            </label>
-                            <div className="relative">
+                            <label style={labelStyle}>FD Interest Rate</label>
+                            <div style={{ position: "relative" }}>
                                 <input
                                     type="text"
                                     value={rate}
@@ -72,14 +100,12 @@ export function FDCalculatorSection() {
                                     placeholder="e.g. 7.5"
                                     style={inputStyle}
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: "#64748B" }}>%</span>
+                                <span style={percentStyle}>%</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748B" }}>
-                                Tax Slab
-                            </label>
-                            <div className="relative">
+                            <label style={labelStyle}>Tax Slab</label>
+                            <div style={{ position: "relative" }}>
                                 <input
                                     type="text"
                                     value={tax}
@@ -87,14 +113,12 @@ export function FDCalculatorSection() {
                                     placeholder="e.g. 30"
                                     style={inputStyle}
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: "#64748B" }}>%</span>
+                                <span style={percentStyle}>%</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748B" }}>
-                                Inflation
-                            </label>
-                            <div className="relative">
+                            <label style={labelStyle}>Inflation</label>
+                            <div style={{ position: "relative" }}>
                                 <input
                                     type="text"
                                     value={inflation}
@@ -102,29 +126,32 @@ export function FDCalculatorSection() {
                                     placeholder="e.g. 6"
                                     style={inputStyle}
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: "#64748B" }}>%</span>
+                                <span style={percentStyle}>%</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Result */}
                     <div
-                        className="rounded-xl p-6 text-center mb-6"
                         style={{
+                            borderRadius: 12,
+                            padding: 24,
+                            textAlign: "center",
+                            marginBottom: 24,
                             backgroundColor: "#1E293B",
                             border: "1px solid rgba(255,255,255,0.04)",
                         }}
                     >
-                        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748B" }}>
+                        <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#64748B", marginBottom: 8 }}>
                             Your Real Return (Approx)
                         </p>
                         {hasValues ? (
                             <>
-                                <p className="text-3xl font-extrabold" style={{ color: realReturn >= 0 ? "#10B981" : "#EF4444" }}>
+                                <p style={{ fontSize: 30, fontWeight: 800, color: realReturn >= 0 ? "#10B981" : "#EF4444" }}>
                                     {realReturn >= 0 ? "+" : ""}{realReturn.toFixed(1)}%
-                                    <span className="text-lg ml-1">{realReturn >= 0 ? "↗" : "↘"}</span>
+                                    <span style={{ fontSize: 18, marginLeft: 4 }}>{realReturn >= 0 ? "↗" : "↘"}</span>
                                 </p>
-                                <p className="text-xs mt-1" style={{ color: "#64748B" }}>
+                                <p style={{ fontSize: 12, marginTop: 4, color: "#64748B" }}>
                                     {realReturn < 0
                                         ? "You are losing purchasing power."
                                         : "Your money is growing in real terms."}
@@ -132,8 +159,8 @@ export function FDCalculatorSection() {
                             </>
                         ) : (
                             <>
-                                <div className="w-12 h-1 rounded-full mx-auto mb-2" style={{ backgroundColor: "#F1F5F9" }} />
-                                <p className="text-xs" style={{ color: "#64748B" }}>Enter values above to calculate</p>
+                                <div style={{ width: 48, height: 4, borderRadius: 9999, backgroundColor: "#F1F5F9", marginLeft: "auto", marginRight: "auto", marginBottom: 8 }} />
+                                <p style={{ fontSize: 12, color: "#64748B" }}>Enter values above to calculate</p>
                             </>
                         )}
                     </div>
@@ -141,11 +168,18 @@ export function FDCalculatorSection() {
                     {/* CTA */}
                     <a
                         href="#"
-                        className="block text-center text-white font-semibold px-6 py-3.5 rounded-xl transition-colors w-full"
                         style={{
+                            display: "block",
+                            textAlign: "center",
+                            color: "#fff",
+                            fontWeight: 600,
+                            padding: "14px 24px",
+                            borderRadius: 12,
+                            width: "100%",
                             backgroundColor: "#10B981",
                             boxShadow: "0 0 20px -4px rgba(16,185,129,0.3)",
                             textDecoration: "none",
+                            transition: "background-color 0.2s ease",
                         }}
                     >
                         Calculate Real Return →

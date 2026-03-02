@@ -12,13 +12,31 @@ const features = [
     { name: "Priority Support", free: false, premium: true },
 ];
 
+function CheckCircle() {
+    return (
+        <span
+            style={{
+                width: 22,
+                height: 22,
+                borderRadius: "50%",
+                backgroundColor: "#10B981",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <Check size={12} color="#fff" strokeWidth={3} />
+        </span>
+    );
+}
+
 export function PricingTableSection() {
     return (
         <section className="section-padding" style={{ backgroundColor: "#111827" }} id="pricing">
             <div className="container-marketing">
                 {/* Header */}
-                <div className="text-center mb-14">
-                    <h2 className="text-h3 font-bold mb-2" style={{ color: "#F1F5F9" }}>
+                <div style={{ textAlign: "center", marginBottom: 56 }}>
+                    <h2 className="text-h3" style={{ color: "#F1F5F9", fontWeight: 700, marginBottom: 8 }}>
                         Simple, Transparent Pricing
                     </h2>
                     <p className="text-body" style={{ color: "#94A3B8" }}>
@@ -27,31 +45,36 @@ export function PricingTableSection() {
                 </div>
 
                 {/* Pricing Table */}
-                <div className="max-w-[680px] mx-auto">
+                <div style={{ maxWidth: 680, marginLeft: "auto", marginRight: "auto" }}>
                     {/* Header Row */}
                     <div
-                        className="grid grid-cols-[1fr_110px_110px] items-end rounded-t-xl px-5 py-3.5"
                         style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 110px 110px",
+                            alignItems: "end",
+                            borderRadius: "12px 12px 0 0",
+                            padding: "14px 20px",
                             backgroundColor: "rgba(15, 23, 42, 0.6)",
                             border: "1px solid rgba(255,255,255,0.06)",
                             borderBottom: "none",
                         }}
                     >
-                        <span className="text-sm font-semibold" style={{ color: "#64748B" }}>Features</span>
-                        <div className="text-center">
-                            <span className="text-sm font-bold block" style={{ color: "#F1F5F9" }}>Free</span>
-                            <span className="text-xs" style={{ color: "#64748B" }}>₹0 forever</span>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: "#64748B" }}>Features</span>
+                        <div style={{ textAlign: "center" }}>
+                            <span style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", display: "block" }}>Free</span>
+                            <span style={{ fontSize: 12, color: "#64748B" }}>₹0 forever</span>
                         </div>
-                        <div className="text-center">
-                            <span className="text-sm font-bold block" style={{ color: "#10B981" }}>Premium</span>
-                            <span className="text-xs" style={{ color: "#64748B" }}>₹499/year</span>
+                        <div style={{ textAlign: "center" }}>
+                            <span style={{ fontSize: 14, fontWeight: 700, color: "#10B981", display: "block" }}>Premium</span>
+                            <span style={{ fontSize: 12, color: "#64748B" }}>₹499/year</span>
                         </div>
                     </div>
 
                     {/* Feature Rows */}
                     <div
-                        className="rounded-b-xl overflow-hidden"
                         style={{
+                            borderRadius: "0 0 12px 12px",
+                            overflow: "hidden",
                             border: "1px solid rgba(255,255,255,0.06)",
                             borderTop: "none",
                         }}
@@ -59,44 +82,43 @@ export function PricingTableSection() {
                         {features.map((f, i) => (
                             <div
                                 key={i}
-                                className="grid grid-cols-[1fr_110px_110px] items-center py-3.5 px-5"
                                 style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 110px 110px",
+                                    alignItems: "center",
+                                    padding: "14px 20px",
                                     borderBottom: i < features.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                                 }}
                             >
-                                <span className="text-sm" style={{ color: "#F1F5F9" }}>{f.name}</span>
-                                <div className="flex justify-center">
-                                    {f.free ? (
-                                        <span className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
-                                            <Check size={12} className="text-white" strokeWidth={3} />
-                                        </span>
-                                    ) : (
-                                        <span style={{ color: "#334155" }}>—</span>
-                                    )}
+                                <span style={{ fontSize: 14, color: "#F1F5F9" }}>{f.name}</span>
+                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                    {f.free ? <CheckCircle /> : <span style={{ color: "#334155" }}>—</span>}
                                 </div>
-                                <div className="flex justify-center">
-                                    {f.premium ? (
-                                        <span className="w-5 h-5 rounded-full bg-accent flex items-center justify-center">
-                                            <Check size={12} className="text-white" strokeWidth={3} />
-                                        </span>
-                                    ) : (
-                                        <span style={{ color: "#334155" }}>—</span>
-                                    )}
+                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                    {f.premium ? <CheckCircle /> : <span style={{ color: "#334155" }}>—</span>}
                                 </div>
                             </div>
                         ))}
                     </div>
 
                     {/* CTA */}
-                    <div className="mt-8 text-center">
+                    <div style={{ marginTop: 32, textAlign: "center" }}>
                         <a
                             href="https://app.myfinancial.in"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center px-8 py-3.5 text-white text-sm font-semibold rounded-xl transition-colors"
                             style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                padding: "14px 32px",
+                                color: "#fff",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                borderRadius: 12,
                                 backgroundColor: "#10B981",
                                 boxShadow: "0 0 20px -4px rgba(16,185,129,0.3)",
+                                textDecoration: "none",
+                                transition: "background-color 0.2s ease",
                             }}
                         >
                             Start Free Assessment →

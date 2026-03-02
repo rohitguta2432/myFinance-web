@@ -208,8 +208,10 @@ export default function PricingPage() {
                     <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
                         {/* Header */}
                         <div
-                            className="grid grid-cols-[1fr_100px_100px] items-end"
                             style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 100px 100px",
+                                alignItems: "end",
                                 borderBottom: "1px solid rgba(255,255,255,0.06)",
                                 paddingBottom: 12,
                             }}
@@ -228,8 +230,10 @@ export default function PricingPage() {
                                 {cat.features.map((f, fi) => (
                                     <div
                                         key={fi}
-                                        className="grid grid-cols-[1fr_100px_100px] items-center"
                                         style={{
+                                            display: "grid",
+                                            gridTemplateColumns: "1fr 100px 100px",
+                                            alignItems: "center",
                                             padding: "12px 0",
                                             borderBottom: "1px solid rgba(255,255,255,0.04)",
                                         }}

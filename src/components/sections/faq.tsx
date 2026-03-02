@@ -48,21 +48,22 @@ export function FAQSection() {
         <section className="section-padding" style={{ backgroundColor: "#0B1120" }} id="faq">
             <div className="container-marketing">
                 {/* Header */}
-                <div className="text-center mb-14">
-                    <p className="text-overline text-accent mb-3">FAQ</p>
+                <div style={{ textAlign: "center", marginBottom: 56 }}>
+                    <p className="text-overline" style={{ color: "#10B981", marginBottom: 12 }}>FAQ</p>
                     <h2 className="text-h2" style={{ color: "#F1F5F9" }}>
                         Common questions, honest answers
                     </h2>
                 </div>
 
                 {/* FAQ List */}
-                <div className="max-w-[680px] mx-auto" role="list">
+                <div style={{ maxWidth: 680, marginLeft: "auto", marginRight: "auto" }} role="list">
                     {faqs.map((faq, i) => (
                         <FAQItem
                             key={i}
                             faq={faq}
                             isOpen={openIndex === i}
                             onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+                            isLast={i === faqs.length - 1}
                         />
                     ))}
                 </div>
@@ -75,57 +76,54 @@ function FAQItem({
     faq,
     isOpen,
     onToggle,
+    isLast,
 }: {
     faq: { question: string; answer: string };
     isOpen: boolean;
     onToggle: () => void;
+    isLast: boolean;
 }) {
     const id = useId();
     const triggerId = `faq-trigger-${id}`;
     const panelId = `faq-panel-${id}`;
 
     return (
-        <div className="last:border-b-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} role="listitem">
+        <div style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.06)" }} role="listitem">
             <h3>
                 <button
                     id={triggerId}
                     onClick={onToggle}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    className="w-full flex items-center justify-between py-5 text-left group"
-                    style={{ background: "none", border: "none", cursor: "pointer" }}
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "20px 0",
+                        textAlign: "left",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                    }}
                 >
-                    <span className="text-sm font-semibold pr-6" style={{ color: "#F1F5F9" }}>
+                    <span style={{ fontSize: 14, fontWeight: 600, paddingRight: 24, color: "#F1F5F9" }}>
                         {faq.question}
                     </span>
                     {isOpen ? (
-                        <ChevronDown
-                            size={16}
-                            aria-hidden="true"
-                            className="flex-shrink-0"
-                            style={{ color: "#10B981" }}
-                        />
+                        <ChevronDown size={16} aria-hidden="true" style={{ color: "#10B981", flexShrink: 0 }} />
                     ) : (
-                        <ChevronRight
-                            size={16}
-                            aria-hidden="true"
-                            className="flex-shrink-0"
-                            style={{ color: "#10B981" }}
-                        />
+                        <ChevronRight size={16} aria-hidden="true" style={{ color: "#10B981", flexShrink: 0 }} />
                     )}
                 </button>
             </h3>
-            <div
-                id={panelId}
-                role="region"
-                aria-labelledby={triggerId}
-                className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[500px] pb-5" : "max-h-0"}`}
-                hidden={!isOpen}
-            >
-                <p className="text-sm leading-relaxed pr-10" style={{ color: "#94A3B8" }}>
-                    {faq.answer}
-                </p>
-            </div>
+            {isOpen && (
+                <div id={panelId} role="region" aria-labelledby={triggerId} style={{ paddingBottom: 20 }}>
+                    <p style={{ fontSize: 14, lineHeight: 1.7, paddingRight: 40, color: "#94A3B8" }}>
+                        {faq.answer}
+                    </p>
+                </div>
+            )}
         </div>
     );
 }

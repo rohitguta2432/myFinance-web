@@ -57,23 +57,26 @@ export function SampleInsightsSection() {
         <section className="section-padding" style={{ backgroundColor: "#0B1120" }} id="insights">
             <div className="container-marketing">
                 {/* Header */}
-                <div className="text-center mb-14">
-                    <p className="text-overline text-accent mb-3">SAMPLE REPORT</p>
-                    <h2 className="text-h2 mb-3" style={{ color: "#F1F5F9" }}>
+                <div style={{ textAlign: "center", marginBottom: 56 }}>
+                    <p className="text-overline" style={{ color: "#10B981", marginBottom: 12 }}>SAMPLE REPORT</p>
+                    <h2 className="text-h2" style={{ color: "#F1F5F9", marginBottom: 12 }}>
                         Uncover hidden gaps in your finances
                     </h2>
-                    <p className="text-body max-w-[520px] mx-auto" style={{ color: "#94A3B8" }}>
+                    <p className="text-body" style={{ color: "#94A3B8", maxWidth: 520, marginLeft: "auto", marginRight: "auto" }}>
                         See exactly where your money goes and what you need to do next with our comprehensive analysis.
                     </p>
                 </div>
 
                 {/* 3 Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, maxWidth: 960, marginLeft: "auto", marginRight: "auto" }}>
                     {insights.map((item, i) => (
                         <div
                             key={i}
-                            className="rounded-2xl p-6 flex flex-col"
                             style={{
+                                borderRadius: 16,
+                                padding: 24,
+                                display: "flex",
+                                flexDirection: "column",
                                 backgroundColor: "rgba(15, 23, 42, 0.6)",
                                 border: "1px solid rgba(255,255,255,0.06)",
                                 backdropFilter: "blur(12px)",
@@ -81,10 +84,15 @@ export function SampleInsightsSection() {
                             }}
                         >
                             {/* Badge + Sparkline */}
-                            <div className="flex items-center justify-between mb-4">
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
                                 <span
-                                    className="text-[10px] font-bold rounded px-2 py-0.5 uppercase tracking-wider"
                                     style={{
+                                        fontSize: 10,
+                                        fontWeight: 700,
+                                        borderRadius: 4,
+                                        padding: "2px 8px",
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.05em",
                                         color: "#64748B",
                                         border: "1px solid rgba(255,255,255,0.06)",
                                     }}
@@ -95,22 +103,22 @@ export function SampleInsightsSection() {
                             </div>
 
                             {/* Label */}
-                            <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: "#64748B" }}>
+                            <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#64748B", marginBottom: 4 }}>
                                 {item.label}
                             </p>
 
                             {/* Metric */}
-                            <p className="text-3xl font-extrabold mb-3" style={{ color: "#F1F5F9" }}>
+                            <p style={{ fontSize: 30, fontWeight: 800, color: "#F1F5F9", marginBottom: 12 }}>
                                 {item.metric}
-                                {item.suffix && <span className="text-base font-normal" style={{ color: "#64748B" }}>{item.suffix}</span>}
+                                {item.suffix && <span style={{ fontSize: 16, fontWeight: 400, color: "#64748B" }}>{item.suffix}</span>}
                             </p>
 
                             {/* Footer */}
-                            <div className="pt-3 mt-auto" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                                <p className="text-sm font-semibold" style={{ color: item.footerColor }}>
+                            <div style={{ paddingTop: 12, marginTop: "auto", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                                <p style={{ fontSize: 14, fontWeight: 600, color: item.footerColor }}>
                                     {item.footer}
                                 </p>
-                                <p className="text-xs mt-0.5" style={{ color: "#64748B" }}>{item.footerSub}</p>
+                                <p style={{ fontSize: 12, marginTop: 2, color: "#64748B" }}>{item.footerSub}</p>
                             </div>
                         </div>
                     ))}
