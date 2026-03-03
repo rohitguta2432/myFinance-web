@@ -38,12 +38,34 @@ All pages are statically generated at build time. To export a fully static site:
 2. Run `npm run build` — the static files will be in the `out/` directory.
 3. Deploy the `out/` folder to any static hosting (Netlify, Cloudflare Pages, S3, etc.).
 
-### Deploy to Vercel (Recommended)
+### Deploy to Vercel (Optional)
 
 1. Push the repo to GitHub.
 2. Import the project at [vercel.com/new](https://vercel.com/new).
 3. Vercel auto-detects Next.js — no configuration needed.
 4. Deploy. Done.
+
+### Deploy to AWS Amplify (Current)
+
+The project is already configured for deployment on AWS Amplify. Next.js SSR API routes in Amplify require environment variables to be present in an `.env.production` file at build time. To support this, an `amplify.yml` file is included in the project root.
+
+Ensure you set the following environment variables in your **AWS Amplify Console** (App settings > Environment variables):
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase Project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase Anon Key
+- `ADMIN_USERNAME`: Username for the`/blog/admin` dashboard
+- `ADMIN_PASSWORD`: Password for the`/blog/admin` dashboard
+
+The `amplify.yml` configuration will automatically inject these into `.env.production` during the build phase so they are available at runtime.
+
+### Local Development Environment
+
+For local development, create a `.env.local` file in the project root:
+```env
+NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="your-secure-password"
+```
 
 ---
 
@@ -56,6 +78,8 @@ All pages are statically generated at build time. To export a fully static site:
 | `/pricing` | Free vs Premium comparison with detailed feature table |
 | `/privacy` | Privacy policy — local-only storage, no-server architecture |
 | `/disclaimer` | Financial disclaimer — not financial advice |
+| `/blog` | Public blog listing with categories, markdown articles, and pagination |
+| `/blog/admin` | Secured admin dashboard for managing posts and moderating comments |
 
 ## Project Structure
 
