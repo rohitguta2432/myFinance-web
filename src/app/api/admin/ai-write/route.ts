@@ -8,9 +8,21 @@ import { isAuthenticated } from "@/lib/admin-auth";
 const MODEL_ID = "us.anthropic.claude-sonnet-4-20250514-v1:0";
 
 function getBedrockClient() {
-    return new BedrockRuntimeClient({
-        region: process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1",
-    });
+    const region = process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1";
+
+    // Use explicit credentials if provided (for Amplify Hosting where AWS_ prefix is reserved)
+    if (process.env.BEDROCK_ACCESS_KEY_ID && process.env.BEDROCK_SECRET_ACCESS_KEY) {
+        return new BedrockRuntimeClient({
+            region,
+            credentials: {
+                accessKeyId: process.env.BEDROCK_ACCESS_KEY_ID,
+                secretAccessKey: process.env.BEDROCK_SECRET_ACCESS_KEY,
+            },
+        });
+    }
+
+    // Fallback to default credential chain (local dev with ~/.aws/credentials)
+    return new BedrockRuntimeClient({ region });
 }
 
 type AiAction = "generate" | "improve" | "summarize";
