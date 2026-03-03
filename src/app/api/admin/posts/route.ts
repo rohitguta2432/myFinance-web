@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import crypto from "crypto";
+import { isAuthenticated } from "@/lib/admin-auth";
 
 function getAdminClient() {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -8,13 +8,6 @@ function getAdminClient() {
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     // Use service role key if available (bypasses RLS), otherwise anon key
     return createClient(url, serviceKey || anonKey);
-}
-
-function isAuthenticated(request: NextRequest): boolean {
-    const session = request.cookies.get("admin_session")?.value;
-    const adminPass = process.env.ADMIN_PASSWORD;
-    if (!session || !adminPass) return false;
-    return session === crypto.createHash("sha256").update(adminPass).digest("hex");
 }
 
 // GET — List all posts (drafts + published)

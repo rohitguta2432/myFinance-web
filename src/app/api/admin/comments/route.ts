@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import crypto from "crypto";
+import { isAuthenticated } from "@/lib/admin-auth";
 
 function getAdminClient() {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     return createClient(url, serviceKey || anonKey);
-}
-
-function isAuthenticated(request: NextRequest): boolean {
-    const session = request.cookies.get("admin_session")?.value;
-    const adminPass = process.env.ADMIN_PASSWORD;
-    if (!session || !adminPass) return false;
-    return session === crypto.createHash("sha256").update(adminPass).digest("hex");
 }
 
 // GET — List all comments (for moderation)
