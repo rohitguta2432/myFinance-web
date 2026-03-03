@@ -9,7 +9,7 @@ const productLinks = [
 ];
 
 const resourceLinks = [
-    { href: "/", label: "Blog" },
+    { href: "/blog", label: "Blog" },
     { href: "/", label: "Calculators" },
 ];
 
