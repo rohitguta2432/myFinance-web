@@ -163,15 +163,32 @@ export default function AdminPage() {
                         <button
                             type="submit"
                             disabled={loginLoading}
-                            className="btn-primary"
                             style={{
                                 width: "100%",
-                                padding: "14px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 10,
+                                padding: "15px 24px",
                                 fontSize: 15,
-                                opacity: loginLoading ? 0.7 : 1,
+                                fontWeight: 600,
+                                fontFamily: "inherit",
+                                color: "#fff",
+                                background: loginLoading
+                                    ? "rgba(16, 185, 129, 0.6)"
+                                    : "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+                                border: "none",
+                                borderRadius: 12,
+                                cursor: loginLoading ? "not-allowed" : "pointer",
+                                opacity: loginLoading ? 0.8 : 1,
+                                boxShadow: loginLoading
+                                    ? "none"
+                                    : "0 4px 14px -2px rgba(16, 185, 129, 0.4), 0 1px 3px rgba(0,0,0,0.2)",
+                                transition: "all 0.25s ease",
+                                letterSpacing: "0.02em",
                             }}
                         >
-                            <LogIn size={16} />
+                            <LogIn size={18} />
                             {loginLoading ? "Signing in..." : "Sign In"}
                         </button>
                     </form>
