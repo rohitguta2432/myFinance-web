@@ -9,7 +9,7 @@ const MODEL_ID = "us.anthropic.claude-sonnet-4-20250514-v1:0";
 
 function getBedrockClient() {
     return new BedrockRuntimeClient({
-        region: process.env.AWS_REGION || "us-east-1",
+        region: process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1",
     });
 }
 
