@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
     BedrockRuntimeClient,
-    InvokeModelCommand,
+    ConverseCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { isAuthenticated } from "@/lib/admin-auth";
 
-const MODEL_ID = "us.anthropic.claude-3-5-sonnet-20241022-v2:0";
+const MODEL_ID = "us.amazon.nova-pro-v1:0";
 
 function getBedrockClient() {
     const region = process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1";
@@ -116,29 +116,25 @@ export async function POST(request: NextRequest) {
         const client = getBedrockClient();
         const userMessage = buildPrompt(action, prompt, existingContent);
 
-        const command = new InvokeModelCommand({
+        const command = new ConverseCommand({
             modelId: MODEL_ID,
-            contentType: "application/json",
-            accept: "application/json",
-            body: JSON.stringify({
-                anthropic_version: "bedrock-2023-05-31",
-                max_tokens: 4096,
+            system: [{ text: SYSTEM_PROMPT }],
+            messages: [
+                {
+                    role: "user",
+                    content: [{ text: userMessage }],
+                },
+            ],
+            inferenceConfig: {
+                maxTokens: 4096,
                 temperature: action === "summarize" ? 0.3 : 0.7,
-                system: SYSTEM_PROMPT,
-                messages: [
-                    {
-                        role: "user",
-                        content: userMessage,
-                    },
-                ],
-            }),
+            },
         });
 
         const response = await client.send(command);
-        const responseBody = JSON.parse(new TextDecoder().decode(response.body));
 
         const generatedContent =
-            responseBody.content?.[0]?.text || "No content generated.";
+            response.output?.message?.content?.[0]?.text || "No content generated.";
 
         // For "generate" action, try to extract title from the first heading
         let title: string | null = null;
