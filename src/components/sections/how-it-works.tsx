@@ -26,25 +26,25 @@ export function HowItWorksSection() {
         <section className="section-padding" style={{ backgroundColor: "#111827" }} id="how-it-works">
             <div className="container-marketing">
                 {/* Header */}
-                <div className="text-center mb-14">
-                    <p className="text-overline text-accent mb-3">PROCESS</p>
-                    <h2 className="text-h2 mx-auto mb-4" style={{ color: "#F1F5F9", maxWidth: 700 }}>
+                <div style={{ textAlign: "center", marginBottom: 56 }}>
+                    <p className="text-overline text-accent" style={{ marginBottom: 12 }}>PROCESS</p>
+                    <h2 className="text-h2" style={{ color: "#F1F5F9", maxWidth: 700, margin: "0 auto 16px" }}>
                         Financial clarity in three steps
                     </h2>
-                    <p className="text-body mx-auto" style={{ color: "#94A3B8", maxWidth: 540 }}>
+                    <p style={{ color: "#94A3B8", maxWidth: 540, margin: "0 auto", textAlign: "center", fontSize: 16, lineHeight: 1.6 }}>
                         We&apos;ve simplified the complex world of personal finance into a streamlined process that respects your time.
                     </p>
                 </div>
 
                 {/* Steps */}
-                <div style={{ maxWidth: 700, marginLeft: "auto", marginRight: "auto" }}>
+                <div style={{ maxWidth: 540, marginLeft: "auto", marginRight: "auto" }}>
                     {steps.map((step, i) => (
                         <div
                             key={i}
                             style={{
                                 display: "grid",
                                 gridTemplateColumns: "48px 1fr",
-                                gap: 24,
+                                gap: 20,
                                 alignItems: "start",
                                 paddingBottom: i < steps.length - 1 ? 40 : 0,
                                 position: "relative",
@@ -88,7 +88,7 @@ export function HowItWorksSection() {
                             </div>
 
                             {/* Text */}
-                            <div style={{ paddingTop: 4 }}>
+                            <div style={{ paddingTop: 12 }}>
                                 <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", marginBottom: 6 }}>
                                     {step.title}
                                 </h3>
