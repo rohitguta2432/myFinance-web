@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 import { isAuthenticated } from "@/lib/admin-auth";
 
-const MODEL_ID = "anthropic.claude-3-5-sonnet-20241022-v2:0";
+const MODEL_ID = "us.anthropic.claude-3-5-sonnet-20241022-v2:0";
 
 function getBedrockClient() {
     const region = process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1";
