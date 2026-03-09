@@ -4,14 +4,33 @@ export type BlogCategory =
     | "Budgeting"
     | "Insurance"
     | "NPS & Retirement"
+    | "Personal Finance Foundations"
+    | "Income & Cash Flow Management"
+    | "Investment Basics"
+    | "Mutual Funds Investing"
+    | "Stock Market Investing"
+    | "Tax Planning"
+    | "Retirement Planning"
+    | "Insurance Planning"
+    | "Debt Management & Credit Score"
+    | "NRI Financial Planning"
+    | "Behavioral Finance & Money Psychology"
+    | "MyFinancial Services & Financial Diagnostics"
     | "General";
 
 export const BLOG_CATEGORIES: BlogCategory[] = [
-    "Tax Saving",
-    "Investing",
-    "Budgeting",
-    "Insurance",
-    "NPS & Retirement",
+    "Personal Finance Foundations",
+    "Income & Cash Flow Management",
+    "Investment Basics",
+    "Mutual Funds Investing",
+    "Stock Market Investing",
+    "Tax Planning",
+    "Retirement Planning",
+    "Insurance Planning",
+    "Debt Management & Credit Score",
+    "NRI Financial Planning",
+    "Behavioral Finance & Money Psychology",
+    "MyFinancial Services & Financial Diagnostics",
     "General",
 ];
 

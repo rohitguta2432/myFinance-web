@@ -13,12 +13,26 @@ import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import { marked } from "marked";
 
 const categoryColors: Record<string, { bg: string; text: string }> = {
+    // Old categories
     "Tax Saving": { bg: "rgba(16, 185, 129, 0.15)", text: "#10B981" },
     Investing: { bg: "rgba(59, 130, 246, 0.15)", text: "#3B82F6" },
     Budgeting: { bg: "rgba(168, 85, 247, 0.15)", text: "#A855F7" },
     Insurance: { bg: "rgba(245, 158, 11, 0.15)", text: "#F59E0B" },
     "NPS & Retirement": { bg: "rgba(236, 72, 153, 0.15)", text: "#EC4899" },
-    General: { bg: "rgba(148, 163, 184, 0.12)", text: "#94A3B8" },
+    // New Categories
+    "Personal Finance Foundations": { bg: "rgba(14, 165, 233, 0.15)", text: "#0EA5E9" }, // Sky
+    "Income & Cash Flow Management": { bg: "rgba(168, 85, 247, 0.15)", text: "#A855F7" }, // Purple
+    "Investment Basics": { bg: "rgba(59, 130, 246, 0.15)", text: "#3B82F6" }, // Blue
+    "Mutual Funds Investing": { bg: "rgba(99, 102, 241, 0.15)", text: "#6366F1" }, // Indigo
+    "Stock Market Investing": { bg: "rgba(244, 63, 94, 0.15)", text: "#F43F5E" }, // Rose
+    "Tax Planning": { bg: "rgba(16, 185, 129, 0.15)", text: "#10B981" }, // Emerald 
+    "Retirement Planning": { bg: "rgba(236, 72, 153, 0.15)", text: "#EC4899" }, // Pink
+    "Insurance Planning": { bg: "rgba(245, 158, 11, 0.15)", text: "#F59E0B" }, // Amber
+    "Debt Management & Credit Score": { bg: "rgba(239, 68, 68, 0.15)", text: "#EF4444" }, // Red
+    "NRI Financial Planning": { bg: "rgba(139, 92, 246, 0.15)", text: "#8B5CF6" }, // Violet
+    "Behavioral Finance & Money Psychology": { bg: "rgba(20, 184, 166, 0.15)", text: "#14B8A6" }, // Teal
+    "MyFinancial Services & Financial Diagnostics": { bg: "rgba(217, 119, 6, 0.15)", text: "#D97706" }, // Amber darker
+    General: { bg: "rgba(148, 163, 184, 0.12)", text: "#94A3B8" }, // Slate
 };
 
 export default function BlogPostPage() {
