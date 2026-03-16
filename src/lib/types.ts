@@ -16,6 +16,7 @@ export type BlogCategory =
     | "NRI Financial Planning"
     | "Behavioral Finance & Money Psychology"
     | "MyFinancial Services & Financial Diagnostics"
+    | "Market Updates"
     | "General";
 
 export const BLOG_CATEGORIES: BlogCategory[] = [
@@ -31,6 +32,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     "NRI Financial Planning",
     "Behavioral Finance & Money Psychology",
     "MyFinancial Services & Financial Diagnostics",
+    "Market Updates",
     "General",
 ];
 
