@@ -113,73 +113,125 @@ export async function POST(request: NextRequest) {
 
 /**
  * Simple HTML → Markdown converter using cheerio.
+ * Recursively walks the DOM so nested wrappers (div, section, article)
+ * are traversed instead of being dumped as a single paragraph.
  */
 function htmlToMarkdown(html: string): string {
-    const $content = cheerio.load(html);
+    const $ = cheerio.load(html);
     const lines: string[] = [];
 
-    // Process elements top-down
-    $content("body")
-        .children()
-        .each((_, el) => {
-            const $el = $content(el);
-            const tag = (el as unknown as { tagName?: string }).tagName?.toLowerCase();
+    const CONTENT_TAGS = new Set([
+        "h1", "h2", "h3", "h4", "h5", "h6",
+        "p", "ul", "ol", "blockquote", "pre", "code",
+        "img", "figure", "table",
+    ]);
 
-            if (!tag) return;
+    const WRAPPER_TAGS = new Set([
+        "div", "section", "article", "main", "span", "header", "footer", "aside",
+    ]);
 
-            const text = $el.text().trim();
-            if (!text) return;
+    function processElement(el: cheerio.Element) {
+        const tag = (el as unknown as { tagName?: string }).tagName?.toLowerCase();
+        if (!tag) return;
 
-            switch (tag) {
-                case "h1":
-                    lines.push(`# ${text}\n`);
-                    break;
-                case "h2":
-                    lines.push(`## ${text}\n`);
-                    break;
-                case "h3":
-                    lines.push(`### ${text}\n`);
-                    break;
-                case "h4":
-                    lines.push(`#### ${text}\n`);
-                    break;
-                case "h5":
-                case "h6":
-                    lines.push(`##### ${text}\n`);
-                    break;
-                case "ul":
-                case "ol":
-                    $el.find("li").each((i, li) => {
-                        const liText = $content(li).text().trim();
-                        if (liText) {
-                            lines.push(
-                                tag === "ol" ? `${i + 1}. ${liText}` : `- ${liText}`
-                            );
-                        }
-                    });
-                    lines.push("");
-                    break;
-                case "blockquote":
-                    lines.push(`> ${text}\n`);
-                    break;
-                case "pre":
-                case "code":
-                    lines.push("```\n" + text + "\n```\n");
-                    break;
-                case "img": {
-                    const src = $el.attr("src");
-                    const alt = $el.attr("alt") || "";
-                    if (src) lines.push(`![${alt}](${src})\n`);
-                    break;
+        const $el = $(el);
+        const text = $el.text().trim();
+
+        // Skip empty elements (except img)
+        if (!text && tag !== "img" && tag !== "figure") return;
+
+        switch (tag) {
+            case "h1":
+                lines.push(`# ${text}\n`);
+                break;
+            case "h2":
+                lines.push(`## ${text}\n`);
+                break;
+            case "h3":
+                lines.push(`### ${text}\n`);
+                break;
+            case "h4":
+                lines.push(`#### ${text}\n`);
+                break;
+            case "h5":
+            case "h6":
+                lines.push(`##### ${text}\n`);
+                break;
+            case "p":
+                if (text.length > 0) {
+                    lines.push(text + "\n");
                 }
-                default:
-                    // paragraphs, divs, etc
-                    if (text.length > 20) {
-                        lines.push(text + "\n");
+                break;
+            case "ul":
+            case "ol":
+                $el.children("li").each((i, li) => {
+                    const liText = $(li).text().trim();
+                    if (liText) {
+                        lines.push(
+                            tag === "ol" ? `${i + 1}. ${liText}` : `- ${liText}`
+                        );
                     }
-                    break;
+                });
+                lines.push("");
+                break;
+            case "blockquote":
+                lines.push(`> ${text}\n`);
+                break;
+            case "pre":
+            case "code":
+                lines.push("```\n" + text + "\n```\n");
+                break;
+            case "img": {
+                const src = $el.attr("src");
+                const alt = $el.attr("alt") || "";
+                if (src) lines.push(`![${alt}](${src})\n`);
+                break;
             }
-        });
+            case "figure": {
+                const img = $el.find("img").first();
+                const src = img.attr("src");
+                const alt = img.attr("alt") || "";
+                const caption = $el.find("figcaption").text().trim();
+                if (src) lines.push(`![${alt || caption}](${src})\n`);
+                break;
+            }
+            case "table": {
+                // Extract table as simple markdown
+                const rows: string[][] = [];
+                $el.find("tr").each((_, tr) => {
+                    const cells: string[] = [];
+                    $(tr).find("th, td").each((_, cell) => {
+                        cells.push($(cell).text().trim());
+                    });
+                    if (cells.length) rows.push(cells);
+                });
+                if (rows.length > 0) {
+                    lines.push("| " + rows[0].join(" | ") + " |");
+                    lines.push("| " + rows[0].map(() => "---").join(" | ") + " |");
+                    for (let i = 1; i < rows.length; i++) {
+                        lines.push("| " + rows[i].join(" | ") + " |");
+                    }
+                    lines.push("");
+                }
+                break;
+            }
+            default:
+                // For wrapper tags, recurse into children
+                if (WRAPPER_TAGS.has(tag)) {
+                    $el.children().each((_, child) => {
+                        processElement(child);
+                    });
+                } else if (text.length > 20) {
+                    // Unknown tag with substantial text — treat as paragraph
+                    lines.push(text + "\n");
+                }
+                break;
+        }
+    }
+
+    $("body").children().each((_, el) => {
+        processElement(el);
+    });
 
     return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }

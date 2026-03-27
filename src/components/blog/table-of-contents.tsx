@@ -13,7 +13,6 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
     const [activeId, setActiveId] = useState("");
 
     useEffect(() => {
-        // Parse headings from HTML
         const parser = new DOMParser();
         const doc = parser.parseFromString(contentHtml, "text/html");
         const elements = doc.querySelectorAll("h2, h3");
@@ -59,9 +58,13 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
             style={{
                 position: "sticky",
                 top: 96,
-                padding: "20px 0",
+                padding: 20,
                 maxHeight: "calc(100vh - 120px)",
                 overflowY: "auto",
+                background: "rgba(15, 23, 42, 0.4)",
+                borderRadius: 16,
+                border: "1px solid rgba(51, 65, 85, 0.4)",
+                backdropFilter: "blur(12px)",
             }}
         >
             <p
@@ -69,38 +72,46 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
                     fontSize: 11,
                     fontWeight: 700,
                     textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "#64748B",
-                    marginBottom: 12,
+                    letterSpacing: "0.1em",
+                    color: "#475569",
+                    marginBottom: 16,
+                    paddingBottom: 12,
+                    borderBottom: "1px solid rgba(51, 65, 85, 0.4)",
                 }}
             >
                 On this page
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {headings.map((h) => (
-                    <li key={h.id}>
-                        <a
-                            href={`#${h.id}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
-                            }}
-                            style={{
-                                display: "block",
-                                padding: "4px 0",
-                                paddingLeft: h.level === 3 ? 16 : 0,
-                                fontSize: 13,
-                                fontWeight: activeId === h.id ? 600 : 400,
-                                color: activeId === h.id ? "#10B981" : "#64748B",
-                                textDecoration: "none",
-                                borderLeft: activeId === h.id ? "2px solid #10B981" : "2px solid transparent",
-                                transition: "all 0.2s ease",
-                            }}
-                        >
-                            {h.text}
-                        </a>
-                    </li>
-                ))}
+                {headings.map((h) => {
+                    const isActive = activeId === h.id;
+                    return (
+                        <li key={h.id} style={{ marginBottom: 2 }}>
+                            <a
+                                href={`#${h.id}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
+                                }}
+                                style={{
+                                    display: "block",
+                                    padding: "6px 10px",
+                                    paddingLeft: h.level === 3 ? 20 : 10,
+                                    fontSize: 12.5,
+                                    fontWeight: isActive ? 600 : 400,
+                                    color: isActive ? "#10B981" : "#64748B",
+                                    textDecoration: "none",
+                                    borderRadius: 8,
+                                    background: isActive ? "rgba(16, 185, 129, 0.08)" : "transparent",
+                                    borderLeft: isActive ? "2px solid #10B981" : "2px solid transparent",
+                                    transition: "all 0.2s ease",
+                                    lineHeight: 1.4,
+                                }}
+                            >
+                                {h.text}
+                            </a>
+                        </li>
+                    );
+                })}
             </ul>
         </nav>
     );

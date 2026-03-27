@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Twitter, Linkedin, Heart } from "lucide-react";
+import { Link2, Twitter, Linkedin, Heart, Check } from "lucide-react";
 
 export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; title: string; likes: number }) {
     const [copied, setCopied] = useState(false);
@@ -20,74 +20,97 @@ export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; t
         if (liked) return;
         setLiked(true);
         setLikes((l) => l + 1);
-        // TODO: persist like to Supabase
     };
 
-    const btnStyle: React.CSSProperties = {
+    const btnBase: React.CSSProperties = {
         display: "inline-flex",
         alignItems: "center",
-        gap: 6,
-        padding: "8px 16px",
-        borderRadius: 9999,
+        gap: 7,
+        padding: "10px 18px",
+        borderRadius: 12,
         fontSize: 13,
         fontWeight: 500,
-        border: "1px solid #1E293B",
+        border: "1px solid rgba(51, 65, 85, 0.5)",
         background: "rgba(15, 23, 42, 0.6)",
         color: "#94A3B8",
         cursor: "pointer",
-        transition: "all 0.2s ease",
+        transition: "all 0.25s ease",
         backdropFilter: "blur(8px)",
+        textDecoration: "none",
     };
 
     return (
-        <div
-            style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                flexWrap: "wrap",
-                padding: "24px 0",
-                borderTop: "1px solid #1E293B",
-                borderBottom: "1px solid #1E293B",
-                marginTop: 40,
-                marginBottom: 40,
-            }}
-        >
-            <button onClick={handleCopy} style={btnStyle}>
-                <Link2 size={14} />
-                {copied ? "Copied!" : "Copy Link"}
-            </button>
-            <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ ...btnStyle, textDecoration: "none" }}
-            >
-                <Twitter size={14} />
-                Tweet
-            </a>
-            <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ ...btnStyle, textDecoration: "none" }}
-            >
-                <Linkedin size={14} />
-                LinkedIn
-            </a>
-            <div style={{ flex: 1 }} />
-            <button
-                onClick={handleLike}
+        <>
+            <div
                 style={{
-                    ...btnStyle,
-                    color: liked ? "#EF4444" : "#94A3B8",
-                    borderColor: liked ? "rgba(239, 68, 68, 0.3)" : "#1E293B",
-                    background: liked ? "rgba(239, 68, 68, 0.1)" : "rgba(15, 23, 42, 0.6)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    flexWrap: "wrap",
+                    padding: "28px 0",
+                    marginTop: 48,
+                    marginBottom: 48,
+                    borderTop: "1px solid rgba(51, 65, 85, 0.4)",
+                    borderBottom: "1px solid rgba(51, 65, 85, 0.4)",
+                    position: "relative",
                 }}
             >
-                <Heart size={14} fill={liked ? "#EF4444" : "none"} />
-                {likes}
-            </button>
-        </div>
+                <p style={{
+                    position: "absolute", top: -10,
+                    left: 0, fontSize: 11, fontWeight: 600,
+                    textTransform: "uppercase", letterSpacing: "0.08em",
+                    color: "#475569", background: "var(--bg-primary, #0B0F1A)",
+                    padding: "0 12px 0 0",
+                }}>
+                    Share this article
+                </p>
+
+                <button onClick={handleCopy} className="share-bar-btn" style={btnBase}>
+                    {copied ? <Check size={14} style={{ color: "#10B981" }} /> : <Link2 size={14} />}
+                    {copied ? "Copied!" : "Copy Link"}
+                </button>
+                <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-bar-btn"
+                    style={btnBase}
+                >
+                    <Twitter size={14} /> Tweet
+                </a>
+                <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-bar-btn"
+                    style={btnBase}
+                >
+                    <Linkedin size={14} /> LinkedIn
+                </a>
+                <div style={{ flex: 1 }} />
+                <button
+                    onClick={handleLike}
+                    className="share-bar-btn"
+                    style={{
+                        ...btnBase,
+                        color: liked ? "#EF4444" : "#94A3B8",
+                        borderColor: liked ? "rgba(239, 68, 68, 0.3)" : "rgba(51, 65, 85, 0.5)",
+                        background: liked ? "rgba(239, 68, 68, 0.08)" : "rgba(15, 23, 42, 0.6)",
+                    }}
+                >
+                    <Heart size={14} fill={liked ? "#EF4444" : "none"} />
+                    {likes}
+                </button>
+            </div>
+            <style>{`
+                .share-bar-btn:hover {
+                    border-color: rgba(100, 116, 139, 0.5) !important;
+                    background: rgba(30, 41, 59, 0.8) !important;
+                    color: #CBD5E1 !important;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                }
+            `}</style>
+        </>
     );
 }
