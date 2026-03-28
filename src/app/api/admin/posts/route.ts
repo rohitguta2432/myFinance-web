@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
         author: body.author || "MyFinancial",
         status: body.status || "draft",
         reading_time: readingTime,
+        key_takeaways: body.key_takeaways || null,
         published_at: body.status === "published" ? new Date().toISOString() : null,
     };
 
@@ -87,6 +88,7 @@ export async function PUT(request: NextRequest) {
         author: body.author || "MyFinancial",
         status: body.status,
         reading_time: readingTime,
+        key_takeaways: body.key_takeaways || null,
         updated_at: new Date().toISOString(),
     };
 

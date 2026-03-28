@@ -9,6 +9,7 @@ import { CommentSection } from "@/components/blog/comment-section";
 import { ShareBar } from "@/components/blog/share-bar";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { BlogCard } from "@/components/blog/blog-card";
+import { KeyTakeaways } from "@/components/blog/key-takeaways";
 import { ArrowLeft, Calendar, Clock, User, Sparkles } from "lucide-react";
 import { marked } from "marked";
 
@@ -282,6 +283,13 @@ export default function BlogPostPage() {
                                 pointerEvents: "none",
                             }} />
                         </div>
+                    </div>
+                )}
+
+                {/* Key Takeaways */}
+                {post.key_takeaways && post.key_takeaways.length > 0 && (
+                    <div style={{ maxWidth: 760, margin: "0 auto 48px", padding: "0 24px" }}>
+                        <KeyTakeaways takeaways={post.key_takeaways} />
                     </div>
                 )}
 

@@ -20,6 +20,9 @@ import {
     ChevronUp,
     Check,
     AlertCircle,
+    Zap,
+    Plus,
+    Trash2,
 } from "lucide-react";
 
 /* ─────────── styles ─────────── */
@@ -744,6 +747,8 @@ function EditorForm() {
         string | null
     >(null);
     const [aiModalOpen, setAiModalOpen] = useState(false);
+    const [keyTakeaways, setKeyTakeaways] = useState<string[]>([]);
+    const [generatingTakeaways, setGeneratingTakeaways] = useState(false);
 
     // Auto-generate slug from title
     useEffect(() => {
@@ -779,6 +784,7 @@ function EditorForm() {
                     setAuthor(post.author);
                     setExistingStatus(post.status);
                     setExistingPublishedAt(post.published_at);
+                    setKeyTakeaways(post.key_takeaways || []);
                 }
             }
             setLoadingPost(false);
@@ -803,6 +809,7 @@ function EditorForm() {
             category,
             author: author.trim(),
             status,
+            key_takeaways: keyTakeaways.length > 0 ? keyTakeaways : null,
             published_at: existingPublishedAt,
         };
 
@@ -831,6 +838,38 @@ function EditorForm() {
         if (data.content) setContent(data.content);
         if (data.excerpt) setExcerpt(data.excerpt);
         if (data.cover_image) setCoverImage(data.cover_image);
+
+        // Auto-generate takeaways from imported content
+        if (data.content) {
+            generateTakeawaysFromContent(data.content);
+        }
+    };
+
+    const generateTakeawaysFromContent = async (sourceContent?: string) => {
+        const text = sourceContent || content;
+        if (!text.trim()) return;
+        setGeneratingTakeaways(true);
+        try {
+            const res = await fetch("/api/admin/ai-write", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    prompt: "Extract key takeaways",
+                    existingContent: text,
+                    action: "takeaways",
+                }),
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.takeaways && Array.isArray(data.takeaways)) {
+                    setKeyTakeaways(data.takeaways.slice(0, 5));
+                }
+            }
+        } catch {
+            // Silent fail — user can generate manually
+        } finally {
+            setGeneratingTakeaways(false);
+        }
     };
 
     const handleAiApply = (data: {
@@ -1123,6 +1162,95 @@ function EditorForm() {
                             rows={2}
                             style={{ ...inputStyle, resize: "vertical" }}
                         />
+                    </div>
+
+                    {/* Key Takeaways */}
+                    <div>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                            <label style={{ ...labelStyle, marginBottom: 0 }}>
+                                <Zap size={13} style={{ display: "inline", verticalAlign: "-2px", marginRight: 4, color: "#10B981" }} />
+                                Key Takeaways
+                            </label>
+                            <button
+                                onClick={() => generateTakeawaysFromContent()}
+                                disabled={generatingTakeaways || !content.trim()}
+                                style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 5,
+                                    padding: "5px 12px",
+                                    borderRadius: 8,
+                                    border: "1px solid rgba(16, 185, 129, 0.3)",
+                                    background: "rgba(16, 185, 129, 0.08)",
+                                    color: "#10B981",
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                    cursor: generatingTakeaways || !content.trim() ? "not-allowed" : "pointer",
+                                    opacity: generatingTakeaways || !content.trim() ? 0.5 : 1,
+                                    transition: "all 0.2s",
+                                }}
+                            >
+                                {generatingTakeaways ? (
+                                    <Loader2 size={12} style={{ animation: "spin 1s linear infinite" }} />
+                                ) : (
+                                    <Sparkles size={12} />
+                                )}
+                                {generatingTakeaways ? "Generating..." : "Generate with AI"}
+                            </button>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                            {keyTakeaways.map((takeaway, i) => (
+                                <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                    <span style={{ color: "#10B981", fontSize: 13, fontWeight: 700, minWidth: 20 }}>
+                                        {i + 1}.
+                                    </span>
+                                    <input
+                                        value={takeaway}
+                                        onChange={(e) => {
+                                            const updated = [...keyTakeaways];
+                                            updated[i] = e.target.value;
+                                            setKeyTakeaways(updated);
+                                        }}
+                                        placeholder={`Takeaway ${i + 1}`}
+                                        style={{ ...inputStyle, flex: 1 }}
+                                    />
+                                    <button
+                                        onClick={() => setKeyTakeaways(keyTakeaways.filter((_, j) => j !== i))}
+                                        style={{
+                                            padding: 8,
+                                            borderRadius: 8,
+                                            border: "1px solid #1E293B",
+                                            background: "transparent",
+                                            color: "#64748B",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        <Trash2 size={13} />
+                                    </button>
+                                </div>
+                            ))}
+                            {keyTakeaways.length < 5 && (
+                                <button
+                                    onClick={() => setKeyTakeaways([...keyTakeaways, ""])}
+                                    style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        padding: "8px 14px",
+                                        borderRadius: 8,
+                                        border: "1px dashed #334155",
+                                        background: "transparent",
+                                        color: "#64748B",
+                                        fontSize: 13,
+                                        cursor: "pointer",
+                                        width: "fit-content",
+                                        transition: "all 0.2s",
+                                    }}
+                                >
+                                    <Plus size={13} /> Add takeaway
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     {/* Content (Markdown) */}

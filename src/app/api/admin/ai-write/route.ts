@@ -25,7 +25,7 @@ function getBedrockClient() {
     return new BedrockRuntimeClient({ region });
 }
 
-type AiAction = "generate" | "improve" | "summarize";
+type AiAction = "generate" | "improve" | "summarize" | "takeaways";
 
 const SYSTEM_PROMPT = `You are an expert Indian personal finance blog writer for "MyFinancial", a platform that helps Indians with financial planning.
 
@@ -81,6 +81,17 @@ ${existingContent}
 
 Return ONLY the excerpt text, nothing else. Keep it under 200 characters.`;
 
+        case "takeaways":
+            return `Extract exactly 3 to 5 key takeaways from the following blog post. Each takeaway should be a single concise sentence (under 120 characters) that captures an actionable insight or important fact. Use Indian financial context where relevant.
+
+Return ONLY a JSON array of strings, nothing else. Example format:
+["Takeaway 1", "Takeaway 2", "Takeaway 3"]
+
+Content:
+---
+${existingContent}
+---`;
+
         default:
             return prompt;
     }
@@ -106,9 +117,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (!["generate", "improve", "summarize"].includes(action)) {
+        if (!["generate", "improve", "summarize", "takeaways"].includes(action)) {
             return NextResponse.json(
-                { error: "Invalid action. Use: generate, improve, or summarize" },
+                { error: "Invalid action. Use: generate, improve, summarize, or takeaways" },
                 { status: 400 }
             );
         }
@@ -126,8 +137,8 @@ export async function POST(request: NextRequest) {
                 },
             ],
             inferenceConfig: {
-                maxTokens: 4096,
-                temperature: action === "summarize" ? 0.3 : 0.7,
+                maxTokens: action === "takeaways" ? 512 : 4096,
+                temperature: (action === "summarize" || action === "takeaways") ? 0.3 : 0.7,
             },
         });
 
@@ -151,10 +162,24 @@ export async function POST(request: NextRequest) {
             excerpt = generatedContent.trim();
         }
 
+        let takeaways: string[] | null = null;
+        if (action === "takeaways") {
+            try {
+                const cleaned = generatedContent.replace(/```json?\n?/g, "").replace(/```/g, "").trim();
+                takeaways = JSON.parse(cleaned);
+            } catch {
+                takeaways = generatedContent
+                    .split("\n")
+                    .map(s => s.replace(/^[-*\d.)\s]+/, "").trim())
+                    .filter(s => s.length > 10);
+            }
+        }
+
         return NextResponse.json({
             content: generatedContent,
             title,
             excerpt,
+            takeaways,
             action,
             model: MODEL_ID,
         });
