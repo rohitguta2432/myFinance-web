@@ -56,6 +56,47 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={inter.variable}>
+            <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebSite",
+                            name: "MyFinancial",
+                            url: "https://myfinancial.in",
+                            description:
+                                "Free, privacy-first personal finance tool for Indians",
+                            potentialAction: {
+                                "@type": "SearchAction",
+                                target: "https://myfinancial.in/blog?q={search_term_string}",
+                                "query-input":
+                                    "required name=search_term_string",
+                            },
+                        }),
+                    }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "SoftwareApplication",
+                            name: "MyFinancial",
+                            url: "https://myfinancial.in",
+                            applicationCategory: "FinanceApplication",
+                            operatingSystem: "Web",
+                            offers: {
+                                "@type": "Offer",
+                                price: "0",
+                                priceCurrency: "INR",
+                            },
+                            description:
+                                "Free, privacy-first personal finance tool for Indians. Tax optimizer, insurance gap analysis, net worth calculator.",
+                        }),
+                    }}
+                />
+            </head>
             <body>
                 <a
                     href="#main-content"
