@@ -10,7 +10,6 @@ const productLinks = [
 
 const resourceLinks = [
     { href: "/blog", label: "Blog" },
-    { href: "/projects/sanatanapp", label: "SanatanApp" },
     { href: "/", label: "Calculators" },
 ];
 
