@@ -17,18 +17,13 @@ export function MobileStickyCTA() {
 
     return (
         <div
-            className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-md border-t border-border px-4 py-3 safe-area-bottom"
+            className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[rgba(8,14,18,0.95)] backdrop-blur-md border-t border-brd px-4 py-3 safe-area-bottom"
             role="complementary"
-            aria-label="Start assessment"
+            aria-label="Get started"
         >
-            <a
-                href="https://app.myfinancial.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full py-3.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors text-body"
-            >
-                Start Free Assessment →
-            </a>
+            <button className="btn-teal w-full justify-center text-sm py-3.5">
+                Get My Financial Analysis →
+            </button>
         </div>
     );
 }

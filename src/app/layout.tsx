@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyCTA } from "@/components/layout/mobile-sticky-cta";
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
     subsets: ["latin"],
-    variable: "--font-inter",
+    variable: "--font-display",
+    weight: ["400", "600", "700", "800"],
+});
+
+const newsreader = Newsreader({
+    subsets: ["latin"],
+    variable: "--font-serif",
+    weight: ["400", "600", "700"],
+    style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -55,7 +63,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={inter.variable}>
+        <html lang="en" className={`${bricolage.variable} ${newsreader.variable}`}>
             <head>
                 <script
                     type="application/ld+json"
@@ -100,7 +108,7 @@ export default function RootLayout({
             <body>
                 <a
                     href="#main-content"
-                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg"
+                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-teal focus:text-bg focus:rounded-lg"
                 >
                     Skip to main content
                 </a>

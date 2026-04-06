@@ -1,27 +1,40 @@
-import { HeroSection } from "@/components/sections/hero";
-import { WhyItMattersSection } from "@/components/sections/why-it-matters";
-import { OutcomesSection } from "@/components/sections/outcomes";
-import { HowItWorksSection } from "@/components/sections/how-it-works";
-import { PrivacyFirstSection } from "@/components/sections/privacy-first";
-import { PricingTableSection } from "@/components/sections/pricing-table";
-import { FDCalculatorSection } from "@/components/sections/fd-calculator";
-import { SampleInsightsSection } from "@/components/sections/sample-insights";
-import { FAQSection } from "@/components/sections/faq";
-import { FinalCTASection } from "@/components/sections/final-cta";
+import { HeroSection } from "@/components/landing/hero";
+import { DashboardPreview } from "@/components/landing/dashboard-preview";
+import { ProblemsSection } from "@/components/landing/problems";
+import { TaxSection } from "@/components/landing/tax";
+import { HowItWorksSection } from "@/components/landing/how-it-works";
+import { PricingSection } from "@/components/landing/pricing";
+import { TestimonialsSection } from "@/components/landing/testimonials";
+import { FounderSection } from "@/components/landing/founder";
+import { FinalCTASection } from "@/components/landing/final-cta";
+import { ScrollReveal } from "@/components/landing/scroll-reveal";
 
 export default function HomePage() {
     return (
         <>
             <HeroSection />
-            <WhyItMattersSection />
-            <OutcomesSection />
+            <ScrollReveal>
+                <DashboardPreview />
+            </ScrollReveal>
+            <ScrollReveal>
+                <ProblemsSection />
+            </ScrollReveal>
+            <ScrollReveal>
+                <TaxSection />
+            </ScrollReveal>
             <HowItWorksSection />
-            <PrivacyFirstSection />
-            <PricingTableSection />
-            <FDCalculatorSection />
-            <SampleInsightsSection />
-            <FAQSection />
-            <FinalCTASection />
+            <ScrollReveal>
+                <PricingSection />
+            </ScrollReveal>
+            <ScrollReveal>
+                <TestimonialsSection />
+            </ScrollReveal>
+            <ScrollReveal>
+                <FounderSection />
+            </ScrollReveal>
+            <ScrollReveal>
+                <FinalCTASection />
+            </ScrollReveal>
         </>
     );
 }
