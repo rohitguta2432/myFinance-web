@@ -28,9 +28,11 @@ export function Navbar() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 height: 64,
-                background: "rgba(8,14,18,0.8)",
-                backdropFilter: "blur(24px)",
-                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                background: "rgba(8,14,18,0.75)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                boxShadow: "0 1px 12px rgba(0,0,0,0.4), 0 4px 24px rgba(0,0,0,0.2), inset 0 -1px 0 rgba(255,255,255,0.03)",
             }}
         >
             {/* Logo */}
