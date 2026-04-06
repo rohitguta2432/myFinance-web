@@ -25,10 +25,10 @@ export function TestimonialsSection() {
                             <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(45,212,191,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "#2DD4BF", fontSize: 11 }}>{t.initials}</div>
                             <div>
                                 <div style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700 }}>{t.name}</div>
-                                <div style={{ fontSize: 11, color: "#64748B" }}>{t.role}</div>
+                                <div style={{ fontSize: 11, color: "#94A3B8" }}>{t.role}</div>
                             </div>
                         </div>
-                        <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.65, fontStyle: "italic", margin: 0 }}>{t.text}</p>
+                        <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.65, fontStyle: "italic", margin: 0 }}>{t.text}</p>
                         <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 700, color: "#2DD4BF", background: "rgba(45,212,191,0.06)", padding: "4px 10px", borderRadius: 6 }}>{t.result}</div>
                     </div>
                 ))}

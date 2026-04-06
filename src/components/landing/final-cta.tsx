@@ -7,7 +7,7 @@ export function FinalCTASection() {
                 <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", maxWidth: 700, margin: "0 auto 20px" }}>
                     The most expensive thing is <span className="text-gradient">waiting to find out.</span>
                 </h2>
-                <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 440, margin: "0 auto 36px", fontStyle: "italic", textAlign: "center" }}>
+                <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#94A3B8", lineHeight: 1.75, maxWidth: 440, margin: "0 auto 36px", fontStyle: "italic", textAlign: "center" }}>
                     ₹999. One form. Instant dashboard. The clearest picture you&apos;ve ever had.
                 </p>
 

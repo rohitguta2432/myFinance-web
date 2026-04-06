@@ -14,7 +14,7 @@ export function ProblemsSection() {
                     Investing ≠ Financial Health.<br />
                     Most earners <span className="text-gradient">confuse the two.</span>
                 </h2>
-                <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 520, fontStyle: "italic" }}>
+                <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#94A3B8", lineHeight: 1.75, maxWidth: 520, fontStyle: "italic" }}>
                     Control is not clarity — that gap costs you silently every month.
                 </p>
 
@@ -25,7 +25,7 @@ export function ProblemsSection() {
                                 {p.icon}
                             </div>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 700, marginBottom: 6, letterSpacing: "-0.01em" }}>{p.title}</div>
-                            <div style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6 }}>{p.desc}</div>
+                            <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6 }}>{p.desc}</div>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 800, color: "#FB923C", marginTop: 12, letterSpacing: "-0.5px" }}>{p.val}</div>
                         </div>
                     ))}

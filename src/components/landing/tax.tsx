@@ -25,7 +25,7 @@ export function TaxSection() {
                         <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
                             2026 rules changed. Most employees <span className="text-gradient">don&apos;t know yet.</span>
                         </h2>
-                        <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#64748B", lineHeight: 1.75, maxWidth: 520, fontStyle: "italic", marginBottom: 16 }}>
+                        <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#94A3B8", lineHeight: 1.75, maxWidth: 520, fontStyle: "italic", marginBottom: 16 }}>
                             Significantly raised allowances. Most haven&apos;t acted.
                         </p>
 
@@ -35,7 +35,7 @@ export function TaxSection() {
                                     <div style={{ width: 36, height: 36, borderRadius: 8, background: "#1A242F", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{r.icon}</div>
                                     <div>
                                         <b style={{ fontFamily: "var(--font-display)", display: "block", fontSize: 13, color: "#F0F4F8" }}>{r.title}</b>
-                                        <span style={{ fontSize: 12, color: "#64748B" }}>{r.sub}</span>
+                                        <span style={{ fontSize: 12, color: "#94A3B8" }}>{r.sub}</span>
                                     </div>
                                 </div>
                             ))}

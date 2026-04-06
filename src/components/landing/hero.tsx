@@ -61,7 +61,7 @@ export function HeroSection() {
                         marginBottom: 28,
                         background: "rgba(255,255,255,0.03)",
                         border: "1px solid rgba(255,255,255,0.05)",
-                        color: "#64748B",
+                        color: "#94A3B8",
                         animation: "fade-up 0.8s 0.2s both",
                     }}
                 >
@@ -115,7 +115,7 @@ export function HeroSection() {
                     style={{
                         fontFamily: "var(--font-serif)",
                         fontSize: 18,
-                        color: "#64748B",
+                        color: "#94A3B8",
                         maxWidth: 520,
                         margin: "0 auto 36px",
                         lineHeight: 1.75,
@@ -214,7 +214,7 @@ export function HeroSection() {
                                 style={{
                                     fontFamily: "var(--font-display)",
                                     fontSize: 10,
-                                    color: "#64748B",
+                                    color: "#94A3B8",
                                     marginTop: 2,
                                     letterSpacing: "0.06em",
                                     textTransform: "uppercase",

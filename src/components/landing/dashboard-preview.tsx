@@ -62,7 +62,7 @@ export function DashboardPreview() {
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F57" }} />
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FFBD2E" }} />
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28CA42" }} />
-                    <div style={{ flex: 1, textAlign: "center", fontFamily: "var(--font-display)", fontSize: 11, color: "#64748B" }}>
+                    <div style={{ flex: 1, textAlign: "center", fontFamily: "var(--font-display)", fontSize: 11, color: "#94A3B8" }}>
                         app.myfinancial.in/dashboard
                     </div>
                 </div>
@@ -79,7 +79,7 @@ export function DashboardPreview() {
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 700, letterSpacing: "-0.5px" }}>Financial Health Overview</div>
                             <div style={{ background: "linear-gradient(135deg, rgba(45,212,191,0.06), rgba(245,200,66,0.06))", border: "1px solid rgba(45,212,191,0.1)", borderRadius: 10, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10 }}>
                                 <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 800, lineHeight: 1 }}>58</div>
-                                <div style={{ fontFamily: "var(--font-display)", fontSize: 9, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em" }}>Health<br />Score</div>
+                                <div style={{ fontFamily: "var(--font-display)", fontSize: 9, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Health<br />Score</div>
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@ export function DashboardPreview() {
                             {bars.map((bar) => (
                                 <div key={bar.label} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-display)", fontSize: 11 }}>
-                                        <span style={{ color: "#64748B" }}>{bar.label}</span>
+                                        <span style={{ color: "#94A3B8" }}>{bar.label}</span>
                                         <span style={{ fontWeight: 600, color: bar.color }}>{bar.score}</span>
                                     </div>
                                     <div style={{ height: 5, background: "#334155", borderRadius: 4, overflow: "hidden" }}>
@@ -102,7 +102,7 @@ export function DashboardPreview() {
                                 <div key={ins.title} style={{ background: "#121A22", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 8, padding: 10 }}>
                                     <div style={{ fontSize: 14, marginBottom: 4 }}>{ins.icon}</div>
                                     <div style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 600, marginBottom: 1 }}>{ins.title}</div>
-                                    <div style={{ fontSize: 10, color: "#64748B", lineHeight: 1.3 }}>{ins.desc}</div>
+                                    <div style={{ fontSize: 10, color: "#94A3B8", lineHeight: 1.3 }}>{ins.desc}</div>
                                     <div style={{ fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 800, color: "#F87171", marginTop: 3 }}>{ins.val}</div>
                                 </div>
                             ))}

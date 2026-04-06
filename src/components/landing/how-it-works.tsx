@@ -45,7 +45,7 @@ export function HowItWorksSection() {
                                     {s.badge}
                                 </div>
                                 <h4 style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 700, marginBottom: 6, letterSpacing: "-0.3px" }}>{s.title}</h4>
-                                <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
+                                <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
                             </div>
                         ))}
                     </div>

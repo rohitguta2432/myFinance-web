@@ -1,6 +1,6 @@
 const plans = [
     {
-        badge: "Free", badgeBg: "#121A22", badgeColor: "#64748B",
+        badge: "Free", badgeBg: "#121A22", badgeColor: "#94A3B8",
         name: "Essentials", tagline: "Blind spots revealed", price: "₹0", cycle: "No credit card",
         features: [
             { text: "Basic health score", ok: true }, { text: "Key problems", ok: true },
@@ -55,9 +55,9 @@ export function PricingSection() {
                         <div key={p.name} className={p.popular ? "plan-card popular" : "plan-card"}>
                             <span style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 6, marginBottom: 14, width: "fit-content", background: p.badgeBg, color: p.badgeColor }}>{p.badge}</span>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 2 }}>{p.name}</div>
-                            <div style={{ fontSize: 12, color: "#64748B", marginBottom: 16 }}>{p.tagline}</div>
+                            <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 16 }}>{p.tagline}</div>
                             <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 38, fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-1.5px" }}>{p.price}</div>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#64748B", marginBottom: 20 }}>{p.cycle}</div>
+                            <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#94A3B8", marginBottom: 20 }}>{p.cycle}</div>
 
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
                                 {p.features.map((f) => (
