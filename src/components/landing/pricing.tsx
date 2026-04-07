@@ -31,7 +31,7 @@ const plans = [
     },
     {
         badge: "Most Popular", badgeBg: "linear-gradient(135deg, #2DD4BF, #F5C842)", badgeColor: "#080E12",
-        name: "Advisory", tagline: "Guidance + portfolio correction roadmap", price: "₹2,999", cycle: "One-time engagement",
+        name: "Advisory", tagline: "Guidance", price: "₹2,999", cycle: "One-time engagement",
         features: [
             { text: "Everything in Comprehensive", ok: true },
             { text: "60-min 1-on-1 advisor session", ok: true },
@@ -77,14 +77,14 @@ export function PricingSection() {
                         <div key={p.name} className={p.popular ? "plan-card popular" : "plan-card"}>
                             <span style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 6, marginBottom: 14, width: "fit-content", background: p.badgeBg, color: p.badgeColor }}>{p.badge}</span>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 2 }}>{p.name}</div>
-                            <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 16 }}>{p.tagline}</div>
+                            <div style={{ fontSize: 12, color: "#CBD5E1", marginBottom: 16 }}>{p.tagline}</div>
                             <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 38, fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-1.5px" }}>{p.price}</div>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#94A3B8", marginBottom: 20 }}>{p.cycle}</div>
+                            <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#CBD5E1", marginBottom: 20 }}>{p.cycle}</div>
 
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
                                 {p.features.map((f) => (
-                                    <li key={f.text} style={{ fontSize: 12, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#CBD5E1" : "#334155" }}>
-                                        <span style={{ color: f.ok ? "#2DD4BF" : "#334155", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
+                                    <li key={f.text} style={{ fontSize: 12, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#E2E8F0" : "#64748B" }}>
+                                        <span style={{ color: f.ok ? "#2DD4BF" : "#64748B", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
                                         {f.text}
                                     </li>
                                 ))}
