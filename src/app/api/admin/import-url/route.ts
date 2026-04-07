@@ -71,13 +71,22 @@ export async function POST(request: NextRequest) {
         // Extract main content — try multiple selectors
         let contentHtml = "";
         const contentSelectors = [
-            "article",
-            '[role="main"]',
+            ".blog-detail-content",
+            ".blog-content",
             ".post-content",
             ".article-content",
             ".entry-content",
             ".content-body",
             ".story-body",
+            ".single-content",
+            ".post-body",
+            ".article-body",
+            ".blog-body",
+            ".blog-post-content",
+            ".td-post-content",
+            ".post__content",
+            '[role="main"]',
+            "article",
             "main",
         ];
 
