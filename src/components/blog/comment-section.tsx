@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/lib/supabase";
 import type { Comment } from "@/lib/types";
 import { MessageSquare, ThumbsUp, Reply, Shield } from "lucide-react";
 
@@ -16,19 +15,15 @@ export function CommentSection({ postId }: { postId: string }) {
     const [submitting, setSubmitting] = useState(false);
 
     const fetchComments = useCallback(async () => {
-        const { data } = await supabase
-            .from("comments")
-            .select("*")
-            .eq("post_id", postId)
-            .order("created_at", { ascending: true });
-
-        if (data) {
+        const res = await fetch(`/api/blog/comments?post_id=${postId}`);
+        if (res.ok) {
+            const data = await res.json();
             // Build threaded structure
-            const topLevel = data.filter((c) => !c.parent_id);
-            const replies = data.filter((c) => c.parent_id);
-            const threaded = topLevel.map((c) => ({
+            const topLevel = data.filter((c: Comment) => !c.parent_id);
+            const replies = data.filter((c: Comment) => c.parent_id);
+            const threaded = topLevel.map((c: Comment) => ({
                 ...c,
-                replies: replies.filter((r) => r.parent_id === c.id),
+                replies: replies.filter((r: Comment) => r.parent_id === c.id),
             }));
             setComments(threaded);
         }
@@ -44,12 +39,16 @@ export function CommentSection({ postId }: { postId: string }) {
         if (!name.trim() || !content.trim()) return;
         setSubmitting(true);
 
-        await supabase.from("comments").insert({
-            post_id: postId,
-            author_name: name.trim(),
-            author_email: email.trim() || null,
-            content: content.trim(),
-            is_admin: false,
+        await fetch("/api/blog/comments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                post_id: postId,
+                author_name: name.trim(),
+                author_email: email.trim() || null,
+                content: content.trim(),
+                is_admin: false,
+            }),
         });
 
         setContent("");
@@ -61,13 +60,17 @@ export function CommentSection({ postId }: { postId: string }) {
         if (!name.trim() || !replyContent.trim()) return;
         setSubmitting(true);
 
-        await supabase.from("comments").insert({
-            post_id: postId,
-            parent_id: parentId,
-            author_name: name.trim(),
-            author_email: email.trim() || null,
-            content: replyContent.trim(),
-            is_admin: false,
+        await fetch("/api/blog/comments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                post_id: postId,
+                parent_id: parentId,
+                author_name: name.trim(),
+                author_email: email.trim() || null,
+                content: replyContent.trim(),
+                is_admin: false,
+            }),
         });
 
         setReplyContent("");

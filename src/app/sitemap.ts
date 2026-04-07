@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { docClient, TABLES } from "@/lib/dynamodb";
+import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = "https://myfinancial.in";
@@ -45,28 +46,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Dynamically add published blog post slugs
     try {
-        const supabase = createClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-        );
+        const result = await docClient.send(new QueryCommand({
+            TableName: TABLES.POSTS,
+            IndexName: "status-published_at-index",
+            KeyConditionExpression: "#s = :published",
+            ExpressionAttributeNames: { "#s": "status" },
+            ExpressionAttributeValues: { ":published": "published" },
+        }));
 
-        const { data: posts } = await supabase
-            .from("blog_posts")
-            .select("slug, updated_at")
-            .eq("status", "published")
-            .order("published_at", { ascending: false });
-
-        if (posts) {
-            const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+        if (result.Items) {
+            const blogRoutes: MetadataRoute.Sitemap = result.Items.map((post) => ({
                 url: `${baseUrl}/blog/${post.slug}`,
-                lastModified: new Date(post.updated_at),
+                lastModified: new Date(post.updated_at || post.published_at),
                 changeFrequency: "weekly" as const,
                 priority: 0.7,
             }));
             return [...staticRoutes, ...blogRoutes];
         }
     } catch {
-        // If Supabase is unavailable, return static routes only
+        // If DynamoDB is unavailable, return static routes only
     }
 
     return staticRoutes;

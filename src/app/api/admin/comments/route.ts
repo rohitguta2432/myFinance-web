@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { isAuthenticated } from "@/lib/admin-auth";
-
-function getAdminClient() {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-    return createClient(url, serviceKey || anonKey);
-}
+import { docClient, TABLES } from "@/lib/dynamodb";
+import { ScanCommand, PutCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import crypto from "crypto";
 
 // GET — List all comments (for moderation)
 export async function GET(request: NextRequest) {
@@ -15,14 +10,21 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const supabase = getAdminClient();
-    const { data, error } = await supabase
-        .from("comments")
-        .select("*, blog_posts(title, slug)")
-        .order("created_at", { ascending: false });
+    try {
+        const result = await docClient.send(new ScanCommand({
+            TableName: TABLES.COMMENTS,
+        }));
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data);
+        // Sort by created_at descending
+        const comments = (result.Items || []).sort((a, b) =>
+            (b.created_at || "").localeCompare(a.created_at || "")
+        );
+
+        return NextResponse.json(comments);
+    } catch (error) {
+        console.error("Admin comments GET error:", error);
+        return NextResponse.json({ error: "Failed to fetch comments" }, { status: 500 });
+    }
 }
 
 // POST — Admin reply to a comment
@@ -31,23 +33,30 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const supabase = getAdminClient();
+    try {
+        const body = await request.json();
 
-    const { data, error } = await supabase
-        .from("comments")
-        .insert({
+        const comment = {
             post_id: body.post_id,
+            id: crypto.randomUUID(),
             parent_id: body.parent_id || null,
             author_name: body.author_name || "MyFinancial",
             content: body.content,
             is_admin: true,
-        })
-        .select()
-        .single();
+            likes: 0,
+            created_at: new Date().toISOString(),
+        };
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data, { status: 201 });
+        await docClient.send(new PutCommand({
+            TableName: TABLES.COMMENTS,
+            Item: comment,
+        }));
+
+        return NextResponse.json(comment, { status: 201 });
+    } catch (error) {
+        console.error("Admin comments POST error:", error);
+        return NextResponse.json({ error: "Failed to add comment" }, { status: 500 });
+    }
 }
 
 // DELETE — Delete a comment
@@ -57,15 +66,22 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
+    const postId = searchParams.get("post_id");
     const id = searchParams.get("id");
 
-    if (!id) {
-        return NextResponse.json({ error: "Comment ID required" }, { status: 400 });
+    if (!postId || !id) {
+        return NextResponse.json({ error: "post_id and id are required" }, { status: 400 });
     }
 
-    const supabase = getAdminClient();
-    const { error } = await supabase.from("comments").delete().eq("id", id);
+    try {
+        await docClient.send(new DeleteCommand({
+            TableName: TABLES.COMMENTS,
+            Key: { post_id: postId, id },
+        }));
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true });
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Admin comments DELETE error:", error);
+        return NextResponse.json({ error: "Failed to delete comment" }, { status: 500 });
+    }
 }

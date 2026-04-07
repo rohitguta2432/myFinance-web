@@ -85,15 +85,15 @@ export default function AdminPage() {
         if (authenticated && activeTab === "comments") fetchComments();
     }, [authenticated, activeTab]);
 
-    const handleDeletePost = async (id: string) => {
+    const handleDeletePost = async (slug: string) => {
         if (!confirm("Are you sure you want to delete this post?")) return;
-        await fetch(`/api/admin/posts?id=${id}`, { method: "DELETE" });
+        await fetch(`/api/admin/posts?slug=${slug}`, { method: "DELETE" });
         fetchPosts();
     };
 
-    const handleDeleteComment = async (id: string) => {
+    const handleDeleteComment = async (id: string, postId: string) => {
         if (!confirm("Delete this comment?")) return;
-        await fetch(`/api/admin/comments?id=${id}`, { method: "DELETE" });
+        await fetch(`/api/admin/comments?id=${id}&post_id=${postId}`, { method: "DELETE" });
         fetchComments();
     };
 
@@ -403,7 +403,7 @@ export default function AdminPage() {
                                                         <Edit3 size={14} />
                                                     </Link>
                                                     <button
-                                                        onClick={() => handleDeletePost(post.id)}
+                                                        onClick={() => handleDeletePost(post.slug)}
                                                         style={{
                                                             padding: "6px 8px",
                                                             borderRadius: 6,
@@ -485,7 +485,7 @@ export default function AdminPage() {
                                             </p>
                                         </div>
                                         <button
-                                            onClick={() => handleDeleteComment(comment.id)}
+                                            onClick={() => handleDeleteComment(comment.id, comment.post_id)}
                                             style={{
                                                 padding: "6px 8px",
                                                 borderRadius: 6,

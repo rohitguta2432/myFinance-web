@@ -3,7 +3,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@/lib/types";
 import { CommentSection } from "@/components/blog/comment-section";
 import { ShareBar } from "@/components/blog/share-bar";
@@ -46,30 +45,19 @@ export default function BlogPostPage() {
 
     useEffect(() => {
         const fetchPost = async () => {
-            const { data } = await supabase
-                .from("blog_posts")
-                .select("*")
-                .eq("slug", slug)
-                .eq("status", "published")
-                .single();
-
-            if (data) {
+            const res = await fetch(`/api/blog/posts?slug=${slug}`);
+            if (res.ok) {
+                const data = await res.json();
                 setPost(data as BlogPost);
 
-                const { data: relatedData } = await supabase
-                    .from("blog_posts")
-                    .select("*")
-                    .eq("status", "published")
-                    .eq("category", data.category)
-                    .neq("id", data.id)
-                    .order("published_at", { ascending: false })
-                    .limit(3);
-
-                setRelated((relatedData as BlogPost[]) || []);
+                const relRes = await fetch(`/api/blog/posts?status=published&category=${encodeURIComponent(data.category)}&exclude=${data.id}&limit=3`);
+                if (relRes.ok) {
+                    const { posts } = await relRes.json();
+                    setRelated(posts || []);
+                }
             }
             setLoading(false);
         };
-
         fetchPost();
     }, [slug]);
 

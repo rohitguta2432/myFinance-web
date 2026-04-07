@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { isAuthenticated } from "@/lib/admin-auth";
-
-function getAdminClient() {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-    // Use service role key if available (bypasses RLS), otherwise anon key
-    return createClient(url, serviceKey || anonKey);
-}
+import { docClient, TABLES } from "@/lib/dynamodb";
+import { GetCommand, PutCommand, DeleteCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import crypto from "crypto";
 
 // GET — List all posts (drafts + published)
 export async function GET(request: NextRequest) {
@@ -16,14 +10,21 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const supabase = getAdminClient();
-    const { data, error } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .order("created_at", { ascending: false });
+    try {
+        const result = await docClient.send(new ScanCommand({
+            TableName: TABLES.POSTS,
+        }));
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data);
+        // Sort by created_at descending
+        const posts = (result.Items || []).sort((a, b) =>
+            (b.created_at || "").localeCompare(a.created_at || "")
+        );
+
+        return NextResponse.json(posts);
+    } catch (error) {
+        console.error("Admin posts GET error:", error);
+        return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
+    }
 }
 
 // POST — Create new post
@@ -32,32 +33,45 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const supabase = getAdminClient();
+    try {
+        const body = await request.json();
 
-    // Calculate reading time (~200 words per minute)
-    const wordCount = (body.content || "").split(/\s+/).length;
-    const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+        // Calculate reading time (~200 words per minute)
+        const wordCount = (body.content || "").split(/\s+/).length;
+        const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
-    const postData = {
-        title: body.title,
-        slug: body.slug,
-        excerpt: body.excerpt,
-        content: body.content,
-        cover_image: body.cover_image || null,
-        category: body.category || "General",
-        tags: body.tags || [],
-        author: body.author || "MyFinancial",
-        status: body.status || "draft",
-        reading_time: readingTime,
-        key_takeaways: body.key_takeaways || null,
-        published_at: body.status === "published" ? new Date().toISOString() : null,
-    };
+        const now = new Date().toISOString();
+        const id = crypto.randomUUID();
 
-    const { data, error } = await supabase.from("blog_posts").insert(postData).select().single();
+        const postData = {
+            PK: `POST#${body.slug}`,
+            id,
+            title: body.title,
+            slug: body.slug,
+            excerpt: body.excerpt,
+            content: body.content,
+            cover_image: body.cover_image || null,
+            category: body.category || "General",
+            tags: body.tags || [],
+            author: body.author || "MyFinancial",
+            status: body.status || "draft",
+            reading_time: readingTime,
+            key_takeaways: body.key_takeaways || null,
+            published_at: body.status === "published" ? now : null,
+            created_at: now,
+            updated_at: now,
+        };
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data, { status: 201 });
+        await docClient.send(new PutCommand({
+            TableName: TABLES.POSTS,
+            Item: postData,
+        }));
+
+        return NextResponse.json(postData, { status: 201 });
+    } catch (error) {
+        console.error("Admin posts POST error:", error);
+        return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
+    }
 }
 
 // PUT — Update post
@@ -66,46 +80,48 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const supabase = getAdminClient();
+    try {
+        const body = await request.json();
 
-    if (!body.id) {
-        return NextResponse.json({ error: "Post ID required" }, { status: 400 });
+        if (!body.id) {
+            return NextResponse.json({ error: "Post ID required" }, { status: 400 });
+        }
+
+        // Calculate reading time
+        const wordCount = (body.content || "").split(/\s+/).length;
+        const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+        const now = new Date().toISOString();
+
+        const updateData = {
+            PK: `POST#${body.slug}`,
+            id: body.id,
+            title: body.title,
+            slug: body.slug,
+            excerpt: body.excerpt,
+            content: body.content,
+            cover_image: body.cover_image || null,
+            category: body.category || "General",
+            tags: body.tags || [],
+            author: body.author || "MyFinancial",
+            status: body.status,
+            reading_time: readingTime,
+            key_takeaways: body.key_takeaways || null,
+            published_at: body.status === "published" && !body.published_at ? now : body.published_at || null,
+            created_at: body.created_at || now,
+            updated_at: now,
+        };
+
+        await docClient.send(new PutCommand({
+            TableName: TABLES.POSTS,
+            Item: updateData,
+        }));
+
+        return NextResponse.json(updateData);
+    } catch (error) {
+        console.error("Admin posts PUT error:", error);
+        return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
     }
-
-    // Calculate reading time
-    const wordCount = (body.content || "").split(/\s+/).length;
-    const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-
-    const updateData: Record<string, unknown> = {
-        title: body.title,
-        slug: body.slug,
-        excerpt: body.excerpt,
-        content: body.content,
-        cover_image: body.cover_image || null,
-        category: body.category || "General",
-        tags: body.tags || [],
-        author: body.author || "MyFinancial",
-        status: body.status,
-        reading_time: readingTime,
-        key_takeaways: body.key_takeaways || null,
-        updated_at: new Date().toISOString(),
-    };
-
-    // Set published_at when first published
-    if (body.status === "published" && !body.published_at) {
-        updateData.published_at = new Date().toISOString();
-    }
-
-    const { data, error } = await supabase
-        .from("blog_posts")
-        .update(updateData)
-        .eq("id", body.id)
-        .select()
-        .single();
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data);
 }
 
 // DELETE — Delete post
@@ -115,15 +131,21 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
+    const slug = searchParams.get("slug");
 
-    if (!id) {
-        return NextResponse.json({ error: "Post ID required" }, { status: 400 });
+    if (!slug) {
+        return NextResponse.json({ error: "Post slug required" }, { status: 400 });
     }
 
-    const supabase = getAdminClient();
-    const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+    try {
+        await docClient.send(new DeleteCommand({
+            TableName: TABLES.POSTS,
+            Key: { PK: `POST#${slug}` },
+        }));
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true });
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Admin posts DELETE error:", error);
+        return NextResponse.json({ error: "Failed to delete post" }, { status: 500 });
+    }
 }

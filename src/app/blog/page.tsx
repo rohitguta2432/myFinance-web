@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import type { BlogPost, BlogCategory } from "@/lib/types";
 import { BlogCard } from "@/components/blog/blog-card";
 import { CategoryFilter } from "@/components/blog/category-filter";
@@ -19,25 +18,20 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true);
-            let query = supabase
-                .from("blog_posts")
-                .select("*", { count: "exact" })
-                .eq("status", "published")
-                .order("published_at", { ascending: false });
+            const params = new URLSearchParams();
+            params.set("status", "published");
+            params.set("page", String(page));
+            params.set("limit", String(POSTS_PER_PAGE));
+            if (category !== "All") params.set("category", category);
 
-            if (category !== "All") {
-                query = query.eq("category", category);
+            const res = await fetch(`/api/blog/posts?${params}`);
+            if (res.ok) {
+                const { posts, total } = await res.json();
+                setPosts(posts || []);
+                setTotal(total || 0);
             }
-
-            const from = (page - 1) * POSTS_PER_PAGE;
-            query = query.range(from, from + POSTS_PER_PAGE - 1);
-
-            const { data, count } = await query;
-            setPosts((data as BlogPost[]) || []);
-            setTotal(count || 0);
             setLoading(false);
         };
-
         fetchPosts();
     }, [category, page]);
 
