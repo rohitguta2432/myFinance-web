@@ -756,10 +756,10 @@ function EditorForm() {
             setSlug(
                 title
                     .toLowerCase()
-                    .replace(/[^\\w\\s-]/g, "")
-                    .replace(/\\s+/g, "-")
+                    .replace(/[^\w\s-]/g, "")
+                    .replace(/\s+/g, "-")
                     .replace(/-+/g, "-")
-                    .trim()
+                    .replace(/^-|-$/g, "")
             );
         }
     }, [title, editId]);
