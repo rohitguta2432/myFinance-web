@@ -42,7 +42,7 @@ export function Navbar() {
                         width: 26,
                         height: 26,
                         borderRadius: 7,
-                        background: "linear-gradient(135deg, #2DD4BF, #F5C842)",
+                        background: "linear-gradient(135deg, #10B981, #F5C842)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -96,7 +96,7 @@ export function Navbar() {
                     rel="noopener noreferrer"
                     style={{
                         fontFamily: "var(--font-display)",
-                        background: "#2DD4BF",
+                        background: "#10B981",
                         color: "#080E12",
                         fontSize: 12,
                         fontWeight: 700,
@@ -162,7 +162,7 @@ export function Navbar() {
                             display: "block",
                             width: "100%",
                             marginTop: 12,
-                            background: "#2DD4BF",
+                            background: "#10B981",
                             color: "#080E12",
                             fontFamily: "var(--font-display)",
                             fontSize: 14,

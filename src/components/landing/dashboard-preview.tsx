@@ -8,7 +8,7 @@ const bars = [
     { label: "Protection", score: "8/20", pct: 40, color: "#F87171" },
     { label: "Wealth", score: "11/20", pct: 55, color: "#FB923C" },
     { label: "Debt", score: "9/20", pct: 45, color: "#FB923C" },
-    { label: "Retirement", score: "9/15", pct: 60, color: "#2DD4BF" },
+    { label: "Retirement", score: "9/15", pct: 60, color: "#10B981" },
     { label: "Survival", score: "21/25", pct: 84, color: "#F5C842" },
 ];
 
@@ -77,7 +77,7 @@ export function DashboardPreview() {
                     <div style={{ padding: 22, display: "flex", flexDirection: "column", gap: 18 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 700, letterSpacing: "-0.5px" }}>Financial Health Overview</div>
-                            <div style={{ background: "linear-gradient(135deg, rgba(45,212,191,0.06), rgba(245,200,66,0.06))", border: "1px solid rgba(45,212,191,0.1)", borderRadius: 10, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10 }}>
+                            <div style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.06), rgba(245,200,66,0.06))", border: "1px solid rgba(16,185,129,0.1)", borderRadius: 10, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10 }}>
                                 <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 800, lineHeight: 1 }}>58</div>
                                 <div style={{ fontFamily: "var(--font-display)", fontSize: 9, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Health<br />Score</div>
                             </div>

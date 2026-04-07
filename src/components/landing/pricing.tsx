@@ -14,7 +14,7 @@ const plans = [
         btnText: "Get Started Free", popular: false,
     },
     {
-        badge: "Starter", badgeBg: "rgba(45,212,191,0.06)", badgeColor: "#2DD4BF",
+        badge: "Starter", badgeBg: "rgba(16,185,129,0.06)", badgeColor: "#10B981",
         name: "Comprehensive", tagline: "Full financial picture, instant clarity", price: "₹999", cycle: "One-time · Interactive dashboard",
         features: [
             { text: "Complete financial health score (out of 100)", ok: true },
@@ -30,7 +30,7 @@ const plans = [
         btnText: "Get My Dashboard →", popular: false,
     },
     {
-        badge: "Most Popular", badgeBg: "linear-gradient(135deg, #2DD4BF, #F5C842)", badgeColor: "#080E12",
+        badge: "Most Popular", badgeBg: "linear-gradient(135deg, #10B981, #F5C842)", badgeColor: "#080E12",
         name: "Advisory", tagline: "Guidance", price: "₹2,999", cycle: "One-time engagement",
         features: [
             { text: "Everything in Comprehensive", ok: true },
@@ -84,7 +84,7 @@ export function PricingSection() {
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
                                 {p.features.map((f) => (
                                     <li key={f.text} style={{ fontSize: 12, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#E2E8F0" : "#64748B" }}>
-                                        <span style={{ color: f.ok ? "#2DD4BF" : "#64748B", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
+                                        <span style={{ color: f.ok ? "#10B981" : "#64748B", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
                                         {f.text}
                                     </li>
                                 ))}

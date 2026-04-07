@@ -49,7 +49,7 @@ export function TaxSection() {
                         <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <h4 style={{ fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, margin: 0 }}>
                                 Illustrative Opportunity
-                                <span style={{ background: "rgba(45,212,191,0.06)", color: "#2DD4BF", fontFamily: "var(--font-display)", fontSize: 9, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 4 }}>New Rules</span>
+                                <span style={{ background: "rgba(16,185,129,0.06)", color: "#10B981", fontFamily: "var(--font-display)", fontSize: 9, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 4 }}>New Rules</span>
                             </h4>
                         </div>
                         <div style={{ padding: "6px 20px" }}>

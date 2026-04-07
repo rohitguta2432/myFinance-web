@@ -2,17 +2,17 @@
 
 /* ── Design Tokens (Teal + Gold Dark Premium) ─────────────── */
 @theme {
-  /* Colors — Teal + Gold Palette */
+  /* Colors — Emerald + Gold Palette */
   --color-bg: #080E12;
   --color-s1: #0C1319;
   --color-s2: #121A22;
   --color-s3: #1A242F;
   --color-brd: rgba(255, 255, 255, 0.05);
   --color-brd2: rgba(255, 255, 255, 0.1);
-  --color-teal: #2DD4BF;
-  --color-teal2: #5EEAD4;
-  --color-teal-dim: rgba(45, 212, 191, 0.06);
-  --color-teal-glow: rgba(45, 212, 191, 0.12);
+  --color-teal: #10B981;
+  --color-teal2: #34D399;
+  --color-teal-dim: rgba(16, 185, 129, 0.06);
+  --color-teal-glow: rgba(16, 185, 129, 0.12);
   --color-gold: #F5C842;
   --color-gold-dim: rgba(245, 200, 66, 0.06);
   --color-txt: #F0F4F8;
@@ -28,12 +28,12 @@
   --color-muted: #111827;
   --color-muted-foreground: #94A3B8;
   --color-border: #1E293B;
-  --color-accent: #2DD4BF;
-  --color-accent-dark: #14B8A6;
+  --color-accent: #10B981;
+  --color-accent-dark: #059669;
   --color-accent-foreground: #FFFFFF;
-  --color-accent-light: rgba(45, 212, 191, 0.15);
-  --color-accent-lighter: rgba(45, 212, 191, 0.08);
-  --color-accent-surface: rgba(45, 212, 191, 0.05);
+  --color-accent-light: rgba(16, 185, 129, 0.15);
+  --color-accent-lighter: rgba(16, 185, 129, 0.08);
+  --color-accent-surface: rgba(16, 185, 129, 0.05);
   --color-destructive: #EF4444;
   --color-card: rgba(12, 19, 25, 0.6);
   --color-card-hover: rgba(12, 19, 25, 0.8);
@@ -81,10 +81,10 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  --shadow-accent: 0 8px 24px -4px rgb(45 212 191 / 0.25);
+  --shadow-accent: 0 8px 24px -4px rgb(16 185 129 / 0.25);
   --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
   --shadow-card-hover: 0 10px 30px -5px rgb(0 0 0 / 0.5);
-  --shadow-glow: 0 0 40px -10px rgb(45 212 191 / 0.3);
+  --shadow-glow: 0 0 40px -10px rgb(16 185 129 / 0.3);
 }
 
 /* ── Global Resets ──────────────────────────────────────────── */
@@ -260,7 +260,7 @@ body::after {
 }
 
 .step-card.active {
-  border-color: rgba(45, 212, 191, 0.15);
+  border-color: rgba(16, 185, 129, 0.15);
   background: var(--color-teal-dim);
 }
 
@@ -282,7 +282,7 @@ body::after {
 }
 
 .plan-card.popular {
-  border-color: rgba(45, 212, 191, 0.2);
+  border-color: rgba(16, 185, 129, 0.2);
   background: var(--color-teal-dim);
 }
 
@@ -342,7 +342,7 @@ body::after {
 .btn-teal:hover {
   background: var(--color-teal2);
   transform: translateY(-1px);
-  box-shadow: 0 8px 28px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.15);
 }
 
 .btn-outline {
@@ -479,13 +479,13 @@ body::after {
 .badge-muted { background: var(--color-muted); color: var(--color-muted-foreground); border: 1px solid var(--color-border); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-radius: var(--radius-lg); transition: all 0.2s ease; cursor: pointer; border: none; font-size: var(--font-size-body); line-height: 1; }
 .btn-primary { background: var(--color-accent); color: white; padding: 16px 32px; box-shadow: var(--shadow-accent); }
-.btn-primary:hover { background: var(--color-accent-dark); box-shadow: 0 12px 28px -4px rgb(45 212 191 / 0.4); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--color-accent-dark); box-shadow: 0 12px 28px -4px rgb(16 185 129 / 0.4); transform: translateY(-1px); }
 .btn-primary-lg { background: var(--color-accent); color: white; padding: 20px 40px; font-size: var(--font-size-body-lg); box-shadow: var(--shadow-accent); border-radius: var(--radius-xl); }
-.btn-primary-lg:hover { background: var(--color-accent-dark); box-shadow: 0 16px 32px -4px rgb(45 212 191 / 0.45); transform: translateY(-1px); }
+.btn-primary-lg:hover { background: var(--color-accent-dark); box-shadow: 0 16px 32px -4px rgb(16 185 129 / 0.45); transform: translateY(-1px); }
 
 .section-padding { padding-top: var(--spacing-4xl); padding-bottom: var(--spacing-4xl); }
 .section-padding-lg { padding-top: var(--spacing-5xl); padding-bottom: var(--spacing-5xl); }
-.glow-accent { box-shadow: 0 0 30px -5px rgb(45 212 191 / 0.2); }
+.glow-accent { box-shadow: 0 0 30px -5px rgb(16 185 129 / 0.2); }
 .glow-orb { position: absolute; border-radius: 9999px; filter: blur(80px); pointer-events: none; }
 
 /* ── Responsive ─────────────────────────────────────────────── */

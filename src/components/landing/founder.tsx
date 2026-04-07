@@ -11,8 +11,8 @@ export function FounderSection() {
                 <div className="founder-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 48, alignItems: "center" }}>
                     {/* Visual */}
                     <div style={{ aspectRatio: "1", background: "linear-gradient(145deg, #121A22, #1A242F)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, position: "relative", overflow: "hidden" }}>
-                        <div style={{ position: "absolute", top: "-30%", left: "-30%", width: "60%", height: "60%", background: "radial-gradient(circle, rgba(45,212,191,0.06), transparent)", pointerEvents: "none" }} />
-                        <div className="text-gradient" style={{ width: 72, height: 72, borderRadius: 14, background: "rgba(45,212,191,0.06)", border: "1px solid rgba(45,212,191,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 800 }}>NP</div>
+                        <div style={{ position: "absolute", top: "-30%", left: "-30%", width: "60%", height: "60%", background: "radial-gradient(circle, rgba(16,185,129,0.06), transparent)", pointerEvents: "none" }} />
+                        <div className="text-gradient" style={{ width: 72, height: 72, borderRadius: 14, background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 800 }}>NP</div>
                         <div style={{ textAlign: "center", fontSize: 12, color: "#CBD5E1" }}>
                             <strong style={{ display: "block", fontFamily: "var(--font-display)", color: "#F0F4F8", fontSize: 14, marginBottom: 2 }}>Nithin Pushkaran</strong>
                             Founder · NISM Certified
@@ -25,7 +25,7 @@ export function FounderSection() {
                         <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
                             Built on One Belief: Every Earning Professional Deserves a <span className="text-gradient">Clear, Honest Picture.</span>
                         </h2>
-                        <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontStyle: "italic", lineHeight: 1.5, color: "#CBD5E1", margin: "20px 0", paddingLeft: 20, borderLeft: "2px solid #2DD4BF" }}>
+                        <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontStyle: "italic", lineHeight: 1.5, color: "#CBD5E1", margin: "20px 0", paddingLeft: 20, borderLeft: "2px solid #10B981" }}>
                             &ldquo;Most people aren&apos;t bad with money. They just never had a system that showed them the full picture — without an agenda behind it.&rdquo;
                         </blockquote>
                         <p style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 1.8, marginBottom: 10 }}>Nithin Pushkaran built MyFinancial after observing a consistent gap in the Indian financial landscape — qualified professionals earning well, yet making financial decisions in the dark. No holistic view. No structured diagnosis. Just fragmented advice from people with products to sell.</p>

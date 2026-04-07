@@ -19,7 +19,7 @@ export function HeroSection() {
                         position: "absolute",
                         width: "45vw",
                         height: "45vw",
-                        background: "#2DD4BF",
+                        background: "#10B981",
                         top: "-5%",
                         left: "15%",
                         opacity: 0.05,
@@ -67,7 +67,7 @@ export function HeroSection() {
                 >
                     <span
                         style={{
-                            background: "linear-gradient(135deg, #2DD4BF, #F5C842)",
+                            background: "linear-gradient(135deg, #10B981, #F5C842)",
                             color: "#080E12",
                             fontSize: 10,
                             fontWeight: 700,
@@ -165,7 +165,7 @@ export function HeroSection() {
                     {["₹999 one-time", "Instant dashboard", "100% confidential"].map((t) => (
                         <span key={t} style={{ display: "flex", alignItems: "center", gap: 4 }}>
                             <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                <path d="M13.5 4.5l-7 7L3 8" stroke="#2DD4BF" strokeWidth="1.5" strokeLinecap="round" />
+                                <path d="M13.5 4.5l-7 7L3 8" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" />
                             </svg>
                             {t}
                         </span>

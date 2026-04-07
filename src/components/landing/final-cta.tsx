@@ -1,7 +1,7 @@
 export function FinalCTASection() {
     return (
         <section style={{ textAlign: "center", padding: "clamp(100px, 14vw, 180px) 0", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", bottom: -100, left: "50%", transform: "translateX(-50%)", width: 500, height: 500, background: "radial-gradient(circle, rgba(45,212,191,0.06), transparent 60%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -100, left: "50%", transform: "translateX(-50%)", width: 500, height: 500, background: "radial-gradient(circle, rgba(16,185,129,0.06), transparent 60%)", pointerEvents: "none" }} />
 
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem", position: "relative" }}>
                 <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", maxWidth: 700, margin: "0 auto 20px" }}>
