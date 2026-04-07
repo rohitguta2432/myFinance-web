@@ -23,12 +23,13 @@ export function FounderSection() {
                     <div>
                         <div className="section-tag">The founder</div>
                         <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
-                            Every professional deserves a <span className="text-gradient">clear, honest picture.</span>
+                            Built on One Belief: Every Earning Professional Deserves a <span className="text-gradient">Clear, Honest Picture.</span>
                         </h2>
                         <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontStyle: "italic", lineHeight: 1.5, color: "#CBD5E1", margin: "20px 0", paddingLeft: 20, borderLeft: "2px solid #2DD4BF" }}>
-                            &ldquo;Most people aren&apos;t bad with money. They just never had a system that showed the full picture — without an agenda.&rdquo;
+                            &ldquo;Most people aren&apos;t bad with money. They just never had a system that showed them the full picture — without an agenda behind it.&rdquo;
                         </blockquote>
-                        <p style={{ color: "#94A3B8", fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>Built for professionals earning well yet deciding in the dark.</p>
+                        <p style={{ color: "#94A3B8", fontSize: 14, lineHeight: 1.8, marginBottom: 10 }}>Nithin Pushkaran built MyFinancial after observing a consistent gap in the Indian financial landscape — qualified professionals earning well, yet making financial decisions in the dark. No holistic view. No structured diagnosis. Just fragmented advice from people with products to sell.</p>
+                        <p style={{ color: "#94A3B8", fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>MyFinancial is his answer: a structured, transparent, and conflict-free way to understand where you truly stand. The problem was never the individual — it was the advice ecosystem around them. Fragmented. Incentive-driven. Incapable of providing a full, honest view of one&apos;s financial health.</p>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 20 }}>
                             {creds.map((c) => (
