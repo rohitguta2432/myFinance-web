@@ -6,7 +6,7 @@ import { Link2, Twitter, Linkedin, Heart, Check } from "lucide-react";
 export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; title: string; likes: number }) {
     const [copied, setCopied] = useState(false);
     const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(initialLikes);
+    const [likes, setLikes] = useState(initialLikes || 0);
 
     const url = typeof window !== "undefined" ? `${window.location.origin}/blog/${slug}` : "";
 

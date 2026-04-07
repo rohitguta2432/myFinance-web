@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
             author: body.author || "MyFinancial",
             status: body.status || "draft",
             reading_time: readingTime,
+            likes: 0,
             key_takeaways: body.key_takeaways || null,
             published_at: body.status === "published" ? now : null,
             created_at: now,
