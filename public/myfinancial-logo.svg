@@ -1,5 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
-  <rect width="400" height="120" rx="8" fill="#1a1a1a"/>
   <text x="200" y="68" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif">
     <tspan fill="#888888" font-size="36" font-style="italic" font-weight="400">my</tspan><tspan fill="#ffffff" font-size="42" font-weight="800">financial</tspan>
   </text>

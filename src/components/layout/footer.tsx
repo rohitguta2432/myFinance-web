@@ -14,9 +14,8 @@ export function Footer() {
             }}
         >
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 4 }}>
-                    <img src="/myfinancial-icon.svg" alt="MyFinancial" width={22} height={22} style={{ borderRadius: 4 }} />
-                    <strong style={{ color: "#F0F4F8", fontSize: 13, letterSpacing: "-0.3px" }}>MyFinancial</strong>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 4 }}>
+                    <img src="/myfinancial-logo.svg" alt="MyFinancial" style={{ height: 32, width: "auto" }} />
                     <span style={{ color: "rgba(255,255,255,0.15)" }}>—</span>
                     <span>India&apos;s Financial Diagnostic Platform</span>
                 </div>

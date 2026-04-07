@@ -36,22 +36,11 @@ export function Navbar() {
             }}
         >
             {/* Logo */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-                {/* Mini icon — always visible */}
-                <img
-                    src="/myfinancial-icon.svg"
-                    alt="MyFinancial"
-                    width={30}
-                    height={30}
-                    style={{ borderRadius: 6 }}
-                />
-                {/* Full logo text — hidden on mobile */}
+            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                 <img
                     src="/myfinancial-logo.svg"
                     alt="MyFinancial"
-                    height={28}
-                    className="hidden sm:block"
-                    style={{ height: 28, width: "auto" }}
+                    style={{ height: 40, width: "auto" }}
                 />
             </Link>
 
