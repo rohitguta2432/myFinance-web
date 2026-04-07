@@ -81,16 +81,21 @@ export async function POST(request: NextRequest) {
             "main",
         ];
 
+        // Pick the selector with the MOST content, not just the first match
+        let bestLength = 0;
         for (const sel of contentSelectors) {
-            const el = $(sel).first();
-            if (el.length && el.text().trim().length > 200) {
-                contentHtml = el.html() || "";
-                break;
-            }
+            $(sel).each((_, element) => {
+                const el = $(element);
+                const textLen = el.text().trim().length;
+                if (textLen > bestLength) {
+                    bestLength = textLen;
+                    contentHtml = el.html() || "";
+                }
+            });
         }
 
         // Fallback: use body
-        if (!contentHtml) {
+        if (bestLength < 200) {
             contentHtml = $("body").html() || "";
         }
 
@@ -129,6 +134,7 @@ function htmlToMarkdown(html: string): string {
 
     const WRAPPER_TAGS = new Set([
         "div", "section", "article", "main", "span", "header", "footer", "aside",
+        "details", "summary", "dl", "dd", "dt", "fieldset", "address", "hgroup",
     ]);
 
     function processElement(el: cheerio.Element) {
@@ -222,8 +228,8 @@ function htmlToMarkdown(html: string): string {
                     $el.children().each((_, child) => {
                         processElement(child);
                     });
-                } else if (text.length > 20) {
-                    // Unknown tag with substantial text — treat as paragraph
+                } else if (text.length > 10) {
+                    // Unknown tag with text — treat as paragraph
                     lines.push(text + "\n");
                 }
                 break;
