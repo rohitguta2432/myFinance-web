@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ posts: paginated, total });
     } catch (error) {
         console.error("Blog posts API error:", error);
-        return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
+        const message = error instanceof Error ? error.message : "Failed to fetch posts";
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
