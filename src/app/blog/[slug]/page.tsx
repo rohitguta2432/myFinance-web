@@ -76,11 +76,15 @@ export default function BlogPostPage() {
         const renderer = new marked.Renderer();
 
         renderer.heading = ({ text, depth }: { text: string; depth: number }) => {
-            const id = text
+            // Strip markdown bold for the ID
+            const cleanText = text.replace(/\*\*/g, "");
+            const id = cleanText
                 .toLowerCase()
                 .replace(/[^\w]+/g, "-")
                 .replace(/(^-|-$)/g, "");
-            return `<h${depth} id="${id}">${text}</h${depth}>`;
+            // Parse inline markdown (bold, italic, links) in the heading text
+            const parsed = marked.parseInline(text) as string;
+            return `<h${depth} id="${id}">${parsed}</h${depth}>`;
         };
 
         marked.setOptions({ renderer });
