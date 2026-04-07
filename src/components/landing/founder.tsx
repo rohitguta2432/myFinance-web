@@ -10,11 +10,16 @@ export function FounderSection() {
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div className="founder-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 48, alignItems: "center" }}>
                     {/* Visual */}
-                    <div style={{ aspectRatio: "1", background: "linear-gradient(145deg, #121A22, #1A242F)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, position: "relative", overflow: "hidden" }}>
-                        <div style={{ position: "absolute", top: "-30%", left: "-30%", width: "60%", height: "60%", background: "radial-gradient(circle, rgba(16,185,129,0.06), transparent)", pointerEvents: "none" }} />
-                        <div className="text-gradient" style={{ width: 72, height: 72, borderRadius: 14, background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 800 }}>NP</div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+                        <div style={{ width: 220, height: 220, borderRadius: 20, overflow: "hidden", border: "2px solid rgba(16,185,129,0.2)", boxShadow: "0 8px 32px rgba(0,0,0,0.4)" }}>
+                            <img
+                                src="/nitin.jpeg"
+                                alt="Nithin Pushkaran"
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+                        </div>
                         <div style={{ textAlign: "center", fontSize: 12, color: "#CBD5E1" }}>
-                            <strong style={{ display: "block", fontFamily: "var(--font-display)", color: "#F0F4F8", fontSize: 14, marginBottom: 2 }}>Nithin Pushkaran</strong>
+                            <strong style={{ display: "block", fontFamily: "var(--font-display)", color: "#F0F4F8", fontSize: 16, marginBottom: 2 }}>Nithin Pushkaran</strong>
                             Founder · NISM Certified
                         </div>
                     </div>
