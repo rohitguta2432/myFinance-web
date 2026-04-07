@@ -1,9 +1,3 @@
-const creds = [
-    { icon: "🎓", title: "NISM Certified — X-A & X-B", sub: ", SEBI-mandated." },
-    { icon: "📋", title: "SEBI RIA In Progress", sub: "" },
-    { icon: "📐", title: "5-Dimension Health Framework", sub: "" },
-];
-
 export function FounderSection() {
     return (
         <section id="founder" style={{ padding: "clamp(80px, 10vw, 120px) 0" }}>
@@ -36,14 +30,6 @@ export function FounderSection() {
                         <p style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 1.8, marginBottom: 10 }}>Nithin Pushkaran built MyFinancial after observing a consistent gap in the Indian financial landscape — qualified professionals earning well, yet making financial decisions in the dark. No holistic view. No structured diagnosis. Just fragmented advice from people with products to sell.</p>
                         <p style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>MyFinancial is his answer: a structured, transparent, and conflict-free way to understand where you truly stand. The problem was never the individual — it was the advice ecosystem around them. Fragmented. Incentive-driven. Incapable of providing a full, honest view of one&apos;s financial health.</p>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 20 }}>
-                            {creds.map((c) => (
-                                <div key={c.title} style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: 12, background: "#0C1319", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 8 }}>
-                                    <div style={{ width: 28, height: 28, borderRadius: 6, background: "#121A22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{c.icon}</div>
-                                    <p style={{ fontSize: 12, color: "#CBD5E1", lineHeight: 1.5, margin: 0 }}><strong style={{ color: "#E2E8F0" }}>{c.title}</strong>{c.sub}</p>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
