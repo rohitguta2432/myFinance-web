@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <rect width="400" height="120" rx="8" fill="#1a1a1a"/>
+  <text x="200" y="68" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif">
+    <tspan fill="#888888" font-size="36" font-style="italic" font-weight="400">my</tspan><tspan fill="#ffffff" font-size="42" font-weight="800">financial</tspan>
+  </text>
+  <line x1="100" y1="82" x2="300" y2="82" stroke="#555555" stroke-width="1.2"/>
+  <circle cx="200" cy="82" r="4" fill="#2ec4a5"/>
+</svg>

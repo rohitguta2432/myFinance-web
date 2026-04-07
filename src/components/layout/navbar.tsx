@@ -37,33 +37,22 @@ export function Navbar() {
         >
             {/* Logo */}
             <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-                <div
-                    style={{
-                        width: 26,
-                        height: 26,
-                        borderRadius: 7,
-                        background: "linear-gradient(135deg, #10B981, #F5C842)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 12,
-                        fontWeight: 800,
-                        color: "#080E12",
-                    }}
-                >
-                    M
-                </div>
-                <span
-                    style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: 20,
-                        fontWeight: 700,
-                        letterSpacing: "-0.5px",
-                        color: "#F0F4F8",
-                    }}
-                >
-                    MyFinancial
-                </span>
+                {/* Mini icon — always visible */}
+                <img
+                    src="/myfinancial-icon.svg"
+                    alt="MyFinancial"
+                    width={30}
+                    height={30}
+                    style={{ borderRadius: 6 }}
+                />
+                {/* Full logo text — hidden on mobile */}
+                <img
+                    src="/myfinancial-logo.svg"
+                    alt="MyFinancial"
+                    height={28}
+                    className="hidden sm:block"
+                    style={{ height: 28, width: "auto" }}
+                />
             </Link>
 
             {/* Desktop Nav */}

@@ -14,11 +14,12 @@ export function Footer() {
             }}
         >
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
-                <p>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 4 }}>
+                    <img src="/myfinancial-icon.svg" alt="MyFinancial" width={22} height={22} style={{ borderRadius: 4 }} />
                     <strong style={{ color: "#F0F4F8", fontSize: 13, letterSpacing: "-0.3px" }}>MyFinancial</strong>
-                    <span style={{ margin: "0 6px", color: "rgba(255,255,255,0.15)" }}>—</span>
-                    India&apos;s Financial Diagnostic Platform
-                </p>
+                    <span style={{ color: "rgba(255,255,255,0.15)" }}>—</span>
+                    <span>India&apos;s Financial Diagnostic Platform</span>
+                </div>
                 <p style={{ marginTop: 4, color: "#64748B" }}>SEBI RIA In Progress · Mumbai · © 2026</p>
                 <div
                     style={{
