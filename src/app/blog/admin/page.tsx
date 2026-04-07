@@ -69,6 +69,17 @@ export default function AdminPage() {
         setLoading(false);
     };
 
+    // Auto-authenticate if session cookie exists (e.g. returning from editor)
+    useEffect(() => {
+        const checkSession = async () => {
+            const res = await fetch("/api/admin/posts");
+            if (res.ok) {
+                setAuthenticated(true);
+            }
+        };
+        if (!authenticated) checkSession();
+    }, []);
+
     useEffect(() => {
         if (authenticated && activeTab === "posts") fetchPosts();
         if (authenticated && activeTab === "comments") fetchComments();
