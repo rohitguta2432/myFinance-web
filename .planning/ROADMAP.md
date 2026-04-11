@@ -46,7 +46,11 @@ Plans:
   3. User can add and remove assets and liabilities in Step 3 and see a live net worth summary
   4. User can click Back on any step and return to the previous step without losing entered data
   5. Closing and reopening the browser restores the wizard at the same step with all previously entered data intact
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 02-01-PLAN.md — Assessment API layer + Step 1 Personal Risk Profile
+- [ ] 02-02-PLAN.md — Step 2 Income & Expenses (CRUD + cash flow summary)
+- [ ] 02-03-PLAN.md — Step 3 Assets & Liabilities (net worth + portfolio mix)
 **UI hint**: yes
 
 ### Phase 3: Assessment Steps 4-6 + Complete

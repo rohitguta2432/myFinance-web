@@ -8,6 +8,9 @@ export interface IncomeItem {
     source: string;
     amount: number;
     frequency: string;
+    taxDeducted?: boolean;
+    tdsPercentage?: number;
+    description?: string;
 }
 
 export interface ExpenseItem {
@@ -16,13 +19,18 @@ export interface ExpenseItem {
     amount: number;
     frequency: string;
     type: string;
+    description?: string;
 }
 
 export interface AssetItem {
     id: string;
     category: string;
+    subCategory?: string;
     name: string;
     amount: number;
+    timeHorizon?: string;
+    purchaseValue?: number;
+    liquidity?: string;
 }
 
 export interface LiabilityItem {
@@ -30,6 +38,10 @@ export interface LiabilityItem {
     category: string;
     name: string;
     amount: number;
+    emi?: number;
+    interestRate?: number;
+    monthsLeft?: number;
+    moratoriumMonths?: number;
 }
 
 export interface GoalItem {
