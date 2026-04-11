@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
     Shield,
@@ -98,8 +99,8 @@ const S = {
         boxShadow: "0 0 15px rgba(16,185,129,0.3)", width: "100%",
     },
     overlay: {
-        position: "fixed" as const, inset: 0, zIndex: 50,
-        display: "flex", alignItems: "flex-end", justifyContent: "center",
+        position: "fixed" as const, inset: 0, zIndex: 9999,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
     },
     overlayBackdrop: {
         position: "absolute" as const, inset: 0,
@@ -107,10 +108,11 @@ const S = {
     },
     modal: {
         position: "relative" as const, background: "#0F172A",
-        width: "100%", maxWidth: 440,
-        borderTopLeftRadius: 24, borderTopRightRadius: 24,
+        width: "100%", maxWidth: 520,
+        borderRadius: 24,
         border: "1px solid rgba(255,255,255,0.1)",
-        overflow: "hidden", maxHeight: "90vh", overflowY: "auto" as const,
+        overflow: "hidden", maxHeight: "85vh", overflowY: "auto" as const,
+        boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
     },
     modalHeader: {
         display: "flex", justifyContent: "space-between", alignItems: "center",
