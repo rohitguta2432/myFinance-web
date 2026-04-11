@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useAssessmentStore } from "@/store/useAssessmentStore";
 
 const navLinks = [
     { label: "Diagnosis", href: "/#prob" },
@@ -15,6 +16,7 @@ const navLinks = [
 ];
 
 const dropdownLinks = [
+    { label: "Assessment", href: "/assessment/step-1" },
     { label: "Dashboard", href: "/dashboard" },
     { label: "Blog", href: "/blog" },
     { label: "Home", href: "/" },
@@ -34,6 +36,7 @@ export function Navbar() {
     const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const isComplete = useAssessmentStore((s) => s.isComplete);
 
     useEffect(() => {
         fetch("/api/auth/me")
@@ -68,7 +71,8 @@ export function Navbar() {
                 if (res.ok) {
                     const data = await res.json();
                     setUser(data.user);
-                    router.push("/dashboard");
+                    // Route new users to assessment, returning users to dashboard (FLOW-01)
+                    router.push(isComplete ? "/dashboard" : "/assessment/step-1");
                 }
             } finally {
                 setLoading(false);
@@ -87,7 +91,7 @@ export function Navbar() {
 
     const handleGetStarted = () => {
         if (user) {
-            router.push("/dashboard");
+            router.push(isComplete ? "/dashboard" : "/assessment/step-1");
         } else {
             login();
         }
