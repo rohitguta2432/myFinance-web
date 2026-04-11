@@ -30,7 +30,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Refreshing the browser mid-wizard does not lose previously entered wizard state
   4. Toast notifications fire on save and error events visible to the user
   5. INR currency amounts, percentages, and dates render consistently formatted across all pages
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Core infrastructure (deps, proxy, API client, React Query provider, middleware, protected layout)
+- [ ] 01-02-PLAN.md — Zustand store, formatters, enums, InactivityGuard, skeletons, assessment layout
 **UI hint**: yes
 
 ### Phase 2: Assessment Steps 1-3
@@ -88,7 +91,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Shared Infrastructure | 0/TBD | Not started | - |
+| 1. Shared Infrastructure | 0/2 | Not started | - |
 | 2. Assessment Steps 1-3 | 0/TBD | Not started | - |
 | 3. Assessment Steps 4-6 + Complete | 0/TBD | Not started | - |
 | 4. Dashboard + User Flows | 0/TBD | Not started | - |
