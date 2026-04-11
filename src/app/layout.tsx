@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyCTA } from "@/components/layout/mobile-sticky-cta";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const bricolage = Bricolage_Grotesque({
     subsets: ["latin"],
@@ -106,16 +107,18 @@ export default function RootLayout({
                 />
             </head>
             <body>
-                <a
-                    href="#main-content"
-                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-teal focus:text-bg focus:rounded-lg"
-                >
-                    Skip to main content
-                </a>
-                <Navbar />
-                <main id="main-content">{children}</main>
-                <Footer />
-                <MobileStickyCTA />
+                <AuthProvider>
+                    <a
+                        href="#main-content"
+                        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-teal focus:text-bg focus:rounded-lg"
+                    >
+                        Skip to main content
+                    </a>
+                    <Navbar />
+                    <main id="main-content">{children}</main>
+                    <Footer />
+                    <MobileStickyCTA />
+                </AuthProvider>
             </body>
         </html>
     );
