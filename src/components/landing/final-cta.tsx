@@ -1,3 +1,7 @@
+"use client";
+
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+
 export function FinalCTASection() {
     return (
         <section style={{ textAlign: "center", padding: "clamp(100px, 14vw, 180px) 0", position: "relative", overflow: "hidden" }}>
@@ -12,8 +16,8 @@ export function FinalCTASection() {
                 </p>
 
                 <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                    <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-teal" style={{ fontSize: 16, padding: "16px 38px", textDecoration: "none" }}>Get My Financial Analysis →</a>
-                    <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ textDecoration: "none" }}>Try Free Essentials</a>
+                    <GoogleSignInButton className="btn-teal" style={{ fontSize: 16, padding: "16px 38px" }}>Get My Financial Analysis →</GoogleSignInButton>
+                    <GoogleSignInButton className="btn-outline">Try Free Essentials</GoogleSignInButton>
                 </div>
 
                 <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#94A3B8", marginTop: 20, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>

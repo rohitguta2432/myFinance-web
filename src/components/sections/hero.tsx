@@ -1,4 +1,7 @@
+"use client";
+
 import { Lock, UserX, Monitor, Trash2, ArrowRight } from "lucide-react";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 const trustItems = [
     {
@@ -392,10 +395,7 @@ export function HeroSection() {
                         </p>
 
                         {/* CTA Button */}
-                        <a
-                            href="https://app.myfinancial.in"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <GoogleSignInButton
                             className="inline-flex items-center justify-center text-white font-bold"
                             style={{
                                 height: 56,
@@ -404,16 +404,14 @@ export function HeroSection() {
                                 backgroundColor: "#10B981",
                                 padding: "0 32px",
                                 fontSize: 16,
-                                textDecoration: "none",
                                 boxShadow: "0 8px 30px -4px rgba(16, 185, 129, 0.35)",
                                 border: "none",
-                                cursor: "pointer",
                                 transition: "transform 0.2s, box-shadow 0.2s",
                             }}
                         >
                             Start Free Assessment{" "}
                             <ArrowRight size={18} style={{ marginLeft: 8 }} />
-                        </a>
+                        </GoogleSignInButton>
 
                         {/* Micro trust line */}
                         <p

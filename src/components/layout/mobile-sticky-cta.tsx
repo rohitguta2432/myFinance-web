@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 export function MobileStickyCTA() {
     const [visible, setVisible] = useState(false);
@@ -21,9 +22,9 @@ export function MobileStickyCTA() {
             role="complementary"
             aria-label="Get started"
         >
-            <button className="btn-teal w-full justify-center text-sm py-3.5">
+            <GoogleSignInButton className="btn-teal w-full justify-center text-sm py-3.5">
                 Get My Financial Analysis →
-            </button>
+            </GoogleSignInButton>
         </div>
     );
 }

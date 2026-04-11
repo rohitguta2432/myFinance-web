@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     description: "Simple, transparent pricing for MyFinancial. Start free, upgrade when ready.",
 };
 
-const APP_URL = "https://app.myfinancial.in";
+const APP_URL = "/dashboard";
 
 const plans = [
     {
@@ -170,8 +170,6 @@ export default function PricingPage() {
                                 </ul>
                                 <a
                                     href={APP_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
                                     className="block text-center transition-all"
                                     style={{
                                         fontSize: 14,

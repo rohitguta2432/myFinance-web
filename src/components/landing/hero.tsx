@@ -1,3 +1,7 @@
+"use client";
+
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+
 export function HeroSection() {
     return (
         <section
@@ -140,13 +144,13 @@ export function HeroSection() {
                         animation: "fade-up 1s 0.7s both",
                     }}
                 >
-                    <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-teal">
+                    <GoogleSignInButton className="btn-teal">
                         Get Your Diagnosis
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                    </a>
-                    <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-outline">Try Free Essentials</a>
+                    </GoogleSignInButton>
+                    <GoogleSignInButton className="btn-outline">Try Free Essentials</GoogleSignInButton>
                 </div>
 
                 {/* Fine print */}

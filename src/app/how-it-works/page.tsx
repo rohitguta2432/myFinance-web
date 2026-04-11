@@ -38,7 +38,7 @@ const step3SubItems = [
     { icon: <Trash2 size={16} />, title: "Total Privacy", desc: "One click data wipe" },
 ];
 
-const APP_URL = "https://app.myfinancial.in";
+const APP_URL = "/dashboard";
 
 export default function HowItWorksPage() {
     return (
@@ -209,8 +209,6 @@ export default function HowItWorksPage() {
                         </p>
                         <a
                             href={APP_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="inline-flex items-center text-white text-sm font-semibold transition-all"
                             style={{
                                 padding: "14px 32px",

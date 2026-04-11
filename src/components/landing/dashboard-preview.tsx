@@ -63,7 +63,7 @@ export function DashboardPreview() {
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FFBD2E" }} />
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28CA42" }} />
                     <div style={{ flex: 1, textAlign: "center", fontFamily: "var(--font-display)", fontSize: 11, color: "#94A3B8" }}>
-                        app.myfinancial.in/dashboard
+                        myfinancial.in/dashboard
                     </div>
                 </div>
 

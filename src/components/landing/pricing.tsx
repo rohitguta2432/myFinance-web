@@ -1,3 +1,7 @@
+"use client";
+
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+
 const plans = [
     {
         badge: "Free", badgeBg: "#121A22", badgeColor: "#94A3B8",
@@ -90,7 +94,7 @@ export function PricingSection() {
                                 ))}
                             </ul>
 
-                            <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className={p.popular ? "btn-plan popular" : "btn-plan"} style={p.gold ? { borderColor: "#F5C842", color: "#F5C842", textDecoration: "none", textAlign: "center" } : { textDecoration: "none", textAlign: "center" }}>{p.btnText}</a>
+                            <GoogleSignInButton className={p.popular ? "btn-plan popular" : "btn-plan"} style={p.gold ? { borderColor: "#F5C842", color: "#F5C842", textAlign: "center" } : { textAlign: "center" }}>{p.btnText}</GoogleSignInButton>
                         </div>
                     ))}
                 </div>

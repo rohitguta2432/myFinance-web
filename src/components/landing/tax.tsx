@@ -1,3 +1,7 @@
+"use client";
+
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+
 const rules = [
     { icon: "🍽️", title: "Meal Coupons: ₹50 → ₹200/meal", sub: "~₹1.05L annual tax-free" },
     { icon: "📚", title: "Child Education: ₹100 → ₹3,000/mo", sub: "₹72,000/yr for 2 children" },
@@ -41,7 +45,7 @@ export function TaxSection() {
                             ))}
                         </div>
 
-                        <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-teal">Discover My Tax Savings →</a>
+                        <GoogleSignInButton className="btn-teal">Discover My Tax Savings →</GoogleSignInButton>
                     </div>
 
                     {/* Right — Tax Card */}
