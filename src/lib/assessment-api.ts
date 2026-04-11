@@ -433,3 +433,214 @@ export async function getPortfolioAnalysis(): Promise<PortfolioAnalysis> {
 export async function getRiskScoring(): Promise<RiskScoring> {
     return api.get<RiskScoring>("/risk-scoring");
 }
+
+// ─── Step 4: Goals ────────────────────────────────────────────────────────────
+
+export interface GoalAPIItem {
+    id: string;
+    type: string;
+    name: string;
+    cost: number;
+    horizon: number;
+    currentSavings: number;
+    inflation: number;
+    importance: string;
+}
+
+export interface GoalProjection {
+    totalGoals: number;
+    totalAdjustedTarget: number;
+    totalCurrentSavings: number;
+    totalSipRequired: number;
+    monthlySurplus: number;
+    isAchievable: boolean;
+    remainingBuffer: number;
+    shortfall: number;
+    monthlyExpenses: number;
+    emergencyTargetMonths: number;
+    emergencyFundTarget: number;
+    emergencyFundCurrent: number;
+    emergencyFundGap: number;
+    emergencyCoverageMonths: number;
+    emergencyAggressiveMonths: number;
+    emergencyConservativeMonths: number;
+    goals: Array<{
+        id: string;
+        bufferedCost: number;
+        currentSavings: number;
+        requiredSip: number;
+        progressPercent: number;
+    }>;
+}
+
+export interface RetirementAutoFill {
+    status: "CRITICAL" | "MODERATE" | "ON_TRACK";
+    currentAge: number;
+    retirementAge: number;
+    yearsToRetirement: number;
+    monthlyExpense: number;
+    futureMonthlyExpense: number;
+    corpusRequired: number;
+    currentRetirementAssets: number;
+    projectedAssets: number;
+    gap: number;
+    onTrackPercent: number;
+    sipFlat: number;
+    sipStepUpStart: number;
+    stepUpRate: number;
+    sipIfDelayed: number;
+    delayYears: number;
+}
+
+function mapGoalToDTO(data: Omit<GoalAPIItem, "id">) {
+    return {
+        goalType: data.type?.toUpperCase(),
+        goalName: data.name,
+        targetAmount: parseFloat(String(data.cost)) || 0,
+        timeHorizonYears: parseInt(String(data.horizon)) || 5,
+        currentSavings: parseFloat(String(data.currentSavings)) || 0,
+        inflationRate: parseFloat(String(data.inflation)) || 6,
+        priority: data.importance?.toUpperCase(),
+    };
+}
+
+function mapGoalFromDTO(dto: Record<string, unknown>): GoalAPIItem {
+    return {
+        id: String(dto.id ?? dto.goalId ?? ""),
+        type: ((dto.goalType as string) || "").toLowerCase(),
+        name: (dto.goalName as string) || "",
+        cost: (dto.targetAmount as number) || 0,
+        horizon: (dto.timeHorizonYears as number) || 5,
+        currentSavings: (dto.currentSavings as number) || 0,
+        inflation: (dto.inflationRate as number) || 6,
+        importance: dto.priority
+            ? (dto.priority as string).charAt(0).toUpperCase() +
+              (dto.priority as string).slice(1).toLowerCase()
+            : "High",
+    };
+}
+
+export async function getGoals(): Promise<GoalAPIItem[]> {
+    const dto = await api.get<
+        Record<string, unknown>[] | { goals?: Record<string, unknown>[] }
+    >("/goals");
+    const list = Array.isArray(dto)
+        ? dto
+        : ((dto as { goals?: Record<string, unknown>[] }).goals || []);
+    return list.map(mapGoalFromDTO);
+}
+
+export async function addGoal(
+    data: Omit<GoalAPIItem, "id">
+): Promise<GoalAPIItem> {
+    const dto = await api.post<Record<string, unknown>>(
+        "/goals",
+        mapGoalToDTO(data)
+    );
+    return mapGoalFromDTO(dto);
+}
+
+export async function updateGoal(data: GoalAPIItem): Promise<GoalAPIItem> {
+    const { id, ...rest } = data;
+    const dto = await api.put<Record<string, unknown>>(
+        `/goals/${id}`,
+        mapGoalToDTO(rest)
+    );
+    return mapGoalFromDTO(dto);
+}
+
+export async function deleteGoal(id: string): Promise<void> {
+    await api.delete(`/goals/${id}`);
+}
+
+export async function getGoalProjection(): Promise<GoalProjection> {
+    return api.get<GoalProjection>("/goals/projection");
+}
+
+export async function getRetirementAutoFill(): Promise<RetirementAutoFill> {
+    return api.get<RetirementAutoFill>("/goals/retirement-autofill");
+}
+
+// ─── Step 5: Insurance ────────────────────────────────────────────────────────
+
+export interface InsuranceSavePayload {
+    life: number;
+    health: number;
+}
+
+export interface InsuranceGapData {
+    recommendedLifeCover: number;
+    recommendedHealthCover: number;
+}
+
+export async function getInsurance(): Promise<InsuranceSavePayload> {
+    return api.get<InsuranceSavePayload>("/insurance");
+}
+
+export async function saveInsurance(data: InsuranceSavePayload): Promise<void> {
+    await api.post("/insurance", data);
+}
+
+export async function getInsuranceGap(): Promise<InsuranceGapData> {
+    return api.get<InsuranceGapData>("/insurance/gap");
+}
+
+// ─── Step 6: Tax ──────────────────────────────────────────────────────────────
+
+export interface TaxData {
+    taxRegime: "old" | "new";
+    investments80C: number;
+}
+
+export interface TaxRegimeDetail {
+    grossIncome: number;
+    standardDeduction: number;
+    deductions80C: number;
+    deductions80D: number;
+    hraExemption: number;
+    otherDeductions: number;
+    netTaxable: number;
+    baseTax: number;
+    cess: number;
+    totalTax: number;
+}
+
+export interface TaxCalculationResult {
+    grossTotalIncome: number;
+    incomeCategories: Record<string, number>;
+    hraExemption: number;
+    annualRentPaid: number;
+    annualBasic: number;
+    actualHraReceived: number;
+    autoEpf: number;
+    autoLifeInsurance: number;
+    oldRegime: TaxRegimeDetail;
+    newRegime: TaxRegimeDetail;
+    recommendedRegime: "old" | "new";
+    savings: number;
+}
+
+export interface TaxCalculationParams {
+    deductions80C: number;
+    deductions80D: number;
+    otherDeductions: number;
+}
+
+export async function getTax(): Promise<TaxData> {
+    return api.get<TaxData>("/tax");
+}
+
+export async function saveTax(data: TaxData): Promise<void> {
+    await api.post("/tax", data);
+}
+
+export async function getTaxCalculation(
+    params: TaxCalculationParams
+): Promise<TaxCalculationResult> {
+    const query = new URLSearchParams({
+        deductions80C: String(params.deductions80C),
+        deductions80D: String(params.deductions80D),
+        otherDeductions: String(params.otherDeductions),
+    }).toString();
+    return api.get<TaxCalculationResult>(`/tax/calculate?${query}`);
+}

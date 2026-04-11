@@ -1,0 +1,32 @@
+"use client";
+
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getTax, saveTax } from "@/lib/assessment-api";
+import type { TaxData } from "@/lib/assessment-api";
+import { useAssessmentStore } from "@/store/useAssessmentStore";
+
+/**
+ * Step 6: Tax Planning — fetch on mount (hydrates store), save on Complete.
+ */
+export const useTaxQuery = () => {
+    const store = useAssessmentStore();
+    return useQuery({
+        queryKey: ["tax"],
+        queryFn: async () => {
+            const data = await getTax();
+            if (data.taxRegime) store.setTaxRegime(data.taxRegime);
+            if (data.investments80C !== undefined)
+                store.setInvestments80C(data.investments80C);
+            return data;
+        },
+        staleTime: 5 * 60 * 1000,
+    });
+};
+
+export const useTaxMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: TaxData) => saveTax(data),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tax"] }),
+    });
+};
