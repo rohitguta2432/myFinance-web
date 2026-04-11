@@ -1,129 +1,168 @@
-# MyFinancial — Marketing Website
+# MyFinancial — Personal Finance Platform
 
-A premium, privacy-first marketing website for **MyFinancial**, an Indian personal finance assessment tool.
+A comprehensive personal finance platform for Indian users. Features a 6-step financial assessment wizard, personalized dashboard with health scores, AI advisory chat (Kira), and a financial blog.
 
-**Stack**: Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Lucide Icons
+**Stack**: Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Zustand · TanStack Query · AWS DynamoDB · AWS Bedrock · Spring Boot Backend
 
 ---
 
 ## Quick Start
 
 ```bash
+# Use Node 20+
+nvm use 20
+
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
+# Start development server on port 3001
+npx next dev --turbopack -p 3001
 
-# Open http://localhost:3000
+# Open http://localhost:3001
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+BACKEND_URL="your-spring-boot-backend-url"
+MYAPP_AWS_REGION="us-east-1"
+BEDROCK_REGION="us-east-1"
+BEDROCK_ACCESS_KEY_ID="your-aws-key"
+BEDROCK_SECRET_ACCESS_KEY="your-aws-secret"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="your-sha256-hashed-password"
 ```
 
 ## Build & Deploy
 
-### Production Build
-
 ```bash
-npm run build
-npm start
+npm run build    # Production build
+npm run lint     # ESLint
 ```
 
-### Static Export
-
-All pages are statically generated at build time. To export a fully static site:
-
-1. Add `output: 'export'` to `next.config.ts`:
-   ```ts
-   const nextConfig: NextConfig = { output: 'export' };
-   ```
-2. Run `npm run build` — the static files will be in the `out/` directory.
-3. Deploy the `out/` folder to any static hosting (Netlify, Cloudflare Pages, S3, etc.).
-
-### Deploy to Vercel (Optional)
-
-1. Push the repo to GitHub.
-2. Import the project at [vercel.com/new](https://vercel.com/new).
-3. Vercel auto-detects Next.js — no configuration needed.
-4. Deploy. Done.
-
-### Deploy to AWS Amplify (Current)
-
-The project is already configured for deployment on AWS Amplify. Next.js SSR API routes in Amplify require environment variables to be present in an `.env.production` file at build time. To support this, an `amplify.yml` file is included in the project root.
-
-Ensure you set the following environment variables in your **AWS Amplify Console** (App settings > Environment variables):
-- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase Project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase Anon Key
-- `ADMIN_USERNAME`: Username for the`/blog/admin` dashboard
-- `ADMIN_PASSWORD`: Password for the`/blog/admin` dashboard
-
-The `amplify.yml` configuration will automatically inject these into `.env.production` during the build phase so they are available at runtime.
-
-### Local Development Environment
-
-For local development, create a `.env.local` file in the project root:
-```env
-NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your-secure-password"
-```
+**Deployment**: AWS Amplify (auto-deploys on push to `main`, App ID: `d2yo95fuojyxue`)
 
 ---
 
-## Pages
+## Pages & Routes
+
+### Public Pages
 
 | Route | Description |
-|---|---|
-| `/` | Home — Hero, Outcomes, How it Works, Privacy, Pricing, FD Calculator, Insights, FAQ, CTA |
-| `/how-it-works` | Expanded 3-step walkthrough |
-| `/pricing` | Free vs Premium comparison with detailed feature table |
-| `/privacy` | Privacy policy — local-only storage, no-server architecture |
-| `/disclaimer` | Financial disclaimer — not financial advice |
-| `/blog` | Public blog listing with categories, markdown articles, and pagination |
-| `/blog/admin` | Secured admin dashboard for managing posts and moderating comments |
+|-------|-------------|
+| `/` | Landing page — Hero, Dashboard Preview, Problems, Tax, How It Works, Pricing, Testimonials |
+| `/pricing` | Free vs Premium comparison |
+| `/how-it-works` | 3-step walkthrough |
+| `/privacy` | Privacy policy |
+| `/disclaimer` | Financial disclaimer |
+| `/blog` | Blog listing with categories and pagination |
+| `/blog/[slug]` | Blog post with TOC, comments, related articles |
+| `/blog/admin` | Blog admin dashboard (posts + comments management) |
+| `/blog/admin/editor` | Blog post editor with AI assistant |
+
+### Protected Pages (Google OAuth required)
+
+| Route | Description |
+|-------|-------------|
+| `/assessment/step-1` | Personal Profile (age, income, risk profile) |
+| `/assessment/step-2` | Cash Flow (income + expenses) |
+| `/assessment/step-3` | Assets & Liabilities (net worth) |
+| `/assessment/step-4` | Financial Goals |
+| `/assessment/step-5` | Insurance Gap Analysis |
+| `/assessment/step-6` | Tax Planning (Old vs New regime) |
+| `/assessment/complete` | Assessment completion screen |
+| `/dashboard` | Financial summary — health score, red flags, projections, benchmarks |
+| `/dashboard/action-plan` | Priority financial actions |
+| `/dashboard/insurance` | Insurance gap details |
+| `/dashboard/tax` | Tax optimization details |
+| `/admin` | Admin panel — user management, stats, audit logs |
+
+### API Routes
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/api/auth/google` | POST | Google OAuth token exchange + session |
+| `/api/auth/logout` | POST | Session logout |
+| `/api/auth/me` | GET | Current user profile |
+| `/api/chat` | POST | Kira AI chat (proxies to backend) |
+| `/api/blog/posts` | GET | Published blog posts |
+| `/api/blog/comments` | POST | Add comment |
+| `/api/admin/auth` | POST | Admin login |
+| `/api/admin/posts` | POST | Blog CRUD |
+| `/api/admin/ai-write` | POST | AI blog writing (AWS Bedrock) |
+| `/api/admin/import-url` | POST | Import content from URL |
+| `/api/proxy/[...path]` | POST | Proxy to Spring Boot backend |
+
+---
 
 ## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── layout.tsx              # Root layout (Inter font, Navbar, Footer)
-│   ├── page.tsx                # Home — assembles all sections
-│   ├── globals.css             # Design tokens + Tailwind theme
-│   ├── sitemap.ts              # Dynamic sitemap.xml
-│   ├── robots.ts               # robots.txt
-│   ├── how-it-works/page.tsx
-│   ├── pricing/page.tsx
-│   ├── privacy/page.tsx
-│   └── disclaimer/page.tsx
+│   ├── layout.tsx                  # Root layout (fonts, Navbar, Footer)
+│   ├── page.tsx                    # Landing page
+│   ├── globals.css                 # Design tokens + Tailwind theme
+│   ├── (protected)/
+│   │   ├── layout.tsx              # Auth guard + QueryProvider + ChatWidget
+│   │   ├── assessment/
+│   │   │   ├── layout.tsx          # Sidebar stepper + progress bar
+│   │   │   ├── step-1/ → step-6/  # 6-step assessment wizard
+│   │   │   └── complete/           # Completion screen
+│   │   ├── dashboard/
+│   │   │   ├── layout.tsx          # Dashboard sidebar
+│   │   │   ├── page.tsx            # Summary dashboard
+│   │   │   ├── action-plan/        # Action plan
+│   │   │   ├── insurance/          # Insurance gap
+│   │   │   └── tax/                # Tax optimization
+│   │   └── admin/                  # Admin panel
+│   ├── api/                        # API routes (auth, blog, chat, admin)
+│   ├── blog/                       # Public blog pages
+│   └── pricing/, how-it-works/, etc.
 ├── components/
-│   ├── layout/
-│   │   ├── navbar.tsx          # Sticky header + mobile hamburger
-│   │   ├── footer.tsx          # 4-column footer
-│   │   └── mobile-sticky-cta.tsx # Mobile-only bottom CTA
-│   └── sections/
-│       ├── hero.tsx            # Hero + trust bar
-│       ├── outcomes.tsx        # 5 outcome tiles
-│       ├── how-it-works.tsx    # 3-step vertical flow
-│       ├── privacy-first.tsx   # Privacy section with feature grid
-│       ├── pricing-table.tsx   # Free vs Premium table
-│       ├── fd-calculator.tsx   # FD calculator (UI only)
-│       ├── sample-insights.tsx # 3 example insight cards
-│       ├── faq.tsx             # Accordion FAQ
-│       └── final-cta.tsx       # Closing CTA block
+│   ├── ai/                         # Kira chat widget
+│   ├── assessment/                 # Step navigation
+│   ├── auth/                       # AuthProvider, GoogleSignIn, InactivityGuard
+│   ├── blog/                       # Blog cards, comments, TOC, share bar
+│   ├── dashboard/                  # ScoreRing, Charts, SectionNav
+│   ├── landing/                    # Landing page sections
+│   ├── layout/                     # Navbar, Footer, MobileStickyCTA
+│   ├── providers/                  # QueryProvider (TanStack Query)
+│   └── ui/                         # Shared UI components
+├── hooks/
+│   ├── assessment/                 # useProfile, useFinancials, useTax, etc.
+│   └── dashboard/                  # useProjection, useDashboardSummary, etc.
+├── store/
+│   └── useAssessmentStore.ts       # Zustand store (assessment data)
 └── lib/
-    ├── utils.ts                # cn() classname merge utility
-    └── tokens.ts               # Design token constants
+    ├── auth.ts                     # JWT session management
+    ├── admin-auth.ts               # Admin SHA256 auth
+    ├── dynamodb.ts                 # DynamoDB client
+    ├── assessment-api.ts           # Assessment API helpers
+    └── types.ts                    # Shared TypeScript types
 ```
+
+## Key Features
+
+- **6-Step Assessment Wizard** — Personal profile, cash flow, balance sheet, goals, insurance, tax
+- **Financial Dashboard** — Health score ring, pillar scores, red flags, projections, benchmarks
+- **Kira AI Chat** — Floating chat widget with personalized financial advice (Spring Boot backend)
+- **Tax Optimizer** — Old vs New regime comparison with deduction tracking
+- **Insurance Gap Analysis** — HLV-based life/health coverage recommendations
+- **Blog Platform** — DynamoDB-backed blog with AI writing assistant (AWS Bedrock)
+- **Admin Panel** — User management, stats, audit logs, CSV export
 
 ## Design System
 
-- **Accent**: Emerald-600 (`#059669`) — single accent color throughout
-- **Font**: Inter (Google Fonts via `next/font`)
-- **Spacing**: 4px base grid (xs=4, sm=8, md=16, lg=24, xl=32, 2xl=48, 3xl=64, 4xl=96)
-- **Style**: Clean white space, high-contrast typography, no stock photos
+- **Theme**: Dark premium (`#0B0F1A` bg, `#0F172A` surfaces, `#10B981` accent)
+- **Font**: Bricolage Grotesque (`--font-display`)
+- **Spacing**: 4px base grid
+- **Styling**: Inline React `CSSProperties` + component-scoped `<style>` tags (no CSS modules)
 - **Currency**: Indian formatting (₹45.7L, ₹2.1Cr)
-
-See `src/lib/tokens.ts` for the complete token reference.
 
 ## License
 

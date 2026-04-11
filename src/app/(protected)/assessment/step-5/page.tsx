@@ -18,7 +18,15 @@ import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { useInsuranceMutation } from "@/hooks/assessment/useInsurance";
 import { useInsuranceGapQuery } from "@/hooks/assessment/useInsuranceGap";
 import { StepNavigation } from "@/components/assessment/step-navigation";
+import { SectionNav } from "@/components/ui/section-nav";
 import type { InsuranceChecklist } from "@/store/useAssessmentStore";
+
+const STEP5_SECTIONS = [
+    { id: "corporate", label: "Corporate" },
+    { id: "personal", label: "Health & Life" },
+    { id: "checklist", label: "Checklist" },
+    { id: "summary", label: "Summary" },
+];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -31,7 +39,7 @@ function formatCurrency(amount: number): string {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const S = {
-    page: { display: "flex", flexDirection: "column" as const, paddingBottom: 100 },
+    page: { display: "flex", flexDirection: "column" as const, padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto", width: "100%" },
     header: { marginBottom: 24 },
     h1: {
         fontSize: 22, fontWeight: 700, color: "#F1F5F9",
@@ -125,13 +133,6 @@ const S = {
         background: "linear-gradient(to bottom, #0F172A, #0B0F1A)",
     },
 };
-
-const STEP5_SECTIONS = [
-    { id: "corporate", label: "Corporate" },
-    { id: "personal", label: "Health & Life" },
-    { id: "checklist", label: "Checklist" },
-    { id: "summary", label: "Summary" },
-];
 
 const CHECKLIST_ITEMS: { id: keyof InsuranceChecklist; label: string }[] = [
     { id: "criticalIllness", label: "Critical Illness Cover" },
@@ -233,6 +234,7 @@ export default function Step5InsuranceGap() {
 
     return (
         <div style={S.page}>
+            <SectionNav sections={STEP5_SECTIONS} scrollContainer=".assessment-main" />
             {/* Header */}
             <div style={S.header}>
                 <h1 style={S.h1}>Protecting What You&apos;ve Built</h1>
@@ -241,14 +243,6 @@ export default function Step5InsuranceGap() {
                 </p>
             </div>
 
-            {/* Section tab nav */}
-            <div style={S.tabBar}>
-                {STEP5_SECTIONS.map((s) => (
-                    <button key={s.id} style={S.tab(activeTab === s.id)} onClick={() => scrollTo(s.id)}>
-                        {s.label}
-                    </button>
-                ))}
-            </div>
 
             {/* SECTION A: Corporate */}
             <div id="corporate">
@@ -507,19 +501,10 @@ export default function Step5InsuranceGap() {
 
             {/* SECTION E: Action Summary */}
             <div id="summary" style={{ ...S.card, border: "2px solid rgba(16,185,129,0.2)", position: "relative", marginTop: 16 }}>
-                <div style={{
-                    position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
-                    background: "#10B981", color: "#0B0F1A", fontWeight: 700, fontSize: 11,
-                    textTransform: "uppercase", letterSpacing: "0.1em", padding: "4px 16px",
-                    borderRadius: 9999, boxShadow: "0 2px 8px rgba(16,185,129,0.3)",
-                }}>
-                    Action Summary
-                </div>
                 <div style={S.cardBody}>
                     <h3 style={{ fontWeight: 700, color: "#F1F5F9", textAlign: "center", marginBottom: 24, marginTop: 8, letterSpacing: "0.05em", fontSize: 17, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                         <FileText style={{ width: 20, height: 20, color: "#10B981" }} /> RECOMMENDED ACTIONS
                     </h3>
-
                     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                         {lifeGap > 0 && (
                             <div style={{ display: "flex", gap: 16, alignItems: "flex-start", paddingBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>

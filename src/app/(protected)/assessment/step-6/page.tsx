@@ -16,6 +16,14 @@ import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { useTaxQuery, useTaxMutation } from "@/hooks/assessment/useTax";
 import { useTaxCalculationQuery } from "@/hooks/assessment/useTaxCalculation";
 import { StepNavigation } from "@/components/assessment/step-navigation";
+import { SectionNav } from "@/components/ui/section-nav";
+
+const STEP6_SECTIONS = [
+    { id: "regime", label: "Regime" },
+    { id: "comparison", label: "Comparison" },
+    { id: "deductions", label: "Deductions" },
+    { id: "hra", label: "HRA & Premium" },
+];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -26,17 +34,7 @@ function fmt(n: number | undefined): string {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const S = {
-    page: { display: "flex", flexDirection: "column" as const, paddingBottom: 100 },
-    tabBar: {
-        display: "flex", gap: 8, marginBottom: 24,
-        overflowX: "auto" as const, paddingBottom: 4,
-    },
-    tab: (active: boolean): React.CSSProperties => ({
-        padding: "8px 16px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-        cursor: "pointer", border: "none", whiteSpace: "nowrap" as const,
-        background: active ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.03)",
-        color: active ? "#10B981" : "#94A3B8",
-    }),
+    page: { display: "flex", flexDirection: "column" as const, padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto", width: "100%" },
     card: {
         background: "#0F172A", borderRadius: 16,
         border: "1px solid rgba(255,255,255,0.05)",
@@ -50,13 +48,6 @@ const S = {
         fontSize: 13, outline: "none", width: 120, boxSizing: "border-box" as const,
     },
 };
-
-const STEP6_SECTIONS = [
-    { id: "regime", label: "Regime" },
-    { id: "comparison", label: "Comparison" },
-    { id: "deductions", label: "Deductions" },
-    { id: "hra", label: "HRA & Premium" },
-];
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -115,15 +106,8 @@ export default function Step6TaxOptimization() {
     }, [grossTotalIncome, recommendedRegime, taxRegime, setTaxRegime]);
 
     const [openAccordion, setOpenAccordion] = useState("");
-    const [activeTab, setActiveTab] = useState("regime");
 
     const toggleAccordion = (id: string) => setOpenAccordion(openAccordion === id ? "" : id);
-
-    const scrollTo = (id: string) => {
-        setActiveTab(id);
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
 
     const comparisonRows = [
         { label: "Gross Income", old: oldRegime.grossIncome, new: newRegime.grossIncome },
@@ -166,14 +150,7 @@ export default function Step6TaxOptimization() {
 
     return (
         <div style={S.page}>
-            {/* Section nav tabs */}
-            <div style={S.tabBar}>
-                {STEP6_SECTIONS.map((s) => (
-                    <button key={s.id} style={S.tab(activeTab === s.id)} onClick={() => scrollTo(s.id)}>
-                        {s.label}
-                    </button>
-                ))}
-            </div>
+            <SectionNav sections={STEP6_SECTIONS} scrollContainer=".assessment-main" />
 
             {/* Header */}
             <div style={{ marginBottom: 16 }}>
@@ -185,8 +162,8 @@ export default function Step6TaxOptimization() {
 
             {/* Recommendation Banner */}
             <div id="regime" style={{ borderRadius: 16, padding: "20px 24px", border: "1px solid rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.1)", marginBottom: 24 }}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                    <div style={{ flex: 1, minWidth: 200 }}>
                         <h3 style={{ fontWeight: 700, fontSize: 16, marginBottom: 8, display: "flex", alignItems: "center", gap: 8, color: "#10B981" }}>
                             <Sparkles style={{ width: 20, height: 20 }} />
                             RECOMMENDATION: Choose <span style={{ color: "#F1F5F9", marginLeft: 4 }}>{recommendedRegime === "old" ? "OLD" : "NEW"} REGIME</span>
@@ -199,7 +176,7 @@ export default function Step6TaxOptimization() {
                         </p>
                     </div>
                     {/* Regime toggle */}
-                    <div style={{ display: "flex", alignItems: "center", background: "#0F172A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden", alignSelf: "flex-start" }}>
+                    <div style={{ display: "flex", alignItems: "center", background: "#0F172A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden", flexShrink: 0 }}>
                         {(["old", "new"] as const).map((r) => (
                             <button
                                 key={r}

@@ -44,16 +44,15 @@ export function SectionNav({ sections }: { sections: Section[] }) {
     <nav
       style={{
         position: "fixed",
-        right: 16,
-        top: "50%",
+        right: 24,
+        top: "45%",
         transform: "translateY(-50%)",
         zIndex: 40,
-        display: "none",
         flexDirection: "column",
         alignItems: "flex-end",
         gap: 0,
       }}
-      className="lg:flex"
+      className="hidden lg:flex"
     >
       {sections.map(({ id, label }, i) => {
         const isActive = activeId === id;
@@ -80,12 +79,10 @@ export function SectionNav({ sections }: { sections: Section[] }) {
                   fontWeight: 500,
                   letterSpacing: "0.05em",
                   color: isActive ? "#10B981" : "#64748B",
-                  opacity: isActive ? 1 : 0,
+                  opacity: 1,
                   transition: "all 0.3s",
                   fontFamily: "var(--font-display)",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLSpanElement).style.opacity = "1"; }}
-                onMouseLeave={(e) => { if (!isActive) (e.currentTarget as HTMLSpanElement).style.opacity = "0"; }}
               >
                 {label}
               </span>

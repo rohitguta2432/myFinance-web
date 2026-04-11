@@ -597,21 +597,42 @@ function AuditLogsView() {
 function OverviewView({
   stats,
   statsLoading,
+  statsError,
   users,
   usersLoading,
+  usersError,
   activity,
+  activityError,
   onSelectUser,
 }: {
   stats?: AdminStats;
   statsLoading: boolean;
+  statsError?: boolean;
   users?: AdminUser[];
   usersLoading: boolean;
+  usersError?: boolean;
   activity?: ActivityDay[];
+  activityError?: boolean;
   onSelectUser: (id: string) => void;
 }) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const perPage = 10;
+
+  if (statsError || usersError || activityError) {
+    return (
+      <div style={{ padding: 40, textAlign: 'center' }}>
+        <div style={{ width: 48, height: 48, background: 'rgba(239,68,68,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <span style={{ fontSize: 24 }}>!</span>
+        </div>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: '#F1F5F9', marginBottom: 8 }}>Failed to load dashboard data</h3>
+        <p style={{ fontSize: 13, color: '#94A3B8', marginBottom: 16 }}>Check your connection or try refreshing the page.</p>
+        <button onClick={() => window.location.reload()} style={{ padding: '8px 20px', background: '#1E293B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#F1F5F9', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   const filtered = (users || []).filter(
     (u) =>
@@ -1184,19 +1205,19 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
-  const { data: stats, isLoading: statsLoading } = useQuery<AdminStats>({
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useQuery<AdminStats>({
     queryKey: ['admin-stats'],
     queryFn: () => fetchAdmin('/admin/stats'),
     enabled: authenticated,
   });
 
-  const { data: users, isLoading: usersLoading } = useQuery<AdminUser[]>({
+  const { data: users, isLoading: usersLoading, isError: usersError } = useQuery<AdminUser[]>({
     queryKey: ['admin-users'],
     queryFn: () => fetchAdmin('/admin/users'),
     enabled: authenticated,
   });
 
-  const { data: activity } = useQuery<ActivityDay[]>({
+  const { data: activity, isError: activityError } = useQuery<ActivityDay[]>({
     queryKey: ['admin-activity'],
     queryFn: () => fetchAdmin('/admin/activity?days=7'),
     enabled: authenticated,
@@ -1269,9 +1290,12 @@ export default function AdminPage() {
             <OverviewView
               stats={stats}
               statsLoading={statsLoading}
+              statsError={statsError}
               users={users}
               usersLoading={usersLoading}
+              usersError={usersError}
               activity={activity}
+              activityError={activityError}
               onSelectUser={setSelectedUserId}
             />
           )}

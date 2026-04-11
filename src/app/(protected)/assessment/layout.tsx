@@ -140,12 +140,14 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
     const progress = STEP_PROGRESS[activeStep] ?? 0;
 
     return (
-        <div style={{ minHeight: "100vh", background: "#0B0F1A", display: "flex", flexDirection: "column" }}>
+        <div style={{ height: "100vh", background: "#0B0F1A", display: "flex", flexDirection: "column", paddingTop: 64, paddingBottom: 72, overflow: "hidden", fontFamily: "var(--font-display)" }}>
             <style>{`
                 .assessment-sidebar { display: none; }
                 @media (min-width: 1024px) { .assessment-sidebar { display: flex; } }
                 .assessment-mobile-progress { display: flex; }
                 @media (min-width: 1024px) { .assessment-mobile-progress { display: none; } }
+                .assessment-main::-webkit-scrollbar { display: none; }
+                .assessment-main { scrollbar-width: none; }
             `}</style>
 
             {/* Mobile progress bar — hidden on desktop */}
@@ -194,7 +196,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
             </div>
 
             {/* Sidebar + Main */}
-            <div style={{ display: "flex", flex: 1 }}>
+            <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
                 {/* Desktop sidebar — hidden on mobile */}
                 <aside
                     className="assessment-sidebar"
@@ -204,6 +206,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                         flexShrink: 0,
                         padding: "32px 24px",
                         borderRight: "1px solid rgba(255,255,255,0.05)",
+                        overflowY: "auto",
                     }}
                 >
                     <p
@@ -272,8 +275,10 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                 </aside>
 
                 {/* Main content */}
-                <main style={{ flex: 1, width: "100%" }}>
-                    <InactivityGuard>{children}</InactivityGuard>
+                <main className="assessment-main" style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
+                    <div style={{ maxWidth: 1152, margin: "0 auto", padding: "16px 24px" }}>
+                        <InactivityGuard>{children}</InactivityGuard>
+                    </div>
                 </main>
             </div>
         </div>

@@ -2,10 +2,25 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
+
+const PAGE_TITLES: Record<string, string> = {
+    "/assessment/step-1": "Personal Profile",
+    "/assessment/step-2": "Income & Expenses",
+    "/assessment/step-3": "Assets & Liabilities",
+    "/assessment/step-4": "Financial Goals",
+    "/assessment/step-5": "Insurance Gap",
+    "/assessment/step-6": "Tax Optimization",
+    "/assessment/complete": "Assessment Complete",
+    "/dashboard": "Financial Dashboard",
+    "/dashboard/action-plan": "Action Plan",
+    "/dashboard/insurance": "Insurance Analysis",
+    "/dashboard/tax": "Tax Planning",
+    "/admin": "Admin Panel",
+};
 
 const navLinks = [
     { label: "Diagnosis", href: "/#prob" },
@@ -36,6 +51,10 @@ export function Navbar() {
     const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const pathname = usePathname();
+
+    const isAppRoute = ["/assessment", "/dashboard", "/admin"].some((r) => pathname.startsWith(r));
+    const pageTitle = PAGE_TITLES[pathname] || (pathname.startsWith("/assessment") ? "Assessment" : pathname.startsWith("/dashboard") ? "Dashboard" : "");
     const isComplete = useAssessmentStore((s) => s.isComplete);
 
     useEffect(() => {
@@ -121,26 +140,40 @@ export function Navbar() {
                 <img src="/myfinancial-logo.svg" alt="MyFinancial" style={{ height: 40, width: "auto" }} />
             </Link>
 
-            <ul className="hidden md:flex" style={{ listStyle: "none", display: undefined, gap: "2rem" }}>
-                {navLinks.map((link) => (
-                    <li key={link.href}>
-                        <Link
-                            href={link.href}
-                            style={{
-                                fontFamily: "var(--font-display)",
-                                fontSize: 14,
-                                color: "#CBD5E1",
-                                fontWeight: 600,
-                                letterSpacing: "0.01em",
-                                textDecoration: "none",
-                                transition: "color 0.2s",
-                            }}
-                        >
-                            {link.label}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            {isAppRoute ? (
+                <div className="hidden md:flex" style={{ display: undefined, alignItems: "center", gap: 8 }}>
+                    <span style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: 16,
+                        fontWeight: 700,
+                        color: "#F1F5F9",
+                        letterSpacing: "-0.01em",
+                    }}>
+                        {pageTitle}
+                    </span>
+                </div>
+            ) : (
+                <ul className="hidden md:flex" style={{ listStyle: "none", display: undefined, gap: "2rem" }}>
+                    {navLinks.map((link) => (
+                        <li key={link.href}>
+                            <Link
+                                href={link.href}
+                                style={{
+                                    fontFamily: "var(--font-display)",
+                                    fontSize: 14,
+                                    color: "#CBD5E1",
+                                    fontWeight: 600,
+                                    letterSpacing: "0.01em",
+                                    textDecoration: "none",
+                                    transition: "color 0.2s",
+                                }}
+                            >
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             <div className="hidden md:flex" style={{ display: undefined, alignItems: "center", gap: 8, position: "relative" }} ref={dropdownRef}>
                 {user ? (

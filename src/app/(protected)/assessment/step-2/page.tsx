@@ -22,6 +22,15 @@ import {
     useUpdateExpenseMutation,
 } from "@/hooks/assessment/useFinancials";
 import { StepNavigation } from "@/components/assessment/step-navigation";
+import { SectionNav } from "@/components/ui/section-nav";
+
+const STEP2_SECTIONS = [
+    { id: "income", label: "Income" },
+    { id: "expenses", label: "Expenses" },
+    { id: "cashflow", label: "Cash Flow" },
+];
+
+
 import type { IncomeItem, ExpenseItem } from "@/lib/assessment-api";
 
 // ─── Emoji Maps ────────────────────────────────────────────────────────────────
@@ -297,7 +306,7 @@ export default function Step2Page() {
 
     if (isFetchingFinancials) {
         return (
-            <div style={{ padding: "24px 24px 120px", maxWidth: 800, margin: "0 auto" }}>
+            <div style={{ padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto" }}>
                 {[1, 2, 3].map((i) => (
                     <div
                         key={i}
@@ -317,8 +326,8 @@ export default function Step2Page() {
     }
 
     return (
-        <div style={{ padding: "24px 24px 120px", maxWidth: 800, margin: "0 auto" }}>
-
+        <div style={{ padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto" }}>
+            <SectionNav sections={STEP2_SECTIONS} scrollContainer=".assessment-main" />
             {/* Header */}
             <div style={{ marginBottom: 32 }}>
                 <h1 style={{ fontSize: 24, fontWeight: 700, color: "#F1F5F9", margin: "0 0 8px" }}>
@@ -330,7 +339,7 @@ export default function Step2Page() {
             </div>
 
             {/* ── Income Section ─────────────────────────────────────────────── */}
-            <div style={{ marginBottom: 8 }}>
+            <div id="income" style={{ marginBottom: 8 }}>
                 <h2 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", margin: "0 0 12px" }}>
                     Income Sources
                 </h2>
@@ -413,7 +422,7 @@ export default function Step2Page() {
             </button>
 
             {/* ── Expense Section ────────────────────────────────────────────── */}
-            <div style={{ marginBottom: 8 }}>
+            <div id="expenses" style={{ marginBottom: 8 }}>
                 <h2 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", margin: "0 0 12px" }}>
                     Expenses
                 </h2>
@@ -500,6 +509,7 @@ export default function Step2Page() {
             </button>
 
             {/* ── Cash Flow Summary Card ─────────────────────────────────────── */}
+            <div id="cashflow" />
             {incomes.length > 0 && expenses.length > 0 && (
                 <div style={{
                     background: "#0F172A", border: "2px solid rgba(16,185,129,0.2)",

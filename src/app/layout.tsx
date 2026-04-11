@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Newsreader } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileStickyCTA } from "@/components/layout/mobile-sticky-cta";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { ConditionalChrome } from "@/components/layout/conditional-chrome";
 
 const bricolage = Bricolage_Grotesque({
     subsets: ["latin"],
@@ -114,10 +112,7 @@ export default function RootLayout({
                     >
                         Skip to main content
                     </a>
-                    <Navbar />
-                    <main id="main-content">{children}</main>
-                    <Footer />
-                    <MobileStickyCTA />
+                    <ConditionalChrome>{children}</ConditionalChrome>
                 </AuthProvider>
             </body>
         </html>

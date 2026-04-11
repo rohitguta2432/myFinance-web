@@ -400,7 +400,7 @@ export default function Step3Page() {
 
     if (isFetchingBalance) {
         return (
-            <div style={{ padding: "24px 24px 120px", maxWidth: 900, margin: "0 auto" }}>
+            <div style={{ padding: "24px 24px 180px", maxWidth: 900, margin: "0 auto" }}>
                 {[1, 2, 3].map((i) => (
                     <div
                         key={i}
@@ -420,7 +420,7 @@ export default function Step3Page() {
     }
 
     return (
-        <div style={{ padding: "24px 24px 120px", maxWidth: 900, margin: "0 auto" }}>
+        <div style={{ padding: "24px 24px 180px", maxWidth: 900, margin: "0 auto" }}>
 
             {/* Header */}
             <div style={{ marginBottom: 24 }}>

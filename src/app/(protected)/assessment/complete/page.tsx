@@ -33,7 +33,9 @@ export default function AssessmentComplete() {
                 minHeight: "100vh",
                 background: "#0B0F1A",
                 padding: 24,
-                position: "relative",
+                position: "fixed",
+                inset: 0,
+                zIndex: 30,
                 overflow: "hidden",
             }}
         >

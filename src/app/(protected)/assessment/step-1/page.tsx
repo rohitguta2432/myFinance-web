@@ -17,6 +17,13 @@ import toast from "react-hot-toast";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { useProfileQuery, useProfileMutation } from "@/hooks/assessment/useProfile";
 import { StepNavigation } from "@/components/assessment/step-navigation";
+import { SectionNav } from "@/components/ui/section-nav";
+
+const STEP1_SECTIONS = [
+    { id: "profile", label: "Profile" },
+    { id: "investor", label: "Investor Style" },
+];
+
 
 // ─── Risk Questions ───────────────────────────────────────────────────────────
 
@@ -260,7 +267,7 @@ export default function Step1Page() {
     // Loading skeleton
     if (isFetching) {
         return (
-            <div style={{ padding: "24px 24px 120px", maxWidth: 800, margin: "0 auto" }}>
+            <div style={{ padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto" }}>
                 {[1, 2, 3, 4].map((i) => (
                     <div
                         key={i}
@@ -280,10 +287,10 @@ export default function Step1Page() {
     }
 
     return (
-        <div style={{ padding: "24px 24px 120px", maxWidth: 800, margin: "0 auto" }}>
-
+        <div style={{ padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto" }}>
+            <SectionNav sections={STEP1_SECTIONS} scrollContainer=".assessment-main" />
             {/* ── Section A: Personal Profile ────────────────────────────────── */}
-            <section style={{ marginBottom: 32 }}>
+            <section id="profile" style={{ marginBottom: 32 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                     <span style={{
                         display: "flex", alignItems: "center", justifyContent: "center",
@@ -684,7 +691,7 @@ export default function Step1Page() {
             <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "8px 0 32px" }} />
 
             {/* ── Section B: Investor Style ──────────────────────────────────── */}
-            <section>
+            <section id="investor">
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                     <span style={{
                         display: "flex", alignItems: "center", justifyContent: "center",

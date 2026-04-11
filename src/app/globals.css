@@ -100,6 +100,13 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -109,6 +116,11 @@ body {
   font-size: 16px;
   line-height: 1.7;
   overflow-x: clip;
+  scrollbar-width: none;
+}
+
+* {
+  scrollbar-width: none;
 }
 
 a {

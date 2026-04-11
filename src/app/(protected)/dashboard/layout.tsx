@@ -114,7 +114,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   return (
-    <div style={{ display: "flex", flex: 1, minHeight: "calc(100vh - 64px)" }}>
+    <div style={{ display: "flex", flex: 1, minHeight: "calc(100vh - 64px)", marginTop: 64 }}>
       <UpgradeModal isOpen={showUpgradeModal} onClose={() => setShowUpgradeModal(false)} tabLabel={upgradeTabLabel} />
 
       {/* Left Sidebar — desktop only */}

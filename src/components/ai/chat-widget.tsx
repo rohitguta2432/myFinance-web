@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 // ─── TYPES ───────────────────────────────────────────
 interface ChatMessage {
@@ -135,6 +136,7 @@ function renderMarkdown(text: string, codeBg: string): string {
 
 // ─── CHAT WIDGET COMPONENT ──────────────────────────
 export default function ChatWidget({ user }: { user?: Record<string, unknown> }) {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'chat' | 'faq'>('chat');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
@@ -219,6 +221,8 @@ export default function ChatWidget({ user }: { user?: Record<string, unknown> })
   };
 
   const fontFamily = "var(--font-display, 'DM Sans', sans-serif)";
+
+  if (pathname.startsWith('/admin')) return null;
 
   return (
     <>
@@ -651,7 +655,10 @@ export default function ChatWidget({ user }: { user?: Record<string, unknown> })
                 <div
                   key={idx}
                   className="mera-faq-item"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedFaq(expandedFaq === idx ? null : idx); } }}
                   style={{
                     padding: '10px 14px',
                     borderRadius: 12,

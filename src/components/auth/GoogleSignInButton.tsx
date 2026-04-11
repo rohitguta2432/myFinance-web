@@ -18,6 +18,7 @@ export function GoogleSignInButton({ children, className, style }: GoogleSignInB
         flow: "auth-code",
         ux_mode: "popup",
         onSuccess: async (codeResponse) => {
+            console.log("[GoogleSignIn] onSuccess, code:", codeResponse.code?.substring(0, 20) + "...");
             setLoading(true);
             try {
                 const res = await fetch("/api/auth/google", {
@@ -25,6 +26,8 @@ export function GoogleSignInButton({ children, className, style }: GoogleSignInB
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ code: codeResponse.code }),
                 });
+                const data = await res.json();
+                console.log("[GoogleSignIn] API response:", res.status, data);
                 if (res.ok) {
                     router.push("/dashboard");
                 }
@@ -32,7 +35,10 @@ export function GoogleSignInButton({ children, className, style }: GoogleSignInB
                 setLoading(false);
             }
         },
-        onError: () => setLoading(false),
+        onError: (error) => {
+            console.error("[GoogleSignIn] onError:", error);
+            setLoading(false);
+        },
     });
 
     const handleClick = useCallback(async () => {

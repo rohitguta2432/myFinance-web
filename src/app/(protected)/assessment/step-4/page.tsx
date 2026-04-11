@@ -77,8 +77,10 @@ const S = {
     page: {
         display: "flex",
         flexDirection: "column" as const,
-        height: "100%",
-        paddingBottom: 100,
+        padding: "24px 24px 180px",
+        maxWidth: 960,
+        margin: "0 auto",
+        width: "100%",
     },
     header: { marginBottom: 24 },
     h1: {
@@ -808,10 +810,10 @@ export default function Step4FinancialGoals() {
                                     ["Current Savings", formatToCrLakh(totalCurrentSavingsAll)],
                                     ["Total SIP Required", `₹ ${Math.round(totalSIPRequiredAll).toLocaleString("en-IN")}`],
                                 ].map(([label, val], i) => (
-                                    <>
-                                        <div key={`l${i}`} style={{ color: "#94A3B8" }}>{label}</div>
-                                        <div key={`v${i}`} style={{ textAlign: "right", fontWeight: 700, color: i === 3 ? "#10B981" : "#F1F5F9" }}>{val}</div>
-                                    </>
+                                    <div key={i} style={{ display: "contents" }}>
+                                        <div style={{ color: "#94A3B8" }}>{label}</div>
+                                        <div style={{ textAlign: "right", fontWeight: 700, color: i === 3 ? "#10B981" : "#F1F5F9" }}>{val}</div>
+                                    </div>
                                 ))}
                             </div>
 

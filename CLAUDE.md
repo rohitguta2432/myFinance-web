@@ -1,38 +1,52 @@
 # myFinance-web
 
-Personal finance platform built with Next.js 15 (App Router), React 19, Tailwind CSS 4, AWS DynamoDB, and AWS Bedrock.
+Personal finance platform for Indian users. 6-step assessment wizard, personalized dashboard, AI advisory chat (Kira), tax optimizer, insurance gap analysis, and a blog.
 
 ## Stack
 
-- **Framework**: Next.js 15 with Turbopack (`npm run dev`)
-- **UI**: React 19, Radix UI, Lucide icons, Tailwind CSS 4
-- **Database**: AWS DynamoDB (tables: `myfinancial-blog-posts`, `myfinancial-comments`)
-- **AI**: AWS Bedrock (Amazon Nova Pro) for blog content generation
+- **Framework**: Next.js 15 with Turbopack
+- **UI**: React 19, Lucide icons, Tailwind CSS 4
+- **State**: Zustand (assessment store), TanStack Query (server state)
+- **Auth**: Google OAuth (`@react-oauth/google`) + JWT sessions, admin SHA256 auth
+- **Database**: AWS DynamoDB (blog posts, comments)
+- **AI**: AWS Bedrock (Amazon Nova Pro) for blog content; Spring Boot backend for Kira chat
 - **Deployment**: AWS Amplify (auto-deploys on push to `main`)
-- **Content**: Cheerio for URL scraping, Marked for Markdown rendering
 
 ## Project Structure
 
-- `src/app/` — Next.js App Router pages and API routes
-- `src/app/api/admin/` — Protected admin API routes (blog CRUD, URL import, AI write)
-- `src/app/api/blog/` — Public API routes (posts listing, comments)
-- `src/app/blog/` — Public blog pages and admin dashboard
-- `src/components/blog/` — Blog components (card, TOC, share bar, comments)
-- `src/lib/` — Shared utilities (DynamoDB client, auth, types)
+- `src/app/(protected)/assessment/` — 6-step financial assessment wizard (steps 1-6 + complete)
+- `src/app/(protected)/dashboard/` — Financial dashboard (summary, action plan, insurance, tax)
+- `src/app/(protected)/admin/` — Admin panel (user management, stats, audit logs)
+- `src/app/api/auth/` — Google OAuth + session management
+- `src/app/api/chat/` — Kira AI chat proxy to Spring Boot backend
+- `src/app/api/admin/` — Protected admin API routes (blog CRUD, AI write, URL import)
+- `src/app/api/blog/` — Public blog API (posts listing, comments)
+- `src/app/blog/` — Public blog pages and blog admin dashboard
+- `src/components/ai/` — Kira chat widget (hidden on `/admin` routes)
+- `src/components/assessment/` — Step navigation
+- `src/components/dashboard/` — ScoreRing, charts, SectionNav, projections
+- `src/components/auth/` — AuthProvider, GoogleSignIn, InactivityGuard
+- `src/hooks/assessment/` — useProfile, useFinancials, useTax, useInsuranceGap, etc.
+- `src/hooks/dashboard/` — useProjection, useDashboardSummary, useRedFlags, etc.
+- `src/store/useAssessmentStore.ts` — Zustand store for all assessment data
+- `src/lib/` — Auth, DynamoDB client, types, assessment API helpers
 
 ## Conventions
 
 - All styles use inline styles or component-scoped `<style>` tags (no CSS modules)
-- Colors use the dark theme palette: backgrounds `#0B0F1A`/`#0F172A`, text `#F1F5F9`/`#CBD5E1`
-- Admin routes are protected via `isAuthenticated()` from `src/lib/admin-auth.ts`
-- Blog content is stored as Markdown in DynamoDB, rendered with `marked`
-- Category colors are defined as `{ bg, text }` objects in components that need them
+- Colors use the dark theme palette: backgrounds `#0B0F1A`/`#0F172A`, text `#F1F5F9`/`#CBD5E1`, accent `#10B981`
+- Font: Bricolage Grotesque (`var(--font-display)`) for dashboard/assessment; serif for landing
+- Admin routes protected via `isAuthenticated()` from `src/lib/admin-auth.ts`
+- Protected routes use `(protected)` route group with session guard in layout
+- Assessment/dashboard components are `"use client"` — no SSR
+- Blog content stored as Markdown in DynamoDB, rendered with `marked`
 
 ## Commands
 
-- `npm run dev` — Start dev server (requires Node 20+, use `nvm use 20`)
+- `npm run dev` or `npx next dev --turbopack -p 3001` — Start dev server on port 3001
 - `npm run build` — Production build
 - `npm run lint` — ESLint
+- `/start` — Bootstrap dev environment (Node 20, deps, env check, start server)
 - `/deploy` — Push to main and monitor Amplify deployment
 - `/import-blog <url>` — Import, improve, and publish a blog post from URL
 
@@ -204,10 +218,10 @@ MyFinancial is a personal finance platform for Indian users. It has a 6-step fin
 - Example inline style objects:
 - Category colors stored as Record objects with `bg` and `text` properties
 ## React Patterns
-- Use `useState` for component-level state (no external state library)
-- Use `useCallback` for memoized event handlers to avoid recreating on every render
-- Use `useEffect` for side effects and data fetching
-- Example: `const fetchComments = useCallback(async () => { ... }, [postId]);`
+- Use Zustand (`useAssessmentStore`) for cross-component assessment state
+- Use TanStack Query (`useQuery`/`useMutation`) for server state and API calls
+- Use `useState` for component-local UI state
+- Use `useCallback` for memoized event handlers
 - `"use client"` directive required at top of any component using hooks or interactivity
 - Server components for pages and layout when no interactivity needed
 - Keep client components focused on interactive features only
@@ -224,12 +238,15 @@ MyFinancial is a personal finance platform for Indian users. It has a 6-step fin
 ## Architecture
 
 ## Pattern Overview
-- Server-side rendering with React Server Components for public pages
-- API-driven backend with protected admin routes
-- Client-side state management for blog readers and admin dashboard
-- AWS DynamoDB as single source of truth for content
-- AWS Bedrock for AI-assisted content generation
-- Middleware-based authentication for protected routes
+- Server-side rendering with React Server Components for public/landing pages
+- Client-side `"use client"` components for assessment wizard and dashboard (no SSR)
+- Zustand store for assessment data persistence across steps
+- TanStack Query for API state management with caching
+- Google OAuth + JWT sessions for user authentication
+- Spring Boot backend (EC2) for assessment API, chat AI, and user data
+- AWS DynamoDB for blog posts and comments
+- AWS Bedrock (Nova Pro) for AI blog content generation
+- Middleware-based auth redirects for protected routes
 ## Layers
 - Purpose: Render UI components, handle user interactions, manage client state
 - Location: `src/components/`, `src/app/*/page.tsx`
@@ -251,10 +268,12 @@ MyFinancial is a personal finance platform for Indian users. It has a 6-step fin
 - Contains: Blog posts (`myfinancial-blog-posts`), comments (`myfinancial-comments`)
 - Key structure: Posts use `PK: POST#{slug}`, global secondary index on `status-published_at-index`
 ## Data Flow
-- Public pages: Minimal client state, primarily server-rendered with React Server Components
-- Blog detail page: useState for post data, related posts, loading state, scroll progress
-- Admin dashboard: useState for authentication, tab switching (posts/comments), CRUD operations
-- Auth: Global `AuthProvider` wraps app with Google OAuth context, manages user sessions
+- Public pages: Server-rendered with React Server Components
+- Assessment wizard: Zustand store (`useAssessmentStore`) persists data across 6 steps; custom hooks (`useProfileQuery`, `useTaxMutation`, etc.) sync with Spring Boot backend via TanStack Query
+- Dashboard: Custom hooks (`useFinancialHealthScore`, `useRedFlags`, `usePriorityActions`) derive scores from assessment store data
+- Kira AI Chat: `ChatWidget` sends messages to `/api/chat` which proxies to Spring Boot backend with session JWT and financial context
+- Blog: DynamoDB-backed with AI writing assistant (AWS Bedrock)
+- Auth: `AuthProvider` wraps app with Google OAuth context; `InactivityGuard` monitors activity with 20-min timeout
 ## Key Abstractions
 - Purpose: Type-safe representation of blog content
 - Location: `src/lib/types.ts`
@@ -315,8 +334,9 @@ MyFinancial is a personal finance platform for Indian users. It has a 6-step fin
 
 | Skill | Description | Path |
 |-------|-------------|------|
+| start | Bootstrap dev environment — Node 20, deps, env check, start server on port 3001 | `~/.claude/skills/start/SKILL.md` |
 | deploy | Push to main and deploy to AWS Amplify, then monitor build status until complete | `.claude/skills/deploy/SKILL.md` |
-| import-blog | Import a blog post from a URL, optionally improve with AI, and publish to Supabase | `.claude/skills/import-blog/SKILL.md` |
+| import-blog | Import a blog post from a URL, optionally improve with AI, and publish | `.claude/skills/import-blog/SKILL.md` |
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
