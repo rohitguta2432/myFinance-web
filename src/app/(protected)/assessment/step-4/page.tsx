@@ -154,27 +154,28 @@ const S = {
         position: "relative" as const,
         background: "#0F172A",
         width: "100%",
-        maxWidth: 440,
+        maxWidth: 560,
         borderRadius: 24,
         border: "1px solid rgba(255,255,255,0.1)",
         overflow: "hidden",
-        maxHeight: "85vh",
+        maxHeight: "90vh",
         overflowY: "auto" as const,
+        boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
     },
     modalHeader: {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "20px 24px",
+        padding: "24px 28px",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
         background: "#0F172A",
         position: "sticky" as const,
         top: 0,
         zIndex: 10,
     },
-    modalTitle: { fontWeight: 700, color: "#F1F5F9", fontSize: 16 },
-    modalBody: { padding: 24, display: "flex", flexDirection: "column" as const, gap: 16 },
-    label: { fontSize: 11, fontWeight: 600, color: "#94A3B8", display: "block", marginBottom: 4 },
+    modalTitle: { fontWeight: 700, color: "#F1F5F9", fontSize: 18 },
+    modalBody: { padding: 28, display: "flex", flexDirection: "column" as const, gap: 20 },
+    label: { fontSize: 13, fontWeight: 600, color: "#94A3B8", display: "block", marginBottom: 6 },
     input: {
         width: "100%",
         background: "#0B0F1A",
@@ -946,6 +947,8 @@ export default function Step4FinancialGoals() {
                                 </div>
                             )}
 
+                        </div>
+                        <div style={{ padding: "16px 28px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0F172A", position: "sticky" as const, bottom: 0 }}>
                             <button onClick={handleSave} style={S.btnPrimary}>
                                 {editingId ? "Update Goal" : "Save Goal"}
                             </button>
