@@ -89,9 +89,47 @@
 
 ## Traceability
 
-| Phase | Requirements |
-|-------|-------------|
-| — | (Populated by roadmap) |
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| INFRA-01 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Pending |
+| INFRA-03 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Pending |
+| INFRA-05 | Phase 1 | Pending |
+| INFRA-06 | Phase 1 | Pending |
+| UI-01 | Phase 1 | Pending |
+| UI-02 | Phase 1 | Pending |
+| UI-03 | Phase 1 | Pending |
+| UI-04 | Phase 1 | Pending |
+| ASSESS-01 | Phase 2 | Pending |
+| ASSESS-02 | Phase 2 | Pending |
+| ASSESS-03 | Phase 2 | Pending |
+| ASSESS-08 | Phase 2 | Pending |
+| ASSESS-09 | Phase 2 | Pending |
+| ASSESS-10 | Phase 2 | Pending |
+| ASSESS-04 | Phase 3 | Pending |
+| ASSESS-05 | Phase 3 | Pending |
+| ASSESS-06 | Phase 3 | Pending |
+| ASSESS-07 | Phase 3 | Pending |
+| DASH-01 | Phase 4 | Pending |
+| DASH-02 | Phase 4 | Pending |
+| DASH-03 | Phase 4 | Pending |
+| DASH-04 | Phase 4 | Pending |
+| DASH-05 | Phase 4 | Pending |
+| DASH-06 | Phase 4 | Pending |
+| DASH-07 | Phase 4 | Pending |
+| DASH-08 | Phase 4 | Pending |
+| DASH-09 | Phase 4 | Pending |
+| DASH-10 | Phase 4 | Pending |
+| FLOW-01 | Phase 4 | Pending |
+| FLOW-02 | Phase 4 | Pending |
+| FLOW-03 | Phase 4 | Pending |
+| CHAT-01 | Phase 5 | Pending |
+| CHAT-02 | Phase 5 | Pending |
+| CHAT-03 | Phase 5 | Pending |
+| ADMIN-01 | Phase 5 | Pending |
+| ADMIN-02 | Phase 5 | Pending |
+| ADMIN-03 | Phase 5 | Pending |
 
 ---
 *Defined: 2026-04-11*
