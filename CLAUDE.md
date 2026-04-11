@@ -41,6 +41,41 @@ Personal finance platform for Indian users. 6-step assessment wizard, personaliz
 - Assessment/dashboard components are `"use client"` — no SSR
 - Blog content stored as Markdown in DynamoDB, rendered with `marked`
 
+## Backend API (Spring Boot — separate repo)
+
+**Repo**: `~/Documents/myFinance/backend/` | **Port**: 8081 | **DB**: PostgreSQL 14 | **Host**: EC2 (`3.218.140.100`)
+
+All endpoints are under `/api/v1/` and require JWT Bearer token (except auth & location).
+
+| Endpoint | Methods | Description |
+|----------|---------|-------------|
+| `/auth/google` | POST | Google OAuth login → JWT + user info |
+| `/profile` | GET, POST | User profile (age, location, risk tolerance) |
+| `/cashflow` | GET, POST, PUT, DELETE | Income & expenses CRUD |
+| `/cashflow/summary` | GET | Monthly surplus, savings rate |
+| `/networth` | GET | Balance sheet (assets + liabilities) |
+| `/networth/asset` | POST, PUT, DELETE | Asset CRUD |
+| `/networth/liability` | POST, PUT, DELETE | Liability CRUD |
+| `/goals` | GET, POST, PUT, DELETE | Financial goals CRUD |
+| `/goal-projection` | GET | Goal feasibility projections |
+| `/insurance` | GET, POST | Insurance coverage |
+| `/insurance/gap` | GET | Insurance gap analysis (recommended vs actual) |
+| `/tax` | GET, POST | Tax regime & deductions |
+| `/tax-calculation` | GET | Old vs New regime tax calculation |
+| `/portfolio-analysis` | GET | Asset allocation analysis |
+| `/risk-scoring` | GET | Investment risk score |
+| `/dashboard/summary` | GET | Aggregated dashboard (12 calculators) |
+| `/chat` | POST | Kira AI advisor (AWS Bedrock Nova) |
+| `/location/states` | GET | Indian states lookup |
+| `/location/cities` | GET | Indian cities lookup |
+| `/admin/stats` | GET | User analytics (restricted) |
+| `/admin/users` | GET | User listing |
+| `/admin/activity` | GET | Activity feed |
+
+**Auth flow**: Google ID token → backend validates → returns JWT (7-day expiry) → Next.js stores as `session` cookie → all API calls include `Authorization: Bearer <jwt>`
+
+**Proxy**: Next.js `/api/proxy/[...path]` forwards requests to `BACKEND_URL` with session JWT.
+
 ## Commands
 
 - `npm run dev` or `npx next dev --turbopack -p 3001` — Start dev server on port 3001

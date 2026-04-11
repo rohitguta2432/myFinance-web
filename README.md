@@ -97,6 +97,33 @@ npm run lint     # ESLint
 | `/api/admin/import-url` | POST | Import content from URL |
 | `/api/proxy/[...path]` | POST | Proxy to Spring Boot backend |
 
+### Backend API (Spring Boot — separate repo)
+
+**Repo**: `myFinance/backend/` | **Port**: 8081 | **DB**: PostgreSQL 14 | **Host**: EC2 (t3.small)
+
+All endpoints under `/api/v1/`, JWT auth required (except auth & location).
+
+| Endpoint | Methods | Description |
+|----------|---------|-------------|
+| `/auth/google` | POST | Google OAuth login → JWT |
+| `/profile` | GET, POST | User profile (age, risk tolerance, location) |
+| `/cashflow` | GET, POST, PUT, DELETE | Income & expenses |
+| `/cashflow/summary` | GET | Monthly surplus, savings rate |
+| `/networth` | GET | Balance sheet |
+| `/networth/asset`, `/liability` | POST, PUT, DELETE | Assets & liabilities CRUD |
+| `/goals` | GET, POST, PUT, DELETE | Financial goals |
+| `/goal-projection` | GET | Goal feasibility projections |
+| `/insurance` | GET, POST | Insurance coverage |
+| `/insurance/gap` | GET | Insurance gap analysis |
+| `/tax` | GET, POST | Tax regime & deductions |
+| `/tax-calculation` | GET | Old vs New regime comparison |
+| `/portfolio-analysis` | GET | Asset allocation analysis |
+| `/risk-scoring` | GET | Investment risk score |
+| `/dashboard/summary` | GET | Aggregated dashboard (12 calculators) |
+| `/chat` | POST | Kira AI advisor (AWS Bedrock Nova) |
+| `/location/states`, `/cities` | GET | Indian states/cities lookup |
+| `/admin/stats`, `/users`, `/activity` | GET | Admin analytics |
+
 ---
 
 ## Project Structure
