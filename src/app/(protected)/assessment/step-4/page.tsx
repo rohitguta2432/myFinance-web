@@ -138,10 +138,11 @@ const S = {
     overlay: {
         position: "fixed" as const,
         inset: 0,
-        zIndex: 50,
+        zIndex: 9999,
         display: "flex",
-        alignItems: "flex-end",
+        alignItems: "center",
         justifyContent: "center",
+        padding: 16,
     },
     overlayBackdrop: {
         position: "absolute" as const,
@@ -154,11 +155,10 @@ const S = {
         background: "#0F172A",
         width: "100%",
         maxWidth: 440,
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
+        borderRadius: 24,
         border: "1px solid rgba(255,255,255,0.1)",
         overflow: "hidden",
-        maxHeight: "90vh",
+        maxHeight: "85vh",
         overflowY: "auto" as const,
     },
     modalHeader: {
