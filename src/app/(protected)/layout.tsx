@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { Toaster } from "react-hot-toast";
+import ChatWidget from "@/components/ai/chat-widget";
 import type { ReactNode } from "react";
 
 export default async function ProtectedLayout({ children }: { children: ReactNode }) {
@@ -33,6 +34,7 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
                     duration: 3000,
                 }}
             />
+            <ChatWidget />
         </QueryProvider>
     );
 }
