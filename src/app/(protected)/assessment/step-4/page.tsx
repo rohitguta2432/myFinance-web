@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
     Plus,
@@ -865,7 +866,7 @@ export default function Step4FinancialGoals() {
             </div>
 
             {/* Goal Modal */}
-            {isModalOpen && (
+            {isModalOpen && createPortal(
                 <div style={S.overlay}>
                     <div style={S.overlayBackdrop} onClick={() => setIsModalOpen(false)} />
                     <div style={S.modal}>
@@ -954,11 +955,12 @@ export default function Step4FinancialGoals() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Limit Modal */}
-            {isLimitModalOpen && (
+            {isLimitModalOpen && createPortal(
                 <div style={{ ...S.overlay, alignItems: "center", padding: 16 }}>
                     <div style={S.overlayBackdrop} onClick={() => setIsLimitModalOpen(false)} />
                     <div style={{ position: "relative", background: "#0F172A", width: "100%", maxWidth: 360, borderRadius: 24, padding: 24, border: "1px solid rgba(255,255,255,0.1)", textAlign: "center" }}>
@@ -979,7 +981,8 @@ export default function Step4FinancialGoals() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             <StepNavigation
