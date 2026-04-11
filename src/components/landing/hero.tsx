@@ -54,7 +54,7 @@ export function HeroSection() {
                         alignItems: "center",
                         gap: 8,
                         fontFamily: "var(--font-display)",
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: 500,
                         padding: "6px 6px 6px 16px",
                         borderRadius: 100,
@@ -69,7 +69,7 @@ export function HeroSection() {
                         style={{
                             background: "linear-gradient(135deg, #10B981, #F5C842)",
                             color: "#080E12",
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: 700,
                             letterSpacing: "0.04em",
                             textTransform: "uppercase",
@@ -153,10 +153,11 @@ export function HeroSection() {
                 <div
                     style={{
                         fontFamily: "var(--font-display)",
-                        fontSize: 12,
-                        color: "#334155",
+                        fontSize: 14,
+                        color: "#94A3B8",
                         marginTop: 14,
                         display: "flex",
+                        flexWrap: "wrap",
                         gap: 16,
                         justifyContent: "center",
                         animation: "fade-up 1s 0.85s both",
@@ -176,6 +177,7 @@ export function HeroSection() {
                 <div
                     style={{
                         display: "flex",
+                        flexWrap: "wrap",
                         marginTop: 64,
                         border: "1px solid rgba(255,255,255,0.05)",
                         borderRadius: 14,
@@ -213,7 +215,7 @@ export function HeroSection() {
                             <div
                                 style={{
                                     fontFamily: "var(--font-display)",
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: "#94A3B8",
                                     marginTop: 2,
                                     letterSpacing: "0.06em",

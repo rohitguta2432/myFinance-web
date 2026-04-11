@@ -52,7 +52,7 @@ export function Navbar() {
                             href={link.href}
                             style={{
                                 fontFamily: "var(--font-display)",
-                                fontSize: 12,
+                                fontSize: 14,
                                 color: "#CBD5E1",
                                 fontWeight: 600,
                                 letterSpacing: "0.01em",
@@ -76,7 +76,7 @@ export function Navbar() {
                         fontFamily: "var(--font-display)",
                         background: "#10B981",
                         color: "#080E12",
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: 700,
                         padding: "8px 20px",
                         borderRadius: 8,

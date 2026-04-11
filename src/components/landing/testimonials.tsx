@@ -22,14 +22,14 @@ export function TestimonialsSection() {
                 {allTestimonials.map((t, i) => (
                     <div key={`${t.initials}-${i}`} className="testi-card">
                         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
-                            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16,185,129,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "#10B981", fontSize: 11 }}>{t.initials}</div>
+                            <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16,185,129,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "#10B981", fontSize: 12 }}>{t.initials}</div>
                             <div>
                                 <div style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700 }}>{t.name}</div>
-                                <div style={{ fontSize: 11, color: "#94A3B8" }}>{t.role}</div>
+                                <div style={{ fontSize: 12, color: "#94A3B8" }}>{t.role}</div>
                             </div>
                         </div>
                         <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.65, fontStyle: "italic", margin: 0 }}>{t.text}</p>
-                        <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 700, color: "#10B981", background: "rgba(16,185,129,0.06)", padding: "4px 10px", borderRadius: 6 }}>{t.result}</div>
+                        <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#10B981", background: "rgba(16,185,129,0.06)", padding: "4px 10px", borderRadius: 6 }}>{t.result}</div>
                     </div>
                 ))}
             </div>

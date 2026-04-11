@@ -54,43 +54,56 @@ export default function DisclaimerPage() {
     return (
         <>
             {/* Hero */}
-            <section className="section-padding bg-white">
+            <section className="section-padding" style={{ backgroundColor: "#0B1120" }}>
                 <div className="container-marketing text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center mx-auto mb-6">
-                        <AlertTriangle size={28} className="text-amber-600" />
+                    <div
+                        style={{
+                            width: 56,
+                            height: 56,
+                            borderRadius: 16,
+                            backgroundColor: "rgba(245,158,11,0.1)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto 24px",
+                        }}
+                    >
+                        <AlertTriangle size={28} style={{ color: "#F59E0B" }} />
                     </div>
-                    <h1 className="text-h1 text-foreground mb-4">Disclaimer</h1>
-                    <p className="text-body-lg text-muted-foreground max-w-[500px] mx-auto">
+                    <h1 className="text-h1" style={{ color: "#F1F5F9", marginBottom: 16 }}>Disclaimer</h1>
+                    <p className="text-body-lg" style={{ color: "#94A3B8", maxWidth: 500, marginLeft: "auto", marginRight: "auto" }}>
                         Please read this disclaimer carefully before using MyFinancial.
                     </p>
                 </div>
             </section>
 
             {/* Sections */}
-            <section className="section-padding bg-muted">
-                <div className="container-marketing max-w-[700px]">
-                    <div className="space-y-0">
-                        {sections.map((s, i) => (
-                            <div
-                                key={i}
-                                className={`py-8 ${i < sections.length - 1 ? "border-b border-border/60" : ""}`}
-                            >
-                                <h2 className="text-h4 text-foreground mb-3">
-                                    {i + 1}. {s.title}
-                                </h2>
-                                <p className="text-body text-muted-foreground leading-relaxed">
-                                    {s.content}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+            <section className="section-padding" style={{ backgroundColor: "#111827" }}>
+                <div className="container-marketing" style={{ maxWidth: 700 }}>
+                    {sections.map((s, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                paddingTop: 32,
+                                paddingBottom: 32,
+                                borderBottom: i < sections.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                            }}
+                        >
+                            <h2 style={{ fontSize: 18, fontWeight: 600, color: "#F1F5F9", marginBottom: 12 }}>
+                                {i + 1}. {s.title}
+                            </h2>
+                            <p style={{ fontSize: 15, lineHeight: 1.7, color: "#94A3B8" }}>
+                                {s.content}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </section>
 
             {/* Updated */}
-            <section className="py-12 bg-white">
+            <section style={{ padding: "48px 0", backgroundColor: "#0B1120" }}>
                 <div className="container-marketing text-center">
-                    <p className="text-caption text-muted-foreground">
+                    <p style={{ fontSize: 13, color: "#64748B" }}>
                         Last updated: February 2026
                     </p>
                 </div>

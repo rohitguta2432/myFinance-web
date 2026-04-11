@@ -32,13 +32,13 @@ export function HowItWorksSection() {
                                     transition: "all 0.3s",
                                 }}
                             >
-                                <div style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: s.active ? "#10B981" : "#334155", marginBottom: 14, display: "flex", alignItems: "center", gap: 6 }}>
+                                <div style={{ fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: s.active ? "#10B981" : "#64748B", marginBottom: 14, display: "flex", alignItems: "center", gap: 6 }}>
                                     <div style={{
                                         width: 22, height: 22, borderRadius: 6,
                                         background: s.active ? "rgba(16,185,129,0.06)" : "#121A22",
                                         border: s.active ? "1px solid rgba(16,185,129,0.15)" : "1px solid rgba(255,255,255,0.05)",
                                         display: "inline-flex", alignItems: "center", justifyContent: "center",
-                                        fontSize: 10, fontWeight: 800, color: s.active ? "#10B981" : undefined,
+                                        fontSize: 11, fontWeight: 800, color: s.active ? "#10B981" : undefined,
                                     }}>
                                         {s.num}
                                     </div>

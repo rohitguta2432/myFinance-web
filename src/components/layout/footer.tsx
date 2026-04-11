@@ -7,7 +7,7 @@ export function Footer() {
                 textAlign: "center",
                 color: "#94A3B8",
                 fontFamily: "var(--font-display)",
-                fontSize: 11,
+                fontSize: 13,
                 lineHeight: 2,
                 background: "linear-gradient(180deg, rgba(12,19,25,0.6) 0%, rgba(8,14,18,1) 100%)",
                 boxShadow: "inset 0 1px 0 rgba(255,255,255,0.03), 0 -8px 32px rgba(0,0,0,0.3)",
@@ -26,22 +26,28 @@ export function Footer() {
                         paddingTop: 16,
                         borderTop: "1px solid rgba(255,255,255,0.04)",
                         display: "flex",
+                        flexWrap: "wrap",
                         justifyContent: "center",
                         gap: 24,
                     }}
                 >
-                    {["Privacy", "Terms", "Refund", "Disclaimer"].map((link) => (
+                    {[
+                        { label: "Privacy", href: "/privacy" },
+                        { label: "Terms", href: "/terms" },
+                        { label: "Refund", href: "/refund" },
+                        { label: "Disclaimer", href: "/disclaimer" },
+                    ].map((link) => (
                         <a
-                            key={link}
-                            href="/"
+                            key={link.label}
+                            href={link.href}
                             style={{
                                 color: "#64748B",
                                 textDecoration: "none",
-                                fontSize: 11,
+                                fontSize: 13,
                                 transition: "color 0.2s",
                             }}
                         >
-                            {link}
+                            {link.label}
                         </a>
                     ))}
                 </div>

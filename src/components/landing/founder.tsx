@@ -12,7 +12,7 @@ export function FounderSection() {
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             />
                         </div>
-                        <div style={{ textAlign: "center", fontSize: 12, color: "#CBD5E1" }}>
+                        <div style={{ textAlign: "center", fontSize: 14, color: "#CBD5E1" }}>
                             <strong style={{ display: "block", fontFamily: "var(--font-display)", color: "#F0F4F8", fontSize: 16, marginBottom: 2 }}>Nithin Pushkaran</strong>
                             Founder · NISM Certified
                         </div>

@@ -35,7 +35,7 @@ export function TaxSection() {
                                     <div style={{ width: 36, height: 36, borderRadius: 8, background: "#1A242F", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{r.icon}</div>
                                     <div>
                                         <b style={{ fontFamily: "var(--font-display)", display: "block", fontSize: 13, color: "#F0F4F8" }}>{r.title}</b>
-                                        <span style={{ fontSize: 12, color: "#94A3B8" }}>{r.sub}</span>
+                                        <span style={{ fontSize: 13, color: "#94A3B8" }}>{r.sub}</span>
                                     </div>
                                 </div>
                             ))}
@@ -47,9 +47,9 @@ export function TaxSection() {
                     {/* Right — Tax Card */}
                     <div style={{ background: "#121A22", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 14, overflow: "hidden" }}>
                         <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            <h4 style={{ fontFamily: "var(--font-display)", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, margin: 0 }}>
+                            <h4 style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, margin: 0 }}>
                                 Illustrative Opportunity
-                                <span style={{ background: "rgba(16,185,129,0.06)", color: "#10B981", fontFamily: "var(--font-display)", fontSize: 9, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 4 }}>New Rules</span>
+                                <span style={{ background: "rgba(16,185,129,0.06)", color: "#10B981", fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 4 }}>New Rules</span>
                             </h4>
                         </div>
                         <div style={{ padding: "6px 20px" }}>
@@ -57,7 +57,7 @@ export function TaxSection() {
                                 <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 0", borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
                                     <span style={{ fontSize: 13, color: "#CBD5E1" }}>
                                         {row.label}
-                                        {row.sub && <small style={{ display: "block", fontSize: 11, color: "#334155", marginTop: 1 }}>{row.sub}</small>}
+                                        {row.sub && <small style={{ display: "block", fontSize: 12, color: "#64748B", marginTop: 1 }}>{row.sub}</small>}
                                     </span>
                                     <span style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#FB923C", whiteSpace: "nowrap" }}>{row.val}</span>
                                 </div>

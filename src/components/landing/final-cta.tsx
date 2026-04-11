@@ -16,7 +16,7 @@ export function FinalCTASection() {
                     <a href="https://app.myfinancial.in" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ textDecoration: "none" }}>Try Free Essentials</a>
                 </div>
 
-                <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#334155", marginTop: 20, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#94A3B8", marginTop: 20, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
                     <span>Confidential</span><span>·</span><span>SEBI RIA In Progress</span><span>·</span><span>No product selling</span>
                 </div>
             </div>

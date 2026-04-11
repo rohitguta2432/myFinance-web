@@ -75,15 +75,15 @@ export function PricingSection() {
                 <div className="plans-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginTop: 48 }}>
                     {plans.map((p) => (
                         <div key={p.name} className={p.popular ? "plan-card popular" : "plan-card"}>
-                            <span style={{ fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 6, marginBottom: 14, width: "fit-content", background: p.badgeBg, color: p.badgeColor }}>{p.badge}</span>
+                            <span style={{ fontFamily: "var(--font-display)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 6, marginBottom: 14, width: "fit-content", background: p.badgeBg, color: p.badgeColor }}>{p.badge}</span>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 2 }}>{p.name}</div>
-                            <div style={{ fontSize: 12, color: "#CBD5E1", marginBottom: 16 }}>{p.tagline}</div>
+                            <div style={{ fontSize: 13, color: "#CBD5E1", marginBottom: 16 }}>{p.tagline}</div>
                             <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 38, fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-1.5px" }}>{p.price}</div>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: 11, color: "#CBD5E1", marginBottom: 20 }}>{p.cycle}</div>
+                            <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#CBD5E1", marginBottom: 20 }}>{p.cycle}</div>
 
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
                                 {p.features.map((f) => (
-                                    <li key={f.text} style={{ fontSize: 12, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#E2E8F0" : "#64748B" }}>
+                                    <li key={f.text} style={{ fontSize: 13, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#E2E8F0" : "#64748B" }}>
                                         <span style={{ color: f.ok ? "#10B981" : "#64748B", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
                                         {f.text}
                                     </li>
