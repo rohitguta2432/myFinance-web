@@ -106,7 +106,7 @@ export default function RootLayout({
                 />
             </head>
             <body>
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="myfinancial_theme" disableTransitionOnChange>
+                <ThemeProvider attribute="class" defaultTheme="dark" enableSystem storageKey="myfinancial_theme" disableTransitionOnChange>
                     <AuthProvider>
                         <a
                             href="#main-content"
