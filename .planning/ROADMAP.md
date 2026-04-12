@@ -126,14 +126,13 @@ Plans:
 
 ### Phase 8: PDF report generation (financial plan, tax summary)
 
-**Goal:** Users can download two PDF reports from the dashboard — a Financial Plan Summary (health score, red flags, goals, actions, insurance gaps, projection chart) and a Tax Summary (income breakdown, old vs new regime comparison, deductions, optimization suggestions) — generated client-side with branded headers, A4 portrait layout, and Rs. currency formatting
-**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14, D-15, D-16
+**Goal:** [To be planned]
+**Requirements**: TBD
 **Depends on:** Phase 7
-**Plans:** 2 plans
+**Plans:** 0 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Install jsPDF/html2canvas/autotable, create pdf-utils.ts, Financial Plan Summary PDF generator
-- [ ] 08-02-PLAN.md — Tax Summary PDF generator, DownloadReportButton component, wire into dashboard layout
+- [ ] TBD (run /gsd-plan-phase 8 to break down)
 
 ### Phase 9: Email notifications (SIP reminders, rebalancing alerts, goal deviations)
 
