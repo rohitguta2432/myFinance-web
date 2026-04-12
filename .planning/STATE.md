@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 ## Current Position
 
 Phase: 6 of 17 (Dark/Light Theme Toggle)
-Plan: Not planned yet
-Status: Phases 1-5 complete (migration done) — starting feature expansion
-Last activity: 2026-04-12 — 12 new feature phases added (6-17)
+Plan: 1 of 2 complete (06-01 done, checkpoint reached — awaiting human verify)
+Status: Phase 6 in progress
+Last activity: 2026-04-12 — 06-01 theme infrastructure complete
 
-Progress: [██████░░░░░░░░░░░░░░] ~29% (5 of 17 phases complete)
+Progress: [██████░░░░░░░░░░░░░░] ~32% (5.5 of 17 phases — Phase 6 halfway)
 
 ### Roadmap Evolution
 - Phases 6-17 added: Post-migration feature expansion based on competitor analysis
@@ -65,6 +65,9 @@ Recent decisions affecting current work:
 - 01-02: activeStep derived from URL pathname in layout, not store — more reliable for browser navigation
 - 01-02: user_profile cookie checked client-side for InactivityGuard presence detection
 - 01-02: CSS media queries injected via style tag for responsive sidebar (required for inline-styles approach)
+- 06-01: next-themes class strategy chosen (not data-attribute) for forward Tailwind dark: compatibility
+- 06-01: storageKey=myfinancial_theme to avoid localStorage collision
+- 06-01: useAppTheme initializes to DARK_PALETTE to match SSR render and prevent hydration mismatch
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11
-Stopped at: Completed 01-02-PLAN.md (Stores and Shared UI)
-Resume file: None — Phase 1 complete, ready for Phase 2 (Assessment Step Pages)
+Last session: 2026-04-12
+Stopped at: Checkpoint after 06-01 tasks complete — awaiting human verify of theme toggle
+Resume file: None — continue with 06-02-PLAN.md after human approval
