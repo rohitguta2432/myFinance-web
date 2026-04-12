@@ -5,16 +5,31 @@
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Users complete the financial assessment wizard and see their personalized dashboard — this flow must work end-to-end after migration without regressions.
-**Current focus:** Phase 1 — Shared Infrastructure
+**Current focus:** Phase 6 — Dark/Light Theme Toggle
 
 ## Current Position
 
-Phase: 1 of 5 (Shared Infrastructure)
-Plan: 2 of 2 completed in current phase
-Status: Phase 1 complete — ready for Phase 2
-Last activity: 2026-04-11 — Plans 01-01 and 01-02 executed (shared infrastructure complete)
+Phase: 6 of 17 (Dark/Light Theme Toggle)
+Plan: Not planned yet
+Status: Phases 1-5 complete (migration done) — starting feature expansion
+Last activity: 2026-04-12 — 12 new feature phases added (6-17)
 
-Progress: [██░░░░░░░░] ~20% (Phase 1 of 5 complete)
+Progress: [██████░░░░░░░░░░░░░░] ~29% (5 of 17 phases complete)
+
+### Roadmap Evolution
+- Phases 6-17 added: Post-migration feature expansion based on competitor analysis
+- Phase 6: Dark/Light theme toggle
+- Phase 7: Public calculator pages (SIP, EMI, PPF, FD, HRA, etc.)
+- Phase 8: PDF report generation (financial plan, tax summary)
+- Phase 9: Email notifications (SIP reminders, rebalancing alerts, goal deviations)
+- Phase 10: Goal progress dashboard (track goals over time)
+- Phase 11: Net worth trend chart (track over months)
+- Phase 12: Gamification (streaks, badges, milestones)
+- Phase 13: Capital gains statement download
+- Phase 14: Tax harvesting recommendations
+- Phase 15: Guided tooltips and coach marks on first use
+- Phase 16: Confetti and celebration on goal completion
+- Phase 17: Expense tracking with auto-categorization
 
 ## Performance Metrics
 
