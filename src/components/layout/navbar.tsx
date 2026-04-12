@@ -30,6 +30,7 @@ const navLinks = [
     { label: "Pricing", href: "/#pricing" },
     { label: "About", href: "/#founder" },
     { label: "Blog", href: "/blog" },
+    { label: "Calculators", href: "/calculators" },
 ];
 
 const dropdownLinks = [
