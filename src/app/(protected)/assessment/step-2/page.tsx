@@ -23,6 +23,7 @@ import {
 } from "@/hooks/assessment/useFinancials";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import { SectionNav } from "@/components/ui/section-nav";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const STEP2_SECTIONS = [
     { id: "income", label: "Income" },
@@ -95,55 +96,54 @@ function calculateMonthly(item: { amount: number; frequency: string }): number {
     return item.amount / 12; // One-time amortized
 }
 
-// ─── Inline Styles ────────────────────────────────────────────────────────────
-
-const card: React.CSSProperties = {
-    background: "#0F172A",
-    border: "1px solid rgba(255,255,255,0.05)",
-    borderRadius: 12,
-    padding: "16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-};
-
-const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px",
-    background: "#0B0F1A",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 8,
-    color: "#F1F5F9",
-    fontSize: 14,
-    outline: "none",
-    boxSizing: "border-box",
-};
-
-const selectStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px",
-    background: "#0B0F1A",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 8,
-    color: "#F1F5F9",
-    fontSize: 14,
-    outline: "none",
-    boxSizing: "border-box",
-};
-
-const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    color: "#94A3B8",
-    marginBottom: 8,
-};
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Step2Page() {
+    const palette = useAppTheme();
+
+    const card: React.CSSProperties = {
+        background: palette.s1,
+        border: `1px solid ${palette.brd}`,
+        borderRadius: 12,
+        padding: "16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    };
+
+    const inputStyle: React.CSSProperties = {
+        width: "100%",
+        padding: "12px",
+        background: palette.bg,
+        border: `1px solid ${palette.brd2}`,
+        borderRadius: 8,
+        color: palette.txt,
+        fontSize: 14,
+        outline: "none",
+        boxSizing: "border-box",
+    };
+
+    const selectStyle: React.CSSProperties = {
+        width: "100%",
+        padding: "12px",
+        background: palette.bg,
+        border: `1px solid ${palette.brd2}`,
+        borderRadius: 8,
+        color: palette.txt,
+        fontSize: 14,
+        outline: "none",
+        boxSizing: "border-box",
+    };
+
+    const labelStyle: React.CSSProperties = {
+        display: "block",
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        color: palette.mute,
+        marginBottom: 8,
+    };
     const router = useRouter();
     const {
         incomes,
@@ -311,7 +311,7 @@ export default function Step2Page() {
                     <div
                         key={i}
                         style={{
-                            background: "linear-gradient(90deg, #0F172A 25%, #1E293B 50%, #0F172A 75%)",
+                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s3} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.5s infinite",
                             borderRadius: 12,
@@ -330,17 +330,17 @@ export default function Step2Page() {
             <SectionNav sections={STEP2_SECTIONS} scrollContainer=".assessment-main" />
             {/* Header */}
             <div style={{ marginBottom: 32 }}>
-                <h1 style={{ fontSize: 24, fontWeight: 700, color: "#F1F5F9", margin: "0 0 8px" }}>
+                <h1 style={{ fontSize: 24, fontWeight: 700, color: palette.txt, margin: "0 0 8px" }}>
                     Your Cash Flow Reality Check
                 </h1>
-                <p style={{ fontSize: 14, color: "#94A3B8", margin: 0 }}>
+                <p style={{ fontSize: 14, color: palette.mute, margin: 0 }}>
                     Understanding your money flow is step one to controlling it.
                 </p>
             </div>
 
             {/* ── Income Section ─────────────────────────────────────────────── */}
             <div id="income" style={{ marginBottom: 8 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", margin: "0 0 12px" }}>
+                <h2 style={{ fontSize: 16, fontWeight: 700, color: palette.txt, margin: "0 0 12px" }}>
                     Income Sources
                 </h2>
             </div>
@@ -357,8 +357,8 @@ export default function Step2Page() {
                                 {emoji}
                             </div>
                             <div>
-                                <p style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>{name}</p>
-                                <p style={{ fontSize: 12, color: "#94A3B8", margin: "2px 0 0" }}>
+                                <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: 0 }}>{name}</p>
+                                <p style={{ fontSize: 12, color: palette.mute, margin: "2px 0 0" }}>
                                     {inc.frequency}
                                     {inc.taxDeducted && (
                                         <span style={{ marginLeft: 6, color: "rgba(16,185,129,0.7)" }}>
@@ -366,7 +366,7 @@ export default function Step2Page() {
                                         </span>
                                     )}
                                     {inc.description && (
-                                        <span style={{ display: "block", color: "#64748B", marginTop: 2 }}>
+                                        <span style={{ display: "block", color: palette.mute, marginTop: 2 }}>
                                             {inc.description}
                                         </span>
                                     )}
@@ -374,12 +374,12 @@ export default function Step2Page() {
                             </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                            <span style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", fontVariantNumeric: "tabular-nums" }}>
+                            <span style={{ fontSize: 15, fontWeight: 700, color: palette.txt, fontVariantNumeric: "tabular-nums" }}>
                                 ₹ {inc.amount.toLocaleString("en-IN")}
                             </span>
                             <button
                                 onClick={() => openModal("income", inc)}
-                                style={{ background: "none", border: "none", color: "#94A3B8", cursor: "pointer", padding: 4 }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer", padding: 4 }}
                             >
                                 <Pencil style={{ width: 14, height: 14 }} />
                             </button>
@@ -402,19 +402,19 @@ export default function Step2Page() {
                 onClick={() => openModal("income")}
                 style={{
                     width: "100%", padding: "12px", marginBottom: 32,
-                    border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 12,
+                    border: `1px dashed ${palette.brd2}`, borderRadius: 12,
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                    background: "transparent", color: "#94A3B8", fontSize: 14, fontWeight: 500,
+                    background: "transparent", color: palette.mute, fontSize: 14, fontWeight: 500,
                     cursor: "pointer", transition: "border-color 0.15s, color 0.15s",
                     boxSizing: "border-box",
                 }}
                 onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(16,185,129,0.3)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#10B981";
+                    (e.currentTarget as HTMLButtonElement).style.color = palette.accent;
                 }}
                 onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#94A3B8";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = palette.brd2;
+                    (e.currentTarget as HTMLButtonElement).style.color = palette.mute;
                 }}
             >
                 <Plus style={{ width: 18, height: 18 }} />
@@ -423,7 +423,7 @@ export default function Step2Page() {
 
             {/* ── Expense Section ────────────────────────────────────────────── */}
             <div id="expenses" style={{ marginBottom: 8 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", margin: "0 0 12px" }}>
+                <h2 style={{ fontSize: 16, fontWeight: 700, color: palette.txt, margin: "0 0 12px" }}>
                     Expenses
                 </h2>
             </div>
@@ -440,20 +440,20 @@ export default function Step2Page() {
                                 {emoji}
                             </div>
                             <div>
-                                <p style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                                <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                     {name}
                                     <span style={{
                                         marginLeft: 6, fontSize: 11, fontWeight: 400,
-                                        background: "#1E293B", padding: "2px 6px", borderRadius: 4,
-                                        color: "#94A3B8",
+                                        background: palette.s3, padding: "2px 6px", borderRadius: 4,
+                                        color: palette.mute,
                                     }}>
                                         {exp.type}
                                     </span>
                                 </p>
-                                <p style={{ fontSize: 12, color: "#94A3B8", margin: "2px 0 0" }}>
+                                <p style={{ fontSize: 12, color: palette.mute, margin: "2px 0 0" }}>
                                     {exp.frequency}
                                     {exp.description && (
-                                        <span style={{ display: "block", color: "#64748B", marginTop: 2 }}>
+                                        <span style={{ display: "block", color: palette.mute, marginTop: 2 }}>
                                             {exp.description}
                                         </span>
                                     )}
@@ -461,12 +461,12 @@ export default function Step2Page() {
                             </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                            <span style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", fontVariantNumeric: "tabular-nums" }}>
+                            <span style={{ fontSize: 15, fontWeight: 700, color: palette.txt, fontVariantNumeric: "tabular-nums" }}>
                                 ₹ {exp.amount.toLocaleString("en-IN")}
                             </span>
                             <button
                                 onClick={() => openModal("expense", exp)}
-                                style={{ background: "none", border: "none", color: "#94A3B8", cursor: "pointer", padding: 4 }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer", padding: 4 }}
                             >
                                 <Pencil style={{ width: 14, height: 14 }} />
                             </button>
@@ -489,19 +489,19 @@ export default function Step2Page() {
                 onClick={() => openModal("expense")}
                 style={{
                     width: "100%", padding: "12px", marginBottom: 32,
-                    border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 12,
+                    border: `1px dashed ${palette.brd2}`, borderRadius: 12,
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                    background: "transparent", color: "#94A3B8", fontSize: 14, fontWeight: 500,
+                    background: "transparent", color: palette.mute, fontSize: 14, fontWeight: 500,
                     cursor: "pointer", transition: "border-color 0.15s, color 0.15s",
                     boxSizing: "border-box",
                 }}
                 onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(16,185,129,0.3)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#10B981";
+                    (e.currentTarget as HTMLButtonElement).style.color = palette.accent;
                 }}
                 onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "#94A3B8";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = palette.brd2;
+                    (e.currentTarget as HTMLButtonElement).style.color = palette.mute;
                 }}
             >
                 <Plus style={{ width: 18, height: 18 }} />
@@ -512,7 +512,7 @@ export default function Step2Page() {
             <div id="cashflow" />
             {incomes.length > 0 && expenses.length > 0 && (
                 <div style={{
-                    background: "#0F172A", border: "2px solid rgba(16,185,129,0.2)",
+                    background: palette.s1, border: "2px solid rgba(16,185,129,0.2)",
                     borderRadius: 20, padding: 24, position: "relative", overflow: "hidden",
                     marginBottom: 16,
                 }}>
@@ -527,7 +527,7 @@ export default function Step2Page() {
                         gap: 12, marginBottom: 24, opacity: 0.8,
                     }}>
                         <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2))" }} />
-                        <h3 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", color: "#CBD5E1", textTransform: "uppercase", margin: 0 }}>
+                        <h3 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", color: palette.txt2, textTransform: "uppercase", margin: 0 }}>
                             Your Monthly Cash Flow
                         </h3>
                         <div style={{ flex: 1, height: 1, background: "linear-gradient(270deg, transparent, rgba(255,255,255,0.2))" }} />
@@ -547,28 +547,28 @@ export default function Step2Page() {
                             </span>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ color: "#94A3B8", fontFamily: "sans-serif" }}>EMIs (loans)</span>
-                            <span style={{ fontWeight: 600, color: "#94A3B8" }}>
+                            <span style={{ color: palette.mute, fontFamily: "sans-serif" }}>EMIs (loans)</span>
+                            <span style={{ fontWeight: 600, color: palette.mute }}>
                                 -₹{totalMonthlyEMIs.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </span>
                         </div>
 
                         <div style={{
-                            borderTop: "1px dashed rgba(255,255,255,0.2)",
+                            borderTop: `1px dashed ${palette.brd2}`,
                             paddingTop: 16, marginTop: 4,
                             display: "flex", justifyContent: "space-between", alignItems: "center",
                         }}>
-                            <span style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", fontFamily: "sans-serif" }}>
+                            <span style={{ fontSize: 18, fontWeight: 700, color: palette.txt, fontFamily: "sans-serif" }}>
                                 SURPLUS
                             </span>
-                            <span style={{ fontSize: 20, fontWeight: 700, color: surplus >= 0 ? "#10B981" : "#EF4444" }}>
+                            <span style={{ fontSize: 20, fontWeight: 700, color: surplus >= 0 ? palette.accent : palette.danger }}>
                                 ₹{surplus.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </span>
                         </div>
 
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ color: "#CBD5E1", fontFamily: "sans-serif" }}>Savings Rate</span>
-                            <span style={{ fontSize: 18, fontWeight: 700, color: savingsRate >= 20 ? "#10B981" : "#EF4444" }}>
+                            <span style={{ color: palette.txt2, fontFamily: "sans-serif" }}>Savings Rate</span>
+                            <span style={{ fontSize: 18, fontWeight: 700, color: savingsRate >= 20 ? palette.accent : palette.danger }}>
                                 {savingsRate}%
                             </span>
                         </div>
@@ -605,13 +605,13 @@ export default function Step2Page() {
                                         </p>
                                         {discretionaryList.slice(0, 3).map((exp) => (
                                             <div key={exp.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontFamily: "monospace", marginBottom: 4 }}>
-                                                <span style={{ color: "#CBD5E1" }}>{exp.category}:</span>
-                                                <span style={{ color: "#94A3B8" }}>
+                                                <span style={{ color: palette.txt2 }}>{exp.category}:</span>
+                                                <span style={{ color: palette.mute }}>
                                                     ₹{calculateMonthly(exp).toLocaleString(undefined, { maximumFractionDigits: 0 })}/mo
                                                 </span>
                                             </div>
                                         ))}
-                                        <p style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.8)", marginTop: 8, paddingTop: 8, borderTop: "1px solid rgba(239,68,68,0.2)" }}>
+                                        <p style={{ fontSize: 12, fontWeight: 500, color: palette.txt2, marginTop: 8, paddingTop: 8, borderTop: "1px solid rgba(239,68,68,0.2)" }}>
                                             Reducing these by 30% would boost savings to{" "}
                                             <span style={{ color: "#10B981", fontWeight: 700 }}>{hypotheticalSavingsRate}%</span>.
                                         </p>
@@ -635,14 +635,14 @@ export default function Step2Page() {
                         <h5 style={{ color: "#EF4444", fontWeight: 700, fontSize: 14, margin: "0 0 6px" }}>
                             ⚠️ EMI Mismatch Detected
                         </h5>
-                        <p style={{ fontSize: 12, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 8px" }}>
+                        <p style={{ fontSize: 12, color: palette.txt2, lineHeight: 1.6, margin: "0 0 8px" }}>
                             Your EMI expense here is{" "}
-                            <span style={{ fontWeight: 700, color: "#F59E0B" }}>₹{totalMonthlyEMIs.toLocaleString()}/mo</span>,
-                            but your <span style={{ fontWeight: 700, color: "#F1F5F9" }}>Liabilities</span> (Step 3)
+                            <span style={{ fontWeight: 700, color: palette.warn }}>₹{totalMonthlyEMIs.toLocaleString()}/mo</span>,
+                            but your <span style={{ fontWeight: 700, color: palette.txt }}>Liabilities</span> (Step 3)
                             add up to{" "}
-                            <span style={{ fontWeight: 700, color: "#F59E0B" }}>₹{liabilitiesEMITotal.toLocaleString()}/mo</span>.
+                            <span style={{ fontWeight: 700, color: palette.warn }}>₹{liabilitiesEMITotal.toLocaleString()}/mo</span>.
                         </p>
-                        <p style={{ fontSize: 12, color: "#94A3B8", margin: 0 }}>
+                        <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>
                             Please update the EMI amount here or correct the EMI values in{" "}
                             <button
                                 onClick={() => router.push("/assessment/step-3")}
@@ -691,22 +691,22 @@ export default function Step2Page() {
 
                     {/* Sheet */}
                     <div style={{
-                        position: "relative", background: "#0F172A", width: "100%", maxWidth: 512,
+                        position: "relative", background: palette.s1, width: "100%", maxWidth: 512,
                         borderRadius: "24px 24px 0 0", padding: 24,
                         boxShadow: "0 -20px 60px rgba(0,0,0,0.5)",
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        border: `1px solid ${palette.brd2}`,
                         maxHeight: "90vh", overflowY: "auto",
                     }}>
                         {/* Handle */}
-                        <div style={{ width: 48, height: 4, background: "#1E293B", borderRadius: 99, margin: "0 auto 24px" }} />
+                        <div style={{ width: 48, height: 4, background: palette.s3, borderRadius: 99, margin: "0 auto 24px" }} />
 
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                 {editingId ? "Edit" : "Add"} {modalType === "income" ? "Income" : "Expense"}
                             </h3>
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                style={{ background: "none", border: "none", color: "#94A3B8", cursor: "pointer" }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer" }}
                             >
                                 <X style={{ width: 22, height: 22 }} />
                             </button>
@@ -807,17 +807,17 @@ export default function Step2Page() {
                                                 height: 46, display: "flex", alignItems: "center",
                                                 justifyContent: "space-between", padding: "0 12px",
                                                 borderRadius: 8, cursor: "pointer", transition: "all 0.15s",
-                                                background: isEssential ? "rgba(16,185,129,0.1)" : "#0B0F1A",
-                                                border: isEssential ? "1px solid rgba(16,185,129,0.2)" : "1px solid rgba(255,255,255,0.1)",
+                                                background: isEssential ? "rgba(16,185,129,0.1)" : palette.bg,
+                                                border: isEssential ? "1px solid rgba(16,185,129,0.2)" : `1px solid ${palette.brd2}`,
                                             }}
                                         >
-                                            <span style={{ fontSize: 14, color: isEssential ? "#10B981" : "#94A3B8", fontWeight: isEssential ? 500 : 400 }}>
+                                            <span style={{ fontSize: 14, color: isEssential ? palette.accent : palette.mute, fontWeight: isEssential ? 500 : 400 }}>
                                                 {isEssential ? "Essential" : "Discretionary"}
                                             </span>
                                             <div style={{
                                                 width: 40, height: 20, borderRadius: 99, padding: 2,
                                                 display: "flex", alignItems: "center",
-                                                background: isEssential ? "#10B981" : "#1E293B",
+                                                background: isEssential ? palette.accent : palette.s3,
                                                 transition: "background 0.2s",
                                             }}>
                                                 <div style={{
@@ -839,13 +839,13 @@ export default function Step2Page() {
                                     border: "1px solid rgba(16,185,129,0.2)", borderRadius: 12,
                                 }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                        <span style={{ fontSize: 14, fontWeight: 500, color: "#F1F5F9" }}>Tax Already Deducted?</span>
+                                        <span style={{ fontSize: 14, fontWeight: 500, color: palette.txt }}>Tax Already Deducted?</span>
                                         <div
                                             onClick={() => setTaxDeducted(!taxDeducted)}
                                             style={{
                                                 width: 48, height: 24, borderRadius: 99, padding: 4,
                                                 display: "flex", alignItems: "center",
-                                                background: taxDeducted ? "#10B981" : "#1E293B",
+                                                background: taxDeducted ? palette.accent : palette.s3,
                                                 cursor: "pointer", transition: "background 0.2s",
                                             }}
                                         >
@@ -873,7 +873,7 @@ export default function Step2Page() {
                                                 />
                                                 <span style={{
                                                     position: "absolute", right: 12, top: "50%",
-                                                    transform: "translateY(-50%)", color: "#94A3B8", fontWeight: 700,
+                                                    transform: "translateY(-50%)", color: palette.mute, fontWeight: 700,
                                                 }}>%</span>
                                             </div>
                                         </div>
@@ -886,8 +886,8 @@ export default function Step2Page() {
                                 onClick={handleSave}
                                 style={{
                                     width: "100%", padding: "16px", marginTop: 8,
-                                    background: "#10B981", border: "none", borderRadius: 12,
-                                    color: "#0B0F1A", fontWeight: 700, fontSize: 15,
+                                    background: palette.accent, border: "none", borderRadius: 12,
+                                    color: palette.bg, fontWeight: 700, fontSize: 15,
                                     cursor: "pointer", boxShadow: "0 0 15px rgba(16,185,129,0.3)",
                                     transition: "opacity 0.15s",
                                 }}

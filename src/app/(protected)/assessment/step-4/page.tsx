@@ -33,6 +33,7 @@ import { useGoalProjectionQuery } from "@/hooks/assessment/useGoalProjection";
 import { useRetirementAutoFillQuery } from "@/hooks/assessment/useRetirementAutoFill";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import type { GoalAPIItem, GoalProjection } from "@/lib/assessment-api";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -72,168 +73,167 @@ function calculateSIP(gap: number, years: number, annualRate = 0.12): number {
     return (gap * monthlyRate) / (Math.pow(1 + monthlyRate, months) - 1);
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
-const S = {
-    page: {
-        display: "flex",
-        flexDirection: "column" as const,
-        padding: "24px 24px 180px",
-        maxWidth: 960,
-        margin: "0 auto",
-        width: "100%",
-    },
-    header: { marginBottom: 24 },
-    h1: {
-        fontSize: 22,
-        fontWeight: 700,
-        color: "#F1F5F9",
-        borderBottom: "1px solid rgba(16,185,129,0.2)",
-        paddingBottom: 8,
-        display: "inline-block",
-        marginBottom: 8,
-    },
-    subtitle: { fontSize: 13, color: "#94A3B8" },
-    carousel: {
-        overflowX: "auto" as const,
-        paddingBottom: 16,
-        marginLeft: -16,
-        marginRight: -16,
-        paddingLeft: 16,
-        paddingRight: 16,
-    },
-    carouselTrack: {
-        display: "flex",
-        gap: 16,
-        width: "max-content",
-    },
-    goalTypeBtn: {
-        display: "flex",
-        flexDirection: "column" as const,
-        alignItems: "center",
-        gap: 8,
-        minWidth: 80,
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        padding: 0,
-    },
-    goalTypeIcon: {
-        width: 64,
-        height: 64,
-        borderRadius: 16,
-        background: "#0F172A",
-        border: "1px solid rgba(255,255,255,0.05)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    goalTypeLabel: { fontSize: 11, fontWeight: 600, color: "#94A3B8", whiteSpace: "nowrap" as const },
-    card: {
-        background: "#0F172A",
-        borderRadius: 16,
-        border: "1px solid rgba(255,255,255,0.05)",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-        overflow: "hidden",
-    },
-    overlay: {
-        position: "fixed" as const,
-        inset: 0,
-        zIndex: 9999,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-    },
-    overlayBackdrop: {
-        position: "absolute" as const,
-        inset: 0,
-        background: "rgba(0,0,0,0.8)",
-        backdropFilter: "blur(4px)",
-    },
-    modal: {
-        position: "relative" as const,
-        background: "#0F172A",
-        width: "100%",
-        maxWidth: 560,
-        borderRadius: 24,
-        border: "1px solid rgba(255,255,255,0.1)",
-        overflow: "hidden",
-        maxHeight: "90vh",
-        overflowY: "auto" as const,
-        boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
-    },
-    modalHeader: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "24px 28px",
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
-        background: "#0F172A",
-        position: "sticky" as const,
-        top: 0,
-        zIndex: 10,
-    },
-    modalTitle: { fontWeight: 700, color: "#F1F5F9", fontSize: 18 },
-    modalBody: { padding: 28, display: "flex", flexDirection: "column" as const, gap: 20 },
-    label: { fontSize: 13, fontWeight: 600, color: "#94A3B8", display: "block", marginBottom: 6 },
-    input: {
-        width: "100%",
-        background: "#0B0F1A",
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: 12,
-        padding: "12px 14px",
-        color: "#F1F5F9",
-        fontSize: 14,
-        boxSizing: "border-box" as const,
-        outline: "none",
-    },
-    select: {
-        width: "100%",
-        background: "#0B0F1A",
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: 12,
-        padding: "12px 14px",
-        color: "#F1F5F9",
-        fontSize: 14,
-        boxSizing: "border-box" as const,
-    },
-    btnPrimary: {
-        background: "#10B981",
-        color: "#0B0F1A",
-        border: "none",
-        borderRadius: 12,
-        padding: "14px 24px",
-        fontWeight: 700,
-        fontSize: 14,
-        cursor: "pointer",
-        boxShadow: "0 0 15px rgba(16,185,129,0.3)",
-        width: "100%",
-    },
-    btnSecondary: {
-        background: "#0F172A",
-        color: "#F1F5F9",
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: 12,
-        padding: "12px 20px",
-        fontWeight: 700,
-        fontSize: 13,
-        cursor: "pointer",
-    },
-    projBox: {
-        background: "rgba(255,255,255,0.03)",
-        borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.05)",
-        padding: "12px 16px",
-    },
-    projLabel: { fontSize: 11, color: "#94A3B8", marginBottom: 2 },
-    projValue: { fontSize: 18, fontWeight: 700, color: "#F1F5F9" },
-    row: { display: "flex", justifyContent: "space-between", alignItems: "center" },
-};
-
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function Step4FinancialGoals() {
+    const palette = useAppTheme();
+
+    const S = {
+        page: {
+            display: "flex",
+            flexDirection: "column" as const,
+            padding: "24px 24px 180px",
+            maxWidth: 960,
+            margin: "0 auto",
+            width: "100%",
+        },
+        header: { marginBottom: 24 },
+        h1: {
+            fontSize: 22,
+            fontWeight: 700,
+            color: palette.txt,
+            borderBottom: "1px solid rgba(16,185,129,0.2)",
+            paddingBottom: 8,
+            display: "inline-block",
+            marginBottom: 8,
+        },
+        subtitle: { fontSize: 13, color: palette.mute },
+        carousel: {
+            overflowX: "auto" as const,
+            paddingBottom: 16,
+            marginLeft: -16,
+            marginRight: -16,
+            paddingLeft: 16,
+            paddingRight: 16,
+        },
+        carouselTrack: {
+            display: "flex",
+            gap: 16,
+            width: "max-content",
+        },
+        goalTypeBtn: {
+            display: "flex",
+            flexDirection: "column" as const,
+            alignItems: "center",
+            gap: 8,
+            minWidth: 80,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+        },
+        goalTypeIcon: {
+            width: 64,
+            height: 64,
+            borderRadius: 16,
+            background: palette.s1,
+            border: `1px solid ${palette.brd}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        },
+        goalTypeLabel: { fontSize: 11, fontWeight: 600, color: palette.mute, whiteSpace: "nowrap" as const },
+        card: {
+            background: palette.s1,
+            borderRadius: 16,
+            border: `1px solid ${palette.brd}`,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            overflow: "hidden",
+        },
+        overlay: {
+            position: "fixed" as const,
+            inset: 0,
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16,
+        },
+        overlayBackdrop: {
+            position: "absolute" as const,
+            inset: 0,
+            background: "rgba(0,0,0,0.8)",
+            backdropFilter: "blur(4px)",
+        },
+        modal: {
+            position: "relative" as const,
+            background: palette.s1,
+            width: "100%",
+            maxWidth: 560,
+            borderRadius: 24,
+            border: `1px solid ${palette.brd2}`,
+            overflow: "hidden",
+            maxHeight: "90vh",
+            overflowY: "auto" as const,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
+        },
+        modalHeader: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "24px 28px",
+            borderBottom: `1px solid ${palette.brd}`,
+            background: palette.s1,
+            position: "sticky" as const,
+            top: 0,
+            zIndex: 10,
+        },
+        modalTitle: { fontWeight: 700, color: palette.txt, fontSize: 18 },
+        modalBody: { padding: 28, display: "flex", flexDirection: "column" as const, gap: 20 },
+        label: { fontSize: 13, fontWeight: 600, color: palette.mute, display: "block", marginBottom: 6 },
+        input: {
+            width: "100%",
+            background: palette.bg,
+            border: `1px solid ${palette.brd2}`,
+            borderRadius: 12,
+            padding: "12px 14px",
+            color: palette.txt,
+            fontSize: 14,
+            boxSizing: "border-box" as const,
+            outline: "none",
+        },
+        select: {
+            width: "100%",
+            background: palette.bg,
+            border: `1px solid ${palette.brd2}`,
+            borderRadius: 12,
+            padding: "12px 14px",
+            color: palette.txt,
+            fontSize: 14,
+            boxSizing: "border-box" as const,
+        },
+        btnPrimary: {
+            background: palette.accent,
+            color: palette.bg,
+            border: "none",
+            borderRadius: 12,
+            padding: "14px 24px",
+            fontWeight: 700,
+            fontSize: 14,
+            cursor: "pointer",
+            boxShadow: "0 0 15px rgba(16,185,129,0.3)",
+            width: "100%",
+        },
+        btnSecondary: {
+            background: palette.s1,
+            color: palette.txt,
+            border: `1px solid ${palette.brd2}`,
+            borderRadius: 12,
+            padding: "12px 20px",
+            fontWeight: 700,
+            fontSize: 13,
+            cursor: "pointer",
+        },
+        projBox: {
+            background: palette.brd,
+            borderRadius: 12,
+            border: `1px solid ${palette.brd}`,
+            padding: "12px 16px",
+        },
+        projLabel: { fontSize: 11, color: palette.mute, marginBottom: 2 },
+        projValue: { fontSize: 18, fontWeight: 700, color: palette.txt },
+        row: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+    };
     const router = useRouter();
     const { goals, addGoal, removeGoal, updateGoal } = useAssessmentStore();
 
@@ -411,7 +411,7 @@ export default function Step4FinancialGoals() {
                                 }}
                             >
                                 <div style={S.goalTypeIcon}>
-                                    <Icon style={{ width: 32, height: 32, color: "#94A3B8" }} />
+                                    <Icon style={{ width: 32, height: 32, color: palette.mute }} />
                                 </div>
                                 <span style={S.goalTypeLabel}>
                                     {disabled ? `${t.label} (Added)` : t.label}
@@ -430,9 +430,9 @@ export default function Step4FinancialGoals() {
                             <div style={{ filter: "blur(6px)", userSelect: "none", pointerEvents: "none" }}>
                                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                                     {[["Corpus Required", "₹11.7 Cr"], ["Monthly SIP", "₹75,000"], ["Gap", "₹11.4 Cr"], ["On Track", "1.5%"]].map(([label, val]) => (
-                                        <div key={label} style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: 16 }}>
-                                            <p style={{ color: "#64748B", fontSize: 13 }}>{label}</p>
-                                            <p style={{ fontSize: 22, fontWeight: 700, color: "#F1F5F9" }}>{val}</p>
+                                        <div key={label} style={{ background: palette.brd, borderRadius: 12, padding: 16 }}>
+                                            <p style={{ color: palette.mute, fontSize: 13 }}>{label}</p>
+                                            <p style={{ fontSize: 22, fontWeight: 700, color: palette.txt }}>{val}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -441,9 +441,9 @@ export default function Step4FinancialGoals() {
                                 <div style={{ width: 56, height: 56, background: "rgba(245,158,11,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(245,158,11,0.2)", marginBottom: 12 }}>
                                     <Lock style={{ width: 28, height: 28, color: "#F59E0B" }} />
                                 </div>
-                                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", marginBottom: 4 }}>Unlock Your Retirement Plan</h3>
-                                <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 16 }}>See exact SIP & gap based on your real data</p>
-                                <button style={{ padding: "10px 24px", background: "linear-gradient(to right, #F59E0B, #F97316)", color: "#0B0F1A", fontWeight: 700, borderRadius: 12, border: "none", cursor: "pointer", fontSize: 13 }}>
+                                <h3 style={{ fontSize: 16, fontWeight: 700, color: palette.txt, marginBottom: 4 }}>Unlock Your Retirement Plan</h3>
+                                <p style={{ fontSize: 13, color: palette.mute, marginBottom: 16 }}>See exact SIP & gap based on your real data</p>
+                                <button style={{ padding: "10px 24px", background: "linear-gradient(to right, #F59E0B, #F97316)", color: palette.bg, fontWeight: 700, borderRadius: 12, border: "none", cursor: "pointer", fontSize: 13 }}>
                                     <Crown style={{ width: 16, height: 16, display: "inline", marginRight: 6, marginTop: -2, verticalAlign: "middle" }} />
                                     Upgrade to Premium
                                 </button>
@@ -452,25 +452,25 @@ export default function Step4FinancialGoals() {
                     ) : isRetirementLoading ? (
                         <div style={{ ...S.card, padding: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
                             <div style={{ width: 24, height: 24, border: "2px solid #10B981", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-                            <span style={{ color: "#94A3B8" }}>Calculating your retirement plan...</span>
+                            <span style={{ color: palette.mute }}>Calculating your retirement plan...</span>
                         </div>
                     ) : retirementData ? (
                         <div style={S.card}>
                             {/* Header */}
-                            <div style={{ padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <div style={{ padding: "16px 20px", borderBottom: `1px solid ${palette.brd}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                                     <div style={{ width: 36, height: 36, background: "rgba(16,185,129,0.1)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                        <Briefcase style={{ width: 20, height: 20, color: "#10B981" }} />
+                                        <Briefcase style={{ width: 20, height: 20, color: palette.accent }} />
                                     </div>
                                     <div>
-                                        <p style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 13, letterSpacing: "0.05em" }}>RETIREMENT PLANNER</p>
-                                        <p style={{ fontSize: 11, color: "#64748B" }}>Auto-calculated from your data</p>
+                                        <p style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em" }}>RETIREMENT PLANNER</p>
+                                        <p style={{ fontSize: 11, color: palette.mute }}>Auto-calculated from your data</p>
                                     </div>
                                 </div>
                                 <span style={{
                                     padding: "6px 12px", borderRadius: 8, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em",
                                     ...(retirementData.status === "CRITICAL"
-                                        ? { background: "rgba(239,68,68,0.1)", color: "#F87171", border: "1px solid rgba(239,68,68,0.2)" }
+                                        ? { background: "rgba(239,68,68,0.1)", color: palette.danger, border: "1px solid rgba(239,68,68,0.2)" }
                                         : retirementData.status === "MODERATE"
                                         ? { background: "rgba(245,158,11,0.1)", color: "#FBBF24", border: "1px solid rgba(245,158,11,0.2)" }
                                         : { background: "rgba(16,185,129,0.1)", color: "#34D399", border: "1px solid rgba(16,185,129,0.2)" }),
@@ -481,21 +481,21 @@ export default function Step4FinancialGoals() {
 
                             <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
                                 {/* Age strip */}
-                                <div style={{ ...S.row, background: "rgba(255,255,255,0.02)", borderRadius: 8, padding: "10px 16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <div style={{ ...S.row, background: "rgba(255,255,255,0.02)", borderRadius: 8, padding: "10px 16px", border: `1px solid ${palette.brd}` }}>
                                     <div style={{ display: "flex", gap: 24, fontSize: 13 }}>
-                                        <span style={{ color: "#64748B" }}>Age <strong style={{ color: "#F1F5F9", marginLeft: 4 }}>{retirementData.currentAge}</strong></span>
-                                        <span style={{ color: "#64748B" }}>Retire at <strong style={{ color: "#F1F5F9", marginLeft: 4 }}>{retirementData.retirementAge}</strong></span>
+                                        <span style={{ color: palette.mute }}>Age <strong style={{ color: palette.txt, marginLeft: 4 }}>{retirementData.currentAge}</strong></span>
+                                        <span style={{ color: palette.mute }}>Retire at <strong style={{ color: palette.txt, marginLeft: 4 }}>{retirementData.retirementAge}</strong></span>
                                     </div>
-                                    <span style={{ fontSize: 13, fontWeight: 700, color: "#10B981" }}>{retirementData.yearsToRetirement} years left</span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: palette.accent }}>{retirementData.yearsToRetirement} years left</span>
                                 </div>
 
                                 {/* What You Need vs Have */}
                                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                                     <div style={{ ...S.projBox, display: "flex", flexDirection: "column", gap: 12 }}>
-                                        <p style={{ fontSize: 10, color: "#64748B", letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>What You Need</p>
+                                        <p style={{ fontSize: 10, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>What You Need</p>
                                         <div>
                                             <p style={S.projLabel}>Future Monthly Expense</p>
-                                            <p style={{ ...S.projValue, fontSize: 16 }}>{formatToCrLakh(retirementData.futureMonthlyExpense)}<span style={{ fontSize: 11, color: "#64748B", fontWeight: 400 }}>/mo</span></p>
+                                            <p style={{ ...S.projValue, fontSize: 16 }}>{formatToCrLakh(retirementData.futureMonthlyExpense)}<span style={{ fontSize: 11, color: palette.mute, fontWeight: 400 }}>/mo</span></p>
                                         </div>
                                         <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12 }}>
                                             <p style={S.projLabel}>Retirement Corpus</p>
@@ -503,14 +503,14 @@ export default function Step4FinancialGoals() {
                                         </div>
                                     </div>
                                     <div style={{ ...S.projBox, display: "flex", flexDirection: "column", gap: 12 }}>
-                                        <p style={{ fontSize: 10, color: "#64748B", letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>What You Have</p>
+                                        <p style={{ fontSize: 10, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>What You Have</p>
                                         <div>
                                             <p style={S.projLabel}>Current Retirement Corpus</p>
                                             <p style={{ ...S.projValue, fontSize: 16 }}>{formatToCrLakh(retirementData.currentRetirementAssets)}</p>
                                         </div>
                                         <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12 }}>
                                             <p style={S.projLabel}>Projected Value @ 8%</p>
-                                            <p style={{ ...S.projValue, fontSize: 22, color: "#10B981" }}>{formatToCrLakh(retirementData.projectedAssets)}</p>
+                                            <p style={{ ...S.projValue, fontSize: 22, color: palette.accent }}>{formatToCrLakh(retirementData.projectedAssets)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -525,20 +525,20 @@ export default function Step4FinancialGoals() {
                                         : { background: "rgba(16,185,129,0.05)", borderColor: "rgba(16,185,129,0.15)" }),
                                 }}>
                                     <div style={{ ...S.row, marginBottom: 8 }}>
-                                        <p style={{ fontSize: 11, color: "#94A3B8", letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>Gap Analysis</p>
-                                        <span style={{ fontSize: 11, color: "#94A3B8" }}>{retirementData.onTrackPercent.toFixed(1)}% on track</span>
+                                        <p style={{ fontSize: 11, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>Gap Analysis</p>
+                                        <span style={{ fontSize: 11, color: palette.mute }}>{retirementData.onTrackPercent.toFixed(1)}% on track</span>
                                     </div>
                                     <p style={{
                                         fontSize: 20, fontWeight: 700,
-                                        color: retirementData.status === "CRITICAL" ? "#F87171" : retirementData.status === "MODERATE" ? "#FBBF24" : "#34D399",
+                                        color: retirementData.status === "CRITICAL" ? palette.danger : retirementData.status === "MODERATE" ? "#FBBF24" : "#34D399",
                                     }}>
                                         {retirementData.gap > 0 ? `Short by ${formatToCrLakh(retirementData.gap)}` : "Fully Covered!"}
                                     </p>
-                                    <div style={{ marginTop: 10, height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 9999, overflow: "hidden" }}>
+                                    <div style={{ marginTop: 10, height: 6, background: palette.brd2, borderRadius: 9999, overflow: "hidden" }}>
                                         <div style={{
                                             height: "100%", borderRadius: 9999, transition: "width 0.5s",
                                             width: `${Math.min(100, retirementData.onTrackPercent)}%`,
-                                            background: retirementData.onTrackPercent >= 80 ? "#10B981" : retirementData.onTrackPercent >= 20 ? "#F59E0B" : "#EF4444",
+                                            background: retirementData.onTrackPercent >= 80 ? palette.accent : retirementData.onTrackPercent >= 20 ? "#F59E0B" : palette.danger,
                                         }} />
                                     </div>
                                 </div>
@@ -547,16 +547,16 @@ export default function Step4FinancialGoals() {
                                 {retirementData.gap > 0 && (
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                                         <div style={S.projBox}>
-                                            <p style={{ fontSize: 10, color: "#64748B", letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Flat SIP</p>
-                                            <p style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9" }}>{formatToCrLakh(retirementData.sipFlat)}<span style={{ fontSize: 11, color: "#64748B" }}>/mo</span></p>
+                                            <p style={{ fontSize: 10, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Flat SIP</p>
+                                            <p style={{ fontSize: 20, fontWeight: 700, color: palette.txt }}>{formatToCrLakh(retirementData.sipFlat)}<span style={{ fontSize: 11, color: palette.mute }}>/mo</span></p>
                                         </div>
                                         <div style={{ ...S.projBox, background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)" }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-                                                <p style={{ fontSize: 10, color: "#10B981", letterSpacing: "0.1em", fontWeight: 700, textTransform: "uppercase" }}>Step-Up SIP</p>
-                                                <span style={{ fontSize: 9, background: "rgba(16,185,129,0.2)", color: "#10B981", padding: "2px 6px", borderRadius: 4, fontWeight: 700 }}>REC</span>
+                                                <p style={{ fontSize: 10, color: palette.accent, letterSpacing: "0.1em", fontWeight: 700, textTransform: "uppercase" }}>Step-Up SIP</p>
+                                                <span style={{ fontSize: 9, background: "rgba(16,185,129,0.2)", color: palette.accent, padding: "2px 6px", borderRadius: 4, fontWeight: 700 }}>REC</span>
                                             </div>
-                                            <p style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9" }}>{formatToCrLakh(retirementData.sipStepUpStart)}<span style={{ fontSize: 11, color: "#64748B" }}>/mo</span></p>
-                                            <p style={{ fontSize: 11, color: "#94A3B8" }}>+{retirementData.stepUpRate}% yearly</p>
+                                            <p style={{ fontSize: 20, fontWeight: 700, color: palette.txt }}>{formatToCrLakh(retirementData.sipStepUpStart)}<span style={{ fontSize: 11, color: palette.mute }}>/mo</span></p>
+                                            <p style={{ fontSize: 11, color: palette.mute }}>+{retirementData.stepUpRate}% yearly</p>
                                         </div>
                                     </div>
                                 )}
@@ -564,10 +564,10 @@ export default function Step4FinancialGoals() {
                                 {/* Delay impact */}
                                 {retirementData.sipIfDelayed > 0 && retirementData.sipFlat > 0 && (
                                     <div style={{ display: "flex", alignItems: "center", gap: 12, background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.1)", borderRadius: 8, padding: "12px 16px" }}>
-                                        <Clock style={{ width: 16, height: 16, color: "#F87171", flexShrink: 0 }} />
-                                        <p style={{ fontSize: 12, color: "#94A3B8" }}>
-                                            Delay by <strong style={{ color: "#F87171" }}>{retirementData.delayYears}y</strong> → SIP becomes <strong style={{ color: "#F87171" }}>{formatToCrLakh(retirementData.sipIfDelayed)}/mo</strong>
-                                            <span style={{ color: "#475569", marginLeft: 4 }}>(+{formatToCrLakh(retirementData.sipIfDelayed - retirementData.sipFlat)}/mo)</span>
+                                        <Clock style={{ width: 16, height: 16, color: palette.danger, flexShrink: 0 }} />
+                                        <p style={{ fontSize: 12, color: palette.mute }}>
+                                            Delay by <strong style={{ color: palette.danger }}>{retirementData.delayYears}y</strong> → SIP becomes <strong style={{ color: palette.danger }}>{formatToCrLakh(retirementData.sipIfDelayed)}/mo</strong>
+                                            <span style={{ color: palette.mute, marginLeft: 4 }}>(+{formatToCrLakh(retirementData.sipIfDelayed - retirementData.sipFlat)}/mo)</span>
                                         </p>
                                     </div>
                                 )}
@@ -617,7 +617,7 @@ export default function Step4FinancialGoals() {
                 const statusBadgeStyle: Record<string, React.CSSProperties> = {
                     emerald: { background: "rgba(16,185,129,0.15)", color: "#34D399", border: "1px solid rgba(16,185,129,0.3)" },
                     amber: { background: "rgba(245,158,11,0.15)", color: "#FBBF24", border: "1px solid rgba(245,158,11,0.3)" },
-                    red: { background: "rgba(239,68,68,0.15)", color: "#F87171", border: "1px solid rgba(239,68,68,0.3)" },
+                    red: { background: "rgba(239,68,68,0.15)", color: palette.danger, border: "1px solid rgba(239,68,68,0.3)" },
                 };
 
                 return (
@@ -625,13 +625,13 @@ export default function Step4FinancialGoals() {
                         <div style={{ padding: 20, background: "linear-gradient(to right, rgba(16,185,129,0.1), rgba(20,184,166,0.1))" }}>
                             <div style={S.row}>
                                 <div>
-                                    <h3 style={{ fontWeight: 700, color: "#F1F5F9", display: "flex", alignItems: "center", gap: 8, fontSize: 15 }}>
+                                    <h3 style={{ fontWeight: 700, color: palette.txt, display: "flex", alignItems: "center", gap: 8, fontSize: 15 }}>
                                         <ShieldAlert style={{ width: 20, height: 20, color: "#34D399" }} />
                                         Emergency Fund Status
                                     </h3>
-                                    <p style={{ fontSize: 13, color: "#94A3B8", marginTop: 4 }}>
-                                        You need <strong style={{ color: "#F1F5F9" }}>{efTargetMonths} months</strong> of expenses
-                                        <span style={{ color: "#64748B", marginLeft: 4 }}>
+                                    <p style={{ fontSize: 13, color: palette.mute, marginTop: 4 }}>
+                                        You need <strong style={{ color: palette.txt }}>{efTargetMonths} months</strong> of expenses
+                                        <span style={{ color: palette.mute, marginLeft: 4 }}>
                                             ({efTargetMonths === 9 ? "Business / Self-Employed" : "Salaried / Retired"})
                                         </span>
                                     </p>
@@ -642,30 +642,30 @@ export default function Step4FinancialGoals() {
                             </div>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: `1px solid ${palette.brd}` }}>
                             {[
-                                ["Monthly Expenses", `₹${Math.round(efMonthlyExpenses).toLocaleString("en-IN")}`, "from your cash flow", "#F1F5F9"],
-                                ["Target Corpus", formatToCrLakh(efTarget), `${efTargetMonths} × monthly`, "#F1F5F9"],
-                                ["Liquid Assets", formatToCrLakh(efCurrent), "FDs, Savings, Debt MFs", efCurrent > 0 ? "#34D399" : "#F87171"],
+                                ["Monthly Expenses", `₹${Math.round(efMonthlyExpenses).toLocaleString("en-IN")}`, "from your cash flow", palette.txt],
+                                ["Target Corpus", formatToCrLakh(efTarget), `${efTargetMonths} × monthly`, palette.txt],
+                                ["Liquid Assets", formatToCrLakh(efCurrent), "FDs, Savings, Debt MFs", efCurrent > 0 ? "#34D399" : palette.danger],
                             ].map(([label, val, sub, color]) => (
                                 <div key={label} style={{ padding: 16, textAlign: "center" }}>
-                                    <p style={{ fontSize: 11, color: "#94A3B8", marginBottom: 4 }}>{label}</p>
+                                    <p style={{ fontSize: 11, color: palette.mute, marginBottom: 4 }}>{label}</p>
                                     <p style={{ fontWeight: 700, fontSize: 15, color }}>{val}</p>
-                                    <p style={{ fontSize: 11, color: "#64748B", marginTop: 2 }}>{sub}</p>
+                                    <p style={{ fontSize: 11, color: palette.mute, marginTop: 2 }}>{sub}</p>
                                 </div>
                             ))}
                         </div>
 
                         <div style={{ padding: 20 }}>
                             <div style={{ ...S.row, marginBottom: 8 }}>
-                                <span style={{ fontSize: 13, color: "#94A3B8" }}>Coverage</span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: "#F1F5F9" }}>{efCoverage.toFixed(1)} / {efTargetMonths} months</span>
+                                <span style={{ fontSize: 13, color: palette.mute }}>Coverage</span>
+                                <span style={{ fontSize: 13, fontWeight: 600, color: palette.txt }}>{efCoverage.toFixed(1)} / {efTargetMonths} months</span>
                             </div>
-                            <div style={{ height: 12, background: "#0B0F1A", borderRadius: 9999, overflow: "hidden" }}>
+                            <div style={{ height: 12, background: palette.bg, borderRadius: 9999, overflow: "hidden" }}>
                                 <div style={{
                                     height: "100%", borderRadius: 9999, transition: "width 1s",
                                     width: `${efProgressPercent}%`,
-                                    background: efFullyCovered ? "#10B981" : "linear-gradient(to right, #10B981, #06B6D4)",
+                                    background: efFullyCovered ? palette.accent : "linear-gradient(to right, #10B981, #06B6D4)",
                                 }} />
                             </div>
                             {!efFullyCovered && efGap > 0 && (
@@ -687,25 +687,25 @@ export default function Step4FinancialGoals() {
                             </div>
                         ) : (
                             <div style={{ padding: "0 20px 20px", display: "flex", flexDirection: "column", gap: 12 }}>
-                                <p style={{ fontSize: 11, letterSpacing: "0.1em", fontWeight: 700, color: "#64748B", textTransform: "uppercase" }}>How to build it</p>
+                                <p style={{ fontSize: 11, letterSpacing: "0.1em", fontWeight: 700, color: palette.mute, textTransform: "uppercase" }}>How to build it</p>
                                 {monthlySurplus > 0 ? (
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                                         <div style={{ background: "rgba(16,185,129,0.05)", borderRadius: 12, padding: 16, border: "1px solid rgba(16,185,129,0.15)" }}>
-                                            <p style={{ fontSize: 13, fontWeight: 700, color: "#F1F5F9" }}>Aggressive — 100%</p>
-                                            <p style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>₹{Math.round(monthlySurplus).toLocaleString("en-IN")}/month</p>
+                                            <p style={{ fontSize: 13, fontWeight: 700, color: palette.txt }}>Aggressive — 100%</p>
+                                            <p style={{ fontSize: 12, color: palette.mute, marginTop: 4 }}>₹{Math.round(monthlySurplus).toLocaleString("en-IN")}/month</p>
                                             <p style={{ fontSize: 12, color: "#34D399", fontWeight: 700, marginTop: 4 }}>→ ready in {formatMonths(efAggressive)}</p>
                                         </div>
                                         <div style={{ background: "rgba(59,130,246,0.05)", borderRadius: 12, padding: 16, border: "1px solid rgba(59,130,246,0.15)" }}>
-                                            <p style={{ fontSize: 13, fontWeight: 700, color: "#F1F5F9" }}>Conservative — 50%</p>
-                                            <p style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>₹{Math.round(monthlySurplus * 0.5).toLocaleString("en-IN")}/month</p>
+                                            <p style={{ fontSize: 13, fontWeight: 700, color: palette.txt }}>Conservative — 50%</p>
+                                            <p style={{ fontSize: 12, color: palette.mute, marginTop: 4 }}>₹{Math.round(monthlySurplus * 0.5).toLocaleString("en-IN")}/month</p>
                                             <p style={{ fontSize: 12, color: "#60A5FA", fontWeight: 700, marginTop: 4 }}>→ ready in {formatMonths(efConservative)}</p>
                                         </div>
                                     </div>
                                 ) : (
                                     <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 12, padding: 16 }}>
-                                        <p style={{ fontSize: 13, color: "#F87171", display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                        <p style={{ fontSize: 13, color: palette.danger, display: "flex", alignItems: "flex-start", gap: 8 }}>
                                             <AlertTriangle style={{ width: 16, height: 16, flexShrink: 0, marginTop: 2 }} />
-                                            <span>Your monthly surplus is ₹0. Go back to <strong style={{ color: "#F1F5F9" }}>Step 2</strong> to increase income or reduce expenses.</span>
+                                            <span>Your monthly surplus is ₹0. Go back to <strong style={{ color: palette.txt }}>Step 2</strong> to increase income or reduce expenses.</span>
                                         </p>
                                     </div>
                                 )}
@@ -718,7 +718,7 @@ export default function Step4FinancialGoals() {
             {/* Goals List */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16, paddingBottom: 16 }}>
                 {goals.length === 0 && (
-                    <div style={{ textAlign: "center", padding: "40px 0", color: "#64748B" }}>
+                    <div style={{ textAlign: "center", padding: "40px 0", color: palette.mute }}>
                         <p>No goals added yet.</p>
                         <p style={{ fontSize: 13 }}>Select a goal above to get started.</p>
                     </div>
@@ -737,17 +737,17 @@ export default function Step4FinancialGoals() {
                             <div style={{ ...S.row, marginBottom: 16 }}>
                                 <div>
                                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                                        <Icon style={{ width: 20, height: 20, color: "#94A3B8" }} />
-                                        <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>{goal.name}</h3>
-                                        <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 4, background: "rgba(255,255,255,0.05)", color: "#94A3B8" }}>[{goal.importance || "High"} Priority]</span>
+                                        <Icon style={{ width: 20, height: 20, color: palette.mute }} />
+                                        <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>{goal.name}</h3>
+                                        <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 4, background: palette.brd, color: palette.mute }}>[{goal.importance || "High"} Priority]</span>
                                     </div>
-                                    <p style={{ fontSize: 12, color: "#94A3B8" }}>Target: {formatToCrLakh(gBufferedCost)} ({new Date().getFullYear() + goal.horizon})</p>
-                                    <p style={{ fontSize: 12, color: "#94A3B8" }}>Current: {formatToCrLakh(goal.currentSavings || 0)}</p>
+                                    <p style={{ fontSize: 12, color: palette.mute }}>Target: {formatToCrLakh(gBufferedCost)} ({new Date().getFullYear() + goal.horizon})</p>
+                                    <p style={{ fontSize: 12, color: palette.mute }}>Current: {formatToCrLakh(goal.currentSavings || 0)}</p>
                                 </div>
                                 <div style={{ display: "flex", gap: 8 }}>
                                     <button
                                         onClick={() => openModal(null, goal)}
-                                        style={{ fontSize: 12, fontWeight: 600, color: "#10B981", background: "rgba(16,185,129,0.1)", border: "none", borderRadius: 9999, padding: "4px 12px", cursor: "pointer" }}
+                                        style={{ fontSize: 12, fontWeight: 600, color: palette.accent, background: "rgba(16,185,129,0.1)", border: "none", borderRadius: 9999, padding: "4px 12px", cursor: "pointer" }}
                                     >
                                         Edit
                                     </button>
@@ -772,20 +772,20 @@ export default function Step4FinancialGoals() {
                             </div>
 
                             <div style={{ marginBottom: 16 }}>
-                                <div style={{ height: 8, background: "#0B0F1A", borderRadius: 9999, overflow: "hidden" }}>
-                                    <div style={{ height: "100%", background: "#10B981", borderRadius: 9999, width: `${Math.min(100, progressPercent)}%` }} />
+                                <div style={{ height: 8, background: palette.bg, borderRadius: 9999, overflow: "hidden" }}>
+                                    <div style={{ height: "100%", background: palette.accent, borderRadius: 9999, width: `${Math.min(100, progressPercent)}%` }} />
                                 </div>
                                 <div style={{ ...S.row, marginTop: 4 }}>
-                                    <span style={{ fontSize: 11, color: "#64748B" }}>Progress: {progressPercent.toFixed(1)}% complete</span>
-                                    <span style={{ fontSize: 11, color: "#CBD5E1" }}>{formatToCrLakh(gBufferedCost - gSavings)} to go</span>
+                                    <span style={{ fontSize: 11, color: palette.mute }}>Progress: {progressPercent.toFixed(1)}% complete</span>
+                                    <span style={{ fontSize: 11, color: palette.txt2 }}>{formatToCrLakh(gBufferedCost - gSavings)} to go</span>
                                 </div>
                             </div>
 
                             <div style={{ ...S.projBox }}>
                                 <p style={S.projLabel}>Required Monthly SIP</p>
-                                <p style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 20 }}>₹ {Math.round(sip).toLocaleString("en-IN")}</p>
+                                <p style={{ fontWeight: 700, color: palette.txt, fontSize: 20 }}>₹ {Math.round(sip).toLocaleString("en-IN")}</p>
                                 <div style={{ marginTop: 8 }}>
-                                    <p style={{ fontSize: 11, color: "#64748B" }}>Currently Saved: {formatToCrLakh(goal.currentSavings || 0)}</p>
+                                    <p style={{ fontSize: 11, color: palette.mute }}>Currently Saved: {formatToCrLakh(goal.currentSavings || 0)}</p>
                                     {sip > 0 && (
                                         <p style={{ fontSize: 11, color: "#FBBF24", display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
                                             <AlertTriangle style={{ width: 12, height: 12 }} />
@@ -802,7 +802,7 @@ export default function Step4FinancialGoals() {
                 {goals.length >= 2 && (
                     <div style={{ ...S.card, border: "2px solid rgba(16,185,129,0.2)" }}>
                         <div style={{ background: "rgba(16,185,129,0.1)", padding: 12, borderBottom: "1px solid rgba(16,185,129,0.1)" }}>
-                            <h3 style={{ fontWeight: 700, color: "#10B981", textAlign: "center", letterSpacing: "0.1em", fontSize: 13 }}>ALL GOALS SUMMARY</h3>
+                            <h3 style={{ fontWeight: 700, color: palette.accent, textAlign: "center", letterSpacing: "0.1em", fontSize: 13 }}>ALL GOALS SUMMARY</h3>
                         </div>
                         <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 16 }}>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 13 }}>
@@ -813,27 +813,27 @@ export default function Step4FinancialGoals() {
                                     ["Total SIP Required", `₹ ${Math.round(totalSIPRequiredAll).toLocaleString("en-IN")}`],
                                 ].map(([label, val], i) => (
                                     <div key={i} style={{ display: "contents" }}>
-                                        <div style={{ color: "#94A3B8" }}>{label}</div>
-                                        <div style={{ textAlign: "right", fontWeight: 700, color: i === 3 ? "#10B981" : "#F1F5F9" }}>{val}</div>
+                                        <div style={{ color: palette.mute }}>{label}</div>
+                                        <div style={{ textAlign: "right", fontWeight: 700, color: i === 3 ? palette.accent : palette.txt }}>{val}</div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16 }}>
-                                <h4 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>FEASIBILITY CHECK</h4>
+                            <div style={{ borderTop: `1px solid ${palette.brd2}`, paddingTop: 16 }}>
+                                <h4 style={{ fontWeight: 700, color: palette.txt, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>FEASIBILITY CHECK</h4>
                                 <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13, marginBottom: 16 }}>
                                     {[
-                                        ["Your Monthly Surplus", `₹ ${Math.round(monthlySurplus).toLocaleString("en-IN")}`, "#F1F5F9"],
-                                        ["Total SIP Needed", `₹ ${Math.round(totalSIPRequiredAll).toLocaleString("en-IN")}`, "#F1F5F9"],
+                                        ["Your Monthly Surplus", `₹ ${Math.round(monthlySurplus).toLocaleString("en-IN")}`, palette.txt],
+                                        ["Total SIP Needed", `₹ ${Math.round(totalSIPRequiredAll).toLocaleString("en-IN")}`, palette.txt],
                                     ].map(([label, val, color]) => (
                                         <div key={label} style={S.row}>
-                                            <span style={{ color: "#94A3B8" }}>{label}</span>
+                                            <span style={{ color: palette.mute }}>{label}</span>
                                             <span style={{ fontWeight: 700, color }}>{val}</span>
                                         </div>
                                     ))}
                                     <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 8, ...S.row }}>
-                                        <span style={{ color: "#94A3B8" }}>Remaining Buffer</span>
-                                        <span style={{ fontWeight: 700, color: feasibilityRemainingBuffer >= 0 ? "#10B981" : "#F87171" }}>
+                                        <span style={{ color: palette.mute }}>Remaining Buffer</span>
+                                        <span style={{ fontWeight: 700, color: feasibilityRemainingBuffer >= 0 ? palette.accent : palette.danger }}>
                                             {feasibilityRemainingBuffer >= 0
                                                 ? `₹ ${Math.round(feasibilityRemainingBuffer).toLocaleString("en-IN")}`
                                                 : `-₹ ${Math.round(Math.abs(feasibilityRemainingBuffer)).toLocaleString("en-IN")}`}
@@ -843,14 +843,14 @@ export default function Step4FinancialGoals() {
 
                                 {isAchievable ? (
                                     <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 8, padding: 12 }}>
-                                        <p style={{ fontWeight: 700, color: "#10B981", display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13 }}>
+                                        <p style={{ fontWeight: 700, color: palette.accent, display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13 }}>
                                             <CheckCircle2 style={{ width: 16, height: 16, marginTop: 2, flexShrink: 0 }} />
                                             Your goals are achievable!
                                         </p>
                                     </div>
                                 ) : (
                                     <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8, padding: 12 }}>
-                                        <p style={{ fontWeight: 700, color: "#F87171", display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13 }}>
+                                        <p style={{ fontWeight: 700, color: palette.danger, display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13 }}>
                                             <AlertTriangle style={{ width: 16, height: 16, marginTop: 2, flexShrink: 0 }} />
                                             YOUR GOALS EXCEED CURRENT CAPACITY
                                         </p>
@@ -872,7 +872,7 @@ export default function Step4FinancialGoals() {
                     <div style={S.modal}>
                         <div style={S.modalHeader}>
                             <h3 style={S.modalTitle}>{editingId ? "Edit Goal" : "Add Goal"}</h3>
-                            <button onClick={() => setIsModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8" }}>
+                            <button onClick={() => setIsModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: palette.mute }}>
                                 <X style={{ width: 20, height: 20 }} />
                             </button>
                         </div>
@@ -921,8 +921,8 @@ export default function Step4FinancialGoals() {
                                             style={{
                                                 flex: 1, padding: "8px 4px", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", border: "1px solid",
                                                 background: importance === level.id ? "rgba(16,185,129,0.2)" : "rgba(255,255,255,0.03)",
-                                                color: importance === level.id ? "#10B981" : "#94A3B8",
-                                                borderColor: importance === level.id ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.05)",
+                                                color: importance === level.id ? palette.accent : palette.mute,
+                                                borderColor: importance === level.id ? "rgba(16,185,129,0.4)" : palette.brd,
                                             }}
                                         >{level.label}</button>
                                     ))}
@@ -932,7 +932,7 @@ export default function Step4FinancialGoals() {
                             {/* Projection Preview */}
                             {numCost > 0 && numHorizon > 0 && (
                                 <div style={{ background: "rgba(16,185,129,0.05)", borderRadius: 12, border: "1px solid rgba(16,185,129,0.15)", padding: 16 }}>
-                                    <p style={{ fontSize: 11, color: "#10B981", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>Projection Preview</p>
+                                    <p style={{ fontSize: 11, color: palette.accent, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>Projection Preview</p>
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
                                         {[
                                             ["Inflation-Adj Target", formatToCrLakh(bufferedCost)],
@@ -940,8 +940,8 @@ export default function Step4FinancialGoals() {
                                             ["Lump Sum", formatToCrLakh(requiredLumpSum)],
                                         ].map(([label, val]) => (
                                             <div key={label} style={{ textAlign: "center" }}>
-                                                <p style={{ fontSize: 10, color: "#94A3B8", marginBottom: 4 }}>{label}</p>
-                                                <p style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 14 }}>{val}</p>
+                                                <p style={{ fontSize: 10, color: palette.mute, marginBottom: 4 }}>{label}</p>
+                                                <p style={{ fontWeight: 700, color: palette.txt, fontSize: 14 }}>{val}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -949,7 +949,7 @@ export default function Step4FinancialGoals() {
                             )}
 
                         </div>
-                        <div style={{ padding: "16px 28px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0F172A", position: "sticky" as const, bottom: 0 }}>
+                        <div style={{ padding: "16px 28px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", background: palette.s1, position: "sticky" as const, bottom: 0 }}>
                             <button onClick={handleSave} style={S.btnPrimary}>
                                 {editingId ? "Update Goal" : "Save Goal"}
                             </button>
@@ -963,16 +963,16 @@ export default function Step4FinancialGoals() {
             {isLimitModalOpen && createPortal(
                 <div style={{ ...S.overlay, alignItems: "center", padding: 16 }}>
                     <div style={S.overlayBackdrop} onClick={() => setIsLimitModalOpen(false)} />
-                    <div style={{ position: "relative", background: "#0F172A", width: "100%", maxWidth: 360, borderRadius: 24, padding: 24, border: "1px solid rgba(255,255,255,0.1)", textAlign: "center" }}>
+                    <div style={{ position: "relative", background: palette.s1, width: "100%", maxWidth: 360, borderRadius: 24, padding: 24, border: `1px solid ${palette.brd2}`, textAlign: "center" }}>
                         <div style={{ width: 64, height: 64, background: "rgba(245,158,11,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", border: "1px solid rgba(245,158,11,0.2)" }}>
                             <Lock style={{ width: 32, height: 32, color: "#F59E0B" }} />
                         </div>
-                        <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Free Plan Limit Reached</h3>
-                        <p style={{ fontSize: 13, color: "#94A3B8", marginBottom: 24 }}>
+                        <h3 style={{ fontSize: 18, fontWeight: 700, color: palette.txt, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Free Plan Limit Reached</h3>
+                        <p style={{ fontSize: 13, color: palette.mute, marginBottom: 24 }}>
                             You&apos;ve added {goals.length} goals (free plan maximum).<br />Want to add more goals?
                         </p>
                         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                            <button style={{ padding: "12px 16px", background: "linear-gradient(to right, #F59E0B, #F97316)", color: "#0B0F1A", fontWeight: 700, borderRadius: 12, border: "none", cursor: "pointer", fontSize: 13 }}>
+                            <button style={{ padding: "12px 16px", background: "linear-gradient(to right, #F59E0B, #F97316)", color: palette.bg, fontWeight: 700, borderRadius: 12, border: "none", cursor: "pointer", fontSize: 13 }}>
                                 Upgrade to Premium
                                 <span style={{ display: "block", fontSize: 11, fontWeight: 500, opacity: 0.8 }}>(₹ 999 /year for unlimited goals)</span>
                             </button>

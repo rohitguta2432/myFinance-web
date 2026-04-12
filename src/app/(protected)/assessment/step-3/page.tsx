@@ -27,6 +27,7 @@ import { usePortfolioAnalysisQuery } from "@/hooks/assessment/usePortfolioAnalys
 import { useRiskScoringQuery } from "@/hooks/assessment/useRiskScoring";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import type { AssetItem, LiabilityItem } from "@/lib/assessment-api";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 // ─── Category Data ─────────────────────────────────────────────────────────────
 
@@ -77,7 +78,7 @@ const LIABILITY_CATEGORIES = [
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatNetWorth(amount: number): { text: string; color: string } {
+function formatNetWorth(amount: number, dangerColor = "#F87171", txtColor = "#F0F4F8"): { text: string; color: string } {
     const abs = Math.abs(amount);
     let formatted: string;
     let label = "";
@@ -93,49 +94,48 @@ function formatNetWorth(amount: number): { text: string; color: string } {
     }
 
     const sign = amount < 0 ? "-" : "";
-    const color = amount < 0 ? "#EF4444" : "#F1F5F9";
+    const color = amount < 0 ? dangerColor : txtColor;
     return { text: `${sign}₹ ${formatted}${label}`.trim(), color };
 }
-
-// ─── Inline Styles ─────────────────────────────────────────────────────────────
-
-const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px",
-    background: "#0B0F1A",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 8,
-    color: "#F1F5F9",
-    fontSize: 14,
-    outline: "none",
-    boxSizing: "border-box",
-};
-
-const selectStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px",
-    background: "#0B0F1A",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 8,
-    color: "#F1F5F9",
-    fontSize: 14,
-    outline: "none",
-    boxSizing: "border-box",
-};
-
-const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    color: "#94A3B8",
-    marginBottom: 8,
-};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Step3Page() {
+    const palette = useAppTheme();
+
+    const inputStyle: React.CSSProperties = {
+        width: "100%",
+        padding: "12px",
+        background: palette.bg,
+        border: `1px solid ${palette.brd2}`,
+        borderRadius: 8,
+        color: palette.txt,
+        fontSize: 14,
+        outline: "none",
+        boxSizing: "border-box",
+    };
+
+    const selectStyle: React.CSSProperties = {
+        width: "100%",
+        padding: "12px",
+        background: palette.bg,
+        border: `1px solid ${palette.brd2}`,
+        borderRadius: 8,
+        color: palette.txt,
+        fontSize: 14,
+        outline: "none",
+        boxSizing: "border-box",
+    };
+
+    const labelStyle: React.CSSProperties = {
+        display: "block",
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        color: palette.mute,
+        marginBottom: 8,
+    };
     const router = useRouter();
     const {
         assets,
@@ -396,7 +396,7 @@ export default function Step3Page() {
     }
     const allocationAlert = getMismatchAlert();
 
-    const netWorthFormat = formatNetWorth(netWorth);
+    const netWorthFormat = formatNetWorth(netWorth, palette.danger, palette.txt);
 
     if (isFetchingBalance) {
         return (
@@ -424,10 +424,10 @@ export default function Step3Page() {
 
             {/* Header */}
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ fontSize: 24, fontWeight: 700, color: "#F1F5F9", margin: "0 0 8px" }}>
+                <h1 style={{ fontSize: 24, fontWeight: 700, color: palette.txt, margin: "0 0 8px" }}>
                     Your Current Wealth Position
                 </h1>
-                <p style={{ fontSize: 14, color: "#94A3B8", margin: 0 }}>
+                <p style={{ fontSize: 14, color: palette.mute, margin: 0 }}>
                     Let&apos;s map what you own and what you owe.
                 </p>
             </div>
@@ -444,7 +444,7 @@ export default function Step3Page() {
                     background: "rgba(15,23,42,0.6)",
                     backdropFilter: "blur(32px)",
                     borderRadius: 27,
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: `1px solid ${palette.brd2}`,
                     padding: 32,
                     overflow: "hidden",
                 }}>
@@ -458,10 +458,10 @@ export default function Step3Page() {
                         <div>
                             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
                                 <div style={{
-                                    width: 8, height: 8, borderRadius: "50%", background: "#10B981",
+                                    width: 8, height: 8, borderRadius: "50%", background: palette.accent,
                                     boxShadow: "0 0 10px #10B981",
                                 }} />
-                                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", color: "#94A3B8", textTransform: "uppercase", margin: 0 }}>
+                                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", color: palette.mute, textTransform: "uppercase", margin: 0 }}>
                                     Total Net Worth
                                 </p>
                             </div>
@@ -474,15 +474,15 @@ export default function Step3Page() {
                             {/* Assets pill */}
                             <div style={{
                                 display: "flex", alignItems: "center", gap: 12,
-                                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.05)",
+                                background: palette.brd, border: `1px solid ${palette.brd}`,
                                 borderRadius: 16, padding: "16px 20px",
                             }}>
                                 <div style={{ padding: 10, background: "rgba(16,185,129,0.2)", borderRadius: 12 }}>
-                                    <TrendingUp style={{ width: 18, height: 18, color: "#10B981" }} />
+                                    <TrendingUp style={{ width: 18, height: 18, color: palette.accent }} />
                                 </div>
                                 <div>
-                                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 2px" }}>Assets</p>
-                                    <p style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: palette.mute, margin: "0 0 2px" }}>Assets</p>
+                                    <p style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                         {formatNetWorth(totalAssets).text}
                                     </p>
                                 </div>
@@ -491,15 +491,15 @@ export default function Step3Page() {
                             {/* Liabilities pill */}
                             <div style={{
                                 display: "flex", alignItems: "center", gap: 12,
-                                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.05)",
+                                background: palette.brd, border: `1px solid ${palette.brd}`,
                                 borderRadius: 16, padding: "16px 20px",
                             }}>
                                 <div style={{ padding: 10, background: "rgba(239,68,68,0.2)", borderRadius: 12 }}>
-                                    <TrendingUp style={{ width: 18, height: 18, color: "#EF4444", transform: "rotate(180deg)" }} />
+                                    <TrendingUp style={{ width: 18, height: 18, color: palette.danger, transform: "rotate(180deg)" }} />
                                 </div>
                                 <div>
-                                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8", margin: "0 0 2px" }}>Liabilities</p>
-                                    <p style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: palette.mute, margin: "0 0 2px" }}>Liabilities</p>
+                                    <p style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                         {formatNetWorth(totalLiabilities).text}
                                     </p>
                                 </div>
@@ -512,16 +512,16 @@ export default function Step3Page() {
             {/* ── Asset Allocation Chart ─────────────────────────────────────── */}
             {totalAssets > 0 && activeTab === "assets" && (
                 <div style={{
-                    background: "#0F172A", border: "1px solid rgba(255,255,255,0.05)",
+                    background: palette.s1, border: `1px solid ${palette.brd}`,
                     borderRadius: 16, padding: 24, marginBottom: 24,
                 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#F1F5F9", margin: "0 0 16px" }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: palette.txt, margin: "0 0 16px" }}>
                         Your Portfolio Mix
                     </h3>
                     <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 32, marginBottom: 24 }}>
                         {/* Donut */}
                         <div style={{ position: "relative", width: 128, height: 128, borderRadius: "50%", background: conicGradient, flexShrink: 0 }}>
-                            <div style={{ position: "absolute", inset: 8, background: "#0F172A", borderRadius: "50%" }} />
+                            <div style={{ position: "absolute", inset: 8, background: palette.s1, borderRadius: "50%" }} />
                         </div>
                         {/* Legend */}
                         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8, minWidth: 200 }}>
@@ -535,11 +535,11 @@ export default function Step3Page() {
                                 <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
                                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                         <div style={{ width: 10, height: 10, borderRadius: "50%", background: row.color, flexShrink: 0 }} />
-                                        <span style={{ color: "#CBD5E1" }}>{row.label}</span>
+                                        <span style={{ color: palette.txt2 }}>{row.label}</span>
                                     </div>
-                                    <span style={{ fontWeight: 600, color: "#F1F5F9" }}>
+                                    <span style={{ fontWeight: 600, color: palette.txt }}>
                                         {row.pct.toFixed(1)}%
-                                        <span style={{ color: "#64748B", fontWeight: 400, marginLeft: 6 }}>
+                                        <span style={{ color: palette.mute, fontWeight: 400, marginLeft: 6 }}>
                                             (₹{row.total.toLocaleString("en-IN")})
                                         </span>
                                     </span>
@@ -550,14 +550,14 @@ export default function Step3Page() {
 
                     {hasRiskData ? (
                         <>
-                            <h4 style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", margin: "0 0 12px" }}>
+                            <h4 style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: "0 0 12px" }}>
                                 Your Current vs Target ({profileLabel}):
                             </h4>
                             <div style={{
-                                background: "#0B0F1A", borderRadius: 12, padding: 16,
-                                border: "1px solid rgba(255,255,255,0.05)", marginBottom: 16,
+                                background: palette.bg, borderRadius: 12, padding: 16,
+                                border: `1px solid ${palette.brd}`, marginBottom: 16,
                             }}>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", fontSize: 11, fontWeight: 600, color: "#64748B", marginBottom: 8 }}>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", fontSize: 11, fontWeight: 600, color: palette.mute, marginBottom: 8 }}>
                                     <span>Asset</span>
                                     <span style={{ textAlign: "center" }}>You</span>
                                     <span style={{ textAlign: "center" }}>Target</span>
@@ -581,13 +581,13 @@ export default function Step3Page() {
                                         statusColor = "#F59E0B";
                                     } else {
                                         statusText = "✓ On track";
-                                        statusColor = "#10B981";
+                                        statusColor = palette.accent;
                                     }
                                     return (
-                                        <div key={row.label} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", fontSize: 14, alignItems: "center", padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                                            <span style={{ color: "#CBD5E1" }}>{row.label}</span>
-                                            <span style={{ textAlign: "center", fontWeight: 700, color: "#F1F5F9" }}>{row.current.toFixed(0)}%</span>
-                                            <span style={{ textAlign: "center", color: "#94A3B8" }}>{row.target}%</span>
+                                        <div key={row.label} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", fontSize: 14, alignItems: "center", padding: "6px 0", borderBottom: `1px solid ${palette.brd}` }}>
+                                            <span style={{ color: palette.txt2 }}>{row.label}</span>
+                                            <span style={{ textAlign: "center", fontWeight: 700, color: palette.txt }}>{row.current.toFixed(0)}%</span>
+                                            <span style={{ textAlign: "center", color: palette.mute }}>{row.target}%</span>
                                             <span style={{ textAlign: "right", fontSize: 12, color: statusColor }}>{statusText}</span>
                                         </div>
                                     );
@@ -618,7 +618,7 @@ export default function Step3Page() {
                                 <h5 style={{ color: "#3B82F6", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
                                     {isRiskLoading ? "Loading your risk profile…" : "Target allocation unavailable"}
                                 </h5>
-                                <p style={{ color: "#94A3B8", fontSize: 12, margin: 0 }}>
+                                <p style={{ color: palette.mute, fontSize: 12, margin: 0 }}>
                                     {isRiskLoading
                                         ? "We're calculating your personalized target based on your profile."
                                         : "Complete your profile and risk questionnaire (Step 1) so we can suggest a personalized target allocation."}
@@ -632,7 +632,7 @@ export default function Step3Page() {
             {/* ── Liabilities Summary Card ───────────────────────────────────── */}
             {totalLiabilities > 0 && activeTab === "liabilities" && (
                 <div style={{
-                    background: "#0F172A", border: "1px solid rgba(239,68,68,0.2)",
+                    background: palette.s1, border: "1px solid rgba(239,68,68,0.2)",
                     borderRadius: 16, padding: 24, marginBottom: 24, position: "relative", overflow: "hidden",
                     boxShadow: "0 0 15px rgba(239,68,68,0.05)",
                 }}>
@@ -643,26 +643,26 @@ export default function Step3Page() {
                     <div style={{ position: "relative", zIndex: 1 }}>
                         <h3 style={{
                             textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 13,
-                            letterSpacing: "0.2em", color: "#CBD5E1", textTransform: "uppercase",
+                            letterSpacing: "0.2em", color: palette.txt2, textTransform: "uppercase",
                             margin: "0 0 20px", paddingBottom: 16, borderBottom: "1px solid rgba(239,68,68,0.2)",
                         }}>
-                            <span style={{ color: "#475569", marginRight: 8 }}>══</span>
+                            <span style={{ color: palette.mute, marginRight: 8 }}>══</span>
                             LIABILITIES SUMMARY
-                            <span style={{ color: "#475569", marginLeft: 8 }}>══</span>
+                            <span style={{ color: palette.mute, marginLeft: 8 }}>══</span>
                         </h3>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: "monospace", fontSize: 14 }}>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span style={{ color: "#CBD5E1" }}>Total Outstanding</span>
-                                <span style={{ fontWeight: 700, color: "#EF4444" }}>₹ {totalLiabilities.toLocaleString("en-IN")}</span>
+                                <span style={{ color: palette.txt2 }}>Total Outstanding</span>
+                                <span style={{ fontWeight: 700, color: palette.danger }}>₹ {totalLiabilities.toLocaleString("en-IN")}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span style={{ color: "#CBD5E1" }}>Monthly EMI Total</span>
-                                <span style={{ fontWeight: 700, color: "#F1F5F9" }}>₹ {monthlyEmiTotal.toLocaleString("en-IN")}</span>
+                                <span style={{ color: palette.txt2 }}>Monthly EMI Total</span>
+                                <span style={{ fontWeight: 700, color: palette.txt }}>₹ {monthlyEmiTotal.toLocaleString("en-IN")}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span style={{ color: "#CBD5E1" }}>Avg Interest Rate</span>
-                                <span style={{ fontWeight: 700, color: "#F1F5F9" }}>{avgInterestRate.toFixed(1)}%</span>
+                                <span style={{ color: palette.txt2 }}>Avg Interest Rate</span>
+                                <span style={{ fontWeight: 700, color: palette.txt }}>{avgInterestRate.toFixed(1)}%</span>
                             </div>
                         </div>
 
@@ -673,22 +673,22 @@ export default function Step3Page() {
                                 border: "1px solid rgba(239,68,68,0.3)", borderRadius: 12,
                                 padding: 16, display: "flex", alignItems: "flex-start", gap: 12,
                             }}>
-                                <AlertTriangle style={{ width: 18, height: 18, color: "#EF4444", flexShrink: 0, marginTop: 2 }} />
+                                <AlertTriangle style={{ width: 18, height: 18, color: palette.danger, flexShrink: 0, marginTop: 2 }} />
                                 <div>
-                                    <h5 style={{ color: "#EF4444", fontWeight: 700, fontSize: 14, margin: "0 0 6px" }}>
+                                    <h5 style={{ color: palette.danger, fontWeight: 700, fontSize: 14, margin: "0 0 6px" }}>
                                         ⚠️ EMI Mismatch Detected
                                     </h5>
-                                    <p style={{ fontSize: 12, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 8px" }}>
-                                        Your <span style={{ fontWeight: 700, color: "#F1F5F9" }}>Cash Flow</span> shows EMI expenses of{" "}
+                                    <p style={{ fontSize: 12, color: palette.txt2, lineHeight: 1.6, margin: "0 0 8px" }}>
+                                        Your <span style={{ fontWeight: 700, color: palette.txt }}>Cash Flow</span> shows EMI expenses of{" "}
                                         <span style={{ fontWeight: 700, color: "#F59E0B" }}>₹{cashFlowEMI.toLocaleString()}/mo</span>,
-                                        but your <span style={{ fontWeight: 700, color: "#F1F5F9" }}>Liabilities</span> add up to{" "}
+                                        but your <span style={{ fontWeight: 700, color: palette.txt }}>Liabilities</span> add up to{" "}
                                         <span style={{ fontWeight: 700, color: "#F59E0B" }}>₹{monthlyEmiTotal.toLocaleString()}/mo</span>.
                                     </p>
-                                    <p style={{ fontSize: 12, color: "#94A3B8", margin: 0 }}>
+                                    <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>
                                         Please update the EMI amount in{" "}
                                         <button
                                             onClick={() => router.push("/assessment/step-2")}
-                                            style={{ background: "none", border: "none", color: "#10B981", fontWeight: 600, cursor: "pointer", textDecoration: "underline", fontSize: 12 }}
+                                            style={{ background: "none", border: "none", color: palette.accent, fontWeight: 600, cursor: "pointer", textDecoration: "underline", fontSize: 12 }}
                                         >
                                             Cash Flow (Step 2)
                                         </button>{" "}
@@ -700,8 +700,8 @@ export default function Step3Page() {
 
                         {/* DTI Gauge */}
                         {totalMonthlyIncome > 0 && (
-                            <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-                                <h4 style={{ textAlign: "center", fontSize: 14, fontWeight: 600, color: "#CBD5E1", margin: "0 0 24px" }}>
+                            <div style={{ marginTop: 32, paddingTop: 24, borderTop: `1px solid ${palette.brd2}` }}>
+                                <h4 style={{ textAlign: "center", fontSize: 14, fontWeight: 600, color: palette.txt2, margin: "0 0 24px" }}>
                                     Debt-to-Income Ratio
                                 </h4>
 
@@ -720,28 +720,28 @@ export default function Step3Page() {
                                         position: "absolute", bottom: "calc(100% + 8px)",
                                         left: `${Math.min(Math.max(dtiRatio * 2, 0), 100)}%`,
                                         transform: "translateX(-50%)",
-                                        background: "#1E293B", padding: "2px 8px", borderRadius: 6,
-                                        fontSize: 12, fontWeight: 700, color: "#F1F5F9",
+                                        background: palette.s3, padding: "2px 8px", borderRadius: 6,
+                                        fontSize: 12, fontWeight: 700, color: palette.txt,
                                         transition: "left 1s ease-out",
                                     }}>
                                         {dtiRatio.toFixed(1)}%
                                     </div>
-                                    <span style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, fontSize: 11, color: "#94A3B8" }}>0%</span>
-                                    <span style={{ position: "absolute", top: "calc(100% + 6px)", right: 0, fontSize: 11, color: "#94A3B8" }}>50%+</span>
+                                    <span style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, fontSize: 11, color: palette.mute }}>0%</span>
+                                    <span style={{ position: "absolute", top: "calc(100% + 6px)", right: 0, fontSize: 11, color: palette.mute }}>50%+</span>
                                 </div>
 
                                 <div style={{
-                                    background: "#0B0F1A", borderRadius: 12, padding: 16,
-                                    border: "1px solid rgba(255,255,255,0.05)",
+                                    background: palette.bg, borderRadius: 12, padding: 16,
+                                    border: `1px solid ${palette.brd}`,
                                 }}>
                                     {dtiRatio < 30 ? (
                                         <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                                            <CheckCircle2 style={{ width: 18, height: 18, color: "#10B981", flexShrink: 0, marginTop: 2 }} />
+                                            <CheckCircle2 style={{ width: 18, height: 18, color: palette.accent, flexShrink: 0, marginTop: 2 }} />
                                             <div>
-                                                <h5 style={{ color: "#10B981", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
+                                                <h5 style={{ color: palette.accent, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
                                                     Healthy (Below 30% threshold)
                                                 </h5>
-                                                <p style={{ color: "#94A3B8", fontSize: 12, margin: 0 }}>
+                                                <p style={{ color: palette.mute, fontSize: 12, margin: 0 }}>
                                                     Your debt burden is manageable and leaves room for savings and investments.
                                                 </p>
                                             </div>
@@ -753,7 +753,7 @@ export default function Step3Page() {
                                                 <h5 style={{ color: "#F59E0B", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
                                                     Monitor: Your EMIs are {dtiRatio.toFixed(0)}% of income.
                                                 </h5>
-                                                <p style={{ color: "#94A3B8", fontSize: 12, margin: 0 }}>
+                                                <p style={{ color: palette.mute, fontSize: 12, margin: 0 }}>
                                                     Avoid taking more loans until this improves or your income increases.
                                                 </p>
                                             </div>
@@ -762,13 +762,13 @@ export default function Step3Page() {
                                         <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                                             <span style={{ fontSize: 18, flexShrink: 0 }}>🚨</span>
                                             <div>
-                                                <h5 style={{ color: "#EF4444", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
+                                                <h5 style={{ color: palette.danger, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>
                                                     Risky: Your EMIs are {dtiRatio.toFixed(0)}% of income.
                                                 </h5>
-                                                <p style={{ color: "#CBD5E1", fontSize: 12, fontWeight: 600, margin: "0 0 4px" }}>
+                                                <p style={{ color: palette.txt2, fontSize: 12, fontWeight: 600, margin: "0 0 4px" }}>
                                                     Consider:
                                                 </p>
-                                                <ul style={{ color: "#94A3B8", fontSize: 12, margin: 0, paddingLeft: 16 }}>
+                                                <ul style={{ color: palette.mute, fontSize: 12, margin: 0, paddingLeft: 16 }}>
                                                     <li>Debt consolidation at lower rates</li>
                                                     <li>Extending loan tenure to reduce EMI</li>
                                                     <li>Increasing income or reducing expenses</li>
@@ -785,7 +785,7 @@ export default function Step3Page() {
 
             {/* ── Tabs ──────────────────────────────────────────────────────── */}
             <div style={{
-                display: "flex", background: "#1E293B", borderRadius: 12, padding: 4, marginBottom: 24,
+                display: "flex", background: palette.s3, borderRadius: 12, padding: 4, marginBottom: 24,
             }}>
                 {(["assets", "liabilities"] as const).map((tab) => (
                     <button
@@ -794,8 +794,8 @@ export default function Step3Page() {
                         style={{
                             flex: 1, padding: "10px", borderRadius: 8, fontSize: 14, fontWeight: 700,
                             border: "none", cursor: "pointer", transition: "all 0.15s",
-                            background: activeTab === tab ? "#0B0F1A" : "transparent",
-                            color: activeTab === tab ? "#10B981" : "#94A3B8",
+                            background: activeTab === tab ? palette.bg : "transparent",
+                            color: activeTab === tab ? palette.accent : palette.mute,
                             boxShadow: activeTab === tab ? "0 1px 4px rgba(0,0,0,0.3)" : "none",
                         }}
                     >
@@ -811,7 +811,7 @@ export default function Step3Page() {
                         key={item.id}
                         style={{
                             display: "flex", justifyContent: "space-between", alignItems: "center",
-                            background: "#0F172A", border: "1px solid rgba(255,255,255,0.05)",
+                            background: palette.s1, border: `1px solid ${palette.brd}`,
                             borderRadius: 12, padding: 16,
                         }}
                     >
@@ -821,16 +821,16 @@ export default function Step3Page() {
                                 background: activeTab === "assets" ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
                             }}>
                                 {activeTab === "assets" ? (
-                                    <TrendingUp style={{ width: 18, height: 18, color: "#10B981" }} />
+                                    <TrendingUp style={{ width: 18, height: 18, color: palette.accent }} />
                                 ) : (
-                                    <CreditCard style={{ width: 18, height: 18, color: "#EF4444" }} />
+                                    <CreditCard style={{ width: 18, height: 18, color: palette.danger }} />
                                 )}
                             </div>
                             <div>
-                                <p style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                                <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                     {item.name}
                                 </p>
-                                <p style={{ fontSize: 12, color: "#94A3B8", margin: "2px 0 0" }}>
+                                <p style={{ fontSize: 12, color: palette.mute, margin: "2px 0 0" }}>
                                     {item.category}
                                     {(item as AssetItem).subCategory && ` • ${(item as AssetItem).subCategory}`}
                                 </p>
@@ -843,12 +843,12 @@ export default function Step3Page() {
                             </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <span style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 14 }}>
+                            <span style={{ fontWeight: 700, color: palette.txt, fontSize: 14 }}>
                                 ₹ {item.amount.toLocaleString("en-IN")}
                             </span>
                             <button
                                 onClick={() => openEditModal(item)}
-                                style={{ background: "none", border: "none", color: "#64748B", cursor: "pointer", padding: 4 }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer", padding: 4 }}
                                 title="Edit"
                             >
                                 <Pencil style={{ width: 14, height: 14 }} />
@@ -865,7 +865,7 @@ export default function Step3Page() {
                                     toast.success(`${activeTab === "assets" ? "Asset" : "Liability"} deleted`);
                                 }}
                                 disabled={isDeletingAsset || isDeletingLiability}
-                                style={{ background: "none", border: "none", color: "#64748B", cursor: "pointer", padding: 4, opacity: (isDeletingAsset || isDeletingLiability) ? 0.5 : 1 }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer", padding: 4, opacity: (isDeletingAsset || isDeletingLiability) ? 0.5 : 1 }}
                             >
                                 <X style={{ width: 14, height: 14 }} />
                             </button>
@@ -877,19 +877,19 @@ export default function Step3Page() {
                     onClick={openModal}
                     style={{
                         width: "100%", padding: "16px",
-                        border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 12,
+                        border: `1px dashed ${palette.brd2}`, borderRadius: 12,
                         display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                        background: "transparent", color: "#94A3B8", fontSize: 14, fontWeight: 500,
+                        background: "transparent", color: palette.mute, fontSize: 14, fontWeight: 500,
                         cursor: "pointer", transition: "border-color 0.15s, color 0.15s",
                         boxSizing: "border-box",
                     }}
                     onMouseEnter={(e) => {
                         (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(16,185,129,0.3)";
-                        (e.currentTarget as HTMLButtonElement).style.color = "#10B981";
+                        (e.currentTarget as HTMLButtonElement).style.color = palette.accent;
                     }}
                     onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                        (e.currentTarget as HTMLButtonElement).style.color = "#94A3B8";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = palette.brd2;
+                        (e.currentTarget as HTMLButtonElement).style.color = palette.mute;
                     }}
                 >
                     <Plus style={{ width: 18, height: 18 }} />
@@ -926,22 +926,22 @@ export default function Step3Page() {
 
                     {/* Sheet */}
                     <div style={{
-                        position: "relative", background: "#0F172A", width: "100%", maxWidth: 512,
+                        position: "relative", background: palette.s1, width: "100%", maxWidth: 512,
                         borderRadius: "24px 24px 0 0", padding: 24,
                         boxShadow: "0 -20px 60px rgba(0,0,0,0.5)",
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        border: `1px solid ${palette.brd2}`,
                         maxHeight: "90vh", overflowY: "auto",
                     }}>
                         {/* Handle */}
-                        <div style={{ width: 48, height: 4, background: "#1E293B", borderRadius: 99, margin: "0 auto 24px" }} />
+                        <div style={{ width: 48, height: 4, background: palette.s3, borderRadius: 99, margin: "0 auto 24px" }} />
 
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-                            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", margin: 0 }}>
+                            <h3 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0 }}>
                                 {editingItem ? "Edit" : "Add"} {activeTab === "assets" ? "Asset" : "Liability"}
                             </h3>
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                style={{ background: "none", border: "none", color: "#94A3B8", cursor: "pointer" }}
+                                style={{ background: "none", border: "none", color: palette.mute, cursor: "pointer" }}
                             >
                                 <X style={{ width: 22, height: 22 }} />
                             </button>
@@ -1057,8 +1057,8 @@ export default function Step3Page() {
                                     onClick={() => handleSave(false)}
                                     style={{
                                         flex: 1, width: editingItem ? "100%" : undefined,
-                                        padding: "16px", background: "#10B981", border: "none", borderRadius: 12,
-                                        color: "#0B0F1A", fontWeight: 700, fontSize: 15, cursor: "pointer",
+                                        padding: "16px", background: palette.accent, border: "none", borderRadius: 12,
+                                        color: palette.bg, fontWeight: 700, fontSize: 15, cursor: "pointer",
                                         boxShadow: "0 0 15px rgba(16,185,129,0.3)",
                                     }}
                                 >
@@ -1069,8 +1069,8 @@ export default function Step3Page() {
                                         onClick={() => handleSave(true)}
                                         style={{
                                             flex: 1, padding: "16px",
-                                            background: "#1E293B", border: "1px solid rgba(255,255,255,0.1)",
-                                            borderRadius: 12, color: "#F1F5F9", fontWeight: 700, fontSize: 15, cursor: "pointer",
+                                            background: palette.s3, border: `1px solid ${palette.brd2}`,
+                                            borderRadius: 12, color: palette.txt, fontWeight: 700, fontSize: 15, cursor: "pointer",
                                         }}
                                     >
                                         Save & Add Another

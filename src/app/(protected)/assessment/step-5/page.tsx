@@ -21,6 +21,7 @@ import { useInsuranceGapQuery } from "@/hooks/assessment/useInsuranceGap";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import { SectionNav } from "@/components/ui/section-nav";
 import type { InsuranceChecklist } from "@/store/useAssessmentStore";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const STEP5_SECTIONS = [
     { id: "corporate", label: "Corporate" },
@@ -37,104 +38,7 @@ function formatCurrency(amount: number): string {
     return `₹${Math.round(amount).toLocaleString("en-IN")}`;
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
-const S = {
-    page: { display: "flex", flexDirection: "column" as const, padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto", width: "100%" },
-    header: { marginBottom: 24 },
-    h1: {
-        fontSize: 22, fontWeight: 700, color: "#F1F5F9",
-        borderBottom: "1px solid rgba(16,185,129,0.2)",
-        paddingBottom: 8, display: "inline-block", marginBottom: 8,
-    },
-    subtitle: { fontSize: 13, color: "#94A3B8" },
-    tabBar: {
-        display: "flex", gap: 8, marginBottom: 24,
-        overflowX: "auto" as const, paddingBottom: 4,
-    },
-    tab: (active: boolean): React.CSSProperties => ({
-        padding: "8px 16px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-        cursor: "pointer", border: "none", whiteSpace: "nowrap" as const,
-        background: active ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.03)",
-        color: active ? "#10B981" : "#94A3B8",
-    }),
-    card: {
-        background: "#0F172A", borderRadius: 16,
-        border: "1px solid rgba(255,255,255,0.05)",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-        overflow: "hidden", marginBottom: 24,
-    },
-    cardBody: { padding: 20 },
-    cardHeader: {
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid rgba(255,255,255,0.05)",
-    },
-    cardHeaderLeft: { display: "flex", alignItems: "center", gap: 12 },
-    iconBox: (color: string): React.CSSProperties => ({
-        padding: 8, borderRadius: 12, background: `${color}1a`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-    }),
-    label: { fontSize: 11, fontWeight: 600, color: "#94A3B8", display: "block", marginBottom: 4 },
-    input: {
-        width: "100%", background: "#0B0F1A",
-        border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12,
-        padding: "12px 14px", color: "#F1F5F9", fontSize: 14,
-        boxSizing: "border-box" as const, outline: "none",
-    },
-    select: {
-        width: "100%", background: "#0B0F1A",
-        border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12,
-        padding: "12px 14px", color: "#F1F5F9", fontSize: 14,
-        boxSizing: "border-box" as const,
-    },
-    row: { display: "flex", justifyContent: "space-between", alignItems: "center" },
-    btnAdd: (color: string): React.CSSProperties => ({
-        fontSize: 12, display: "flex", alignItems: "center", gap: 4,
-        background: `${color}1a`, color, padding: "6px 12px", borderRadius: 9999,
-        fontWeight: 700, border: "none", cursor: "pointer",
-    }),
-    btnPrimary: {
-        background: "#10B981", color: "#0B0F1A", border: "none", borderRadius: 12,
-        padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer",
-        boxShadow: "0 0 15px rgba(16,185,129,0.3)", width: "100%",
-    },
-    overlay: {
-        position: "fixed" as const, inset: 0, zIndex: 9999,
-        display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
-    },
-    overlayBackdrop: {
-        position: "absolute" as const, inset: 0,
-        background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)",
-    },
-    modal: {
-        position: "relative" as const, background: "#0F172A",
-        width: "100%", maxWidth: 520,
-        borderRadius: 24,
-        border: "1px solid rgba(255,255,255,0.1)",
-        overflow: "hidden", maxHeight: "85vh", overflowY: "auto" as const,
-        boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
-    },
-    modalHeader: {
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.05)",
-        background: "#0F172A", position: "sticky" as const, top: 0, zIndex: 10,
-    },
-    modalBody: { padding: 24, display: "flex", flexDirection: "column" as const, gap: 16 },
-    policyItem: {
-        background: "#0B0F1A", padding: 12, borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.1)",
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-    },
-    emptyState: {
-        textAlign: "center" as const, padding: "24px 16px",
-        background: "#0B0F1A", borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.05)", borderStyle: "dashed" as const,
-    },
-    analysisSection: {
-        padding: 20,
-        background: "linear-gradient(to bottom, #0F172A, #0B0F1A)",
-    },
-};
+// S styles built inside component (uses palette) — see below
 
 const CHECKLIST_ITEMS: { id: keyof InsuranceChecklist; label: string }[] = [
     { id: "criticalIllness", label: "Critical Illness Cover" },
@@ -146,7 +50,105 @@ const CHECKLIST_ITEMS: { id: keyof InsuranceChecklist; label: string }[] = [
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function Step5InsuranceGap() {
+    const palette = useAppTheme();
     const router = useRouter();
+
+    const S = {
+        page: { display: "flex", flexDirection: "column" as const, padding: "24px 24px 180px", maxWidth: 960, margin: "0 auto", width: "100%" },
+        header: { marginBottom: 24 },
+        h1: {
+            fontSize: 22, fontWeight: 700, color: palette.txt,
+            borderBottom: "1px solid rgba(16,185,129,0.2)",
+            paddingBottom: 8, display: "inline-block", marginBottom: 8,
+        },
+        subtitle: { fontSize: 13, color: palette.mute },
+        tabBar: {
+            display: "flex", gap: 8, marginBottom: 24,
+            overflowX: "auto" as const, paddingBottom: 4,
+        },
+        tab: (active: boolean): React.CSSProperties => ({
+            padding: "8px 16px", borderRadius: 8, fontSize: 12, fontWeight: 600,
+            cursor: "pointer", border: "none", whiteSpace: "nowrap" as const,
+            background: active ? "rgba(16,185,129,0.15)" : palette.brd,
+            color: active ? palette.accent : palette.mute,
+        }),
+        card: {
+            background: palette.s1, borderRadius: 16,
+            border: `1px solid ${palette.brd}`,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            overflow: "hidden", marginBottom: 24,
+        },
+        cardBody: { padding: 20 },
+        cardHeader: {
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            marginBottom: 16, paddingBottom: 12, borderBottom: `1px solid ${palette.brd}`,
+        },
+        cardHeaderLeft: { display: "flex", alignItems: "center", gap: 12 },
+        iconBox: (color: string): React.CSSProperties => ({
+            padding: 8, borderRadius: 12, background: `${color}1a`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+        }),
+        label: { fontSize: 11, fontWeight: 600, color: palette.mute, display: "block", marginBottom: 4 },
+        input: {
+            width: "100%", background: palette.bg,
+            border: `1px solid ${palette.brd2}`, borderRadius: 12,
+            padding: "12px 14px", color: palette.txt, fontSize: 14,
+            boxSizing: "border-box" as const, outline: "none",
+        },
+        select: {
+            width: "100%", background: palette.bg,
+            border: `1px solid ${palette.brd2}`, borderRadius: 12,
+            padding: "12px 14px", color: palette.txt, fontSize: 14,
+            boxSizing: "border-box" as const,
+        },
+        row: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+        btnAdd: (color: string): React.CSSProperties => ({
+            fontSize: 12, display: "flex", alignItems: "center", gap: 4,
+            background: `${color}1a`, color, padding: "6px 12px", borderRadius: 9999,
+            fontWeight: 700, border: "none", cursor: "pointer",
+        }),
+        btnPrimary: {
+            background: palette.accent, color: palette.bg, border: "none", borderRadius: 12,
+            padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer",
+            boxShadow: "0 0 15px rgba(16,185,129,0.3)", width: "100%",
+        },
+        overlay: {
+            position: "fixed" as const, inset: 0, zIndex: 9999,
+            display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
+        },
+        overlayBackdrop: {
+            position: "absolute" as const, inset: 0,
+            background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)",
+        },
+        modal: {
+            position: "relative" as const, background: palette.s1,
+            width: "100%", maxWidth: 520,
+            borderRadius: 24,
+            border: `1px solid ${palette.brd2}`,
+            overflow: "hidden", maxHeight: "85vh", overflowY: "auto" as const,
+            boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
+        },
+        modalHeader: {
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            padding: "20px 24px", borderBottom: `1px solid ${palette.brd}`,
+            background: palette.s1, position: "sticky" as const, top: 0, zIndex: 10,
+        },
+        modalBody: { padding: 24, display: "flex", flexDirection: "column" as const, gap: 16 },
+        policyItem: {
+            background: palette.bg, padding: 12, borderRadius: 12,
+            border: `1px solid ${palette.brd2}`,
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+        },
+        emptyState: {
+            textAlign: "center" as const, padding: "24px 16px",
+            background: palette.bg, borderRadius: 12,
+            border: `1px solid ${palette.brd}`, borderStyle: "dashed" as const,
+        },
+        analysisSection: {
+            padding: 20,
+            background: `linear-gradient(to bottom, ${palette.s1}, ${palette.bg})`,
+        },
+    };
     const {
         age,
         employmentType,
@@ -257,8 +259,8 @@ export default function Step5InsuranceGap() {
                                         <Building2 style={{ width: 20, height: 20, color: "#60A5FA" }} />
                                     </div>
                                     <div>
-                                        <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 17 }}>Corporate Insurance</h3>
-                                        <p style={{ fontSize: 12, color: "#94A3B8" }}>Do you have employer-provided insurance?</p>
+                                        <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 17 }}>Corporate Insurance</h3>
+                                        <p style={{ fontSize: 12, color: palette.mute }}>Do you have employer-provided insurance?</p>
                                     </div>
                                 </div>
                             </div>
@@ -288,8 +290,8 @@ export default function Step5InsuranceGap() {
                                     <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, marginBottom: 12 }}>
                                         {[["Health", formatCurrency(actualCorpHealth)], ["Life", formatCurrency(actualCorpLife)]].map(([label, val]) => (
                                             <div key={label} style={S.row}>
-                                                <span style={{ color: "#94A3B8" }}>{label}:</span>
-                                                <span style={{ color: "#F1F5F9", fontWeight: 600 }}>{val}</span>
+                                                <span style={{ color: palette.mute }}>{label}:</span>
+                                                <span style={{ color: palette.txt, fontWeight: 600 }}>{val}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -308,13 +310,13 @@ export default function Step5InsuranceGap() {
             <div id="personal" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24 }}>
                 {/* Personal Health */}
                 <div style={{ ...S.card, marginBottom: 0 }}>
-                    <div style={{ padding: 20, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ padding: 20, borderBottom: `1px solid ${palette.brd}` }}>
                         <div style={S.cardHeader}>
                             <div style={S.cardHeaderLeft}>
                                 <div style={S.iconBox("#14B8A6")}>
                                     <HeartPulse style={{ width: 20, height: 20, color: "#2DD4BF" }} />
                                 </div>
-                                <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 17 }}>Personal Health</h3>
+                                <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 17 }}>Personal Health</h3>
                             </div>
                             <button onClick={() => setIsHealthModalOpen(true)} style={S.btnAdd("#2DD4BF")}>
                                 <Plus style={{ width: 12, height: 12 }} /> Add Policy
@@ -324,17 +326,17 @@ export default function Step5InsuranceGap() {
                         {!(insurance?.personalHealth && insurance.personalHealth.length > 0) ? (
                             <div style={S.emptyState}>
                                 <HeartPulse style={{ width: 32, height: 32, color: "#334155", margin: "0 auto 8px", opacity: 0.5 }} />
-                                <p style={{ fontSize: 13, color: "#64748B" }}>No personal health insurance added</p>
+                                <p style={{ fontSize: 13, color: palette.mute }}>No personal health insurance added</p>
                             </div>
                         ) : (
                             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                                 {insurance.personalHealth.map((p) => (
                                     <div key={p.id} style={S.policyItem}>
                                         <div>
-                                            <p style={{ fontWeight: 700, fontSize: 13, color: "#F1F5F9" }}>{p.type}</p>
-                                            <p style={{ fontSize: 12, color: "#94A3B8" }}>Sum: {formatCurrency(p.sumInsured)}{p.premium ? ` • Prem: ${formatCurrency(p.premium)}/yr` : ""}</p>
+                                            <p style={{ fontWeight: 700, fontSize: 13, color: palette.txt }}>{p.type}</p>
+                                            <p style={{ fontSize: 12, color: palette.mute }}>Sum: {formatCurrency(p.sumInsured)}{p.premium ? ` • Prem: ${formatCurrency(p.premium)}/yr` : ""}</p>
                                         </div>
-                                        <button onClick={() => removePersonalHealth(p.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#64748B", padding: 8 }}>
+                                        <button onClick={() => removePersonalHealth(p.id)} style={{ background: "none", border: "none", cursor: "pointer", color: palette.mute, padding: 8 }}>
                                             <X style={{ width: 16, height: 16 }} />
                                         </button>
                                     </div>
@@ -352,12 +354,12 @@ export default function Step5InsuranceGap() {
                                 ["RECOMMENDED FOR YOU", formatCurrency(recommendedHealthCover), "Based on family size & city"],
                                 ["YOUR CURRENT COVERAGE", formatCurrency(totalHealthCover), `Corporate: ${formatCurrency(actualCorpHealth)} | Personal: ${formatCurrency(actualPersonalHealth)}`],
                             ].map(([heading, val, sub]) => (
-                                <div key={heading} style={{ ...S.row, borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 12 }}>
+                                <div key={heading} style={{ ...S.row, borderBottom: `1px solid ${palette.brd}`, paddingBottom: 12 }}>
                                     <div>
-                                        <p style={{ color: "#94A3B8", fontWeight: 600, marginBottom: 2 }}>{heading}</p>
-                                        <p style={{ fontSize: 11, color: "#64748B" }}>{sub}</p>
+                                        <p style={{ color: palette.mute, fontWeight: 600, marginBottom: 2 }}>{heading}</p>
+                                        <p style={{ fontSize: 11, color: palette.mute }}>{sub}</p>
                                     </div>
-                                    <span style={{ fontWeight: 700, fontSize: 16, color: "#F1F5F9" }}>{val}</span>
+                                    <span style={{ fontWeight: 700, fontSize: 16, color: palette.txt }}>{val}</span>
                                 </div>
                             ))}
                             {healthGap > 0 ? (
@@ -369,7 +371,7 @@ export default function Step5InsuranceGap() {
                                 </div>
                             ) : (
                                 <div style={{ background: "rgba(16,185,129,0.1)", padding: 12, borderRadius: 12, border: "1px solid rgba(16,185,129,0.2)" }}>
-                                    <span style={{ fontWeight: 700, color: "#10B981", display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span style={{ fontWeight: 700, color: palette.accent, display: "flex", alignItems: "center", gap: 8 }}>
                                         <CheckCircle2 style={{ width: 16, height: 16 }} /> FULLY COVERED
                                     </span>
                                 </div>
@@ -380,13 +382,13 @@ export default function Step5InsuranceGap() {
 
                 {/* Personal Life */}
                 <div style={{ ...S.card, marginBottom: 0 }}>
-                    <div style={{ padding: 20, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ padding: 20, borderBottom: `1px solid ${palette.brd}` }}>
                         <div style={S.cardHeader}>
                             <div style={S.cardHeaderLeft}>
                                 <div style={S.iconBox("#3B82F6")}>
                                     <Shield style={{ width: 20, height: 20, color: "#60A5FA" }} />
                                 </div>
-                                <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 17 }}>Personal Life</h3>
+                                <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 17 }}>Personal Life</h3>
                             </div>
                             <button onClick={() => setIsLifeModalOpen(true)} style={S.btnAdd("#60A5FA")}>
                                 <Plus style={{ width: 12, height: 12 }} /> Add Policy
@@ -396,17 +398,17 @@ export default function Step5InsuranceGap() {
                         {!(insurance?.personalLife && insurance.personalLife.length > 0) ? (
                             <div style={S.emptyState}>
                                 <Shield style={{ width: 32, height: 32, color: "#334155", margin: "0 auto 8px", opacity: 0.5 }} />
-                                <p style={{ fontSize: 13, color: "#64748B" }}>No personal life insurance added</p>
+                                <p style={{ fontSize: 13, color: palette.mute }}>No personal life insurance added</p>
                             </div>
                         ) : (
                             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                                 {insurance.personalLife.map((p) => (
                                     <div key={p.id} style={S.policyItem}>
                                         <div>
-                                            <p style={{ fontWeight: 700, fontSize: 13, color: "#F1F5F9" }}>{p.type}</p>
-                                            <p style={{ fontSize: 12, color: "#94A3B8" }}>Sum: {formatCurrency(p.sumAssured)}{p.premium ? ` • Prem: ${formatCurrency(p.premium)}/yr` : ""}</p>
+                                            <p style={{ fontWeight: 700, fontSize: 13, color: palette.txt }}>{p.type}</p>
+                                            <p style={{ fontSize: 12, color: palette.mute }}>Sum: {formatCurrency(p.sumAssured)}{p.premium ? ` • Prem: ${formatCurrency(p.premium)}/yr` : ""}</p>
                                         </div>
-                                        <button onClick={() => removePersonalLife(p.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#64748B", padding: 8 }}>
+                                        <button onClick={() => removePersonalLife(p.id)} style={{ background: "none", border: "none", cursor: "pointer", color: palette.mute, padding: 8 }}>
                                             <X style={{ width: 16, height: 16 }} />
                                         </button>
                                     </div>
@@ -424,33 +426,33 @@ export default function Step5InsuranceGap() {
                                 ["RECOMMENDED FOR YOU", formatCurrency(recommendedLifeCover), "Based on Income, Goals & Liabilities"],
                                 ["YOUR CURRENT COVERAGE", formatCurrency(totalLifeCover), `Corporate: ${formatCurrency(actualCorpLife)} | Personal: ${formatCurrency(actualPersonalLife)}`],
                             ].map(([heading, val, sub]) => (
-                                <div key={heading} style={{ ...S.row, borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 12 }}>
+                                <div key={heading} style={{ ...S.row, borderBottom: `1px solid ${palette.brd}`, paddingBottom: 12 }}>
                                     <div>
-                                        <p style={{ color: "#94A3B8", fontWeight: 600, marginBottom: 2 }}>{heading}</p>
-                                        <p style={{ fontSize: 11, color: "#64748B" }}>{sub}</p>
+                                        <p style={{ color: palette.mute, fontWeight: 600, marginBottom: 2 }}>{heading}</p>
+                                        <p style={{ fontSize: 11, color: palette.mute }}>{sub}</p>
                                     </div>
-                                    <span style={{ fontWeight: 700, fontSize: 16, color: "#F1F5F9" }}>{val}</span>
+                                    <span style={{ fontWeight: 700, fontSize: 16, color: palette.txt }}>{val}</span>
                                 </div>
                             ))}
                             {lifeGap > 0 ? (
                                 <div style={{ background: "rgba(239,68,68,0.1)", padding: 16, borderRadius: 12, border: "1px solid rgba(239,68,68,0.2)" }}>
                                     <div style={{ ...S.row, marginBottom: 8 }}>
-                                        <span style={{ fontWeight: 700, color: "#F87171", display: "flex", alignItems: "center", gap: 8 }}>
+                                        <span style={{ fontWeight: 700, color: palette.danger, display: "flex", alignItems: "center", gap: 8 }}>
                                             <X style={{ width: 16, height: 16 }} /> COVERAGE GAP
                                         </span>
-                                        <span style={{ fontWeight: 700, fontSize: 16, color: "#F87171" }}>{formatCurrency(lifeGap)}</span>
+                                        <span style={{ fontWeight: 700, fontSize: 16, color: palette.danger }}>{formatCurrency(lifeGap)}</span>
                                     </div>
                                     <p style={{ fontSize: 12, fontWeight: 600, color: "rgba(248,113,113,0.8)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 12 }}>
                                         (You&apos;re only {Math.round(lifeGapPercent)}% covered!)
                                     </p>
                                     <div style={{ borderTop: "1px solid rgba(239,68,68,0.1)", paddingTop: 12 }}>
                                         <p style={{ fontSize: 12, color: "rgba(254,202,202,0.7)" }}>Estimated premium to close gap:</p>
-                                        <p style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 13 }}>₹{Math.round(lifeGap / 100000 * 20)}/month <span style={{ fontSize: 12, fontWeight: 400, color: "#94A3B8" }}>({formatCurrency(lifeGap)} term plan)</span></p>
+                                        <p style={{ fontWeight: 700, color: palette.txt, fontSize: 13 }}>₹{Math.round(lifeGap / 100000 * 20)}/month <span style={{ fontSize: 12, fontWeight: 400, color: palette.mute }}>({formatCurrency(lifeGap)} term plan)</span></p>
                                     </div>
                                 </div>
                             ) : (
                                 <div style={{ background: "rgba(16,185,129,0.1)", padding: 12, borderRadius: 12, border: "1px solid rgba(16,185,129,0.2)" }}>
-                                    <span style={{ fontWeight: 700, color: "#10B981", display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span style={{ fontWeight: 700, color: palette.accent, display: "flex", alignItems: "center", gap: 8 }}>
                                         <CheckCircle2 style={{ width: 16, height: 16 }} /> FULLY COVERED
                                     </span>
                                 </div>
@@ -463,8 +465,8 @@ export default function Step5InsuranceGap() {
             {/* SECTION D: Checklist */}
             <div id="checklist" style={S.card}>
                 <div style={S.cardBody}>
-                    <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 17, marginBottom: 4 }}>Quick Checklist</h3>
-                    <p style={{ fontSize: 12, color: "#94A3B8", marginBottom: 16 }}>Do you have these secondary protections? (Optional)</p>
+                    <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 17, marginBottom: 4 }}>Quick Checklist</h3>
+                    <p style={{ fontSize: 12, color: palette.mute, marginBottom: 16 }}>Do you have these secondary protections? (Optional)</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                         {CHECKLIST_ITEMS.map((item) => {
                             const checked = insurance?.checklist?.[item.id] ?? false;
@@ -474,16 +476,16 @@ export default function Step5InsuranceGap() {
                                     onClick={() => toggleChecklist(item.id)}
                                     style={{
                                         display: "flex", alignItems: "center", justifyContent: "space-between",
-                                        padding: 12, background: "#0B0F1A",
-                                        border: "1px solid rgba(255,255,255,0.05)",
+                                        padding: 12, background: palette.bg,
+                                        border: `1px solid ${palette.brd}`,
                                         borderRadius: 12, cursor: "pointer",
                                     }}
                                 >
-                                    <span style={{ fontSize: 13, fontWeight: 500, color: "#CBD5E1" }}>{item.label}</span>
+                                    <span style={{ fontSize: 13, fontWeight: 500, color: palette.txt2 }}>{item.label}</span>
                                     {/* Toggle pill */}
                                     <div style={{
                                         width: 40, height: 24, borderRadius: 12, padding: 4,
-                                        background: checked ? "#10B981" : "rgba(255,255,255,0.1)",
+                                        background: checked ? palette.accent : palette.brd2,
                                         transition: "background 0.2s",
                                         display: "flex", alignItems: "center",
                                     }}>
@@ -504,39 +506,39 @@ export default function Step5InsuranceGap() {
             {/* SECTION E: Action Summary */}
             <div id="summary" style={{ ...S.card, border: "2px solid rgba(16,185,129,0.2)", position: "relative", marginTop: 16 }}>
                 <div style={S.cardBody}>
-                    <h3 style={{ fontWeight: 700, color: "#F1F5F9", textAlign: "center", marginBottom: 24, marginTop: 8, letterSpacing: "0.05em", fontSize: 17, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                        <FileText style={{ width: 20, height: 20, color: "#10B981" }} /> RECOMMENDED ACTIONS
+                    <h3 style={{ fontWeight: 700, color: palette.txt, textAlign: "center", marginBottom: 24, marginTop: 8, letterSpacing: "0.05em", fontSize: 17, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                        <FileText style={{ width: 20, height: 20, color: palette.accent }} /> RECOMMENDED ACTIONS
                     </h3>
                     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                         {lifeGap > 0 && (
-                            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", paddingBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", paddingBottom: 16, borderBottom: `1px solid ${palette.brd}` }}>
                                 <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(59,130,246,0.2)", color: "#60A5FA", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, border: "1px solid rgba(59,130,246,0.2)", fontSize: 13 }}>1</div>
                                 <div>
-                                    <p style={{ fontWeight: 700, color: "#F1F5F9", marginBottom: 4 }}>Buy {formatCurrency(lifeGap)} Term Life Plan</p>
-                                    <p style={{ fontSize: 12, color: "#94A3B8" }}>Impact: Full family protection to cover liabilities and future goals.</p>
+                                    <p style={{ fontWeight: 700, color: palette.txt, marginBottom: 4 }}>Buy {formatCurrency(lifeGap)} Term Life Plan</p>
+                                    <p style={{ fontSize: 12, color: palette.mute }}>Impact: Full family protection to cover liabilities and future goals.</p>
                                 </div>
                             </div>
                         )}
 
                         {healthGap > 0 && (
-                            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", paddingBottom: 16, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", paddingBottom: 16, borderBottom: `1px solid ${palette.brd}` }}>
                                 <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(20,184,166,0.2)", color: "#2DD4BF", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, border: "1px solid rgba(20,184,166,0.2)", fontSize: 13 }}>
                                     {lifeGap > 0 ? "2" : "1"}
                                 </div>
                                 <div>
-                                    <p style={{ fontWeight: 700, color: "#F1F5F9", marginBottom: 4 }}>Add {formatCurrency(healthGap)} Health Top-up</p>
-                                    <p style={{ fontSize: 12, color: "#94A3B8" }}>Impact: Cover major medical emergencies beyond corporate limits.</p>
+                                    <p style={{ fontWeight: 700, color: palette.txt, marginBottom: 4 }}>Add {formatCurrency(healthGap)} Health Top-up</p>
+                                    <p style={{ fontSize: 12, color: palette.mute }}>Impact: Cover major medical emergencies beyond corporate limits.</p>
                                 </div>
                             </div>
                         )}
 
                         {lifeGap === 0 && healthGap === 0 && (
                             <div style={{ textAlign: "center", padding: 16 }}>
-                                <div style={{ width: 48, height: 48, background: "rgba(16,185,129,0.2)", color: "#10B981", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+                                <div style={{ width: 48, height: 48, background: "rgba(16,185,129,0.2)", color: palette.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
                                     <CheckCircle style={{ width: 24, height: 24 }} />
                                 </div>
-                                <p style={{ fontWeight: 700, color: "#10B981" }}>Excellent job!</p>
-                                <p style={{ fontSize: 13, color: "#94A3B8", marginTop: 4 }}>Your insurance covers all projected needs.</p>
+                                <p style={{ fontWeight: 700, color: palette.accent }}>Excellent job!</p>
+                                <p style={{ fontSize: 13, color: palette.mute, marginTop: 4 }}>Your insurance covers all projected needs.</p>
                             </div>
                         )}
                     </div>
@@ -549,8 +551,8 @@ export default function Step5InsuranceGap() {
                     <div style={S.overlayBackdrop} onClick={() => setIsHealthModalOpen(false)} />
                     <div style={S.modal}>
                         <div style={S.modalHeader}>
-                            <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 16 }}>Add Health Policy</h3>
-                            <button onClick={() => setIsHealthModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8" }}>
+                            <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 16 }}>Add Health Policy</h3>
+                            <button onClick={() => setIsHealthModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: palette.mute }}>
                                 <X style={{ width: 20, height: 20 }} />
                             </button>
                         </div>
@@ -587,8 +589,8 @@ export default function Step5InsuranceGap() {
                     <div style={S.overlayBackdrop} onClick={() => setIsLifeModalOpen(false)} />
                     <div style={S.modal}>
                         <div style={S.modalHeader}>
-                            <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 16 }}>Add Life Policy</h3>
-                            <button onClick={() => setIsLifeModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94A3B8" }}>
+                            <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 16 }}>Add Life Policy</h3>
+                            <button onClick={() => setIsLifeModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: palette.mute }}>
                                 <X style={{ width: 20, height: 20 }} />
                             </button>
                         </div>

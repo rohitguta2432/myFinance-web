@@ -18,6 +18,7 @@ import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { useProfileQuery, useProfileMutation } from "@/hooks/assessment/useProfile";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import { SectionNav } from "@/components/ui/section-nav";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const STEP1_SECTIONS = [
     { id: "profile", label: "Profile" },
@@ -93,39 +94,38 @@ const QUESTIONS = [
     },
 ];
 
-// ─── Inline Style Constants ───────────────────────────────────────────────────
-
-const card: React.CSSProperties = {
-    background: "#0F172A",
-    border: "1px solid rgba(255,255,255,0.05)",
-    borderRadius: 16,
-    padding: 20,
-};
-
-const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "10px 12px",
-    background: "rgba(15,23,42,0.6)",
-    border: "1px solid #1E293B",
-    borderRadius: 8,
-    color: "#F1F5F9",
-    fontSize: 14,
-    outline: "none",
-};
-
-const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    color: "#94A3B8",
-    marginBottom: 8,
-};
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Step1Page() {
+    const palette = useAppTheme();
+
+    const card: React.CSSProperties = {
+        background: palette.s1,
+        border: `1px solid ${palette.brd}`,
+        borderRadius: 16,
+        padding: 20,
+    };
+
+    const inputStyle: React.CSSProperties = {
+        width: "100%",
+        padding: "10px 12px",
+        background: palette.s2,
+        border: `1px solid ${palette.s3}`,
+        borderRadius: 8,
+        color: palette.txt,
+        fontSize: 14,
+        outline: "none",
+    };
+
+    const labelStyle: React.CSSProperties = {
+        display: "block",
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        color: palette.mute,
+        marginBottom: 8,
+    };
     const router = useRouter();
     const {
         age, setAge,
@@ -275,7 +275,7 @@ export default function Step1Page() {
                             ...card,
                             marginBottom: 16,
                             height: 120,
-                            background: "linear-gradient(90deg, #0F172A 25%, #1E293B 50%, #0F172A 75%)",
+                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s3} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.5s infinite",
                         }}
@@ -298,7 +298,7 @@ export default function Step1Page() {
                         background: "rgba(16,185,129,0.2)", color: "#10B981",
                         fontSize: 12, fontWeight: 700, border: "1px solid rgba(16,185,129,0.3)",
                     }}>A</span>
-                    <h3 style={{ color: "#F1F5F9", fontSize: 18, fontWeight: 700, margin: 0 }}>
+                    <h3 style={{ color: palette.txt, fontSize: 18, fontWeight: 700, margin: 0 }}>
                         Personal Profile
                     </h3>
                 </div>
@@ -324,8 +324,8 @@ export default function Step1Page() {
                             style={{ width: "100%", accentColor: "#10B981" }}
                         />
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
-                            <span style={{ fontSize: 11, color: "#64748B" }}>18</span>
-                            <span style={{ fontSize: 11, color: "#64748B" }}>75+</span>
+                            <span style={{ fontSize: 11, color: palette.mute }}>18</span>
+                            <span style={{ fontSize: 11, color: palette.mute }}>75+</span>
                         </div>
                     </div>
 
@@ -343,17 +343,17 @@ export default function Step1Page() {
                                     style={{
                                         display: "flex", alignItems: "center", gap: 8,
                                         padding: "10px 12px", borderRadius: 8, cursor: "pointer",
-                                        background: "rgba(15,23,42,0.6)",
-                                        border: state ? "1px solid rgba(16,185,129,0.3)" : "1px solid #1E293B",
-                                        color: state ? "#F1F5F9" : "#64748B", fontSize: 14,
+                                        background: palette.s2,
+                                        border: state ? "1px solid rgba(16,185,129,0.3)" : `1px solid ${palette.s3}`,
+                                        color: state ? palette.txt : palette.mute, fontSize: 14,
                                     }}
                                 >
-                                    <MapPin style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
+                                    <MapPin style={{ width: 14, height: 14, color: palette.mute, flexShrink: 0 }} />
                                     <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                         {state || "Select State..."}
                                     </span>
                                     <ChevronDown style={{
-                                        width: 14, height: 14, color: "#94A3B8", flexShrink: 0,
+                                        width: 14, height: 14, color: palette.mute, flexShrink: 0,
                                         transform: openDropdown === "state" ? "rotate(180deg)" : "none",
                                         transition: "transform 0.2s",
                                     }} />
@@ -362,13 +362,13 @@ export default function Step1Page() {
                                 {openDropdown === "state" && (
                                     <div style={{
                                         position: "absolute", top: "100%", left: 0, right: 0, marginTop: 8,
-                                        background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)",
+                                        background: palette.s1, border: `1px solid ${palette.brd2}`,
                                         borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
                                         zIndex: 30, overflow: "hidden",
                                     }}>
-                                        <div style={{ padding: 8, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                                        <div style={{ padding: 8, borderBottom: `1px solid ${palette.brd}` }}>
                                             <div style={{ position: "relative" }}>
-                                                <Search style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 12, height: 12, color: "#64748B" }} />
+                                                <Search style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 12, height: 12, color: palette.mute }} />
                                                 <input
                                                     ref={stateSearchRef}
                                                     type="text"
@@ -381,11 +381,11 @@ export default function Step1Page() {
                                         </div>
                                         <div style={{ maxHeight: 192, overflowY: "auto" }}>
                                             {loadingStates ? (
-                                                <div style={{ padding: 12, textAlign: "center", color: "#64748B", fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                                                <div style={{ padding: 12, textAlign: "center", color: palette.mute, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                                                     <Loader2 style={{ width: 12, height: 12 }} /> Loading...
                                                 </div>
                                             ) : filteredStates.length === 0 ? (
-                                                <div style={{ padding: 12, textAlign: "center", color: "#64748B", fontSize: 12 }}>
+                                                <div style={{ padding: 12, textAlign: "center", color: palette.mute, fontSize: 12 }}>
                                                     No states found
                                                 </div>
                                             ) : filteredStates.map((s) => (
@@ -400,7 +400,7 @@ export default function Step1Page() {
                                                     style={{
                                                         padding: "10px 12px", fontSize: 13, cursor: "pointer",
                                                         background: state === s ? "rgba(16,185,129,0.1)" : "transparent",
-                                                        color: state === s ? "#10B981" : "#CBD5E1",
+                                                        color: state === s ? palette.accent : palette.txt2,
                                                         fontWeight: state === s ? 600 : 400,
                                                         transition: "background 0.1s",
                                                     }}
@@ -434,17 +434,17 @@ export default function Step1Page() {
                                         padding: "10px 12px", borderRadius: 8,
                                         cursor: !state ? "not-allowed" : "pointer",
                                         opacity: !state ? 0.5 : 1,
-                                        background: "rgba(15,23,42,0.6)",
-                                        border: city ? "1px solid rgba(16,185,129,0.3)" : "1px solid #1E293B",
-                                        color: city ? "#F1F5F9" : "#64748B", fontSize: 14,
+                                        background: palette.s2,
+                                        border: city ? "1px solid rgba(16,185,129,0.3)" : `1px solid ${palette.s3}`,
+                                        color: city ? palette.txt : palette.mute, fontSize: 14,
                                     }}
                                 >
-                                    <MapPin style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
+                                    <MapPin style={{ width: 14, height: 14, color: palette.mute, flexShrink: 0 }} />
                                     <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                         {city || "Select City..."}
                                     </span>
                                     <ChevronDown style={{
-                                        width: 14, height: 14, color: "#94A3B8", flexShrink: 0,
+                                        width: 14, height: 14, color: palette.mute, flexShrink: 0,
                                         transform: openDropdown === "city" ? "rotate(180deg)" : "none",
                                         transition: "transform 0.2s",
                                     }} />
@@ -453,13 +453,13 @@ export default function Step1Page() {
                                 {openDropdown === "city" && state && (
                                     <div style={{
                                         position: "absolute", top: "100%", left: 0, right: 0, marginTop: 8,
-                                        background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)",
+                                        background: palette.s1, border: `1px solid ${palette.brd2}`,
                                         borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
                                         zIndex: 30, overflow: "hidden",
                                     }}>
-                                        <div style={{ padding: 8, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                                        <div style={{ padding: 8, borderBottom: `1px solid ${palette.brd}` }}>
                                             <div style={{ position: "relative" }}>
-                                                <Search style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 12, height: 12, color: "#64748B" }} />
+                                                <Search style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 12, height: 12, color: palette.mute }} />
                                                 <input
                                                     ref={citySearchRef}
                                                     type="text"
@@ -472,11 +472,11 @@ export default function Step1Page() {
                                         </div>
                                         <div style={{ maxHeight: 192, overflowY: "auto" }}>
                                             {loadingCities ? (
-                                                <div style={{ padding: 12, textAlign: "center", color: "#64748B", fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                                                <div style={{ padding: 12, textAlign: "center", color: palette.mute, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                                                     <Loader2 style={{ width: 12, height: 12 }} /> Loading...
                                                 </div>
                                             ) : filteredCities.length === 0 ? (
-                                                <div style={{ padding: 12, textAlign: "center", color: "#64748B", fontSize: 12 }}>
+                                                <div style={{ padding: 12, textAlign: "center", color: palette.mute, fontSize: 12 }}>
                                                     No cities found
                                                 </div>
                                             ) : filteredCities.map((c) => (
@@ -490,7 +490,7 @@ export default function Step1Page() {
                                                     style={{
                                                         padding: "10px 12px", fontSize: 13, cursor: "pointer",
                                                         background: city === c ? "rgba(16,185,129,0.1)" : "transparent",
-                                                        color: city === c ? "#10B981" : "#CBD5E1",
+                                                        color: city === c ? palette.accent : palette.txt2,
                                                         fontWeight: city === c ? 600 : 400,
                                                     }}
                                                     onMouseEnter={(e) => {
@@ -525,8 +525,8 @@ export default function Step1Page() {
                                         style={{
                                             padding: "10px 12px", borderRadius: 8, fontSize: 14, fontWeight: 600,
                                             cursor: "pointer", transition: "all 0.15s", border: "1px solid transparent",
-                                            background: isActive ? "#10B981" : "#1E293B",
-                                            color: isActive ? "#0B0F1A" : "#CBD5E1",
+                                            background: isActive ? palette.accent : palette.s3,
+                                            color: isActive ? palette.bg : palette.txt2,
                                             boxShadow: isActive ? "0 0 15px rgba(16,185,129,0.3)" : "none",
                                         }}
                                     >
@@ -542,21 +542,21 @@ export default function Step1Page() {
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <div>
                                 <label style={labelStyle}>Dependents</label>
-                                <p style={{ fontSize: 12, color: "#64748B", margin: 0 }}>Parents, children, spouse</p>
+                                <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>Parents, children, spouse</p>
                             </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: 12, background: "#1E293B", borderRadius: 8, padding: 4 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 12, background: palette.s3, borderRadius: 8, padding: 4 }}>
                                 <button
                                     onClick={() => setDependents(Math.max(0, dependents - 1))}
-                                    style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: "#0B0F1A", border: "none", color: "#94A3B8", cursor: "pointer" }}
+                                    style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: palette.bg, border: "none", color: palette.mute, cursor: "pointer" }}
                                 >
                                     <Minus style={{ width: 14, height: 14 }} />
                                 </button>
-                                <span style={{ width: 20, textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 18, color: "#F1F5F9" }}>
+                                <span style={{ width: 20, textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 18, color: palette.txt }}>
                                     {dependents}
                                 </span>
                                 <button
                                     onClick={() => setDependents(dependents + 1)}
-                                    style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: "#0B0F1A", border: "none", color: "#10B981", cursor: "pointer" }}
+                                    style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: palette.bg, border: "none", color: palette.accent, cursor: "pointer" }}
                                 >
                                     <Plus style={{ width: 14, height: 14 }} />
                                 </button>
@@ -564,24 +564,24 @@ export default function Step1Page() {
                         </div>
 
                         {dependents >= 1 && (
-                            <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${palette.brd}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                 <div>
                                     <label style={labelStyle}>How many are children?</label>
-                                    <p style={{ fontSize: 12, color: "#64748B", margin: 0 }}>Under 18 years old</p>
+                                    <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>Under 18 years old</p>
                                 </div>
-                                <div style={{ display: "flex", alignItems: "center", gap: 12, background: "#1E293B", borderRadius: 8, padding: 4 }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: 12, background: palette.s3, borderRadius: 8, padding: 4 }}>
                                     <button
                                         onClick={() => setChildDependents(Math.max(0, childDependents - 1))}
-                                        style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: "#0B0F1A", border: "none", color: "#94A3B8", cursor: "pointer" }}
+                                        style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: palette.bg, border: "none", color: palette.mute, cursor: "pointer" }}
                                     >
                                         <Minus style={{ width: 14, height: 14 }} />
                                     </button>
-                                    <span style={{ width: 20, textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 18, color: "#F1F5F9" }}>
+                                    <span style={{ width: 20, textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 18, color: palette.txt }}>
                                         {childDependents}
                                     </span>
                                     <button
                                         onClick={() => setChildDependents(Math.min(dependents, childDependents + 1))}
-                                        style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: "#0B0F1A", border: "none", color: "#10B981", cursor: "pointer" }}
+                                        style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, background: palette.bg, border: "none", color: palette.accent, cursor: "pointer" }}
                                     >
                                         <Plus style={{ width: 14, height: 14 }} />
                                     </button>
@@ -604,16 +604,16 @@ export default function Step1Page() {
                                 Employment <span style={{ color: "#EF4444" }}>*</span>
                             </label>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <span style={{ fontSize: 14, fontWeight: 500, color: employmentType ? "#F1F5F9" : "#64748B" }}>
+                                <span style={{ fontSize: 14, fontWeight: 500, color: employmentType ? palette.txt : palette.mute }}>
                                     {employmentType || "Select..."}
                                 </span>
-                                <ChevronDown style={{ width: 14, height: 14, color: "#94A3B8" }} />
+                                <ChevronDown style={{ width: 14, height: 14, color: palette.mute }} />
                             </div>
                         </div>
                         {openDropdown === "employment" && (
                             <div style={{
                                 position: "absolute", top: "100%", left: 0, right: 0, marginTop: 8,
-                                background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)",
+                                background: palette.s1, border: `1px solid ${palette.brd2}`,
                                 borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)", zIndex: 20, overflow: "hidden",
                             }}>
                                 {["Salaried", "Self-Employed", "Business", "Retired", "Unemployed"].map((type) => (
@@ -623,7 +623,7 @@ export default function Step1Page() {
                                         style={{
                                             padding: "12px", fontSize: 14, cursor: "pointer",
                                             background: employmentType === type ? "rgba(16,185,129,0.1)" : "transparent",
-                                            color: employmentType === type ? "#10B981" : "#CBD5E1",
+                                            color: employmentType === type ? palette.accent : palette.txt2,
                                             fontWeight: employmentType === type ? 600 : 400,
                                         }}
                                         onMouseEnter={(e) => {
@@ -650,16 +650,16 @@ export default function Step1Page() {
                                 Residency <span style={{ color: "#EF4444" }}>*</span>
                             </label>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <span style={{ fontSize: 14, fontWeight: 500, color: residencyStatus ? "#F1F5F9" : "#64748B" }}>
+                                <span style={{ fontSize: 14, fontWeight: 500, color: residencyStatus ? palette.txt : palette.mute }}>
                                     {residencyStatus || "Select..."}
                                 </span>
-                                <ChevronDown style={{ width: 14, height: 14, color: "#94A3B8" }} />
+                                <ChevronDown style={{ width: 14, height: 14, color: palette.mute }} />
                             </div>
                         </div>
                         {openDropdown === "residency" && (
                             <div style={{
                                 position: "absolute", top: "100%", left: 0, right: 0, marginTop: 8,
-                                background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)",
+                                background: palette.s1, border: `1px solid ${palette.brd2}`,
                                 borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)", zIndex: 20, overflow: "hidden",
                             }}>
                                 {["Resident", "NRI", "OCI"].map((status) => (
@@ -669,7 +669,7 @@ export default function Step1Page() {
                                         style={{
                                             padding: "12px", fontSize: 14, cursor: "pointer",
                                             background: residencyStatus === status ? "rgba(16,185,129,0.1)" : "transparent",
-                                            color: residencyStatus === status ? "#10B981" : "#CBD5E1",
+                                            color: residencyStatus === status ? palette.accent : palette.txt2,
                                             fontWeight: residencyStatus === status ? 600 : 400,
                                         }}
                                         onMouseEnter={(e) => {
@@ -688,7 +688,7 @@ export default function Step1Page() {
                 </div>
             </section>
 
-            <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "8px 0 32px" }} />
+            <div style={{ height: 1, background: palette.brd2, margin: "8px 0 32px" }} />
 
             {/* ── Section B: Investor Style ──────────────────────────────────── */}
             <section id="investor">
@@ -699,14 +699,14 @@ export default function Step1Page() {
                         background: "rgba(16,185,129,0.2)", color: "#10B981",
                         fontSize: 12, fontWeight: 700, border: "1px solid rgba(16,185,129,0.3)",
                     }}>B</span>
-                    <h3 style={{ color: "#F1F5F9", fontSize: 18, fontWeight: 700, margin: 0 }}>
+                    <h3 style={{ color: palette.txt, fontSize: 18, fontWeight: 700, margin: 0 }}>
                         Know Your Investor Style
                     </h3>
                 </div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "#10B981", marginBottom: 4 }}>
+                <p style={{ fontSize: 14, fontWeight: 600, color: palette.accent, marginBottom: 4 }}>
                     7 questions · Your profile tells us exactly how much risk your mind and your finances can handle.
                 </p>
-                <p style={{ fontSize: 12, color: "#94A3B8", marginBottom: 24, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 12, color: palette.mute, marginBottom: 24, lineHeight: 1.6 }}>
                     So your money is always working in a way you&apos;re genuinely comfortable with.
                 </p>
 
@@ -720,10 +720,10 @@ export default function Step1Page() {
                             <div
                                 key={q.id}
                                 style={{
-                                    background: "#0F172A",
+                                    background: palette.s1,
                                     border: isAnswered && !isExpanded
                                         ? "1px solid rgba(16,185,129,0.2)"
-                                        : "1px solid rgba(255,255,255,0.05)",
+                                        : `1px solid ${palette.brd}`,
                                     borderRadius: 12,
                                     overflow: "hidden",
                                     transition: "border-color 0.2s",
@@ -734,10 +734,10 @@ export default function Step1Page() {
                                     <div>
                                         <div style={{
                                             padding: "16px",
-                                            borderBottom: "1px solid rgba(255,255,255,0.05)",
-                                            background: "rgba(255,255,255,0.02)",
+                                            borderBottom: `1px solid ${palette.brd}`,
+                                            background: palette.brd,
                                         }}>
-                                            <p style={{ fontSize: 14, fontWeight: 500, color: "#F1F5F9", lineHeight: 1.6, margin: 0 }}>
+                                            <p style={{ fontSize: 14, fontWeight: 500, color: palette.txt, lineHeight: 1.6, margin: 0 }}>
                                                 <span style={{ color: "#10B981", fontWeight: 700, marginRight: 6 }}>Q{q.id}.</span>
                                                 {q.text}
                                             </p>
@@ -765,14 +765,14 @@ export default function Step1Page() {
                                                     >
                                                         <div style={{
                                                             width: 20, height: 20, borderRadius: "50%", flexShrink: 0,
-                                                            border: isSelected ? "2px solid #10B981" : "2px solid #475569",
+                                                            border: isSelected ? `2px solid ${palette.accent}` : `2px solid ${palette.mute}`,
                                                             display: "flex", alignItems: "center", justifyContent: "center",
                                                         }}>
                                                             {isSelected && (
-                                                                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#10B981" }} />
+                                                                <div style={{ width: 10, height: 10, borderRadius: "50%", background: palette.accent }} />
                                                             )}
                                                         </div>
-                                                        <span style={{ fontSize: 14, color: isSelected ? "#F1F5F9" : "#CBD5E1", fontWeight: isSelected ? 500 : 400 }}>
+                                                        <span style={{ fontSize: 14, color: isSelected ? palette.txt : palette.txt2, fontWeight: isSelected ? 500 : 400 }}>
                                                             {opt.text}
                                                         </span>
                                                     </div>
@@ -790,14 +790,14 @@ export default function Step1Page() {
                                             opacity: !isAnswered && q.id < expandedQuestion ? 0.6 : 1,
                                         }}
                                     >
-                                        <p style={{ fontSize: 14, color: "#94A3B8", margin: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginRight: 12 }}>
+                                        <p style={{ fontSize: 14, color: palette.mute, margin: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginRight: 12 }}>
                                             <span style={{ fontWeight: 700, marginRight: 8 }}>Q{q.id}.</span>
                                             {q.text}
                                         </p>
                                         {isAnswered ? (
-                                            <CheckCircle style={{ width: 20, height: 20, color: "#10B981", flexShrink: 0 }} />
+                                            <CheckCircle style={{ width: 20, height: 20, color: palette.accent, flexShrink: 0 }} />
                                         ) : (
-                                            <Circle style={{ width: 20, height: 20, color: "#475569", flexShrink: 0 }} />
+                                            <Circle style={{ width: 20, height: 20, color: palette.mute, flexShrink: 0 }} />
                                         )}
                                     </div>
                                 )}

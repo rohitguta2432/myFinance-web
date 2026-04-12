@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { User, DollarSign, Wallet, Flag, Shield, Calculator, CheckCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { InactivityGuard } from "@/components/auth/inactivity-guard";
+import { useAppTheme, type AppPalette } from "@/hooks/useAppTheme";
 
 // ─── Steps Config ─────────────────────────────────────────────────────────────
 
@@ -26,10 +27,12 @@ function StepButton({
     step,
     activeStep,
     onClick,
+    palette,
 }: {
     step: (typeof STEPS)[number];
     activeStep: number;
     onClick: () => void;
+    palette: AppPalette;
 }) {
     const Icon = step.icon;
     const isActive = step.num === activeStep;
@@ -56,7 +59,7 @@ function StepButton({
             }}
             onMouseEnter={(e) => {
                 if (!isFuture && !isActive) {
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.05)";
+                    (e.currentTarget as HTMLButtonElement).style.background = palette.brd;
                 }
             }}
             onMouseLeave={(e) => {
@@ -76,22 +79,22 @@ function StepButton({
                     justifyContent: "center",
                     flexShrink: 0,
                     background: isActive
-                        ? "#10B981"
+                        ? palette.accent
                         : isCompleted
                         ? "rgba(16,185,129,0.20)"
-                        : "#1E293B",
+                        : palette.s3,
                     boxShadow: isActive ? "0 0 12px rgba(16,185,129,0.4)" : "none",
                     transition: "background 0.15s",
                 }}
             >
                 {isCompleted ? (
-                    <CheckCircle style={{ width: 16, height: 16, color: "#10B981" }} />
+                    <CheckCircle style={{ width: 16, height: 16, color: palette.accent }} />
                 ) : (
                     <Icon
                         style={{
                             width: 16,
                             height: 16,
-                            color: isActive ? "#0B0F1A" : "#64748B",
+                            color: isActive ? palette.bg : palette.mute,
                         }}
                     />
                 )}
@@ -105,7 +108,7 @@ function StepButton({
                         fontWeight: 700,
                         textTransform: "uppercase",
                         letterSpacing: "0.08em",
-                        color: isActive ? "#10B981" : isCompleted ? "#94A3B8" : "#475569",
+                        color: isActive ? palette.accent : isCompleted ? palette.mute : palette.mute,
                         marginBottom: 2,
                     }}
                 >
@@ -118,7 +121,7 @@ function StepButton({
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
-                        color: isActive ? "#F1F5F9" : isCompleted ? "#CBD5E1" : "#64748B",
+                        color: isActive ? palette.txt : isCompleted ? palette.txt2 : palette.mute,
                     }}
                 >
                     {step.title}
@@ -131,6 +134,7 @@ function StepButton({
 // ─── Assessment Layout ────────────────────────────────────────────────────────
 
 export default function AssessmentLayout({ children }: { children: ReactNode }) {
+    const palette = useAppTheme();
     const pathname = usePathname();
     const router = useRouter();
 
@@ -140,7 +144,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
     const progress = STEP_PROGRESS[activeStep] ?? 0;
 
     return (
-        <div style={{ height: "100vh", background: "#0B0F1A", display: "flex", flexDirection: "column", paddingTop: 64, paddingBottom: 72, overflow: "hidden", fontFamily: "var(--font-display)" }}>
+        <div style={{ height: "100vh", background: palette.bg, display: "flex", flexDirection: "column", paddingTop: 64, paddingBottom: 72, overflow: "hidden", fontFamily: "var(--font-display)" }}>
             <style>{`
                 .assessment-sidebar { display: none; }
                 @media (min-width: 1024px) { .assessment-sidebar { display: flex; } }
@@ -157,7 +161,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                     flexDirection: "column",
                     gap: 8,
                     padding: "12px 24px 12px",
-                    borderBottom: "1px solid rgba(255,255,255,0.05)",
+                    borderBottom: `1px solid ${palette.brd}`,
                 }}
             >
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -165,19 +169,19 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                         style={{
                             fontSize: 12,
                             fontWeight: 600,
-                            color: "#10B981",
+                            color: palette.accent,
                             textTransform: "uppercase",
                             letterSpacing: "0.05em",
                         }}
                     >
                         Step {activeStep} of 6
                     </span>
-                    <span style={{ fontSize: 12, color: "#94A3B8" }}>{progress}% Completed</span>
+                    <span style={{ fontSize: 12, color: palette.mute }}>{progress}% Completed</span>
                 </div>
                 <div
                     style={{
                         height: 6,
-                        background: "#1E293B",
+                        background: palette.s3,
                         borderRadius: 99,
                         overflow: "hidden",
                     }}
@@ -186,7 +190,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                         style={{
                             height: "100%",
                             width: `${progress}%`,
-                            background: "#10B981",
+                            background: palette.accent,
                             borderRadius: 99,
                             boxShadow: "0 0 10px rgba(16,185,129,0.5)",
                             transition: "width 0.5s ease-out",
@@ -205,7 +209,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                         width: 256,
                         flexShrink: 0,
                         padding: "32px 24px",
-                        borderRight: "1px solid rgba(255,255,255,0.05)",
+                        borderRight: `1px solid ${palette.brd}`,
                         overflowY: "auto",
                     }}
                 >
@@ -215,7 +219,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                             textTransform: "uppercase",
                             letterSpacing: "0.1em",
                             fontWeight: 700,
-                            color: "#64748B",
+                            color: palette.mute,
                             marginBottom: 24,
                         }}
                     >
@@ -229,6 +233,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                                 step={step}
                                 activeStep={activeStep}
                                 onClick={() => router.push(step.path)}
+                                palette={palette}
                             />
                         ))}
                     </nav>
@@ -238,7 +243,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                         style={{
                             marginTop: "auto",
                             paddingTop: 24,
-                            borderTop: "1px solid rgba(255,255,255,0.05)",
+                            borderTop: `1px solid ${palette.brd}`,
                         }}
                     >
                         <div
@@ -249,13 +254,13 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                                 marginBottom: 8,
                             }}
                         >
-                            <span style={{ color: "#64748B", fontWeight: 500 }}>Overall</span>
-                            <span style={{ color: "#10B981", fontWeight: 700 }}>{progress}%</span>
+                            <span style={{ color: palette.mute, fontWeight: 500 }}>Overall</span>
+                            <span style={{ color: palette.accent, fontWeight: 700 }}>{progress}%</span>
                         </div>
                         <div
                             style={{
                                 height: 6,
-                                background: "#1E293B",
+                                background: palette.s3,
                                 borderRadius: 99,
                                 overflow: "hidden",
                             }}
@@ -264,7 +269,7 @@ export default function AssessmentLayout({ children }: { children: ReactNode }) 
                                 style={{
                                     height: "100%",
                                     width: `${progress}%`,
-                                    background: "#10B981",
+                                    background: palette.accent,
                                     borderRadius: 99,
                                     boxShadow: "0 0 10px rgba(16,185,129,0.5)",
                                     transition: "width 0.5s ease-out",
