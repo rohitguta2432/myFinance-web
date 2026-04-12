@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BarChart3, Zap, Shield, Calculator, Target,
+  BarChart3, Zap, Shield, Calculator, Target, Wallet,
   RefreshCw, Lock, Crown, Check, X, Settings,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
@@ -18,6 +18,7 @@ const SIDEBAR_TABS = [
   { id: "insurance", label: "Insurance", icon: Shield, path: "/dashboard/insurance", premium: false },
   { id: "tax", label: "Tax Planning", icon: Calculator, path: "/dashboard/tax", premium: false },
   { id: "goals", label: "Goals", icon: Target, path: "/dashboard/goals", premium: false },
+  { id: "net-worth", label: "Net Worth", icon: Wallet, path: "/dashboard/net-worth", premium: false },
 ] as const;
 
 const PREMIUM_FEATURES = [
