@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3, Zap, Shield, Calculator,
-  RefreshCw, Lock, Crown, Check, X,
+  RefreshCw, Lock, Crown, Check, X, Settings,
 } from "lucide-react";
+
+const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "nitin@financial.in"];
 
 const SIDEBAR_TABS = [
   { id: "summary", label: "Summary", icon: BarChart3, path: "/dashboard", premium: false },
@@ -98,6 +100,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [upgradeTabLabel, setUpgradeTabLabel] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => { if (data?.user?.email) setUserEmail(data.user.email); })
+      .catch(() => {});
+  }, []);
+
+  const isAdmin = ADMIN_EMAILS.includes(userEmail);
 
   // Premium state from localStorage
   const isPremium = typeof window !== "undefined"
@@ -167,6 +179,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
             );
           })}
+
+          {/* Admin Panel — only for admin emails */}
+          {isAdmin && (
+            <button
+              onClick={() => router.push("/admin")}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "10px 12px",
+                borderRadius: 12,
+                border: pathname === "/admin" ? "1px solid rgba(245,158,11,0.3)" : "1px solid transparent",
+                background: pathname === "/admin" ? "rgba(245,158,11,0.1)" : "transparent",
+                color: pathname === "/admin" ? "#FBBF24" : "#64748B",
+                fontWeight: 700,
+                fontSize: 14,
+                cursor: "pointer",
+                fontFamily: "var(--font-display)",
+                marginTop: 4,
+              }}
+            >
+              <Settings size={20} style={{ flexShrink: 0 }} />
+              Admin Panel
+            </button>
+          )}
 
           {/* Retake Assessment */}
           <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
@@ -264,6 +302,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
           );
         })}
+        {isAdmin && (
+          <button
+            onClick={() => router.push("/admin")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 12px",
+              borderRadius: 8,
+              fontSize: 12,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+              border: "none",
+              cursor: "pointer",
+              background: pathname === "/admin" ? "rgba(245,158,11,0.15)" : "transparent",
+              color: pathname === "/admin" ? "#FBBF24" : "#64748B",
+              fontFamily: "var(--font-display)",
+            }}
+          >
+            <Settings size={14} />
+            Admin
+          </button>
+        )}
       </div>
 
       {/* Main Content */}
