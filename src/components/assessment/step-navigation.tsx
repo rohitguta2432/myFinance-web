@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useAssessmentStore } from "@/store/useAssessmentStore";
 
 interface StepNavigationProps {
     step: number;
@@ -24,6 +25,8 @@ export function StepNavigation({
     validationMessage,
 }: StepNavigationProps) {
     const router = useRouter();
+    const completedStep = useAssessmentStore((s) => s.currentStep);
+    const isAssessmentComplete = useAssessmentStore((s) => s.isComplete);
 
     const handleNext = () => {
         if (!isValid) {
@@ -93,34 +96,32 @@ export function StepNavigation({
 
                 {/* Right side: step indicator + next button */}
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    {/* Step indicator — hidden on small screens via inline media doesn't work, keep visible */}
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            padding: "12px 16px",
-                            background: "#0F172A",
-                            border: "1px solid rgba(255,255,255,0.1)",
-                            borderRadius: 12,
-                        }}
-                    >
-                        <CheckCircle2
-                            style={{
-                                width: 16,
-                                height: 16,
-                                color: isValid ? "#10B981" : "#475569",
-                            }}
-                        />
-                        <span
-                            style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                color: "#94A3B8",
-                            }}
-                        >
-                            Step {step}/{totalSteps}
-                        </span>
+                    {/* Step indicator — dot row with checkmarks for completed steps */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "12px 16px", background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12 }}>
+                        {Array.from({ length: totalSteps }, (_, i) => {
+                            const stepNum = i + 1;
+                            const isCompleted = isAssessmentComplete || stepNum < completedStep;
+                            const isCurrent = stepNum === step;
+                            return (
+                                <div key={stepNum} style={{
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: "50%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    background: isCompleted ? "rgba(16,185,129,0.2)" : isCurrent ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.05)",
+                                    border: isCurrent ? "2px solid #10B981" : isCompleted ? "2px solid rgba(16,185,129,0.5)" : "2px solid transparent",
+                                    transition: "all 0.2s",
+                                }}>
+                                    {isCompleted ? (
+                                        <Check size={12} style={{ color: "#10B981" }} />
+                                    ) : (
+                                        <span style={{ fontSize: 10, fontWeight: 700, color: isCurrent ? "#10B981" : "#475569" }}>{stepNum}</span>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
 
                     {/* Next button */}
