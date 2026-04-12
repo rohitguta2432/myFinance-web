@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3, Zap, Shield, Calculator, Target, Wallet,
-  RefreshCw, Lock, Crown, Check, X, Settings,
+  RefreshCw, Lock, Crown, Check, X, Settings, Flame,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
+import { useStreak } from "@/hooks/gamification/useStreak";
 
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "nitin@financial.in"];
 
@@ -108,6 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [upgradeTabLabel, setUpgradeTabLabel] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const streak = useStreak();
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -154,6 +156,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           ) : (
             <p style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, color: palette.mute, marginBottom: 16, padding: "0 12px", fontFamily: "var(--font-display)" }}>Dashboard</p>
+          )}
+
+          {/* Streak display */}
+          {streak.count > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0 12px", marginBottom: 12 }}>
+              <Flame size={18} style={{ color: "#F59E0B" }} />
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#FBBF24", fontFamily: "var(--font-display)" }}>
+                {streak.count}-day streak
+              </span>
+            </div>
           )}
 
           {SIDEBAR_TABS.map((tab) => {
@@ -283,6 +295,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           overflowX: "auto",
         }}
       >
+        {/* Streak pill (mobile) */}
+        {streak.count > 0 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 10px", background: "rgba(245,158,11,0.1)", borderRadius: 8, whiteSpace: "nowrap", flexShrink: 0 }}>
+            <Flame size={14} style={{ color: "#F59E0B" }} />
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#FBBF24", fontFamily: "var(--font-display)" }}>{streak.count}d</span>
+          </div>
+        )}
+
         {SIDEBAR_TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = pathname === tab.path;

@@ -1,6 +1,7 @@
 "use client";
 
-import { Lock, AlertTriangle, XCircle, AlertCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3 } from "lucide-react";
+import { useState } from "react";
+import { Lock, AlertTriangle, XCircle, AlertCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3, Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame, Check } from "lucide-react";
 import { useFinancialHealthScore } from "@/hooks/dashboard/useFinancialHealthScore";
 import { useHookText } from "@/hooks/dashboard/useHookText";
 import { useRedFlags } from "@/hooks/dashboard/useRedFlags";
@@ -14,9 +15,11 @@ import { LockedPremiumInsights } from "@/components/dashboard/LockedPremiumInsig
 import { FinancialTimeMachine } from "@/components/dashboard/FinancialTimeMachine";
 import { SectionNav } from "@/components/dashboard/SectionNav";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useBadges } from "@/hooks/gamification/useBadges";
 
 const DASHBOARD_SECTIONS = [
   { id: "snapshot", label: "Snapshot" },
+  { id: "badges", label: "Badges" },
   { id: "score", label: "Health Score" },
   { id: "projections", label: "Projections" },
   { id: "red-flags", label: "Red Flags" },
@@ -37,6 +40,10 @@ function formatInLakh(v: number): string {
   return `₹${Math.round(v).toLocaleString("en-IN")}`;
 }
 
+const BADGE_ICONS: Record<string, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
+  Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame,
+};
+
 export default function DashboardSummaryPage() {
   const palette = useAppTheme();
   const { totalScore, scoreLabel, sortedPillars, mostCritical, rawData, isLoading } = useFinancialHealthScore();
@@ -44,6 +51,8 @@ export default function DashboardSummaryPage() {
   const { allFlags, totalTriggered: flagsTriggered } = useRedFlags();
   const { allActions, totalTriggered: actionsTriggered } = usePriorityActions();
   const city = useAssessmentStore((s) => s.city);
+  const badges = useBadges();
+  const [activeBadgeTooltip, setActiveBadgeTooltip] = useState<string | null>(null);
 
   const isPremium = typeof window !== "undefined"
     ? localStorage.getItem("myfinancial_premium") === "true"
@@ -107,6 +116,102 @@ export default function DashboardSummaryPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* Badges Section */}
+        <div id="badges">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+            <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
+              Achievements
+            </h3>
+            <span style={{ fontSize: 13, color: palette.mute, fontFamily: "var(--font-display)" }}>
+              {badges.totalEarned} of {badges.totalBadges} earned
+            </span>
+          </div>
+          {/* Progress bar */}
+          <div style={{ width: "100%", height: 6, borderRadius: 3, background: palette.brd, marginBottom: 16, overflow: "hidden" }}>
+            <div style={{ height: "100%", width: `${(badges.totalEarned / badges.totalBadges) * 100}%`, background: "#10B981", borderRadius: 3, transition: "width 0.5s ease" }} />
+          </div>
+          {/* Scrollable badge row */}
+          <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 8 }}>
+            {badges.definitions.map((badge) => {
+              const isEarned = badges.earned.includes(badge.id);
+              const isNew = badges.newlyEarned.includes(badge.id);
+              const IconComponent = BADGE_ICONS[badge.icon];
+              const isTooltipOpen = activeBadgeTooltip === badge.id;
+              return (
+                <div key={badge.id} style={{ position: "relative", flexShrink: 0 }}>
+                  {/* Badge circle */}
+                  <div
+                    onClick={() => setActiveBadgeTooltip(isTooltipOpen ? null : badge.id)}
+                    style={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: isEarned ? "rgba(16,185,129,0.15)" : palette.brd,
+                      border: isEarned ? "2px solid #10B981" : "2px solid transparent",
+                      opacity: isEarned ? 1 : 0.5,
+                      cursor: "pointer",
+                      position: "relative",
+                      boxShadow: isNew ? "0 0 12px rgba(16,185,129,0.4)" : "none",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    {IconComponent && (
+                      <IconComponent size={28} style={{ color: isEarned ? "#10B981" : palette.mute }} />
+                    )}
+                    {/* Overlay icon at bottom-right */}
+                    <div style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      background: isEarned ? "rgba(16,185,129,0.9)" : "rgba(71,85,105,0.9)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                      {isEarned ? (
+                        <Check size={11} style={{ color: "#fff" }} />
+                      ) : (
+                        <Lock size={10} style={{ color: "#fff" }} />
+                      )}
+                    </div>
+                  </div>
+                  {/* Badge name */}
+                  <p style={{ fontSize: 11, textAlign: "center", color: palette.mute, marginTop: 6, maxWidth: 72, lineHeight: 1.3, fontFamily: "var(--font-display)", margin: "6px 0 0" }}>
+                    {badge.name}
+                  </p>
+                  {/* Tooltip */}
+                  {isTooltipOpen && (
+                    <div style={{
+                      position: "absolute",
+                      top: 76,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: 200,
+                      background: palette.s1,
+                      border: `1px solid ${palette.brd}`,
+                      borderRadius: 12,
+                      padding: 12,
+                      zIndex: 10,
+                    }}>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: "0 0 4px", fontFamily: "var(--font-display)" }}>{badge.name}</p>
+                      <p style={{ fontSize: 13, color: palette.mute, margin: "0 0 8px", lineHeight: 1.4, fontFamily: "var(--font-display)" }}>{badge.description}</p>
+                      <p style={{ fontSize: 12, color: palette.txt2, margin: 0, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+                        <span style={{ fontWeight: 600 }}>How to earn:</span> {badge.howToEarn}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Score Overview */}
