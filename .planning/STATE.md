@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 07-02-PLAN.md
-last_updated: "2026-04-12T07:46:48.605Z"
+stopped_at: Completed 07-03-PLAN.md
+last_updated: "2026-04-12T07:51:53.188Z"
 last_activity: 2026-04-12
 progress:
   total_phases: 17
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 15
-  completed_plans: 11
-  percent: 73
+  completed_plans: 12
+  percent: 80
 ---
 
 # Project State
@@ -71,6 +71,7 @@ Progress: [██████░░░░░░░░░░░░░░] ~32% (5
 | Phase 06 P02 | 120 | 2 tasks | 14 files |
 | Phase 07 P01 | 20 | 3 tasks | 6 files |
 | Phase 07 P02 | 4 | 2 tasks | 10 files |
+| Phase 07 P03 | 20 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 07]: Calculator index page uses hardcoded dark hex values (server component — no useAppTheme)
 - [Phase 07]: server shell + _client.tsx split for all calculators to coexist Next.js metadata with React hooks
 - [Phase 07]: PPF duration fixed at 15 years as informational panel (not slider) to enforce legal lock-in
+- [Phase 07]: Recharts v3 Formatter type fix: use (value) => fn(Number(value)) pattern for all Tooltip formatters
+- [Phase 07]: HRA Metro/Non-Metro: pill button toggle instead of boolean slider for clarity
 
 ### Pending Todos
 
@@ -107,6 +110,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-12T07:46:48.601Z
-Stopped at: Completed 07-02-PLAN.md
+Last session: 2026-04-12T07:51:53.184Z
+Stopped at: Completed 07-03-PLAN.md
 Resume file: None
