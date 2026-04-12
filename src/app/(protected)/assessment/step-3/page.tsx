@@ -376,7 +376,7 @@ export default function Step3Page() {
                 #f59e0b ${equityPct + debtPct + realEstatePct}% ${equityPct + debtPct + realEstatePct + goldPct}%,
                 #64748b ${equityPct + debtPct + realEstatePct + goldPct}% 100%
               )`
-            : "conic-gradient(#334155 0% 100%)";
+            : `conic-gradient(${palette.txt2} 0% 100%)`;
 
     function getMismatchAlert() {
         if (totalAssets === 0) return null;
@@ -405,7 +405,7 @@ export default function Step3Page() {
                     <div
                         key={i}
                         style={{
-                            background: "linear-gradient(90deg, #0F172A 25%, #1E293B 50%, #0F172A 75%)",
+                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s3} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.5s infinite",
                             borderRadius: 16,
@@ -441,7 +441,7 @@ export default function Step3Page() {
             }}>
                 <div style={{
                     position: "relative", zIndex: 1,
-                    background: "rgba(15,23,42,0.6)",
+                    background: `${palette.s1}99`,
                     backdropFilter: "blur(32px)",
                     borderRadius: 27,
                     border: `1px solid ${palette.brd2}`,
@@ -712,7 +712,7 @@ export default function Step3Page() {
                                         left: `${Math.min(Math.max(dtiRatio * 2, 0), 100)}%`,
                                         width: 16, height: 16, borderRadius: "50%", background: "#fff",
                                         boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
-                                        border: "2px solid #0F172A",
+                                        border: `2px solid ${palette.s1}`,
                                         transition: "left 1s ease-out",
                                     }} />
                                     {/* Label */}

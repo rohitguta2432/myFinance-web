@@ -183,7 +183,7 @@ export default function Step6TaxOptimization() {
                                 onClick={() => { setTaxRegime(r); toast.success(`${r === "old" ? "Old" : "New"} Regime selected`, { id: "regime-select" }); }}
                                 style={{
                                     padding: "10px 20px", fontSize: 13, fontWeight: 700, border: "none", cursor: "pointer",
-                                    background: taxRegime === r ? (r === "new" ? palette.accent : "#1E293B") : "transparent",
+                                    background: taxRegime === r ? (r === "new" ? palette.accent : palette.s3) : "transparent",
                                     color: taxRegime === r ? (r === "new" ? palette.bg : palette.txt) : palette.mute,
                                     transition: "all 0.15s",
                                 }}
@@ -199,7 +199,7 @@ export default function Step6TaxOptimization() {
             <div id="comparison" style={{ ...S.card, marginBottom: 24, overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>
-                        <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                        <tr style={{ borderBottom: `1px solid ${palette.brd2}` }}>
                             <th style={{ textAlign: "left", padding: "16px 20px", fontSize: 13, color: palette.mute, fontWeight: 700, width: "40%" }}></th>
                             {(["old", "new"] as const).map((r) => (
                                 <th
@@ -227,8 +227,8 @@ export default function Step6TaxOptimization() {
                             <tr
                                 key={row.label}
                                 style={{
-                                    borderBottom: "1px solid rgba(255,255,255,0.05)",
-                                    background: row.final ? "#1E293B" : row.bold ? "rgba(255,255,255,0.02)" : "transparent",
+                                    borderBottom: `1px solid ${palette.brd}`,
+                                    background: row.final ? palette.s3 : row.bold ? palette.brd : "transparent",
                                 }}
                             >
                                 <td style={{ padding: "12px 20px", fontSize: row.final ? 15 : 13, fontWeight: row.final || row.bold ? 700 : 400, color: row.final || row.bold ? palette.txt : palette.txt2 }}>
@@ -255,7 +255,7 @@ export default function Step6TaxOptimization() {
                     </tbody>
                 </table>
                 {calcLoading && (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: 12, color: palette.mute, fontSize: 13, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: 12, color: palette.mute, fontSize: 13, borderTop: `1px solid ${palette.brd}` }}>
                         <Loader2 style={{ width: 16, height: 16, animation: "spin 1s linear infinite" }} /> Recalculating...
                     </div>
                 )}
@@ -268,7 +268,7 @@ export default function Step6TaxOptimization() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                     {/* Income Summary */}
                     <div style={S.card}>
-                        <div style={{ background: "#1E293B", padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", ...S.row }}>
+                        <div style={{ background: palette.s3, padding: "12px 20px", borderBottom: `1px solid ${palette.brd}`, ...S.row }}>
                             <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em" }}>Income Summary</h3>
                             <span style={{ background: "rgba(16,185,129,0.2)", color: palette.accent, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 4, textTransform: "uppercase" }}>Auto-Populated</span>
                         </div>
@@ -282,7 +282,7 @@ export default function Step6TaxOptimization() {
                             {Object.keys(incomeCategories).length === 0 && (
                                 <div style={{ color: palette.mute, textAlign: "center", padding: 8 }}>No income added in Step 2</div>
                             )}
-                            <div style={{ borderTop: "1px dashed rgba(255,255,255,0.2)", paddingTop: 12, ...S.row }}>
+                            <div style={{ borderTop: `1px dashed ${palette.brd2}`, paddingTop: 12, ...S.row }}>
                                 <span style={{ color: palette.txt, fontWeight: 700, letterSpacing: "0.1em" }}>GROSS TOTAL</span>
                                 <span style={{ color: palette.accent, fontSize: 16, fontWeight: 700 }}>{fmt(grossTotalIncome)}</span>
                             </div>
@@ -297,16 +297,16 @@ export default function Step6TaxOptimization() {
                             subtitle: "(Max: ₹1,50,000)",
                             total: fmt(final80C),
                             content: (
-                                <div style={{ padding: 20, borderTop: "1px solid rgba(255,255,255,0.05)", background: palette.bg, display: "flex", flexDirection: "column", gap: 16 }}>
+                                <div style={{ padding: 20, borderTop: `1px solid ${palette.brd}`, background: palette.bg, display: "flex", flexDirection: "column", gap: 16 }}>
                                     {autoEpf > 0 && <div style={{ ...S.row, fontSize: 13 }}><span style={{ color: "#34D399", display: "flex", alignItems: "center", gap: 8 }}><CheckCircle2 style={{ width: 16, height: 16 }} /> EPF Contribution</span><span style={{ color: palette.txt2 }}>{fmt(autoEpf)} (Auto)</span></div>}
                                     {autoLifeIns > 0 && <div style={{ ...S.row, fontSize: 13 }}><span style={{ color: "#34D399", display: "flex", alignItems: "center", gap: 8 }}><CheckCircle2 style={{ width: 16, height: 16 }} /> Life Insurance</span><span style={{ color: palette.txt2 }}>{fmt(autoLifeIns)} (Auto)</span></div>}
-                                    <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+                                    <div style={{ borderTop: `1px solid ${palette.brd2}`, paddingTop: 16, display: "flex", flexDirection: "column", gap: 12 }}>
                                         {accordionInput("PPF/NPS (This Year):", ppfNps, setPpfNps)}
                                         {accordionInput("Home Loan Principal:", homeLoanPrincipal, setHomeLoanPrincipal)}
                                         {accordionInput("Tuition Fees:", tuitionFees, setTuitionFees)}
                                         {accordionInput("NSC/Tax-Saver FD:", nscFd, setNscFd)}
                                     </div>
-                                    <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16 }}>
+                                    <div style={{ borderTop: `1px solid ${palette.brd2}`, paddingTop: 16 }}>
                                         <div style={{ ...S.row, fontSize: 13, fontWeight: 700 }}>
                                             <span style={{ color: palette.txt }}>TOTAL USED:</span>
                                             <span style={{ color: final80C >= 150000 ? palette.accent : palette.txt2 }}>{fmt(final80C)} / ₹1,50,000</span>
@@ -330,7 +330,7 @@ export default function Step6TaxOptimization() {
                             subtitle: "Medical Insurance",
                             total: fmt(final80D),
                             content: (
-                                <div style={{ padding: 20, borderTop: "1px solid rgba(255,255,255,0.05)", background: palette.bg, display: "flex", flexDirection: "column", gap: 12 }}>
+                                <div style={{ padding: 20, borderTop: `1px solid ${palette.brd}`, background: palette.bg, display: "flex", flexDirection: "column", gap: 12 }}>
                                     {accordionInput("Self + Spouse Premium", medSelfSpouse, setMedSelfSpouse, "(max ₹25,000)")}
                                     {accordionInput("Parents Premium (<60)", medParentsLt60, setMedParentsLt60, "(max ₹25,000)")}
                                     {accordionInput("Parents Premium (≥60)", medParentsGt60, setMedParentsGt60, "(max ₹50,000)")}
@@ -343,7 +343,7 @@ export default function Step6TaxOptimization() {
                             subtitle: "NPS, Loans, Donations",
                             total: fmt(finalOtherDeductions),
                             content: (
-                                <div style={{ padding: 20, borderTop: "1px solid rgba(255,255,255,0.05)", background: palette.bg, display: "flex", flexDirection: "column", gap: 12 }}>
+                                <div style={{ padding: 20, borderTop: `1px solid ${palette.brd}`, background: palette.bg, display: "flex", flexDirection: "column", gap: 12 }}>
                                     {accordionInput("Addt. NPS 80CCD(1B)", otherNps, setOtherNps, "(max ₹50,000)")}
                                     {accordionInput("Edu Loan Int. 80E", eduLoanInterest, setEduLoanInterest, "(no limit)")}
                                     {accordionInput("Home Loan Int. 24(b)", homeLoanInterest, setHomeLoanInterest, "(max ₹2,00,000)")}
@@ -375,7 +375,7 @@ export default function Step6TaxOptimization() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                     {/* HRA */}
                     <div id="hra" style={S.card}>
-                        <div style={{ background: "#1E293B", padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", ...S.row }}>
+                        <div style={{ background: palette.s3, padding: "12px 20px", borderBottom: `1px solid ${palette.brd}`, ...S.row }}>
                             <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em" }}>HRA Exemption</h3>
                             <span style={{ background: "rgba(16,185,129,0.2)", color: palette.accent, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 4, textTransform: "uppercase" }}>Auto-calculated</span>
                         </div>
@@ -389,7 +389,7 @@ export default function Step6TaxOptimization() {
                                     <span>{val}</span>
                                 </div>
                             ))}
-                            <div style={{ borderTop: "1px dashed rgba(255,255,255,0.2)", paddingTop: 12, ...S.row }}>
+                            <div style={{ borderTop: `1px dashed ${palette.brd2}`, paddingTop: 12, ...S.row }}>
                                 <span style={{ color: palette.txt, fontWeight: 700, letterSpacing: "0.1em" }}>EXEMPTION</span>
                                 <span style={{ color: palette.accent, fontWeight: 700 }}>{fmt(hraExemption)}</span>
                             </div>
@@ -399,7 +399,7 @@ export default function Step6TaxOptimization() {
                     {/* Premium upsell cards */}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                         <div style={{ borderRadius: 16, padding: 1, background: "linear-gradient(135deg, rgba(245,158,11,0.5), transparent)", overflow: "hidden", cursor: "pointer" }}>
-                            <div style={{ background: "rgba(15,23,42,0.9)", borderRadius: 15, padding: 20, height: "100%" }}>
+                            <div style={{ background: `${palette.s1}e6`, borderRadius: 15, padding: 20, height: "100%" }}>
                                 <div style={{ fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 9999, background: "linear-gradient(to right, #FBBF24, #F97316)", color: palette.bg, display: "inline-block", marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.1em" }}>Premium</div>
                                 <h4 style={{ color: palette.txt, fontWeight: 700, fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
                                     <TrendingUp style={{ width: 16, height: 16, color: "#FBBF24" }} /> Tax Harvesting
@@ -408,7 +408,7 @@ export default function Step6TaxOptimization() {
                             </div>
                         </div>
                         <div style={{ borderRadius: 16, padding: 1, background: "linear-gradient(135deg, rgba(168,85,247,0.5), transparent)", overflow: "hidden", cursor: "pointer" }}>
-                            <div style={{ background: "rgba(15,23,42,0.9)", borderRadius: 15, padding: 20, height: "100%" }}>
+                            <div style={{ background: `${palette.s1}e6`, borderRadius: 15, padding: 20, height: "100%" }}>
                                 <div style={{ fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 9999, background: "linear-gradient(to right, #A855F7, #EC4899)", color: "#fff", display: "inline-block", marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.1em" }}>Premium</div>
                                 <h4 style={{ color: palette.txt, fontWeight: 700, fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
                                     <Users style={{ width: 16, height: 16, color: "#C084FC" }} /> Family Income

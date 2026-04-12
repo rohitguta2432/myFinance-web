@@ -325,7 +325,7 @@ export default function Step5InsuranceGap() {
 
                         {!(insurance?.personalHealth && insurance.personalHealth.length > 0) ? (
                             <div style={S.emptyState}>
-                                <HeartPulse style={{ width: 32, height: 32, color: "#334155", margin: "0 auto 8px", opacity: 0.5 }} />
+                                <HeartPulse style={{ width: 32, height: 32, color: palette.txt2, margin: "0 auto 8px", opacity: 0.5 }} />
                                 <p style={{ fontSize: 13, color: palette.mute }}>No personal health insurance added</p>
                             </div>
                         ) : (
@@ -397,7 +397,7 @@ export default function Step5InsuranceGap() {
 
                         {!(insurance?.personalLife && insurance.personalLife.length > 0) ? (
                             <div style={S.emptyState}>
-                                <Shield style={{ width: 32, height: 32, color: "#334155", margin: "0 auto 8px", opacity: 0.5 }} />
+                                <Shield style={{ width: 32, height: 32, color: palette.txt2, margin: "0 auto 8px", opacity: 0.5 }} />
                                 <p style={{ fontSize: 13, color: palette.mute }}>No personal life insurance added</p>
                             </div>
                         ) : (

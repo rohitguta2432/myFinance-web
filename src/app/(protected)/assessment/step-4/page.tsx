@@ -489,7 +489,7 @@ export default function Step4FinancialGoals() {
                                     ))}
                                 </div>
                             </div>
-                            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(11,15,26,0.6)", backdropFilter: "blur(4px)", borderRadius: 16 }}>
+                            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: `${palette.bg}99`, backdropFilter: "blur(4px)", borderRadius: 16 }}>
                                 <div style={{ width: 56, height: 56, background: "rgba(245,158,11,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(245,158,11,0.2)", marginBottom: 12 }}>
                                     <Lock style={{ width: 28, height: 28, color: "#F59E0B" }} />
                                 </div>
@@ -533,7 +533,7 @@ export default function Step4FinancialGoals() {
 
                             <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
                                 {/* Age strip — editable retirement age (D-01, D-02, D-15) */}
-                                <div style={{ ...S.row, background: "rgba(255,255,255,0.02)", borderRadius: 8, padding: "10px 16px", border: `1px solid ${palette.brd}` }}>
+                                <div style={{ ...S.row, background: palette.brd, borderRadius: 8, padding: "10px 16px", border: `1px solid ${palette.brd}` }}>
                                     <div style={{ display: "flex", gap: 24, fontSize: 13, alignItems: "center" }}>
                                         <span style={{ color: palette.mute }}>Age <strong style={{ color: palette.txt, marginLeft: 4 }}>{retirementData.currentAge}</strong></span>
                                         <span style={{ color: palette.mute, display: "flex", alignItems: "center", gap: 6 }}>Retire at
@@ -629,7 +629,7 @@ export default function Step4FinancialGoals() {
                                             <p style={S.projLabel}>Future Monthly Expense</p>
                                             <p style={{ ...S.projValue, fontSize: 16 }}>{formatToCrLakh(retirementData.futureMonthlyExpense)}<span style={{ fontSize: 11, color: palette.mute, fontWeight: 400 }}>/mo</span></p>
                                         </div>
-                                        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12 }}>
+                                        <div style={{ borderTop: `1px solid ${palette.brd}`, paddingTop: 12 }}>
                                             <p style={S.projLabel}>Retirement Corpus</p>
                                             <p style={{ ...S.projValue, fontSize: 22 }}>{formatToCrLakh(retirementData.corpusRequired)}</p>
                                         </div>
@@ -640,7 +640,7 @@ export default function Step4FinancialGoals() {
                                             <p style={S.projLabel}>Current Retirement Corpus</p>
                                             <p style={{ ...S.projValue, fontSize: 16 }}>{formatToCrLakh(retirementData.currentRetirementAssets)}</p>
                                         </div>
-                                        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 12 }}>
+                                        <div style={{ borderTop: `1px solid ${palette.brd}`, paddingTop: 12 }}>
                                             <p style={S.projLabel}>Projected Value @ 8%</p>
                                             <p style={{ ...S.projValue, fontSize: 22, color: palette.accent }}>{formatToCrLakh(retirementData.projectedAssets)}</p>
                                         </div>
@@ -776,7 +776,7 @@ export default function Step4FinancialGoals() {
                             </div>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: `1px solid ${palette.brd}` }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: `1px solid ${palette.brd}`, borderBottom: `1px solid ${palette.brd}` }}>
                             {[
                                 ["Monthly Expenses", `₹${Math.round(efMonthlyExpenses).toLocaleString("en-IN")}`, "from your cash flow", palette.txt],
                                 ["Target Corpus", formatToCrLakh(efTarget), `${efTargetMonths} × monthly`, palette.txt],
@@ -977,7 +977,7 @@ export default function Step4FinancialGoals() {
                                             <span style={{ fontWeight: 700, color }}>{val}</span>
                                         </div>
                                     ))}
-                                    <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 8, ...S.row }}>
+                                    <div style={{ borderTop: `1px solid ${palette.brd}`, paddingTop: 8, ...S.row }}>
                                         <span style={{ color: palette.mute }}>Remaining Buffer</span>
                                         <span style={{ fontWeight: 700, color: feasibilityRemainingBuffer >= 0 ? palette.accent : palette.danger }}>
                                             {feasibilityRemainingBuffer >= 0
@@ -1066,7 +1066,7 @@ export default function Step4FinancialGoals() {
                                             onClick={() => setImportance(level.id)}
                                             style={{
                                                 flex: 1, padding: "8px 4px", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", border: "1px solid",
-                                                background: importance === level.id ? "rgba(16,185,129,0.2)" : "rgba(255,255,255,0.03)",
+                                                background: importance === level.id ? "rgba(16,185,129,0.2)" : palette.brd,
                                                 color: importance === level.id ? palette.accent : palette.mute,
                                                 borderColor: importance === level.id ? "rgba(16,185,129,0.4)" : palette.brd,
                                             }}
@@ -1095,7 +1095,7 @@ export default function Step4FinancialGoals() {
                             )}
 
                         </div>
-                        <div style={{ padding: "16px 28px 24px", borderTop: "1px solid rgba(255,255,255,0.05)", background: palette.s1, position: "sticky" as const, bottom: 0 }}>
+                        <div style={{ padding: "16px 28px 24px", borderTop: `1px solid ${palette.brd}`, background: palette.s1, position: "sticky" as const, bottom: 0 }}>
                             <button onClick={handleSave} style={S.btnPrimary}>
                                 {editingId ? "Update Goal" : "Save Goal"}
                             </button>

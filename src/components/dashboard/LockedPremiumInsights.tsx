@@ -3,19 +3,21 @@
 import { Lock } from "lucide-react";
 import { useLockedInsights } from "@/hooks/dashboard/useLockedInsights";
 import type { LockedInsightCard } from "@/hooks/dashboard/useLockedInsights";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 function LockedInsightCardItem({ card }: { card: LockedInsightCard }) {
+  const palette = useAppTheme();
   return (
     <div style={{
-      border: "1px solid rgba(255,255,255,0.1)",
+      border: `1px solid ${palette.brd2}`,
       borderRadius: 16,
       padding: 20,
       overflow: "hidden",
-      background: "rgba(255,255,255,0.02)",
+      background: palette.brd,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <h4 style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0, flex: 1, fontFamily: "var(--font-display)" }}>{card.label}</h4>
-        <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        <h4 style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0, flex: 1, fontFamily: "var(--font-display)" }}>{card.label}</h4>
+        <div style={{ width: 28, height: 28, borderRadius: "50%", background: palette.brd2, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <Lock size={14} style={{ color: "rgba(255,255,255,0.6)" }} />
         </div>
       </div>
@@ -43,6 +45,7 @@ function LockedInsightCardItem({ card }: { card: LockedInsightCard }) {
 }
 
 export function LockedPremiumInsights() {
+  const palette = useAppTheme();
   const { cards, maxFigureFormatted, hiddenCount } = useLockedInsights();
 
   if (!cards || cards.length === 0) return null;
@@ -50,7 +53,7 @@ export function LockedPremiumInsights() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+        <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
           Premium Insights Waiting For You
         </h3>
         <div style={{ display: "flex", alignItems: "center", gap: 4, color: "#F59E0B" }}>

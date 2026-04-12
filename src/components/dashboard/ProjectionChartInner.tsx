@@ -7,6 +7,7 @@ import {
 import { TrendingUp, Zap, Clock, Info } from "lucide-react";
 import { useProjection } from "@/hooks/dashboard/useProjection";
 import type { ProjectionDataPoint } from "@/hooks/dashboard/useProjection";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const formatYAxis = (v: number) => {
   if (v >= 10000000) return `${(v / 10000000).toFixed(1)}Cr`;
@@ -22,6 +23,7 @@ interface TooltipProps {
 }
 
 function CustomTooltip({ active, payload }: TooltipProps) {
+  const palette = useAppTheme();
   if (!active || !payload?.length) return null;
   const d = payload[0]?.payload;
   if (!d) return null;
@@ -42,7 +44,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
       fontSize: 13,
       minWidth: 180,
     }}>
-      <p style={{ color: "#64748B", fontWeight: 600, marginBottom: 8 }}>{d.year} · Age {d.age}</p>
+      <p style={{ color: palette.mute, fontWeight: 600, marginBottom: 8 }}>{d.year} · Age {d.age}</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {[
           { color: "#34d399", label: "Optimized", value: fmt(d.optimized), textColor: "#059669" },
@@ -50,7 +52,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
           { color: "#fbbf24", label: "If started 5yr ago", value: fmt(d.earlyStart), textColor: "#D97706" },
         ].map((item) => (
           <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ display: "flex", alignItems: "center", gap: 6, color: "#64748B" }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 6, color: palette.mute }}>
               <span style={{ width: 8, height: 8, borderRadius: "50%", background: item.color, display: "inline-block" }} />
               {item.label}
             </span>
@@ -70,20 +72,22 @@ interface LegendItemProps {
 }
 
 function LegendItem({ color, label, value, icon: Icon }: LegendItemProps) {
+  const palette = useAppTheme();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
       <div style={{ width: 12, height: 12, borderRadius: 3, flexShrink: 0, background: color }} />
       <div>
-        <p style={{ fontSize: 11, color: "#64748B", display: "flex", alignItems: "center", gap: 4, margin: 0, fontFamily: "var(--font-display)" }}>
+        <p style={{ fontSize: 11, color: palette.mute, display: "flex", alignItems: "center", gap: 4, margin: 0, fontFamily: "var(--font-display)" }}>
           <Icon size={14} style={{ display: "inline" }} /> {label}
         </p>
-        <p style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{value}</p>
+        <p style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{value}</p>
       </div>
     </div>
   );
 }
 
 export function ProjectionChartInner() {
+  const palette = useAppTheme();
   const projection = useProjection();
 
   if (!projection || !projection.data?.length) return null;
@@ -102,10 +106,10 @@ export function ProjectionChartInner() {
     <div id="pdf-projection-chart" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h4 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+        <h4 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
           {projectionYears}-Year Wealth Projection
         </h4>
-        <span style={{ fontSize: 11, color: "#475569", fontFamily: "var(--font-display)" }}>Retiring at {retirementAge}</span>
+        <span style={{ fontSize: 11, color: palette.mute, fontFamily: "var(--font-display)" }}>Retiring at {retirementAge}</span>
       </div>
 
       {/* Legend */}
@@ -156,15 +160,15 @@ export function ProjectionChartInner() {
       {/* Extra by optimizing callout */}
       <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 12, borderRadius: 12, background: "rgba(52,211,153,0.05)", border: "1px solid rgba(52,211,153,0.15)" }}>
         <Zap size={20} style={{ color: "#34D399", flexShrink: 0 }} />
-        <p style={{ fontSize: 14, color: "#CBD5E1", margin: 0, fontFamily: "var(--font-display)" }}>
+        <p style={{ fontSize: 14, color: palette.txt2, margin: 0, fontFamily: "var(--font-display)" }}>
           Optimizing your savings by just {optimizationPct}% could earn you an extra{" "}
           <span style={{ fontWeight: 700, color: "#34D399" }}>{extraByOptimizingFormatted}</span> by retirement.
         </p>
       </div>
 
       {/* Assumptions */}
-      <div style={{ borderRadius: 12, padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 6, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>
+      <div style={{ borderRadius: 12, padding: 12, background: palette.brd, border: `1px solid ${palette.brd}` }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 6, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>
           <Info size={12} /> Assumptions
         </p>
         <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
@@ -176,8 +180,8 @@ export function ProjectionChartInner() {
             "Does not account for inflation, taxation, or market volatility",
             "Past performance does not guarantee future results",
           ].map((text, i) => (
-            <li key={i} style={{ fontSize: 11, color: "#64748B", lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 6, fontFamily: "var(--font-display)" }}>
-              <span style={{ color: "#475569", marginTop: 2 }}>•</span>
+            <li key={i} style={{ fontSize: 11, color: palette.mute, lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 6, fontFamily: "var(--font-display)" }}>
+              <span style={{ color: palette.mute, marginTop: 2 }}>•</span>
               <span>{text}</span>
             </li>
           ))}

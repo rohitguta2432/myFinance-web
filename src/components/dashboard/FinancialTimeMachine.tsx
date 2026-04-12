@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { ChevronRight, Flame, Lock } from "lucide-react";
 import { useTimeMachine } from "@/hooks/dashboard/useTimeMachine";
 import { ProjectionChart } from "./ProjectionChart";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface Props {
   isPremium?: boolean;
 }
 
 export function FinancialTimeMachine({ isPremium = false }: Props) {
+  const palette = useAppTheme();
   const data = useTimeMachine();
   const [tickerCost, setTickerCost] = useState(0);
 
@@ -58,7 +60,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 20 }}>⏳</span>
-            <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+            <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
               Financial Time Machine
             </h3>
           </div>
@@ -72,7 +74,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
 
         {/* Hero ₹/day */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "16px 32px", borderRadius: 12, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "16px 32px", borderRadius: 12, background: palette.brd, border: `1px solid ${palette.brd}` }}>
             <p style={{
               fontSize: 36,
               fontWeight: 700,
@@ -86,7 +88,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
             }}>
               ₹{tickerCost.toLocaleString("en-IN")}/day
             </p>
-            <p style={{ fontSize: 14, color: "#64748B", marginTop: 4, margin: 0, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 14, color: palette.mute, marginTop: 4, margin: 0, fontFamily: "var(--font-display)" }}>
               is slipping away while you wait
             </p>
           </div>
@@ -96,22 +98,22 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 20 }}>
           <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)" }}>
             <p style={{ fontSize: 15, fontWeight: 700, color: "#059669", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{missedWealthFormatted}</p>
-            <p style={{ fontSize: 11, color: "#64748B", marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>missed by not starting 5 yrs ago</p>
+            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>missed by not starting 5 yrs ago</p>
           </div>
           <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}>
             <p style={{ fontSize: 15, fontWeight: 700, color: "#D97706", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{totalDelayCostFormatted}</p>
-            <p style={{ fontSize: 11, color: "#64748B", marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>total delay cost so far</p>
+            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>total delay cost so far</p>
           </div>
           <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
             <p style={{ fontSize: 15, fontWeight: 700, color: "#DC2626", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{oneYearPenaltyFormatted}</p>
-            <p style={{ fontSize: 11, color: "#64748B", marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>more if you wait another year</p>
+            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>more if you wait another year</p>
           </div>
         </div>
 
         {/* Top Action */}
         {topAction && (
           <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: 11, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 11, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8, fontFamily: "var(--font-display)" }}>
               Your #1 action to stop the bleed
             </p>
             <div style={{
@@ -120,21 +122,21 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
               gap: 12,
               padding: 12,
               borderRadius: 12,
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.05)",
+              background: palette.brd,
+              border: `1px solid ${palette.brd}`,
               cursor: "pointer",
             }}>
               <span style={{ fontSize: 20 }}>{topAction.icon}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 14, fontWeight: 700, color: "#F1F5F9", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: 0, fontFamily: "var(--font-display)" }}>{topAction.title}</p>
+                <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: 0, fontFamily: "var(--font-display)" }}>{topAction.title}</p>
               </div>
-              <ChevronRight size={20} style={{ color: "#475569", flexShrink: 0 }} />
+              <ChevronRight size={20} style={{ color: palette.mute, flexShrink: 0 }} />
             </div>
           </div>
         )}
 
         {/* Divider */}
-        <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "20px 0" }} />
+        <div style={{ height: 1, background: palette.brd, margin: "20px 0" }} />
 
         {/* 30-Year Projection — gated for premium */}
         <div style={{ position: "relative", overflow: "hidden", borderRadius: 12 }}>
@@ -149,7 +151,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
               justifyContent: "center",
             }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(8px)" }}>
+                <div style={{ width: 40, height: 40, borderRadius: "50%", background: palette.brd2, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(8px)" }}>
                   <Lock size={20} style={{ color: "rgba(255,255,255,0.6)" }} />
                 </div>
                 <button style={{
