@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useTheme } from "next-themes";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
 
 const PAGE_TITLES: Record<string, string> = {
@@ -52,6 +53,7 @@ export function Navbar() {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const { resolvedTheme, setTheme } = useTheme();
 
     const isAppRoute = ["/assessment", "/dashboard", "/admin"].some((r) => pathname.startsWith(r));
     const pageTitle = PAGE_TITLES[pathname] || (pathname.startsWith("/assessment") ? "Assessment" : pathname.startsWith("/dashboard") ? "Dashboard" : "");
@@ -107,6 +109,28 @@ export function Navbar() {
         router.push("/");
         router.refresh();
     };
+
+    const isLight = resolvedTheme === "light";
+
+    const ThemeToggleButton = (
+        <button
+            onClick={() => setTheme(isLight ? "dark" : "light")}
+            aria-label="Toggle theme"
+            style={{
+                background: "none",
+                border: `1px solid ${isLight ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.08)"}`,
+                borderRadius: 8,
+                padding: "6px 8px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                color: "#94A3B8",
+                transition: "all 0.15s",
+            }}
+        >
+            {isLight ? <Moon size={16} /> : <Sun size={16} />}
+        </button>
+    );
 
     const handleGetStarted = () => {
         if (user) {
@@ -176,6 +200,7 @@ export function Navbar() {
             )}
 
             <div className="hidden md:flex" style={{ display: undefined, alignItems: "center", gap: 8, position: "relative" }} ref={dropdownRef}>
+                {ThemeToggleButton}
                 {user ? (
                     <>
                         <button
@@ -302,6 +327,11 @@ export function Navbar() {
                         padding: 16,
                     }}
                 >
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
+                        <span style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#64748B" }}>Theme</span>
+                        {ThemeToggleButton}
+                    </div>
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "4px 0" }} />
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
