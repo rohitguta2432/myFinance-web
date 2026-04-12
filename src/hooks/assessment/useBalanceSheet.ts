@@ -20,6 +20,7 @@ import type { AssetItem, LiabilityItem } from "@/lib/assessment-api";
 function invalidateDependents(queryClient: ReturnType<typeof useQueryClient>) {
     queryClient.invalidateQueries({ queryKey: ["balance-sheet"] });
     queryClient.invalidateQueries({ queryKey: ["portfolio-analysis"] });
+    queryClient.invalidateQueries({ queryKey: ["risk-scoring"] });
     queryClient.invalidateQueries({ queryKey: ["goal-projection"] });
     queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
     queryClient.invalidateQueries({ queryKey: ["tax-calculation"] });

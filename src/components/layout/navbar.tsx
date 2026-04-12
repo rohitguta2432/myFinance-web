@@ -121,7 +121,7 @@ export function Navbar() {
             aria-label="Toggle theme"
             style={{
                 background: "none",
-                border: `1px solid ${isLight ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.08)"}`,
+                border: `1px solid ${palette.brd}`,
                 borderRadius: 8,
                 padding: "6px 8px",
                 cursor: "pointer",

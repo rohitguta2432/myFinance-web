@@ -218,7 +218,7 @@ export default function ActionPlanPage() {
 
         {/* Footer note */}
         {count > 0 && (
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "12px 16px", borderRadius: 12, background: "rgba(255,255,255,0.02)", border: `1px solid ${palette.brd}` }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "12px 16px", borderRadius: 12, background: palette.brd, border: `1px solid ${palette.brd}` }}>
             <Info size={15} style={{ color: palette.mute, marginTop: 2, flexShrink: 0 }} />
             <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
               These recommendations are based on the data you provided during assessment. They are not financial advice. Consult a SEBI-registered advisor for personalised planning.

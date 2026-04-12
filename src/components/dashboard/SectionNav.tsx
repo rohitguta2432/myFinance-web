@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface Section {
   id: string;
@@ -8,6 +9,7 @@ interface Section {
 }
 
 export function SectionNav({ sections }: { sections: Section[] }) {
+  const palette = useAppTheme();
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export function SectionNav({ sections }: { sections: Section[] }) {
                   fontSize: 12,
                   fontWeight: 500,
                   letterSpacing: "0.05em",
-                  color: isActive ? "#10B981" : "#64748B",
+                  color: isActive ? "#10B981" : palette.mute,
                   opacity: 1,
                   transition: "all 0.3s",
                   fontFamily: "var(--font-display)",
@@ -94,7 +96,7 @@ export function SectionNav({ sections }: { sections: Section[] }) {
                   transition: "all 0.3s",
                   width: isActive ? 14 : 10,
                   height: isActive ? 14 : 10,
-                  background: isActive ? "#10B981" : isPast ? "rgba(16,185,129,0.4)" : "#475569",
+                  background: isActive ? "#10B981" : isPast ? "rgba(16,185,129,0.4)" : palette.mute,
                   boxShadow: isActive ? "0 0 10px rgba(16,185,129,0.5)" : "none",
                 }}
               />
@@ -105,7 +107,7 @@ export function SectionNav({ sections }: { sections: Section[] }) {
                   style={{
                     width: 1,
                     height: 16,
-                    background: isPast ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)",
+                    background: isPast ? "rgba(16,185,129,0.3)" : palette.brd2,
                     transition: "background 0.3s",
                   }}
                 />

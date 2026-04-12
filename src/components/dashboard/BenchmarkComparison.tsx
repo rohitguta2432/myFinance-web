@@ -2,6 +2,7 @@
 
 import { usePersonalisedBenchmarks } from "@/hooks/dashboard/usePersonalisedBenchmarks";
 import type { Benchmark } from "@/hooks/dashboard/usePersonalisedBenchmarks";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const TRAFFIC_COLORS = {
   green: { bar: "#0DF259", text: "#10B981" },
@@ -10,6 +11,7 @@ const TRAFFIC_COLORS = {
 };
 
 function BenchmarkRow({ bm, index }: { bm: Benchmark; index: number }) {
+  const palette = useAppTheme();
   const tc = TRAFFIC_COLORS[bm.trafficLight] ?? TRAFFIC_COLORS.amber;
 
   return (
@@ -18,30 +20,30 @@ function BenchmarkRow({ bm, index }: { bm: Benchmark; index: number }) {
       alignItems: "center",
       gap: 12,
       padding: "12px 16px",
-      borderTop: index > 0 ? "1px solid rgba(255,255,255,0.05)" : "none",
+      borderTop: index > 0 ? `1px solid ${palette.brd}` : "none",
       transition: "background 0.15s",
     }}
-    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.02)")}
+    onMouseEnter={(e) => (e.currentTarget.style.background = palette.brd)}
     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       <div style={{ width: 32, flexShrink: 0, textAlign: "center" }}>
         <span style={{ fontSize: 16 }}>{bm.icon}</span>
       </div>
       <div style={{ width: 112, flexShrink: 0 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#CBD5E1", display: "block", fontFamily: "var(--font-display)" }}>{bm.label}</span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: palette.txt2, display: "block", fontFamily: "var(--font-display)" }}>{bm.label}</span>
         {bm.note && (
-          <span style={{ fontSize: 11, color: "#475569", display: "block", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <span style={{ fontSize: 11, color: palette.mute, display: "block", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {bm.note}
           </span>
         )}
       </div>
       <div style={{ flex: 1, minWidth: 0, position: "relative" }}>
-        <div style={{ height: 8, width: "100%", background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden", position: "relative" }}>
+        <div style={{ height: 8, width: "100%", background: palette.brd, borderRadius: 99, overflow: "hidden", position: "relative" }}>
           <div style={{
             position: "absolute",
             top: 0, bottom: 0,
             width: 1,
-            background: "rgba(255,255,255,0.2)",
+            background: palette.brd2,
             zIndex: 10,
             left: `${Math.min(100, (100 / 120) * 100)}%`,
           }} />
@@ -61,7 +63,7 @@ function BenchmarkRow({ bm, index }: { bm: Benchmark; index: number }) {
         </span>
       </div>
       <div style={{ width: 64, textAlign: "right", flexShrink: 0 }}>
-        <span style={{ fontSize: 11, color: "#64748B", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>
+        <span style={{ fontSize: 11, color: palette.mute, fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)" }}>
           {bm.benchTarget}
         </span>
       </div>
@@ -78,6 +80,7 @@ function BenchmarkRow({ bm, index }: { bm: Benchmark; index: number }) {
 }
 
 export function BenchmarkComparison() {
+  const palette = useAppTheme();
   const { benchmarks } = usePersonalisedBenchmarks();
 
   if (!benchmarks || benchmarks.length === 0) return null;
@@ -85,7 +88,7 @@ export function BenchmarkComparison() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+        <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
           Your Numbers vs. Benchmarks
         </h3>
         <span style={{ fontSize: 11, color: "#475569", fontFamily: "var(--font-display)" }}>Personalised for your profile</span>

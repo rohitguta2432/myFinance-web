@@ -21,6 +21,9 @@ export const useProfileMutation = () => {
         mutationFn: (data: ProfileDTO) => saveProfile(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["profile"] });
+            queryClient.invalidateQueries({ queryKey: ["risk-scoring"] });
+            queryClient.invalidateQueries({ queryKey: ["portfolio-analysis"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
         },
     });
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface ScoreRingProps {
   score: number;
@@ -9,6 +10,7 @@ interface ScoreRingProps {
 }
 
 export function ScoreRing({ score, label, color }: ScoreRingProps) {
+  const palette = useAppTheme();
   const [animatedScore, setAnimatedScore] = useState(0);
   const radius = 80;
   const stroke = 10;
@@ -57,7 +59,7 @@ export function ScoreRing({ score, label, color }: ScoreRingProps) {
           fontWeight: 700,
           fontVariantNumeric: "tabular-nums",
           letterSpacing: "-0.025em",
-          color: "#1E293B",
+          color: palette.s3,
           textShadow: `0 0 20px ${color}30`,
           fontFamily: "var(--font-display)",
         }}>
@@ -75,7 +77,7 @@ export function ScoreRing({ score, label, color }: ScoreRingProps) {
         }}>
           {label}
         </span>
-        <span style={{ fontSize: 12, color: "#64748B", marginTop: 2, fontFamily: "var(--font-display)" }}>
+        <span style={{ fontSize: 12, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>
           out of 100
         </span>
       </div>

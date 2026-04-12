@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Loader2, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface StepNavigationProps {
     step: number;
@@ -17,7 +18,6 @@ interface StepNavigationProps {
 
 export function StepNavigation({
     step,
-    totalSteps = 6,
     backPath,
     onNext,
     isValid = true,
@@ -25,8 +25,7 @@ export function StepNavigation({
     validationMessage,
 }: StepNavigationProps) {
     const router = useRouter();
-    const completedStep = useAssessmentStore((s) => s.currentStep);
-    const isAssessmentComplete = useAssessmentStore((s) => s.isComplete);
+    const palette = useAppTheme();
 
     const handleNext = () => {
         if (!isValid) {
@@ -46,10 +45,10 @@ export function StepNavigation({
                 bottom: 0,
                 left: 0,
                 right: 0,
-                background: "rgba(11,15,26,0.85)",
+                background: `${palette.bg}d9`,
                 backdropFilter: "blur(16px)",
                 WebkitBackdropFilter: "blur(16px)",
-                borderTop: "1px solid rgba(255,255,255,0.05)",
+                borderTop: `1px solid ${palette.brd}`,
                 padding: "16px 24px",
                 zIndex: 50,
             }}
@@ -73,20 +72,20 @@ export function StepNavigation({
                             alignItems: "center",
                             gap: 8,
                             padding: "12px 24px",
-                            background: "#0F172A",
-                            border: "1px solid rgba(255,255,255,0.1)",
+                            background: palette.s1,
+                            border: `1px solid ${palette.brd2}`,
                             borderRadius: 12,
-                            color: "#F1F5F9",
+                            color: palette.txt,
                             fontWeight: 700,
                             fontSize: 14,
                             cursor: "pointer",
                             transition: "background 0.15s",
                         }}
                         onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.background = "#1E293B";
+                            (e.currentTarget as HTMLButtonElement).style.background = palette.s3;
                         }}
                         onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.background = "#0F172A";
+                            (e.currentTarget as HTMLButtonElement).style.background = palette.s1;
                         }}
                     >
                         <ArrowLeft style={{ width: 16, height: 16 }} />
@@ -94,36 +93,8 @@ export function StepNavigation({
                     </button>
                 )}
 
-                {/* Right side: step indicator + next button */}
+                {/* Right side: next button */}
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    {/* Step indicator — dot row with checkmarks for completed steps */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "12px 16px", background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12 }}>
-                        {Array.from({ length: totalSteps }, (_, i) => {
-                            const stepNum = i + 1;
-                            const isCompleted = isAssessmentComplete || stepNum <= completedStep;
-                            const isCurrent = stepNum === step;
-                            return (
-                                <div key={stepNum} style={{
-                                    width: 24,
-                                    height: 24,
-                                    borderRadius: "50%",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    background: isCompleted ? "rgba(16,185,129,0.2)" : isCurrent ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.05)",
-                                    border: isCurrent ? "2px solid #10B981" : isCompleted ? "2px solid rgba(16,185,129,0.5)" : "2px solid transparent",
-                                    transition: "all 0.2s",
-                                }}>
-                                    {isCompleted ? (
-                                        <Check size={12} style={{ color: "#10B981" }} />
-                                    ) : (
-                                        <span style={{ fontSize: 10, fontWeight: 700, color: isCurrent ? "#10B981" : "#475569" }}>{stepNum}</span>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-
                     {/* Next button */}
                     <button
                         onClick={handleNext}
@@ -136,7 +107,7 @@ export function StepNavigation({
                             background: "#10B981",
                             border: "none",
                             borderRadius: 12,
-                            color: "#0B0F1A",
+                            color: palette.bg,
                             fontWeight: 700,
                             fontSize: 14,
                             cursor: isSaving ? "not-allowed" : "pointer",

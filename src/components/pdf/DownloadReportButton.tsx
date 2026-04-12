@@ -222,6 +222,11 @@ export function DownloadReportButton({ userName = "User" }: DownloadReportButton
         setLoading(null);
     };
 
+    const reportOptions = [
+        { id: "plan" as const, label: "Financial Plan", desc: "Full assessment report", icon: "📊" },
+        { id: "tax" as const, label: "Tax Summary", desc: "Regime comparison & deductions", icon: "🧾" },
+    ];
+
     return (
         <div ref={dropdownRef} style={{ position: "relative" }}>
             <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
@@ -232,11 +237,11 @@ export function DownloadReportButton({ userName = "User" }: DownloadReportButton
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
-                    padding: "8px 16px",
+                    padding: "8px 14px",
                     borderRadius: 10,
                     border: `1px solid ${palette.brd}`,
-                    background: loading ? "rgba(16,185,129,0.05)" : "rgba(16,185,129,0.1)",
-                    color: "#10B981",
+                    background: "transparent",
+                    color: palette.mute,
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: loading ? "not-allowed" : "pointer",
@@ -244,67 +249,61 @@ export function DownloadReportButton({ userName = "User" }: DownloadReportButton
                     opacity: loading ? 0.7 : 1,
                     width: "100%",
                     justifyContent: "center",
+                    transition: "all 0.15s",
                 }}
             >
                 {loading ? (
-                    <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
+                    <Loader2 size={15} style={{ animation: "spin 1s linear infinite", color: "#10B981" }} />
                 ) : (
-                    <Download size={16} />
+                    <Download size={15} />
                 )}
-                {loading ? "Generating..." : "Download Report"}
-                {!loading && <ChevronDown size={14} />}
+                {loading ? "Generating..." : "Reports"}
+                {!loading && <ChevronDown size={13} style={{ opacity: 0.6, transform: open ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />}
             </button>
 
             {open && (
                 <div
                     style={{
                         position: "absolute",
-                        top: "calc(100% + 4px)",
+                        top: "calc(100% + 6px)",
+                        left: 0,
                         right: 0,
-                        minWidth: 200,
-                        background: palette.s1,
+                        minWidth: 220,
+                        background: palette.bg,
                         border: `1px solid ${palette.brd}`,
-                        borderRadius: 10,
-                        boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+                        borderRadius: 12,
+                        boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
                         zIndex: 50,
-                        overflow: "hidden",
+                        padding: 6,
                     }}
                 >
-                    <button
-                        onClick={() => handleDownload("plan")}
-                        style={{
-                            width: "100%",
-                            padding: "10px 16px",
-                            textAlign: "left",
-                            border: "none",
-                            background: "transparent",
-                            color: palette.txt,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            cursor: "pointer",
-                            fontFamily: "var(--font-display)",
-                        }}
-                    >
-                        Financial Plan
-                    </button>
-                    <div style={{ height: 1, background: palette.brd }} />
-                    <button
-                        onClick={() => handleDownload("tax")}
-                        style={{
-                            width: "100%",
-                            padding: "10px 16px",
-                            textAlign: "left",
-                            border: "none",
-                            background: "transparent",
-                            color: palette.txt,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            cursor: "pointer",
-                            fontFamily: "var(--font-display)",
-                        }}
-                    >
-                        Tax Summary
-                    </button>
+                    {reportOptions.map((opt) => (
+                        <button
+                            key={opt.id}
+                            onClick={() => handleDownload(opt.id)}
+                            style={{
+                                width: "100%",
+                                padding: "10px 12px",
+                                textAlign: "left",
+                                border: "none",
+                                background: "transparent",
+                                cursor: "pointer",
+                                borderRadius: 8,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 10,
+                                transition: "background 0.1s",
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = palette.s1; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+                        >
+                            <span style={{ fontSize: 16 }}>{opt.icon}</span>
+                            <div>
+                                <p style={{ fontSize: 13, fontWeight: 600, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{opt.label}</p>
+                                <p style={{ fontSize: 11, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{opt.desc}</p>
+                            </div>
+                        </button>
+                    ))}
                 </div>
             )}
         </div>

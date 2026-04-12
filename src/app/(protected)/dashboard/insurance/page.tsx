@@ -151,8 +151,8 @@ export default function InsurancePage() {
       </div>
 
       {/* TERM LIFE */}
-      <section id="life" style={{ background: palette.s1, borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
-        <div style={{ background: "linear-gradient(90deg, rgba(59,130,246,0.1), transparent)", padding: 24, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+      <section id="life" style={{ background: palette.s1, borderRadius: 24, border: `1px solid ${palette.brd}`, boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
+        <div style={{ background: "linear-gradient(90deg, rgba(59,130,246,0.1), transparent)", padding: 24, borderBottom: `1px solid ${palette.brd}` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(59,130,246,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Shield size={20} style={{ color: "#60A5FA" }} />
@@ -173,7 +173,7 @@ export default function InsurancePage() {
             </p>
           </div>
 
-          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+          <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16 }}>
             <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>Your Numbers</h4>
             <MetricRow label="HLV Method" sublabel={`Annual Salary × (60 − ${age})`} value={termLife.hlvFormatted} icon="📊" />
             <MetricRow label="Needs Analysis" sublabel="Loans + (10 × Salary) + Goals" value={termLife.needsAnalysisFormatted} icon="📋" />
@@ -205,8 +205,8 @@ export default function InsurancePage() {
       </section>
 
       {/* HEALTH INSURANCE */}
-      <section id="health" style={{ background: palette.s1, borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
-        <div style={{ background: "linear-gradient(90deg, rgba(20,184,166,0.1), transparent)", padding: 24, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+      <section id="health" style={{ background: palette.s1, borderRadius: 24, border: `1px solid ${palette.brd}`, boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
+        <div style={{ background: "linear-gradient(90deg, rgba(20,184,166,0.1), transparent)", padding: 24, borderBottom: `1px solid ${palette.brd}` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(20,184,166,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <HeartPulse size={20} style={{ color: "#2DD4BF" }} />
@@ -228,7 +228,7 @@ export default function InsurancePage() {
           </div>
 
           {/* City Benchmark grid */}
-          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+          <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16 }}>
             <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>City-Based Benchmark</h4>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 12 }}>
               {[
@@ -240,11 +240,11 @@ export default function InsurancePage() {
                   borderRadius: 8,
                   padding: 12,
                   textAlign: "center",
-                  border: t.active ? "1px solid rgba(20,184,166,0.3)" : "1px solid rgba(255,255,255,0.05)",
-                  background: t.active ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.02)",
+                  border: t.active ? "1px solid rgba(20,184,166,0.3)" : `1px solid ${palette.brd}`,
+                  background: t.active ? "rgba(20,184,166,0.1)" : palette.brd,
                 }}>
-                  <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4, color: t.active ? "#2DD4BF" : "#64748B", fontFamily: "var(--font-display)" }}>{t.tier}</p>
-                  <p style={{ fontSize: 13, fontWeight: 700, color: t.active ? "#F1F5F9" : "#475569", margin: 0, fontFamily: "var(--font-display)" }}>{t.cover}</p>
+                  <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4, color: t.active ? "#2DD4BF" : palette.mute, fontFamily: "var(--font-display)" }}>{t.tier}</p>
+                  <p style={{ fontSize: 13, fontWeight: 700, color: t.active ? palette.txt : palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{t.cover}</p>
                   <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>{t.cities}</p>
                 </div>
               ))}
@@ -295,7 +295,7 @@ export default function InsurancePage() {
           )}
 
           {/* 80D */}
-          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+          <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16 }}>
             <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "var(--font-display)" }}>Section 80D Tax Benefits</h4>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
               {[
@@ -332,7 +332,7 @@ export default function InsurancePage() {
           </div>
           <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
             {additionalCoverage.map((card) => (
-              <div key={card.id} style={{ background: palette.s1, border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, padding: 20 }}>
+              <div key={card.id} style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 16, padding: 20 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                   <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(245,158,11,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                     {card.icon}
@@ -343,7 +343,7 @@ export default function InsurancePage() {
                   </div>
                 </div>
                 <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, marginBottom: 12, fontFamily: "var(--font-display)" }}>{card.explanation}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "8px 12px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, background: palette.brd, borderRadius: 8, padding: "8px 12px" }}>
                   <Wallet size={14} style={{ color: palette.mute, flexShrink: 0 }} />
                   <span style={{ fontSize: 12, color: palette.mute, fontFamily: "var(--font-display)" }}>
                     Estimated: <span style={{ fontWeight: 700, color: palette.txt }}>

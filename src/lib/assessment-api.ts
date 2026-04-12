@@ -505,12 +505,14 @@ function mapGoalToDTO(data: Omit<GoalAPIItem, "id">) {
 }
 
 function mapGoalFromDTO(dto: Record<string, unknown>): GoalAPIItem {
+    const rawType = ((dto.goalType ?? dto.goal_type ?? dto.type) as string) || "";
+    const rawName = ((dto.goalName ?? dto.goal_name ?? dto.name ?? dto.title) as string) || "";
     return {
         id: String(dto.id ?? dto.goalId ?? dto.goal_id ?? ""),
-        type: (((dto.goalType ?? dto.goal_type ?? dto.type) as string) || "").toLowerCase(),
-        name: ((dto.goalName ?? dto.goal_name ?? dto.name) as string) || "",
-        cost: ((dto.targetAmount ?? dto.target_amount) as number) || 0,
-        horizon: ((dto.timeHorizonYears ?? dto.time_horizon_years ?? dto.timeHorizon) as number) || 5,
+        type: rawType.toLowerCase(),
+        name: rawName,
+        cost: ((dto.targetAmount ?? dto.target_amount ?? dto.cost) as number) || 0,
+        horizon: ((dto.timeHorizonYears ?? dto.time_horizon_years ?? dto.timeHorizon ?? dto.time_horizon ?? dto.horizon) as number) || 5,
         currentSavings: ((dto.currentSavings ?? dto.current_savings) as number) || 0,
         inflation: ((dto.inflationRate ?? dto.inflation_rate ?? dto.inflation) as number) || 6,
         importance: (dto.priority as string)

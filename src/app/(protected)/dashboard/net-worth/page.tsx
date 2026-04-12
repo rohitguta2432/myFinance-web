@@ -389,14 +389,14 @@ export default function NetWorthPage() {
                                 </defs>
                                 <XAxis
                                     dataKey="month"
-                                    tick={{ fontSize: 10, fill: "#94A3B8", fontFamily: "var(--font-display)" }}
+                                    tick={{ fontSize: 10, fill: palette.mute, fontFamily: "var(--font-display)" }}
                                     axisLine={false}
                                     tickLine={false}
                                     interval={2}
                                 />
                                 <YAxis
                                     tickFormatter={(v) => formatCurrency(Number(v), true)}
-                                    tick={{ fontSize: 10, fill: "#94A3B8", fontFamily: "var(--font-display)" }}
+                                    tick={{ fontSize: 10, fill: palette.mute, fontFamily: "var(--font-display)" }}
                                     axisLine={false}
                                     tickLine={false}
                                     width={60}
@@ -409,7 +409,7 @@ export default function NetWorthPage() {
                                         fontFamily: "var(--font-display)",
                                         fontSize: 12,
                                     }}
-                                    labelStyle={{ color: "#94A3B8", marginBottom: 4 }}
+                                    labelStyle={{ color: palette.mute, marginBottom: 4 }}
                                     formatter={(value: unknown) => [formatCurrency(Number(value), true), ""]}
                                     labelFormatter={(label) => String(label)}
                                 />

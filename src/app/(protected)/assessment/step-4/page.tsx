@@ -54,6 +54,17 @@ const GOAL_TYPES = [
 
 const SINGLETON_GOAL_TYPES = ["retirement", "emergency"];
 
+const GOAL_COLORS: Record<string, { accent: string; bg: string; border: string }> = {
+    home:       { accent: "#3B82F6", bg: "rgba(59,130,246,0.06)",  border: "rgba(59,130,246,0.4)"  },
+    education:  { accent: "#8B5CF6", bg: "rgba(139,92,246,0.06)",  border: "rgba(139,92,246,0.4)"  },
+    marriage:   { accent: "#EC4899", bg: "rgba(236,72,153,0.06)",  border: "rgba(236,72,153,0.4)"  },
+    retirement: { accent: "#10B981", bg: "rgba(16,185,129,0.06)",  border: "rgba(16,185,129,0.4)"  },
+    emergency:  { accent: "#F59E0B", bg: "rgba(245,158,11,0.06)",  border: "rgba(245,158,11,0.4)"  },
+    business:   { accent: "#06B6D4", bg: "rgba(6,182,212,0.06)",   border: "rgba(6,182,212,0.4)"   },
+    car:        { accent: "#F97316", bg: "rgba(249,115,22,0.06)",  border: "rgba(249,115,22,0.4)"  },
+    custom:     { accent: "#94A3B8", bg: "rgba(148,163,184,0.06)", border: "rgba(148,163,184,0.4)" },
+};
+
 const IMPORTANCE_LEVELS = [
     { id: "Critical", label: "Critical" },
     { id: "High", label: "High" },
@@ -285,10 +296,18 @@ export default function Step4FinancialGoals() {
         }
     };
 
-    // Sync API goals to store on load
+    // Sync API goals to store — preserve local names when backend returns empty
     useEffect(() => {
         if (goalsData && goalsData.length > 0) {
-            useAssessmentStore.setState({ goals: goalsData });
+            const localGoals = useAssessmentStore.getState().goals;
+            const merged = goalsData.map((apiGoal) => {
+                const local = localGoals.find((g) => g.id === apiGoal.id);
+                return {
+                    ...apiGoal,
+                    name: apiGoal.name || local?.name || GOAL_TYPES.find((t) => t.id === apiGoal.type)?.label || "",
+                };
+            });
+            useAssessmentStore.setState({ goals: merged });
         }
     }, [goalsData]);
 
@@ -443,10 +462,10 @@ export default function Step4FinancialGoals() {
                                     cursor: disabled ? "not-allowed" : "pointer",
                                 }}
                             >
-                                <div style={S.goalTypeIcon}>
-                                    <Icon style={{ width: 32, height: 32, color: palette.mute }} />
+                                <div style={{ ...S.goalTypeIcon, background: disabled ? palette.s1 : `${(GOAL_COLORS[t.id] || GOAL_COLORS.custom).accent}12`, border: `1px solid ${disabled ? palette.brd : (GOAL_COLORS[t.id] || GOAL_COLORS.custom).border}` }}>
+                                    <Icon style={{ width: 32, height: 32, color: disabled ? palette.mute : (GOAL_COLORS[t.id] || GOAL_COLORS.custom).accent }} />
                                 </div>
-                                <span style={S.goalTypeLabel}>
+                                <span style={{ ...S.goalTypeLabel, color: disabled ? palette.mute : (GOAL_COLORS[t.id] || GOAL_COLORS.custom).accent }}>
                                     {disabled ? `${t.label} (Added)` : t.label}
                                 </span>
                             </button>
@@ -845,19 +864,30 @@ export default function Step4FinancialGoals() {
                     const gSavings = proj?.currentSavings ?? (goal.currentSavings || 0);
                     const sip = proj?.requiredSip ?? 0;
                     const progressPercent = proj?.progressPercent ?? 0;
-                    const Icon = GOAL_TYPES.find((t) => t.id === goal.type)?.icon || Home;
+                    const goalTypeMeta = GOAL_TYPES.find((t) => t.id === goal.type);
+                    const Icon = goalTypeMeta?.icon || Home;
+                    const typeLabel = goalTypeMeta?.label || "";
+                    const displayName = goal.name || typeLabel || "Untitled Goal";
+                    const showTypeTag = displayName.toLowerCase() !== typeLabel.toLowerCase() && typeLabel;
+                    const gc = GOAL_COLORS[goal.type] || GOAL_COLORS.custom;
 
                     return (
-                        <div key={goal.id} style={{ ...S.card, padding: 20 }}>
+                        <div key={goal.id} style={{ ...S.card, padding: 0, borderLeft: `3px solid ${gc.border}`, background: gc.bg }}>
+                            <div style={{ padding: 20 }}>
                             <div style={{ ...S.row, marginBottom: 16 }}>
                                 <div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                                        <Icon style={{ width: 20, height: 20, color: palette.mute }} />
-                                        <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>{goal.name}</h3>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
+                                        <div style={{ width: 32, height: 32, borderRadius: 8, background: `${gc.accent}20`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Icon style={{ width: 18, height: 18, color: gc.accent }} />
+                                        </div>
+                                        <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>{displayName}</h3>
+                                        {showTypeTag && (
+                                            <span style={{ fontSize: 10, padding: "2px 6px", borderRadius: 4, background: `${gc.accent}18`, color: gc.accent, fontWeight: 600 }}>{typeLabel}</span>
+                                        )}
                                         <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 4, background: palette.brd, color: palette.mute }}>[{goal.importance || "High"} Priority]</span>
                                     </div>
-                                    <p style={{ fontSize: 12, color: palette.mute }}>Target: {formatToCrLakh(gBufferedCost)} ({new Date().getFullYear() + goal.horizon})</p>
-                                    <p style={{ fontSize: 12, color: palette.mute }}>Current: {formatToCrLakh(goal.currentSavings || 0)}</p>
+                                    <p style={{ fontSize: 12, color: palette.mute, marginLeft: 40 }}>Target: {formatToCrLakh(gBufferedCost)} ({new Date().getFullYear() + goal.horizon})</p>
+                                    <p style={{ fontSize: 12, color: palette.mute, marginLeft: 40 }}>Current: {formatToCrLakh(goal.currentSavings || 0)}</p>
                                 </div>
                                 <div style={{ display: "flex", gap: 8 }}>
                                     <button
@@ -888,7 +918,7 @@ export default function Step4FinancialGoals() {
 
                             <div style={{ marginBottom: 16 }}>
                                 <div style={{ height: 8, background: palette.bg, borderRadius: 9999, overflow: "hidden" }}>
-                                    <div style={{ height: "100%", background: palette.accent, borderRadius: 9999, width: `${Math.min(100, progressPercent)}%` }} />
+                                    <div style={{ height: "100%", background: gc.accent, borderRadius: 9999, width: `${Math.min(100, progressPercent)}%`, transition: "width 0.4s ease" }} />
                                 </div>
                                 <div style={{ ...S.row, marginTop: 4 }}>
                                     <span style={{ fontSize: 11, color: palette.mute }}>Progress: {progressPercent.toFixed(1)}% complete</span>
@@ -896,9 +926,9 @@ export default function Step4FinancialGoals() {
                                 </div>
                             </div>
 
-                            <div style={{ ...S.projBox }}>
+                            <div style={{ ...S.projBox, background: `${gc.accent}10`, border: `1px solid ${gc.accent}20` }}>
                                 <p style={S.projLabel}>Required Monthly SIP</p>
-                                <p style={{ fontWeight: 700, color: palette.txt, fontSize: 20 }}>₹ {Math.round(sip).toLocaleString("en-IN")}</p>
+                                <p style={{ fontWeight: 700, color: gc.accent, fontSize: 20 }}>₹ {Math.round(sip).toLocaleString("en-IN")}</p>
                                 <div style={{ marginTop: 8 }}>
                                     <p style={{ fontSize: 11, color: palette.mute }}>Currently Saved: {formatToCrLakh(goal.currentSavings || 0)}</p>
                                     {sip > 0 && (
@@ -908,6 +938,7 @@ export default function Step4FinancialGoals() {
                                         </p>
                                     )}
                                 </div>
+                            </div>
                             </div>
                         </div>
                     );

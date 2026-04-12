@@ -42,7 +42,7 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
         width: "100%",
         maxWidth: 448,
         background: palette.s1,
-        border: "1px solid rgba(255,255,255,0.1)",
+        border: `1px solid ${palette.brd2}`,
         borderRadius: 24,
         boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
         overflow: "hidden",
@@ -144,8 +144,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         flexDirection: "column",
         width: 224,
         flexShrink: 0,
-        borderRight: "1px solid rgba(255,255,255,0.05)",
-        background: "rgba(11,15,26,0.5)",
+        borderRight: `1px solid ${palette.brd}`,
+        background: palette.s1,
       }} className="lg-sidebar">
         <style>{`@media (min-width: 1024px) { .lg-sidebar { display: flex !important; } }`}</style>
         <nav style={{ flex: 1, padding: 16, paddingTop: 24, display: "flex", flexDirection: "column", gap: 4 }}>
@@ -287,9 +287,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           left: 0,
           right: 0,
           zIndex: 40,
-          background: "rgba(11,15,26,0.9)",
+          background: palette.s1,
           backdropFilter: "blur(8px)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
+          borderBottom: `1px solid ${palette.brd}`,
           padding: 8,
           gap: 4,
           overflowX: "auto",

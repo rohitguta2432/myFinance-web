@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, AlertTriangle, XCircle, AlertCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3, Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame, Check } from "lucide-react";
+import { Lock, AlertTriangle, XCircle, AlertCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3, Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame, Check, Trophy } from "lucide-react";
 import { useFinancialHealthScore } from "@/hooks/dashboard/useFinancialHealthScore";
 import { useHookText } from "@/hooks/dashboard/useHookText";
 import { useRedFlags } from "@/hooks/dashboard/useRedFlags";
 import { usePriorityActions } from "@/hooks/dashboard/usePriorityActions";
-import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { ScoreRing } from "@/components/dashboard/ScoreRing";
 import { PillarInterpretationCard } from "@/components/dashboard/PillarInterpretationCard";
 import { BenchmarkComparison } from "@/components/dashboard/BenchmarkComparison";
@@ -44,13 +43,23 @@ const BADGE_ICONS: Record<string, React.ComponentType<{ size?: number; style?: R
   Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame,
 };
 
+const BADGE_COLORS: Record<string, string> = {
+  "first-steps": "#3B82F6",
+  "money-map": "#8B5CF6",
+  "goal-setter": "#F59E0B",
+  "diversified": "#06B6D4",
+  "debt-free": "#10B981",
+  "protected": "#EC4899",
+  "tax-smart": "#F97316",
+  "streak-master": "#EF4444",
+};
+
 export default function DashboardSummaryPage() {
   const palette = useAppTheme();
   const { totalScore, scoreLabel, sortedPillars, mostCritical, rawData, isLoading } = useFinancialHealthScore();
   const hookTexts = useHookText(sortedPillars, rawData);
   const { allFlags, totalTriggered: flagsTriggered } = useRedFlags();
   const { allActions, totalTriggered: actionsTriggered } = usePriorityActions();
-  const city = useAssessmentStore((s) => s.city);
   const badges = useBadges();
   const [activeBadgeTooltip, setActiveBadgeTooltip] = useState<string | null>(null);
 
@@ -86,14 +95,9 @@ export default function DashboardSummaryPage() {
       <SectionNav sections={DASHBOARD_SECTIONS} />
       <div style={{ width: "100%", maxWidth: 1152, margin: "0 auto", padding: "24px 24px 96px", display: "flex", flexDirection: "column", gap: 24 }}>
 
-        {/* Greeting + Date */}
-        <div id="snapshot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Your Financial Snapshot</h2>
-            <p style={{ fontSize: 13, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>
-              {city ? `📍 ${city}` : ""} · Last assessed {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-            </p>
-          </div>
+        {/* Greeting */}
+        <div id="snapshot">
+          <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Your Financial Snapshot</h2>
         </div>
 
         {/* Quick Stats Strip */}
@@ -118,93 +122,45 @@ export default function DashboardSummaryPage() {
           })}
         </div>
 
-        {/* Badges Section */}
-        <div id="badges">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
-              Achievements
-            </h3>
-            <span style={{ fontSize: 13, color: palette.mute, fontFamily: "var(--font-display)" }}>
-              {badges.totalEarned} of {badges.totalBadges} earned
-            </span>
-          </div>
-          {/* Progress bar */}
-          <div style={{ width: "100%", height: 6, borderRadius: 3, background: palette.brd, marginBottom: 16, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${(badges.totalEarned / badges.totalBadges) * 100}%`, background: "#10B981", borderRadius: 3, transition: "width 0.5s ease" }} />
-          </div>
-          {/* Scrollable badge row */}
-          <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 8 }}>
+        {/* Achievements — minimal inline row */}
+        <div id="badges" style={{ display: "flex", alignItems: "center", gap: 16, padding: "12px 16px", background: palette.s1, borderRadius: 12, border: `1px solid ${palette.brd}` }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.1em", whiteSpace: "nowrap", fontFamily: "var(--font-display)" }}>
+            {badges.totalEarned}/{badges.totalBadges}
+          </span>
+          <div style={{ display: "flex", gap: 6, flex: 1, overflowX: "auto" }}>
             {badges.definitions.map((badge) => {
               const isEarned = badges.earned.includes(badge.id);
-              const isNew = badges.newlyEarned.includes(badge.id);
               const IconComponent = BADGE_ICONS[badge.icon];
+              const color = BADGE_COLORS[badge.id] || "#94A3B8";
               const isTooltipOpen = activeBadgeTooltip === badge.id;
               return (
                 <div key={badge.id} style={{ position: "relative", flexShrink: 0 }}>
-                  {/* Badge circle */}
                   <div
                     onClick={() => setActiveBadgeTooltip(isTooltipOpen ? null : badge.id)}
+                    title={badge.name}
                     style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: isEarned ? "rgba(16,185,129,0.15)" : palette.brd,
-                      border: isEarned ? "2px solid #10B981" : "2px solid transparent",
-                      opacity: isEarned ? 1 : 0.5,
+                      width: 36, height: 36, borderRadius: 10,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      background: isEarned ? `${color}15` : palette.brd,
+                      border: `1.5px solid ${isEarned ? `${color}50` : "transparent"}`,
                       cursor: "pointer",
-                      position: "relative",
-                      boxShadow: isNew ? "0 0 12px rgba(16,185,129,0.4)" : "none",
-                      transition: "all 0.2s",
+                      transition: "all 0.15s",
                     }}
                   >
                     {IconComponent && (
-                      <IconComponent size={28} style={{ color: isEarned ? "#10B981" : palette.mute }} />
+                      <IconComponent size={16} style={{ color: isEarned ? color : palette.mute, opacity: isEarned ? 1 : 0.3 }} />
                     )}
-                    {/* Overlay icon at bottom-right */}
-                    <div style={{
-                      position: "absolute",
-                      bottom: 0,
-                      right: 0,
-                      width: 20,
-                      height: 20,
-                      borderRadius: "50%",
-                      background: isEarned ? "rgba(16,185,129,0.9)" : "rgba(71,85,105,0.9)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}>
-                      {isEarned ? (
-                        <Check size={11} style={{ color: "#fff" }} />
-                      ) : (
-                        <Lock size={10} style={{ color: "#fff" }} />
-                      )}
-                    </div>
                   </div>
-                  {/* Badge name */}
-                  <p style={{ fontSize: 11, textAlign: "center", color: palette.mute, marginTop: 6, maxWidth: 72, lineHeight: 1.3, fontFamily: "var(--font-display)", margin: "6px 0 0" }}>
-                    {badge.name}
-                  </p>
-                  {/* Tooltip */}
                   {isTooltipOpen && (
                     <div style={{
-                      position: "absolute",
-                      top: 76,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: 200,
-                      background: palette.s1,
-                      border: `1px solid ${palette.brd}`,
-                      borderRadius: 12,
-                      padding: 12,
-                      zIndex: 10,
+                      position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+                      width: 180, background: palette.bg, border: `1px solid ${palette.brd}`,
+                      borderRadius: 10, padding: 10, zIndex: 10,
+                      boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
                     }}>
-                      <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: "0 0 4px", fontFamily: "var(--font-display)" }}>{badge.name}</p>
-                      <p style={{ fontSize: 13, color: palette.mute, margin: "0 0 8px", lineHeight: 1.4, fontFamily: "var(--font-display)" }}>{badge.description}</p>
-                      <p style={{ fontSize: 12, color: palette.txt2, margin: 0, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
-                        <span style={{ fontWeight: 600 }}>How to earn:</span> {badge.howToEarn}
+                      <p style={{ fontSize: 12, fontWeight: 700, color: isEarned ? color : palette.mute, margin: "0 0 4px", fontFamily: "var(--font-display)" }}>{badge.name}</p>
+                      <p style={{ fontSize: 11, color: palette.mute, margin: 0, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+                        {isEarned ? badge.description : badge.howToEarn}
                       </p>
                     </div>
                   )}

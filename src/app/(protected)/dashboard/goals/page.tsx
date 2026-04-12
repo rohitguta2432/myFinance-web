@@ -240,27 +240,27 @@ function GoalCard({ goal, projItem }: GoalCardProps) {
                                 </defs>
                                 <XAxis
                                     dataKey="year"
-                                    tick={{ fontSize: 11, fill: "#94A3B8", fontFamily: "var(--font-display)" }}
-                                    label={{ value: "Year", position: "insideBottomRight", offset: -4, fontSize: 11, fill: "#94A3B8" }}
+                                    tick={{ fontSize: 11, fill: palette.mute, fontFamily: "var(--font-display)" }}
+                                    label={{ value: "Year", position: "insideBottomRight", offset: -4, fontSize: 11, fill: palette.mute }}
                                     axisLine={false}
                                     tickLine={false}
                                 />
                                 <YAxis
                                     tickFormatter={(v) => formatCurrency(Number(v), true)}
-                                    tick={{ fontSize: 10, fill: "#94A3B8", fontFamily: "var(--font-display)" }}
+                                    tick={{ fontSize: 10, fill: palette.mute, fontFamily: "var(--font-display)" }}
                                     axisLine={false}
                                     tickLine={false}
                                     width={56}
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        background: "#0C1319",
-                                        border: "1px solid rgba(255,255,255,0.1)",
+                                        background: palette.s1,
+                                        border: `1px solid ${palette.brd2}`,
                                         borderRadius: 8,
                                         fontFamily: "var(--font-display)",
                                         fontSize: 12,
                                     }}
-                                    labelStyle={{ color: "#94A3B8", marginBottom: 4 }}
+                                    labelStyle={{ color: palette.mute, marginBottom: 4 }}
                                     formatter={(value) => [formatCurrency(Number(value), true), ""]}
                                     labelFormatter={(label) => `Year ${label}`}
                                 />

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CheckCircle2, Sparkles, Trophy } from "lucide-react";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const CHECKLIST = [
     "Net Worth Calculated",
@@ -14,6 +15,7 @@ const CHECKLIST = [
 
 export default function AssessmentComplete() {
     const router = useRouter();
+    const palette = useAppTheme();
     const { completeAssessment } = useAssessmentStore();
     const [showContent, setShowContent] = useState(false);
 
@@ -31,7 +33,7 @@ export default function AssessmentComplete() {
                 alignItems: "center",
                 justifyContent: "center",
                 minHeight: "100vh",
-                background: "#0B0F1A",
+                background: palette.bg,
                 padding: 24,
                 position: "fixed",
                 inset: 0,
@@ -73,8 +75,8 @@ export default function AssessmentComplete() {
                 style={{
                     maxWidth: 440,
                     width: "100%",
-                    background: "#0F172A",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: palette.s1,
+                    border: `1px solid ${palette.brd2}`,
                     borderRadius: 24,
                     padding: 32,
                     position: "relative",
@@ -110,10 +112,10 @@ export default function AssessmentComplete() {
                                 boxShadow: "0 8px 24px rgba(16,185,129,0.4)",
                                 position: "relative",
                                 zIndex: 1,
-                                border: "4px solid #0F172A",
+                                border: `4px solid ${palette.s1}`,
                             }}
                         >
-                            <Trophy style={{ width: 40, height: 40, color: "#0B0F1A" }} />
+                            <Trophy style={{ width: 40, height: 40, color: palette.bg }} />
                         </div>
                         <Sparkles
                             style={{
