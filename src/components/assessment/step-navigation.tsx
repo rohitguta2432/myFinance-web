@@ -100,7 +100,7 @@ export function StepNavigation({
                     <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "12px 16px", background: "#0F172A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12 }}>
                         {Array.from({ length: totalSteps }, (_, i) => {
                             const stepNum = i + 1;
-                            const isCompleted = isAssessmentComplete || stepNum < completedStep;
+                            const isCompleted = isAssessmentComplete || stepNum <= completedStep;
                             const isCurrent = stepNum === step;
                             return (
                                 <div key={stepNum} style={{

@@ -129,14 +129,11 @@ export function useBadges(): BadgesData {
     // Streak data for "Streak Master" badge
     const { count: streakCount } = useStreak();
 
-    // Guard against double-toast in React StrictMode
-    const hasCheckedRef = useRef(false);
+    // Track which badges were already toasted this session to prevent double-toast in StrictMode
+    const toastedRef = useRef<Set<string>>(new Set());
 
     useEffect(() => {
-        if (hasCheckedRef.current) return;
-        hasCheckedRef.current = true;
-
-        // Evaluate each badge criterion
+        // Evaluate each badge criterion reactively
         const nowEarned: string[] = [];
 
         if (currentStep >= 2) {
@@ -152,7 +149,8 @@ export function useBadges(): BadgesData {
         if (new Set(assets.map((a) => a.category)).size >= 3) {
             nowEarned.push("diversified");
         }
-        if (liabilities.length === 0) {
+        // Gate debt-free on having completed Step 3 (empty default [] is not "debt free")
+        if (currentStep > 3 && liabilities.length === 0) {
             nowEarned.push("debt-free");
         }
         if (
@@ -171,14 +169,17 @@ export function useBadges(): BadgesData {
 
         const newlyEarned = nowEarned.filter((id) => !previousSet.has(id));
 
-        // Fire celebratory toast for each newly earned badge
+        // Fire celebratory toast only for badges not yet toasted this session
         for (const badgeId of newlyEarned) {
-            const def = BADGE_DEFINITIONS.find((b) => b.id === badgeId);
-            const name = def?.name ?? badgeId;
-            toast.success(`🎉 New badge earned: ${name}!`, {
-                id: `badge-${badgeId}`,
-                duration: 5000,
-            });
+            if (!toastedRef.current.has(badgeId)) {
+                toastedRef.current.add(badgeId);
+                const def = BADGE_DEFINITIONS.find((b) => b.id === badgeId);
+                const name = def?.name ?? badgeId;
+                toast.success(`🎉 New badge earned: ${name}!`, {
+                    id: `badge-${badgeId}`,
+                    duration: 5000,
+                });
+            }
         }
 
         // Persist the updated set (union of previous + new)
