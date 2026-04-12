@@ -178,11 +178,11 @@ Plans:
 **Goal:** Users see login streak counters, achievement badges for financial milestones, and step completion checkmarks — all client-side using localStorage and existing assessment store data, motivating return visits and assessment completion
 **Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14
 **Depends on:** Phase 11
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 12-01-PLAN.md — Gamification hooks: useStreak (localStorage streak tracking, 48h grace, milestone toasts) and useBadges (8 badge definitions, assessment store evaluation, celebratory toasts)
-- [ ] 12-02-PLAN.md — UI integration: streak display in dashboard header, badges section with progress bar in summary tab, step completion checkmarks in assessment navigation
+- [x] 12-01-PLAN.md — Gamification hooks: useStreak (localStorage streak tracking, 48h grace, milestone toasts) and useBadges (8 badge definitions, assessment store evaluation, celebratory toasts)
+- [x] 12-02-PLAN.md — UI integration: streak display in dashboard header, badges section with progress bar in summary tab, step completion checkmarks in assessment navigation
 
 ### Phase 13: Capital gains statement download
 
