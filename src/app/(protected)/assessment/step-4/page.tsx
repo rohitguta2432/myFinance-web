@@ -289,17 +289,18 @@ export default function Step4FinancialGoals() {
         setEditableRetirementAge(clamped);
         if (profileData) {
             try {
-                await updateProfile({ ...profileData, retirementAge: clamped } as Parameters<typeof updateProfile>[0]);
+                await updateProfile({ ...profileData, retirementAge: clamped });
             } catch {
                 // Local state still reflects change
             }
         }
     };
 
-    // Sync API goals to store — preserve local names when backend returns empty
+    // Sync API goals to store — preserve local names and keep optimistic entries
     useEffect(() => {
         if (goalsData && goalsData.length > 0) {
             const localGoals = useAssessmentStore.getState().goals;
+            const apiIds = new Set(goalsData.map((g) => g.id));
             const merged = goalsData.map((apiGoal) => {
                 const local = localGoals.find((g) => g.id === apiGoal.id);
                 return {
@@ -307,7 +308,9 @@ export default function Step4FinancialGoals() {
                     name: apiGoal.name || local?.name || GOAL_TYPES.find((t) => t.id === apiGoal.type)?.label || "",
                 };
             });
-            useAssessmentStore.setState({ goals: merged });
+            // Keep optimistic goals not yet in API response
+            const optimistic = localGoals.filter((g) => !apiIds.has(g.id));
+            useAssessmentStore.setState({ goals: [...merged, ...optimistic] });
         }
     }, [goalsData]);
 

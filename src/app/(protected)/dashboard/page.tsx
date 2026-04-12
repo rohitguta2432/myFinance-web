@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, AlertTriangle, XCircle, AlertCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3, Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame, Check, Trophy } from "lucide-react";
+import { Lock, AlertTriangle, XCircle, Info, ChevronRight, Wallet, PiggyBank, BarChart3, Footprints, Map, Target, PieChart, Smile, ShieldCheck, Calculator, Flame } from "lucide-react";
 import { useFinancialHealthScore } from "@/hooks/dashboard/useFinancialHealthScore";
 import { useHookText } from "@/hooks/dashboard/useHookText";
 import { useRedFlags } from "@/hooks/dashboard/useRedFlags";
@@ -30,8 +30,6 @@ const DASHBOARD_SECTIONS = [
 const FREE_FLAGS_LIMIT = 1;
 const FREE_ACTIONS_LIMIT = 3;
 
-// AlertCircle imported for future use
-void AlertCircle;
 
 function formatInLakh(v: number): string {
   if (v >= 10000000) return `₹${(v / 10000000).toFixed(2)} Cr`;
@@ -72,11 +70,9 @@ export default function DashboardSummaryPage() {
   const visibleActions = isPremium ? allActions : allActions.slice(0, FREE_ACTIONS_LIMIT);
   const lockedActions = isPremium ? [] : allActions.slice(FREE_ACTIONS_LIMIT);
 
-  const {
-    netWorth = 0,
-    monthlySurplus = 0,
-    savingsRate = 0,
-  } = rawData as Record<string, number> || {};
+  const netWorth = Number((rawData as Record<string, unknown>)?.netWorth) || 0;
+  const monthlySurplus = Number((rawData as Record<string, unknown>)?.monthlySurplus) || 0;
+  const savingsRate = Number((rawData as Record<string, unknown>)?.savingsRate) || 0;
 
   if (isLoading) {
     return (

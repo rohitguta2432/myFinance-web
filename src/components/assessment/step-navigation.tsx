@@ -8,7 +8,6 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface StepNavigationProps {
     step: number;
-    totalSteps?: number;
     backPath?: string;
     onNext: () => void | Promise<void>;
     isValid?: boolean;

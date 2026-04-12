@@ -7,7 +7,6 @@ import { useFinancialHealthScore } from "@/hooks/dashboard/useFinancialHealthSco
 import { useRedFlags } from "@/hooks/dashboard/useRedFlags";
 import { usePriorityActions } from "@/hooks/dashboard/usePriorityActions";
 import { useInsuranceAnalysis } from "@/hooks/dashboard/useInsuranceAnalysis";
-import { useProjection } from "@/hooks/dashboard/useProjection";
 import { useTaxAnalysis } from "@/hooks/dashboard/useTaxAnalysis";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { useGoalProjectionQuery } from "@/hooks/assessment/useGoalProjection";
@@ -89,7 +88,6 @@ export function DownloadReportButton({ userName = "User" }: DownloadReportButton
     const { allFlags } = useRedFlags();
     const { allActions } = usePriorityActions();
     const { termLife, healthInsurance } = useInsuranceAnalysis();
-    const projection = useProjection();
     const { regimeComparison, deductions, grossTotalIncome } = useTaxAnalysis();
 
     // Assessment store — synchronous Zustand read
@@ -109,9 +107,6 @@ export function DownloadReportButton({ userName = "User" }: DownloadReportButton
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, [open]);
-
-    // Suppress unused projection warning — projection data is available for future use
-    void projection;
 
     const handleDownload = async (type: "plan" | "tax") => {
         setLoading(type);

@@ -49,6 +49,7 @@ export interface ProfileDTO {
     residencyStatus: string;
     riskTolerance: string;
     riskAnswers: Record<number, number>;
+    retirementAge?: number;
 }
 
 export interface IncomeItem {
@@ -157,6 +158,7 @@ function mapProfileToDTO(data: ProfileDTO) {
             RISK_TO_DB[data.riskTolerance] ||
             data.riskTolerance?.toUpperCase(),
         riskAnswers: data.riskAnswers || {},
+        ...(data.retirementAge != null ? { retirementAge: data.retirementAge } : {}),
     };
 }
 
@@ -188,6 +190,7 @@ function mapProfileFromDTO(dto: Record<string, unknown>): ProfileDTO {
             "",
         riskAnswers:
             (dto.riskAnswers as Record<number, number>) ?? {},
+        retirementAge: (dto.retirementAge as number) ?? undefined,
     };
 }
 
