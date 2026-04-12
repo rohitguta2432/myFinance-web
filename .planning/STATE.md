@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-04-12T07:39:16.068Z"
+stopped_at: Completed 07-02-PLAN.md
+last_updated: "2026-04-12T07:46:48.605Z"
 last_activity: 2026-04-12
 progress:
   total_phases: 17
   completed_phases: 2
   total_plans: 15
-  completed_plans: 10
-  percent: 67
+  completed_plans: 11
+  percent: 73
 ---
 
 # Project State
@@ -70,6 +70,7 @@ Progress: [██████░░░░░░░░░░░░░░] ~32% (5
 *Updated after each plan completion*
 | Phase 06 P02 | 120 | 2 tasks | 14 files |
 | Phase 07 P01 | 20 | 3 tasks | 6 files |
+| Phase 07 P02 | 4 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 06]: Navbar glassmorphism background uses resolvedTheme ternary, not palette key, because it is an alpha-blended overlay
 - [Phase 07]: calcPPF years capped to max 40 (T-07-03 DoS mitigation)
 - [Phase 07]: Calculator index page uses hardcoded dark hex values (server component — no useAppTheme)
+- [Phase 07]: server shell + _client.tsx split for all calculators to coexist Next.js metadata with React hooks
+- [Phase 07]: PPF duration fixed at 15 years as informational panel (not slider) to enforce legal lock-in
 
 ### Pending Todos
 
@@ -104,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-12T07:39:16.065Z
-Stopped at: Completed 07-01-PLAN.md
+Last session: 2026-04-12T07:46:48.601Z
+Stopped at: Completed 07-02-PLAN.md
 Resume file: None

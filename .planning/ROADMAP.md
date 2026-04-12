@@ -117,11 +117,11 @@ Plans:
 **Goal:** 10 interactive financial calculator pages are live at /calculators/[slug], each SEO-optimized with unique metadata and FAQPage schema, using Indian number formatting, Recharts visualization, and a CTA funneling users to the assessment wizard
 **Requirements**: CALC-01, CALC-02, CALC-03, CALC-04, CALC-05, CALC-06, CALC-07, CALC-08, CALC-09, CALC-10, CALC-11, CALC-12, CALC-13, CALC-14
 **Depends on:** Phase 6
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 - [x] 07-01-PLAN.md — Shared components (CalculatorLayout, SliderInput, ResultCard), calculator-utils formulas, /calculators index page, navbar link
-- [ ] 07-02-PLAN.md — Core 5 calculators: SIP, Lumpsum, EMI, FD, PPF
+- [x] 07-02-PLAN.md — Core 5 calculators: SIP, Lumpsum, EMI, FD, PPF
 - [ ] 07-03-PLAN.md — Additional 5 calculators: HRA, NPS, Retirement, SWP, Inflation
 
 ### Phase 8: PDF report generation (financial plan, tax summary)
