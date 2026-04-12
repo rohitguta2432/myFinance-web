@@ -31,7 +31,7 @@ function computeAssetAllocation(assets: AssetItem[]): Array<{ category: string; 
 
 function computeNetWorth(assets: AssetItem[], liabilities: LiabilityItem[]): number {
     const totalAssets = assets.reduce((sum, a) => sum + a.amount, 0);
-    const totalLiabilities = liabilities.reduce((sum, l) => sum + l.balance, 0);
+    const totalLiabilities = liabilities.reduce((sum, l) => sum + l.amount, 0);
     return totalAssets - totalLiabilities;
 }
 
