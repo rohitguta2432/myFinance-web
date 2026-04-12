@@ -144,6 +144,16 @@ Plans:
 Plans:
 - [ ] TBD (run /gsd-plan-phase 9 to break down)
 
+### Phase 09.1: Retirement corpus SWP autofill — editable retirement age, sum EPF/PPF/NPS/retirement instruments, 3% annual withdrawal rule, monthly SWP income in Step 4 Retirement Goal (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 9
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 09.1 to break down)
+
 ### Phase 10: Goal progress dashboard (track goals over time)
 
 **Goal:** [To be planned]

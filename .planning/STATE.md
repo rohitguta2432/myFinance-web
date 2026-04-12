@@ -39,6 +39,7 @@ Progress: [██████░░░░░░░░░░░░░░] ~32% (5
 - Phase 7: Public calculator pages (SIP, EMI, PPF, FD, HRA, etc.)
 - Phase 8: PDF report generation (financial plan, tax summary)
 - Phase 9: Email notifications (SIP reminders, rebalancing alerts, goal deviations)
+- Phase 9.1 inserted after Phase 9: Retirement corpus SWP autofill — editable retirement age, sum EPF/PPF/NPS/retirement instruments, 3% annual withdrawal rule, monthly SWP income in Step 4 Retirement Goal (INSERTED)
 - Phase 10: Goal progress dashboard (track goals over time)
 - Phase 11: Net worth trend chart (track over months)
 - Phase 12: Gamification (streaks, badges, milestones)
