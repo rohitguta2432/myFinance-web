@@ -103,13 +103,14 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ### Phase 6: Dark/Light theme toggle
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Users can toggle between dark and light themes from the navbar; preference persists across sessions; landing, blog, assessment wizard, dashboard, and Kira chat widget all respond to the toggle; system preference is honored on first visit
+**Requirements**: THEME-01, THEME-02, THEME-03, THEME-04, THEME-05
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md — Theme infrastructure: install next-themes, ThemeProvider wrapper, useAppTheme hook, globals.css light variable block, navbar Sun/Moon toggle
+- [ ] 06-02-PLAN.md — Inline style refactor: assessment wizard (steps 1-6 + layout), dashboard (all tabs + layout), Kira chat widget, navbar color theming
 
 ### Phase 7: Public calculator pages (SIP, EMI, PPF, FD, HRA, etc.)
 
