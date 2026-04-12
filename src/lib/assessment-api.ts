@@ -554,7 +554,7 @@ export async function deleteGoal(id: string): Promise<void> {
 }
 
 export async function getGoalProjection(): Promise<GoalProjection> {
-    return api.get<GoalProjection>("/goals/projection");
+    return api.get<GoalProjection>("/goal-projection");
 }
 
 export async function getRetirementAutoFill(): Promise<RetirementAutoFill> {
@@ -642,5 +642,5 @@ export async function getTaxCalculation(
         deductions80D: String(params.deductions80D),
         otherDeductions: String(params.otherDeductions),
     }).toString();
-    return api.get<TaxCalculationResult>(`/tax/calculate?${query}`);
+    return api.get<TaxCalculationResult>(`/tax-calculation?${query}`);
 }
