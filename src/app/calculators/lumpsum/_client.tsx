@@ -121,7 +121,7 @@ export function LumpsumCalculatorClient() {
                                 fontSize: 13,
                                 color: palette.txt,
                             }}
-                            formatter={(value: number) => formatLakhsCrores(value)}
+                            formatter={(value) => formatLakhsCrores(Number(value))}
                         />
                         <Area
                             type="monotone"

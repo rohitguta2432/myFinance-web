@@ -114,7 +114,7 @@ export function EmiCalculatorClient() {
                                 fontSize: 13,
                                 color: palette.txt,
                             }}
-                            formatter={(value: number) => formatLakhsCrores(value)}
+                            formatter={(value) => formatLakhsCrores(Number(value))}
                         />
                         <Bar dataKey="Principal" stackId="loan" fill={palette.accent} radius={[0, 0, 0, 0]}>
                             <Cell fill={palette.accent} />
