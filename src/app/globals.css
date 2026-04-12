@@ -526,3 +526,49 @@ body::after {
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* ── Light Theme Overrides ──────────────────────────────────── */
+/* next-themes sets class="light" on <html> — these vars cascade. */
+/* Do NOT edit the @theme block above — it is build-time only.   */
+html.light {
+  --color-bg: #F8FAFC;
+  --color-s1: #FFFFFF;
+  --color-s2: #F1F5F9;
+  --color-s3: #E2E8F0;
+  --color-brd: rgba(0, 0, 0, 0.06);
+  --color-brd2: rgba(0, 0, 0, 0.12);
+  --color-teal-dim: rgba(16, 185, 129, 0.08);
+  --color-teal-glow: rgba(16, 185, 129, 0.15);
+  --color-txt: #0F172A;
+  --color-txt2: #334155;
+  --color-mute: #64748B;
+  --color-dim: #CBD5E1;
+  --color-background: #F8FAFC;
+  --color-foreground: #0F172A;
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
+  --color-border: #E2E8F0;
+  --color-card: rgba(255, 255, 255, 0.8);
+  --color-card-hover: rgba(255, 255, 255, 0.95);
+  --color-card-solid: #FFFFFF;
+  --color-surface: #F1F5F9;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94A3B8;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.10), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 10px 30px -5px rgb(0 0 0 / 0.15);
+  --shadow-glow: 0 0 40px -10px rgb(16 185 129 / 0.2);
+}
+
+html.light body {
+  background: var(--color-bg);
+  color: var(--color-txt);
+}
+
+html.light .hero-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
