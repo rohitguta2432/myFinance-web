@@ -158,10 +158,10 @@ Plans:
 **Goal:** Users can view a Goals tab in the dashboard showing each financial goal's progress with feasibility-colored progress bars, expandable Recharts projection charts, summary stats, and an empty state CTA — using existing goal and projection data from the backend
 **Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12
 **Depends on:** Phase 9
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 10-01-PLAN.md — Goals dashboard tab: sidebar integration, summary stats, expandable goal cards with progress bars and projection charts, empty state
+- [x] 10-01-PLAN.md — Goals dashboard tab: sidebar integration, summary stats, expandable goal cards with progress bars and projection charts, empty state
 
 ### Phase 11: Net worth trend chart (track over months)
 
