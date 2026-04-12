@@ -8,6 +8,7 @@ import {
   RefreshCw, Lock, Crown, Check, X, Settings,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
 
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "nitin@financial.in"];
 
@@ -210,6 +211,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
           )}
 
+          {/* Download Report */}
+          <div style={{ marginTop: 8, padding: "0 12px" }}>
+            <DownloadReportButton />
+          </div>
+
           {/* Retake Assessment */}
           <div style={{ marginTop: 16, paddingTop: 12, borderTop: `1px solid ${palette.brd}` }}>
             <Link href="/assessment/step-1" style={{
@@ -329,6 +335,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             Admin
           </button>
         )}
+        <DownloadReportButton />
       </div>
 
       {/* Main Content */}
