@@ -148,7 +148,7 @@ export function PpfCalculatorClient() {
                                 fontSize: 13,
                                 color: palette.txt,
                             }}
-                            formatter={(value: number) => formatLakhsCrores(value)}
+                            formatter={(value) => formatLakhsCrores(Number(value))}
                         />
                         <Bar dataKey="Invested" stackId="ppf" fill={palette.brd2} />
                         <Bar dataKey="Balance" stackId="ppf" fill={palette.accent} radius={[4, 4, 0, 0]} />
