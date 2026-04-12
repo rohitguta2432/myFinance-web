@@ -314,9 +314,17 @@ export default function Step4FinancialGoals() {
         }
     }, [goalsData]);
 
-    // Modal state
+    // Modal state + Escape key dismiss
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+    useEffect(() => {
+        if (!isModalOpen && !isLimitModalOpen) return;
+        const handler = (e: KeyboardEvent) => {
+            if (e.key === "Escape") { setIsModalOpen(false); setIsLimitModalOpen(false); }
+        };
+        document.addEventListener("keydown", handler);
+        return () => document.removeEventListener("keydown", handler);
+    }, [isModalOpen, isLimitModalOpen]);
     const [editingId, setEditingId] = useState<string | null>(null);
 
     // Form state

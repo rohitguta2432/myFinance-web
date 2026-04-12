@@ -35,7 +35,7 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
   if (!isOpen) return null;
   /* palette used in JSX below */
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+    <div role="dialog" aria-modal="true" aria-label={`${tabLabel} upgrade`} onKeyDown={(e) => { if (e.key === "Escape") onClose(); }} style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={onClose} />
       <div style={{
         position: "relative",

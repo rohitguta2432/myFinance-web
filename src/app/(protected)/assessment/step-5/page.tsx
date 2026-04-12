@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
@@ -190,6 +190,16 @@ export default function Step5InsuranceGap() {
 
     // Life modal
     const [isLifeModalOpen, setIsLifeModalOpen] = useState(false);
+
+    // Escape key dismiss for modals
+    useEffect(() => {
+        if (!isHealthModalOpen && !isLifeModalOpen) return;
+        const handler = (e: KeyboardEvent) => {
+            if (e.key === "Escape") { setIsHealthModalOpen(false); setIsLifeModalOpen(false); }
+        };
+        document.addEventListener("keydown", handler);
+        return () => document.removeEventListener("keydown", handler);
+    }, [isHealthModalOpen, isLifeModalOpen]);
     const [lType, setLType] = useState("Term Life");
     const [lSum, setLSum] = useState("");
     const [lPremium, setLPremium] = useState("");

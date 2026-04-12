@@ -72,7 +72,8 @@ export function SectionNav({ sections }: { sections: Section[] }) {
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                padding: "4px 0",
+                padding: "8px 0",
+                minHeight: 44,
               }}
             >
               <span

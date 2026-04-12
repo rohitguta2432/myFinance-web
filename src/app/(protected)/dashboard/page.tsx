@@ -97,7 +97,7 @@ export default function DashboardSummaryPage() {
         </div>
 
         {/* Quick Stats Strip */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
           {[
             { label: "Net Worth", value: formatInLakh(netWorth), icon: Wallet, color: netWorth > 0 ? "#10B981" : "#F87171" },
             { label: "Monthly Surplus", value: formatInLakh(monthlySurplus), icon: PiggyBank, color: monthlySurplus > 0 ? "#10B981" : "#F87171" },
@@ -131,22 +131,24 @@ export default function DashboardSummaryPage() {
               const isTooltipOpen = activeBadgeTooltip === badge.id;
               return (
                 <div key={badge.id} style={{ position: "relative", flexShrink: 0 }}>
-                  <div
+                  <button
                     onClick={() => setActiveBadgeTooltip(isTooltipOpen ? null : badge.id)}
+                    aria-label={`${badge.name}${isEarned ? " — earned" : " — locked"}`}
                     title={badge.name}
                     style={{
-                      width: 36, height: 36, borderRadius: 10,
+                      width: 44, height: 44, borderRadius: 10,
                       display: "flex", alignItems: "center", justifyContent: "center",
                       background: isEarned ? `${color}15` : palette.brd,
                       border: `1.5px solid ${isEarned ? `${color}50` : "transparent"}`,
                       cursor: "pointer",
                       transition: "all 0.15s",
+                      padding: 0,
                     }}
                   >
                     {IconComponent && (
                       <IconComponent size={16} style={{ color: isEarned ? color : palette.mute, opacity: isEarned ? 1 : 0.3 }} />
                     )}
-                  </div>
+                  </button>
                   {isTooltipOpen && (
                     <div style={{
                       position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
