@@ -146,14 +146,13 @@ Plans:
 
 ### Phase 09.1: Retirement corpus SWP autofill — editable retirement age, sum EPF/PPF/NPS/retirement instruments, 3% annual withdrawal rule, monthly SWP income in Step 4 Retirement Goal (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Step 4 Retirement Goal panel supports editable retirement age (50-75), calculates total retirement corpus from EPF/PPF/NPS/retirement instruments in Zustand store, applies 3% annual SWP withdrawal rule to show monthly income, and displays a distinct retired state when user age >= retirement age
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14, D-15, D-16, D-17
 **Depends on:** Phase 9
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 09.1 to break down)
-
+- [ ] 09.1-01-PLAN.md — Editable retirement age, corpus breakdown from store assets, 3% SWP monthly income, retired vs pre-retirement state bifurcation
 ### Phase 10: Goal progress dashboard (track goals over time)
 
 **Goal:** [To be planned]
