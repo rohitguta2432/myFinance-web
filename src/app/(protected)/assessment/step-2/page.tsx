@@ -681,7 +681,8 @@ export default function Step2Page() {
             {isModalOpen && (
                 <div style={{
                     position: "fixed", inset: 0, zIndex: 50,
-                    display: "flex", alignItems: "flex-end", justifyContent: "center",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: 16,
                 }}>
                     {/* Backdrop */}
                     <div
@@ -689,16 +690,14 @@ export default function Step2Page() {
                         style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)" }}
                     />
 
-                    {/* Sheet */}
+                    {/* Modal */}
                     <div style={{
-                        position: "relative", background: palette.s1, width: "100%", maxWidth: 512,
-                        borderRadius: "24px 24px 0 0", padding: 24,
-                        boxShadow: "0 -20px 60px rgba(0,0,0,0.5)",
+                        position: "relative", background: palette.s1, width: "100%", maxWidth: 480,
+                        borderRadius: 24, padding: 24,
+                        boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
                         border: `1px solid ${palette.brd2}`,
-                        maxHeight: "90vh", overflowY: "auto",
+                        maxHeight: "85vh", overflowY: "auto",
                     }}>
-                        {/* Handle */}
-                        <div style={{ width: 48, height: 4, background: palette.s3, borderRadius: 99, margin: "0 auto 24px" }} />
 
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
                             <h3 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0 }}>
