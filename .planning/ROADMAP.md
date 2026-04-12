@@ -165,13 +165,13 @@ Plans:
 
 ### Phase 11: Net worth trend chart (track over months)
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Users can view a Net Worth tab in the dashboard showing current net worth breakdown (assets, liabilities, net worth summary card, donut chart, category table) and a 12-month forward projection area chart using existing balance sheet data
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14
 **Depends on:** Phase 10
-**Plans:** 0 plans
+**Plans:** 1 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 11 to break down)
+- [ ] 11-01-PLAN.md — Net Worth dashboard tab: sidebar integration, summary card, donut chart, category breakdown table, 12-month projection area chart
 
 ### Phase 12: Gamification (streaks, badges, milestones)
 
