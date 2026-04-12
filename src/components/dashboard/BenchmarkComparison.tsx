@@ -91,24 +91,24 @@ export function BenchmarkComparison() {
         <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
           Your Numbers vs. Benchmarks
         </h3>
-        <span style={{ fontSize: 11, color: "#475569", fontFamily: "var(--font-display)" }}>Personalised for your profile</span>
+        <span style={{ fontSize: 11, color: palette.mute, fontFamily: "var(--font-display)" }}>Personalised for your profile</span>
       </div>
 
-      <div style={{ background: "#0F172A", borderRadius: 16, border: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
+      <div style={{ background: palette.s1, borderRadius: 16, border: `1px solid ${palette.brd}`, overflow: "hidden" }}>
         {/* Column headers */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 16px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 16px", borderBottom: `1px solid ${palette.brd}`, background: palette.brd }}>
           <div style={{ width: 32, flexShrink: 0 }} />
           <div style={{ width: 112, flexShrink: 0 }}>
-            <span style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Metric</span>
+            <span style={{ fontSize: 10, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Metric</span>
           </div>
           <div style={{ flex: 1 }}>
-            <span style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Progress</span>
+            <span style={{ fontSize: 10, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Progress</span>
           </div>
           <div style={{ width: 64, textAlign: "right", flexShrink: 0 }}>
-            <span style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Yours</span>
+            <span style={{ fontSize: 10, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Yours</span>
           </div>
           <div style={{ width: 64, textAlign: "right", flexShrink: 0 }}>
-            <span style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Target</span>
+            <span style={{ fontSize: 10, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, fontFamily: "var(--font-display)" }}>Target</span>
           </div>
           <div style={{ width: 12, flexShrink: 0 }} />
         </div>
@@ -127,7 +127,7 @@ export function BenchmarkComparison() {
         ].map((l) => (
           <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: l.color }} />
-            <span style={{ fontSize: 11, color: "#475569", fontFamily: "var(--font-display)" }}>{l.label}</span>
+            <span style={{ fontSize: 11, color: palette.mute, fontFamily: "var(--font-display)" }}>{l.label}</span>
           </div>
         ))}
       </div>

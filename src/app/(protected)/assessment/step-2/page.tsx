@@ -526,22 +526,22 @@ export default function Step2Page() {
                         display: "flex", alignItems: "center", justifyContent: "center",
                         gap: 12, marginBottom: 24, opacity: 0.8,
                     }}>
-                        <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2))" }} />
+                        <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, transparent, ${palette.brd2})` }} />
                         <h3 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", color: palette.txt2, textTransform: "uppercase", margin: 0 }}>
                             Your Monthly Cash Flow
                         </h3>
-                        <div style={{ flex: 1, height: 1, background: "linear-gradient(270deg, transparent, rgba(255,255,255,0.2))" }} />
+                        <div style={{ flex: 1, height: 1, background: `linear-gradient(270deg, transparent, ${palette.brd2})` }} />
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: "monospace" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ color: "#CBD5E1", fontFamily: "sans-serif" }}>Income</span>
+                            <span style={{ color: palette.txt2, fontFamily: "sans-serif" }}>Income</span>
                             <span style={{ fontSize: 18, fontWeight: 700, color: "#10B981" }}>
                                 ₹{totalMonthlyIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </span>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ color: "#CBD5E1", fontFamily: "sans-serif" }}>Expenses</span>
+                            <span style={{ color: palette.txt2, fontFamily: "sans-serif" }}>Expenses</span>
                             <span style={{ fontSize: 18, fontWeight: 700, color: "#EF4444" }}>
                                 -₹{nonEMIExpenses.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </span>
@@ -600,7 +600,7 @@ export default function Step2Page() {
                                 </div>
                                 {discretionaryList.length > 0 && (
                                     <div style={{ paddingLeft: 32 }}>
-                                        <p style={{ fontSize: 12, color: "#94A3B8", marginBottom: 8 }}>
+                                        <p style={{ fontSize: 12, color: palette.mute, marginBottom: 8 }}>
                                             Review non-essential expenses like:
                                         </p>
                                         {discretionaryList.slice(0, 3).map((exp) => (

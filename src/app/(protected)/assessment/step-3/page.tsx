@@ -436,7 +436,7 @@ export default function Step3Page() {
             <div style={{
                 position: "relative", overflow: "hidden",
                 borderRadius: 28, padding: 1, marginBottom: 32,
-                background: "linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))",
+                background: `linear-gradient(135deg, ${palette.brd2}, ${palette.brd})`,
                 boxShadow: "0 25px 60px rgba(0,0,0,0.5)",
             }}>
                 <div style={{
@@ -451,7 +451,7 @@ export default function Step3Page() {
                     {/* Top line */}
                     <div style={{
                         position: "absolute", top: 0, left: 0, right: 0, height: 1,
-                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                        background: `linear-gradient(90deg, transparent, ${palette.brd2}, transparent)`,
                     }} />
 
                     <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 24 }}>

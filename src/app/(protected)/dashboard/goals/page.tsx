@@ -107,9 +107,9 @@ function GoalCard({ goal, projItem }: GoalCardProps) {
     const importanceColors: Record<string, string> = {
         High: "#F87171",
         Medium: "#FBBF24",
-        Low: "#94A3B8",
+        Low: palette.mute,
     };
-    const importanceColor = importanceColors[goal.importance] ?? "#94A3B8";
+    const importanceColor = importanceColors[goal.importance] ?? palette.mute;
 
     const chartData = projItem
         ? buildChartData(currentSavings, requiredSip, bufferedCost, goal.horizon)

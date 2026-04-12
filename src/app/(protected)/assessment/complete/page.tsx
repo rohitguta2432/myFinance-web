@@ -154,14 +154,14 @@ export default function AssessmentComplete() {
                         style={{
                             fontSize: 22,
                             fontWeight: 700,
-                            color: "#F1F5F9",
+                            color: palette.txt,
                             marginBottom: 12,
                             lineHeight: 1.3,
                         }}
                     >
                         Your Financial Position Summary is ready!
                     </h1>
-                    <p style={{ fontSize: 14, color: "#94A3B8" }}>
+                    <p style={{ fontSize: 14, color: palette.mute }}>
                         We&apos;ve crunched the numbers and built your personalized roadmap.
                     </p>
                 </div>
@@ -169,8 +169,8 @@ export default function AssessmentComplete() {
                 {/* Checklist */}
                 <div
                     style={{
-                        background: "rgba(11,15,26,0.5)",
-                        border: "1px solid rgba(255,255,255,0.05)",
+                        background: `${palette.bg}80`,
+                        border: `1px solid ${palette.brd}`,
                         borderRadius: 16,
                         padding: 20,
                         marginBottom: 32,
@@ -202,7 +202,7 @@ export default function AssessmentComplete() {
                             >
                                 <CheckCircle2 style={{ width: 16, height: 16, color: "#10B981" }} />
                             </div>
-                            <span style={{ color: "#F1F5F9", fontWeight: 500, fontSize: 14 }}>
+                            <span style={{ color: palette.txt, fontWeight: 500, fontSize: 14 }}>
                                 {item}
                             </span>
                         </div>
@@ -218,7 +218,7 @@ export default function AssessmentComplete() {
                         border: "none",
                         borderRadius: 12,
                         padding: "16px 24px",
-                        color: "#0B0F1A",
+                        color: palette.bg,
                         fontWeight: 700,
                         fontSize: 17,
                         cursor: "pointer",

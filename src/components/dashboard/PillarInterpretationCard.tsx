@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp, AlertTriangle, XCircle, CheckCircle2, Zap } from "lucide-react";
 import type { Pillar } from "@/hooks/dashboard/useFinancialHealthScore";
 import type { HookTextData } from "@/hooks/dashboard/useHookText";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface Props {
   pillar: Pillar;
@@ -52,6 +53,7 @@ const STATUS_CONFIG = {
 };
 
 export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst = false }: Props) {
+  const palette = useAppTheme();
   const [expanded, setExpanded] = useState(false);
   const [showAction, setShowAction] = useState(false);
 
@@ -80,7 +82,7 @@ export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
             <span style={{ fontSize: 20, flexShrink: 0 }}>{pillar.icon}</span>
-            <h4 style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "var(--font-display)" }}>
+            <h4 style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "var(--font-display)" }}>
               {pillar.name}
             </h4>
             <span style={{
@@ -119,7 +121,7 @@ export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst 
               <span style={{ fontSize: 20, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: config.barTo, fontFamily: "var(--font-display)" }}>
                 {pillar.score}
               </span>
-              <span style={{ fontSize: 12, color: "#64748B" }}>/{pillar.maxScore}</span>
+              <span style={{ fontSize: 12, color: palette.mute }}>/{pillar.maxScore}</span>
             </div>
             <div style={{ color: config.textColor, transition: "transform 0.2s" }}>
               {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -128,7 +130,7 @@ export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst 
         </div>
 
         {/* Score bar */}
-        <div style={{ width: "100%", height: 6, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden" }}>
+        <div style={{ width: "100%", height: 6, background: palette.brd, borderRadius: 99, overflow: "hidden" }}>
           <div style={{
             height: "100%",
             borderRadius: 99,
@@ -146,8 +148,8 @@ export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst 
         opacity: expanded ? 1 : 0,
         transition: "all 0.3s ease-out",
       }}>
-        <div style={{ padding: "12px 16px 16px", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", flexDirection: "column", gap: 12 }}>
-          <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: 0 }}>{hookData.text}</p>
+        <div style={{ padding: "12px 16px 16px", borderTop: `1px solid ${palette.brd}`, display: "flex", flexDirection: "column", gap: 12 }}>
+          <p style={{ fontSize: 14, color: palette.txt2, lineHeight: 1.6, margin: 0 }}>{hookData.text}</p>
 
           {hookData.dscrOverride && (
             <div style={{ display: "flex", alignItems: "flex-start", gap: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8, padding: "8px 12px" }}>
@@ -182,10 +184,10 @@ export function PillarInterpretationCard({ pillar, hookData, index = 0, isWorst 
             opacity: showAction ? 1 : 0,
             transition: "all 0.3s ease-out",
           }}>
-            <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "12px 16px", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ background: palette.brd, borderRadius: 12, padding: "12px 16px", border: `1px solid ${palette.brd}` }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                 <span style={{ fontSize: 16, marginTop: 2 }}>📌</span>
-                <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: 0 }}>{hookData.action}</p>
+                <p style={{ fontSize: 14, color: palette.txt2, lineHeight: 1.6, margin: 0 }}>{hookData.action}</p>
               </div>
             </div>
           </div>

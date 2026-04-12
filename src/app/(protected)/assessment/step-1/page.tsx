@@ -405,7 +405,7 @@ export default function Step1Page() {
                                                         transition: "background 0.1s",
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                        if (state !== s) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.04)";
+                                                        if (state !== s) (e.currentTarget as HTMLDivElement).style.background = palette.brd;
                                                     }}
                                                     onMouseLeave={(e) => {
                                                         if (state !== s) (e.currentTarget as HTMLDivElement).style.background = "transparent";
@@ -494,7 +494,7 @@ export default function Step1Page() {
                                                         fontWeight: city === c ? 600 : 400,
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                        if (city !== c) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.04)";
+                                                        if (city !== c) (e.currentTarget as HTMLDivElement).style.background = palette.brd;
                                                     }}
                                                     onMouseLeave={(e) => {
                                                         if (city !== c) (e.currentTarget as HTMLDivElement).style.background = "transparent";
@@ -627,7 +627,7 @@ export default function Step1Page() {
                                             fontWeight: employmentType === type ? 600 : 400,
                                         }}
                                         onMouseEnter={(e) => {
-                                            if (employmentType !== type) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.04)";
+                                            if (employmentType !== type) (e.currentTarget as HTMLDivElement).style.background = palette.brd;
                                         }}
                                         onMouseLeave={(e) => {
                                             if (employmentType !== type) (e.currentTarget as HTMLDivElement).style.background = "transparent";
@@ -673,7 +673,7 @@ export default function Step1Page() {
                                             fontWeight: residencyStatus === status ? 600 : 400,
                                         }}
                                         onMouseEnter={(e) => {
-                                            if (residencyStatus !== status) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.04)";
+                                            if (residencyStatus !== status) (e.currentTarget as HTMLDivElement).style.background = palette.brd;
                                         }}
                                         onMouseLeave={(e) => {
                                             if (residencyStatus !== status) (e.currentTarget as HTMLDivElement).style.background = "transparent";
@@ -757,7 +757,7 @@ export default function Step1Page() {
                                                             transition: "all 0.15s",
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            if (!isSelected) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.03)";
+                                                            if (!isSelected) (e.currentTarget as HTMLDivElement).style.background = palette.brd;
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             if (!isSelected) (e.currentTarget as HTMLDivElement).style.background = "transparent";

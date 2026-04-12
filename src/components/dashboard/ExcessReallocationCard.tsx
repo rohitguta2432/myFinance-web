@@ -2,11 +2,13 @@
 
 import { ArrowRight, TrendingUp, Shield, Clock, PiggyBank } from "lucide-react";
 import { useDashboardSummary } from "@/hooks/dashboard/useDashboardSummary";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 // Suppress unused import warning — ArrowRight may be used in future
 void ArrowRight;
 
 export function ExcessReallocationCard() {
+  const palette = useAppTheme();
   const { data } = useDashboardSummary();
   const realloc = (data as Record<string, unknown> | undefined)?.excessReallocation as Record<string, unknown> | undefined;
 
@@ -35,7 +37,7 @@ export function ExcessReallocationCard() {
       : "Moderate";
 
   return (
-    <div style={{ background: "#0F172A", borderRadius: 16, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)", overflow: "hidden" }}>
+    <div style={{ background: palette.s1, borderRadius: 16, border: `1px solid ${palette.brd}`, boxShadow: "0 4px 24px rgba(0,0,0,0.3)", overflow: "hidden" }}>
       {/* Header */}
       <div style={{ background: "linear-gradient(90deg, rgba(16,185,129,0.1), rgba(52,211,153,0.1))", padding: "16px 20px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -43,7 +45,7 @@ export function ExcessReallocationCard() {
             <TrendingUp size={20} style={{ color: "#10B981" }} />
           </div>
           <div>
-            <h3 style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 13, letterSpacing: "0.05em", margin: 0, fontFamily: "var(--font-display)" }}>EXCESS REALLOCATION</h3>
+            <h3 style={{ fontWeight: 700, color: palette.txt, fontSize: 13, letterSpacing: "0.05em", margin: 0, fontFamily: "var(--font-display)" }}>EXCESS REALLOCATION</h3>
             <p style={{ fontSize: 12, color: "#94A3B8", margin: 0, marginTop: 2, fontFamily: "var(--font-display)" }}>Deploy idle liquid assets into retirement corpus</p>
           </div>
         </div>
@@ -54,7 +56,7 @@ export function ExcessReallocationCard() {
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
           <Shield size={16} style={{ color: "#34D399" }} />
           <p style={{ fontSize: 14, color: "#94A3B8", margin: 0, fontFamily: "var(--font-display)" }}>
-            Keeping <span style={{ color: "#F1F5F9", fontWeight: 600 }}>{Number(emergencyTargetMonths) + Number(bufferMonths)} months</span> protected
+            Keeping <span style={{ color: palette.txt, fontWeight: 600 }}>{Number(emergencyTargetMonths) + Number(bufferMonths)} months</span> protected
             <span style={{ color: "#64748B", marginLeft: 4 }}>({emergencyTargetMonths} emergency + {bufferMonths} buffer)</span>
           </p>
         </div>
@@ -79,7 +81,7 @@ export function ExcessReallocationCard() {
                 <p style={{ fontSize: 10, fontWeight: 700, color: "#60A5FA", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0, flex: 1, fontFamily: "var(--font-display)" }}>Equity</p>
                 <span style={{ fontSize: 11, color: "#64748B", fontFamily: "var(--font-display)" }}>{equityPct}%</span>
               </div>
-              <p style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{equityTransferFormatted}</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{equityTransferFormatted}</p>
               {useStp && (
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 8 }}>
                   <Clock size={12} style={{ color: "#FBBF24" }} />
@@ -95,7 +97,7 @@ export function ExcessReallocationCard() {
                 <p style={{ fontSize: 10, fontWeight: 700, color: "#34D399", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0, flex: 1, fontFamily: "var(--font-display)" }}>Debt</p>
                 <span style={{ fontSize: 11, color: "#64748B", fontFamily: "var(--font-display)" }}>{debtPct}%</span>
               </div>
-              <p style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{debtTransferFormatted}</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{debtTransferFormatted}</p>
               <p style={{ fontSize: 11, color: "#64748B", margin: 0, marginTop: 8, fontFamily: "var(--font-display)" }}>Direct investment</p>
             </div>
           )}

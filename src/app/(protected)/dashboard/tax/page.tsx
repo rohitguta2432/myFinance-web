@@ -90,11 +90,11 @@ export default function TaxPage() {
         </div>
 
         {/* Comparison Table */}
-        <div style={{ background: palette.s1, border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.3)" }}>
+        <div style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 16, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.3)" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                <tr style={{ borderBottom: `1px solid ${palette.brd2}` }}>
                   <th style={{ textAlign: "left", padding: "16px 20px", fontSize: 13, fontWeight: 700, color: palette.mute, width: "40%" }}></th>
                   <th style={{
                     textAlign: "center", padding: "16px 20px", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", width: "30%",
@@ -138,8 +138,8 @@ export default function TaxPage() {
                   <tr
                     key={row.label}
                     style={{
-                      borderBottom: "1px solid rgba(255,255,255,0.05)",
-                      background: row.final ? "rgba(255,255,255,0.04)" : row.bold ? "rgba(255,255,255,0.02)" : "transparent",
+                      borderBottom: `1px solid ${palette.brd}`,
+                      background: row.final ? palette.brd2 : row.bold ? palette.brd : "transparent",
                     }}
                   >
                     <td style={{ padding: "12px 20px", fontSize: row.final ? 15 : 13, color: row.final ? palette.txt : row.bold ? palette.txt : palette.txt2, fontWeight: row.final ? 700 : row.bold ? 700 : 400, fontFamily: "var(--font-display)" }}>
@@ -177,12 +177,12 @@ export default function TaxPage() {
           <SectionHeader icon={Receipt} iconColor="rgba(14,165,233,0.15)" bgGradient="linear-gradient(90deg, rgba(14,165,233,0.1), transparent)" title="TDS Reconciliation" subtitle="Tax deducted at source vs liability" />
           <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16, textAlign: "center" }}>
+              <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16, textAlign: "center" }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4, fontFamily: "var(--font-display)" }}>Estimated Tax Liability</p>
                 <p style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{tds.recommendedTaxFormatted}</p>
                 <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>{recommended === "old" ? "Old Regime" : "New Regime"}</p>
               </div>
-              <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16, textAlign: "center" }}>
+              <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16, textAlign: "center" }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4, fontFamily: "var(--font-display)" }}>TDS Deducted (Est.)</p>
                 <p style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{tds.totalTDSFormatted}</p>
                 <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>@10% of salary</p>
@@ -223,7 +223,7 @@ export default function TaxPage() {
           <SectionCard>
             <SectionHeader icon={Home} iconColor="rgba(245,158,11,0.15)" bgGradient="linear-gradient(90deg, rgba(245,158,11,0.1), transparent)" title="Rental Income Treatment" subtitle="Section 24(a) — Standard deduction" />
             <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
                   <span style={{ color: palette.txt2, fontFamily: "var(--font-display)" }}>Gross Rental Income</span>
                   <span style={{ fontWeight: 700, color: palette.txt, fontFamily: "monospace" }}>{rental.grossFormatted}</span>
@@ -232,7 +232,7 @@ export default function TaxPage() {
                   <span style={{ color: "#FCA5A5", fontFamily: "var(--font-display)" }}>(-) 30% Standard Deduction</span>
                   <span style={{ color: "#FCA5A5", fontFamily: "monospace" }}>-{rental.stdDeductionFormatted}</span>
                 </div>
-                <div style={{ borderTop: "1px dashed rgba(255,255,255,0.1)", paddingTop: 10, display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                <div style={{ borderTop: `1px dashed ${palette.brd2}`, paddingTop: 10, display: "flex", justifyContent: "space-between", fontSize: 13 }}>
                   <span style={{ fontWeight: 700, color: palette.txt, fontFamily: "var(--font-display)" }}>Net Rental Added to Income</span>
                   <span style={{ fontWeight: 700, color: "#10B981", fontFamily: "monospace" }}>{rental.netFormatted}</span>
                 </div>
@@ -253,14 +253,14 @@ export default function TaxPage() {
           <div style={{ padding: 24 }}>
             {deductions.isOldRegime ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 24, padding: "10px 16px", borderBottom: "1px solid rgba(255,255,255,0.05)", fontSize: 11, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, overflow: "hidden" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 24, padding: "10px 16px", borderBottom: `1px solid ${palette.brd}`, fontSize: 11, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                     <span style={{ fontFamily: "var(--font-display)" }}>Deduction Type</span>
                     <span style={{ textAlign: "right", fontFamily: "var(--font-display)" }}>Amount</span>
                     <span style={{ textAlign: "right", fontFamily: "var(--font-display)" }}>Status</span>
                   </div>
                   {deductions.items.map((item, i) => (
-                    <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 24, alignItems: "center", padding: "12px 16px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 24, alignItems: "center", padding: "12px 16px", borderBottom: `1px solid ${palette.brd}` }}>
                       <div>
                         <p style={{ fontSize: 13, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{item.label}</p>
                         <p style={{ fontSize: 11, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{item.sublabel}</p>
@@ -295,7 +295,7 @@ export default function TaxPage() {
                 )}
               </div>
             ) : (
-              <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 20 }}>
+              <div style={{ background: palette.bg, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 20 }}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                   <Info size={20} style={{ color: "#818CF8", flexShrink: 0, marginTop: 2 }} />
                   <div>
