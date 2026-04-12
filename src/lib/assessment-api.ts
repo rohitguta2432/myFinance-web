@@ -506,14 +506,14 @@ function mapGoalToDTO(data: Omit<GoalAPIItem, "id">) {
 
 function mapGoalFromDTO(dto: Record<string, unknown>): GoalAPIItem {
     return {
-        id: String(dto.id ?? dto.goalId ?? ""),
-        type: ((dto.goalType as string) || "").toLowerCase(),
-        name: (dto.goalName as string) || "",
-        cost: (dto.targetAmount as number) || 0,
-        horizon: (dto.timeHorizonYears as number) || 5,
-        currentSavings: (dto.currentSavings as number) || 0,
-        inflation: (dto.inflationRate as number) || 6,
-        importance: dto.priority
+        id: String(dto.id ?? dto.goalId ?? dto.goal_id ?? ""),
+        type: (((dto.goalType ?? dto.goal_type ?? dto.type) as string) || "").toLowerCase(),
+        name: ((dto.goalName ?? dto.goal_name ?? dto.name) as string) || "",
+        cost: ((dto.targetAmount ?? dto.target_amount) as number) || 0,
+        horizon: ((dto.timeHorizonYears ?? dto.time_horizon_years ?? dto.timeHorizon) as number) || 5,
+        currentSavings: ((dto.currentSavings ?? dto.current_savings) as number) || 0,
+        inflation: ((dto.inflationRate ?? dto.inflation_rate ?? dto.inflation) as number) || 6,
+        importance: (dto.priority as string)
             ? (dto.priority as string).charAt(0).toUpperCase() +
               (dto.priority as string).slice(1).toLowerCase()
             : "High",
