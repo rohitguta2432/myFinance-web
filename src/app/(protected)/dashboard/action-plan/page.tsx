@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useActionPlan } from "@/hooks/dashboard/useActionPlan";
 import type { ActionPlanItem } from "@/hooks/dashboard/useActionPlan";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const CATEGORY_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
   SRV: { label: "Survival", bg: "rgba(239,68,68,0.15)", text: "#F87171", border: "rgba(239,68,68,0.2)" },
@@ -29,6 +30,7 @@ const PILLAR_ICONS: Record<string, React.ComponentType<{ size: number; style?: R
 };
 
 function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }) {
+  const palette = useAppTheme();
   const [open, setOpen] = useState(false);
   const isDoList = type === "do";
   const Icon = isDoList ? Check : X;
@@ -47,16 +49,16 @@ function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Icon size={16} style={{ color }} />
           <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", color, fontFamily: "var(--font-display)" }}>{title}</span>
-          <span style={{ fontSize: 12, color: "#64748B", fontFamily: "var(--font-display)" }}>{items.length} items</span>
+          <span style={{ fontSize: 12, color: palette.mute, fontFamily: "var(--font-display)" }}>{items.length} items</span>
         </div>
-        {open ? <ChevronUp size={14} style={{ color: "#64748B" }} /> : <ChevronDown size={14} style={{ color: "#64748B" }} />}
+        {open ? <ChevronUp size={14} style={{ color: palette.mute }} /> : <ChevronDown size={14} style={{ color: palette.mute }} />}
       </button>
       {open && (
         <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
           {items.map((item, idx) => (
             <div key={idx} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
               <Icon size={14} style={{ color, marginTop: 2, flexShrink: 0 }} />
-              <span style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{item}</span>
+              <span style={{ fontSize: 13, color: palette.txt2, lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{item}</span>
             </div>
           ))}
         </div>
@@ -66,6 +68,7 @@ function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }
 }
 
 function StepsPanel({ steps }: { steps: { text: string }[] }) {
+  const palette = useAppTheme();
   const [open, setOpen] = useState(false);
   return (
     <div style={{ borderRadius: 12, border: "1px solid rgba(59,130,246,0.15)", overflow: "hidden", background: "rgba(59,130,246,0.05)" }}>
@@ -76,9 +79,9 @@ function StepsPanel({ steps }: { steps: { text: string }[] }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <ListChecks size={16} style={{ color: "#60A5FA" }} />
           <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", color: "#60A5FA", fontFamily: "var(--font-display)" }}>Step-by-Step Guide</span>
-          <span style={{ fontSize: 12, color: "#64748B", fontFamily: "var(--font-display)" }}>{steps.length} steps</span>
+          <span style={{ fontSize: 12, color: palette.mute, fontFamily: "var(--font-display)" }}>{steps.length} steps</span>
         </div>
-        {open ? <ChevronUp size={14} style={{ color: "#64748B" }} /> : <ChevronDown size={14} style={{ color: "#64748B" }} />}
+        {open ? <ChevronUp size={14} style={{ color: palette.mute }} /> : <ChevronDown size={14} style={{ color: palette.mute }} />}
       </button>
       {open && (
         <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
@@ -87,7 +90,7 @@ function StepsPanel({ steps }: { steps: { text: string }[] }) {
               <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(59,130,246,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: "#60A5FA", fontFamily: "var(--font-display)" }}>{idx + 1}</span>
               </div>
-              <span style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{step.text}</span>
+              <span style={{ fontSize: 13, color: palette.txt2, lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{step.text}</span>
             </div>
           ))}
         </div>
@@ -97,11 +100,12 @@ function StepsPanel({ steps }: { steps: { text: string }[] }) {
 }
 
 function ActionCard({ action, rank }: { action: ActionPlanItem; rank: number }) {
+  const palette = useAppTheme();
   const catConfig = CATEGORY_CONFIG[action.category] || CATEGORY_CONFIG.SRV;
   const PillarIcon = PILLAR_ICONS[action.pillar] || Shield;
 
   return (
-    <div style={{ borderRadius: 16, border: "1px solid rgba(255,255,255,0.06)", background: "rgba(15,23,42,0.8)", padding: 20, display: "flex", flexDirection: "column", gap: 16 }}>
+    <div style={{ borderRadius: 16, border: `1px solid ${palette.brd}`, background: palette.s1, padding: 20, display: "flex", flexDirection: "column", gap: 16 }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
@@ -114,12 +118,12 @@ function ActionCard({ action, rank }: { action: ActionPlanItem; rank: number }) 
                 {action.category}
               </span>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <PillarIcon size={12} style={{ color: "#64748B" }} />
-                <span style={{ fontSize: 11, color: "#64748B", fontWeight: 500, fontFamily: "var(--font-display)" }}>{action.pillar}</span>
+                <PillarIcon size={12} style={{ color: palette.mute }} />
+                <span style={{ fontSize: 11, color: palette.mute, fontWeight: 500, fontFamily: "var(--font-display)" }}>{action.pillar}</span>
               </div>
             </div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", lineHeight: 1.3, margin: 0, fontFamily: "var(--font-display)" }}>{action.title}</h3>
-            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{action.subtitle}</p>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: palette.txt, lineHeight: 1.3, margin: 0, fontFamily: "var(--font-display)" }}>{action.title}</h3>
+            <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{action.subtitle}</p>
           </div>
         </div>
       </div>
@@ -155,6 +159,7 @@ function ActionCard({ action, rank }: { action: ActionPlanItem; rank: number }) 
 }
 
 export default function ActionPlanPage() {
+  const palette = useAppTheme();
   const { actions, count, isLoading } = useActionPlan();
 
   if (isLoading) {
@@ -181,8 +186,8 @@ export default function ActionPlanPage() {
               <Target size={24} style={{ color: "#10B981" }} />
             </div>
             <div>
-              <h1 style={{ fontSize: 22, fontWeight: 700, color: "#F1F5F9", letterSpacing: "-0.025em", margin: 0, fontFamily: "var(--font-display)" }}>Action Plan</h1>
-              <p style={{ fontSize: 13, color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>{fyLabel} · {count} action{count !== 1 ? "s" : ""} for your profile</p>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: palette.txt, letterSpacing: "-0.025em", margin: 0, fontFamily: "var(--font-display)" }}>Action Plan</h1>
+              <p style={{ fontSize: 13, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{fyLabel} · {count} action{count !== 1 ? "s" : ""} for your profile</p>
             </div>
           </div>
 
@@ -190,7 +195,7 @@ export default function ActionPlanPage() {
             <div style={{ borderRadius: 16, border: "1px solid rgba(52,211,153,0.2)", background: "rgba(52,211,153,0.05)", padding: 24, textAlign: "center", display: "flex", flexDirection: "column", gap: 8 }}>
               <CheckCircle2 size={40} style={{ color: "#34D399", margin: "0 auto" }} />
               <p style={{ fontSize: 15, fontWeight: 700, color: "#34D399", margin: 0, fontFamily: "var(--font-display)" }}>All Clear!</p>
-              <p style={{ fontSize: 13, color: "#94A3B8", margin: 0, fontFamily: "var(--font-display)" }}>No priority actions detected. You&apos;re doing great!</p>
+              <p style={{ fontSize: 13, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>No priority actions detected. You&apos;re doing great!</p>
             </div>
           )}
 
@@ -213,9 +218,9 @@ export default function ActionPlanPage() {
 
         {/* Footer note */}
         {count > 0 && (
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "12px 16px", borderRadius: 12, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-            <Info size={15} style={{ color: "#475569", marginTop: 2, flexShrink: 0 }} />
-            <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "12px 16px", borderRadius: 12, background: "rgba(255,255,255,0.02)", border: `1px solid ${palette.brd}` }}>
+            <Info size={15} style={{ color: palette.mute, marginTop: 2, flexShrink: 0 }} />
+            <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
               These recommendations are based on the data you provided during assessment. They are not financial advice. Consult a SEBI-registered advisor for personalised planning.
             </p>
           </div>

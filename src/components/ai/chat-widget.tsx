@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { useAppTheme } from '@/hooks/useAppTheme';
 
 // ─── TYPES ───────────────────────────────────────────
 interface ChatMessage {
@@ -85,35 +86,6 @@ function buildFinancialContext(user: Record<string, unknown> | undefined) {
   };
 }
 
-// ─── DARK THEME TOKENS ───────────────────────────────
-const T = {
-  panelBg: 'rgba(15, 23, 42, 0.97)',
-  panelBorder: 'rgba(51, 65, 85, 0.6)',
-  panelShadow: '0 25px 60px rgba(0,0,0,.6), 0 0 40px rgba(13,148,136,.15)',
-  headerBg: 'linear-gradient(135deg, rgba(13,148,136,.2), rgba(2,132,199,.15))',
-  headerBorder: 'rgba(51,65,85,.5)',
-  titleColor: '#F1F5F9',
-  msgBotBg: 'rgba(30, 41, 59, 0.8)',
-  msgBotBorder: 'rgba(51,65,85,.5)',
-  msgBotColor: '#CBD5E1',
-  inputBg: '#1E293B',
-  inputBorder: '#334155',
-  inputColor: '#F1F5F9',
-  inputBarBg: 'rgba(7,11,20,.5)',
-  inputBarBorder: 'rgba(51,65,85,.4)',
-  sendDisabledBg: '#1E293B',
-  sendDisabledColor: '#475569',
-  codeBg: '#1E293B',
-  tabBg: 'rgba(30,41,59,.6)',
-  tabActiveBg: 'rgba(13,148,136,.15)',
-  tabColor: '#94A3B8',
-  tabActiveColor: '#0D9488',
-  faqBg: 'rgba(30,41,59,.5)',
-  faqBorder: 'rgba(51,65,85,.4)',
-  faqQColor: '#E2E8F0',
-  faqAColor: '#94A3B8',
-  faqHoverBg: 'rgba(13,148,136,.08)',
-};
 
 /**
  * Converts plain markdown-like text to safe HTML.
@@ -136,7 +108,38 @@ function renderMarkdown(text: string, codeBg: string): string {
 
 // ─── CHAT WIDGET COMPONENT ──────────────────────────
 export default function ChatWidget({ user }: { user?: Record<string, unknown> }) {
+  const palette = useAppTheme();
   const pathname = usePathname();
+
+  // Theme-aware tokens — derived from palette so the chat panel adapts to dark/light mode
+  const T = {
+    panelBg: palette.s1,
+    panelBorder: palette.brd2,
+    panelShadow: '0 25px 60px rgba(0,0,0,.6), 0 0 40px rgba(13,148,136,.15)',
+    headerBg: 'linear-gradient(135deg, rgba(13,148,136,.2), rgba(2,132,199,.15))',
+    headerBorder: palette.brd2,
+    titleColor: palette.txt,
+    msgBotBg: palette.s3,
+    msgBotBorder: palette.brd2,
+    msgBotColor: palette.txt2,
+    inputBg: palette.s3,
+    inputBorder: palette.brd2,
+    inputColor: palette.txt,
+    inputBarBg: palette.bg,
+    inputBarBorder: palette.brd,
+    sendDisabledBg: palette.s3,
+    sendDisabledColor: palette.mute,
+    codeBg: palette.s3,
+    tabBg: palette.s3,
+    tabActiveBg: 'rgba(13,148,136,.15)',
+    tabColor: palette.mute,
+    tabActiveColor: '#0D9488',
+    faqBg: palette.s3,
+    faqBorder: palette.brd,
+    faqQColor: palette.txt,
+    faqAColor: palette.mute,
+    faqHoverBg: 'rgba(13,148,136,.08)',
+  };
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'chat' | 'faq'>('chat');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);

@@ -13,6 +13,7 @@ import { ExcessReallocationCard } from "@/components/dashboard/ExcessReallocatio
 import { LockedPremiumInsights } from "@/components/dashboard/LockedPremiumInsights";
 import { FinancialTimeMachine } from "@/components/dashboard/FinancialTimeMachine";
 import { SectionNav } from "@/components/dashboard/SectionNav";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const DASHBOARD_SECTIONS = [
   { id: "snapshot", label: "Snapshot" },
@@ -37,6 +38,7 @@ function formatInLakh(v: number): string {
 }
 
 export default function DashboardSummaryPage() {
+  const palette = useAppTheme();
   const { totalScore, scoreLabel, sortedPillars, mostCritical, rawData, isLoading } = useFinancialHealthScore();
   const hookTexts = useHookText(sortedPillars, rawData);
   const { allFlags, totalTriggered: flagsTriggered } = useRedFlags();
@@ -64,7 +66,7 @@ export default function DashboardSummaryPage() {
         <div style={{ textAlign: "center" }}>
           <div style={{ width: 48, height: 48, borderRadius: "50%", border: "3px solid rgba(16,185,129,0.3)", borderTopColor: "#10B981", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-          <p style={{ color: "#64748B", fontFamily: "var(--font-display)" }}>Loading your dashboard...</p>
+          <p style={{ color: palette.mute, fontFamily: "var(--font-display)" }}>Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -78,8 +80,8 @@ export default function DashboardSummaryPage() {
         {/* Greeting + Date */}
         <div id="snapshot" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>Your Financial Snapshot</h2>
-            <p style={{ fontSize: 13, color: "#64748B", marginTop: 2, fontFamily: "var(--font-display)" }}>
+            <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Your Financial Snapshot</h2>
+            <p style={{ fontSize: 13, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>
               {city ? `📍 ${city}` : ""} · Last assessed {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
             </p>
           </div>
@@ -94,12 +96,12 @@ export default function DashboardSummaryPage() {
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <div key={i} style={{ background: "#0F172A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 12, display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <div key={i} style={{ background: palette.s1, borderRadius: 12, border: `1px solid ${palette.brd}`, padding: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 8, background: palette.brd, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Icon size={16} style={{ color: stat.color }} />
                 </div>
                 <div style={{ minWidth: 0 }}>
-                  <p style={{ fontSize: 11, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 500, margin: 0, fontFamily: "var(--font-display)" }}>{stat.label}</p>
+                  <p style={{ fontSize: 11, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 500, margin: 0, fontFamily: "var(--font-display)" }}>{stat.label}</p>
                   <p style={{ fontSize: 18, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: stat.color, margin: 0, fontFamily: "var(--font-display)" }}>{stat.value}</p>
                 </div>
               </div>
@@ -108,19 +110,19 @@ export default function DashboardSummaryPage() {
         </div>
 
         {/* Score Overview */}
-        <div id="score" style={{ background: "#0F172A", borderRadius: 24, padding: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+        <div id="score" style={{ background: palette.s1, borderRadius: 24, padding: 24, border: `1px solid ${palette.brd}`, boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
           <style>{`
             @media (min-width: 1024px) { .score-inner { flex-direction: row !important; } .score-divider-h { display: none !important; } .score-divider-v { display: block !important; } }
           `}</style>
           <div className="score-inner" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {/* Left: Score Ring */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, flexShrink: 0 }}>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>Financial Health Score</p>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>Financial Health Score</p>
               <ScoreRing score={totalScore} label={scoreLabel.label} color={scoreLabel.color} />
               {mostCritical && (
                 <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", padding: "6px 12px", borderRadius: 8 }}>
                   <AlertTriangle size={16} style={{ color: "#F87171", flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+                  <span style={{ fontSize: 13, color: palette.txt2, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
                     <span style={{ color: "#F87171", fontWeight: 700 }}>RISK:</span> {mostCritical.name}
                   </span>
                 </div>
@@ -128,15 +130,15 @@ export default function DashboardSummaryPage() {
             </div>
 
             {/* Vertical divider (desktop) */}
-            <div className="score-divider-v" style={{ display: "none", width: 1, background: "rgba(255,255,255,0.05)", alignSelf: "stretch" }} />
+            <div className="score-divider-v" style={{ display: "none", width: 1, background: palette.brd, alignSelf: "stretch" }} />
             {/* Horizontal divider (mobile) */}
-            <div className="score-divider-h" style={{ height: 1, background: "rgba(255,255,255,0.05)", width: "100%" }} />
+            <div className="score-divider-h" style={{ height: 1, background: palette.brd, width: "100%" }} />
 
             {/* Right: Pillar Breakdown */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-                <h3 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>Health Pillars</h3>
-                <span style={{ fontSize: 13, color: "#475569", fontFamily: "var(--font-display)" }}>Tap a pillar for insights</span>
+                <h3 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>Health Pillars</h3>
+                <span style={{ fontSize: 13, color: palette.mute, fontFamily: "var(--font-display)" }}>Tap a pillar for insights</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {sortedPillars.map((p, i) => (
@@ -162,7 +164,7 @@ export default function DashboardSummaryPage() {
         {allFlags.length > 0 && (
           <div id="red-flags">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-              <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+              <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
                 Red Flags ({flagsTriggered})
               </h3>
               {!isPremium && flagsTriggered > FREE_FLAGS_LIMIT && (
@@ -181,7 +183,7 @@ export default function DashboardSummaryPage() {
                 return (
                   <div key={flag.id} style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 12, padding: 16 }}>
                     <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: palette.brd, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                         <Icon size={16} style={{ color: s.text }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -189,15 +191,15 @@ export default function DashboardSummaryPage() {
                           <span style={{ padding: "2px 8px", background: s.badge, fontSize: 11, fontWeight: 700, color: "#fff", textTransform: "uppercase", letterSpacing: "0.08em", borderRadius: 99, fontFamily: "var(--font-display)" }}>
                             {flag.severity}
                           </span>
-                          <h4 style={{ fontSize: 17, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{flag.title}</h4>
+                          <h4 style={{ fontSize: 17, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{flag.title}</h4>
                         </div>
-                        <p style={{ fontSize: 15, color: "#94A3B8", lineHeight: 1.6, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>{flag.explanation}</p>
-                        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "8px 12px" }}>
+                        <p style={{ fontSize: 15, color: palette.mute, lineHeight: 1.6, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>{flag.explanation}</p>
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, background: palette.brd, borderRadius: 8, padding: "8px 12px" }}>
                           <span style={{ fontSize: 15, marginTop: 2 }}>📌</span>
-                          <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{flag.action}</p>
+                          <p style={{ fontSize: 13, color: palette.txt2, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{flag.action}</p>
                         </div>
                         {flag.impact > 0 && (
-                          <p style={{ fontSize: 13, color: "#64748B", marginTop: 8, fontFamily: "var(--font-display)" }}>
+                          <p style={{ fontSize: 13, color: palette.mute, marginTop: 8, fontFamily: "var(--font-display)" }}>
                             Financial impact: <span style={{ fontWeight: 600, color: s.text }}>{formatInLakh(flag.impact)}</span>
                           </p>
                         )}
@@ -219,7 +221,7 @@ export default function DashboardSummaryPage() {
                 return (
                   <div key={flag.id} style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 12, padding: 16, position: "relative", overflow: "hidden" }}>
                     <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: palette.brd, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                         <Icon size={16} style={{ color: s.text }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -227,10 +229,10 @@ export default function DashboardSummaryPage() {
                           <span style={{ padding: "2px 8px", background: s.badge, fontSize: 11, fontWeight: 700, color: "#fff", textTransform: "uppercase", letterSpacing: "0.08em", borderRadius: 99, fontFamily: "var(--font-display)" }}>
                             {flag.severity}
                           </span>
-                          <h4 style={{ fontSize: 17, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{flag.title}</h4>
+                          <h4 style={{ fontSize: 17, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{flag.title}</h4>
                         </div>
                         <div style={{ filter: "blur(6px)", userSelect: "none", pointerEvents: "none" }}>
-                          <p style={{ fontSize: 15, color: "#94A3B8", lineHeight: 1.6, fontFamily: "var(--font-display)" }}>{flag.explanation}</p>
+                          <p style={{ fontSize: 15, color: palette.mute, lineHeight: 1.6, fontFamily: "var(--font-display)" }}>{flag.explanation}</p>
                         </div>
                       </div>
                       <Lock size={16} style={{ color: "rgba(245,158,11,0.6)", flexShrink: 0, marginTop: 4 }} />
@@ -244,7 +246,7 @@ export default function DashboardSummaryPage() {
               <div style={{ marginTop: 12, background: "linear-gradient(135deg, rgba(245,158,11,0.05), rgba(234,88,12,0.05))", border: "1px solid rgba(245,158,11,0.15)", borderRadius: 12, padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <Lock size={20} style={{ color: "#FBBF24" }} />
-                  <span style={{ fontSize: 13, color: "#94A3B8", fontFamily: "var(--font-display)" }}>Unlock all {flagsTriggered} red flags with detailed action plans</span>
+                  <span style={{ fontSize: 13, color: palette.mute, fontFamily: "var(--font-display)" }}>Unlock all {flagsTriggered} red flags with detailed action plans</span>
                 </div>
                 <span style={{ fontSize: 13, color: "#FBBF24", fontWeight: 700, whiteSpace: "nowrap", fontFamily: "var(--font-display)" }}>Upgrade →</span>
               </div>
@@ -256,7 +258,7 @@ export default function DashboardSummaryPage() {
         {allActions.length > 0 && (
           <div id="actions">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-              <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>
+              <h3 style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
                 Priority Actions ({actionsTriggered})
               </h3>
               {!isPremium && actionsTriggered > FREE_ACTIONS_LIMIT && (
@@ -265,7 +267,7 @@ export default function DashboardSummaryPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {visibleActions.map((act, i) => (
-                <div key={act.id} style={{ background: "#0F172A", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 12, padding: 16 }}>
+                <div key={act.id} style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 12, padding: 16 }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                     <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(16,185,129,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
                       {act.icon}
@@ -275,41 +277,41 @@ export default function DashboardSummaryPage() {
                         <span style={{ padding: "2px 8px", background: "rgba(52,211,153,0.15)", fontSize: 11, fontWeight: 700, color: "#34D399", textTransform: "uppercase", letterSpacing: "0.08em", borderRadius: 99, fontFamily: "var(--font-display)" }}>
                           #{i + 1}
                         </span>
-                        <h4 style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{act.title}</h4>
+                        <h4 style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{act.title}</h4>
                       </div>
-                      <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>{act.description}</p>
+                      <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>{act.description}</p>
                       {act.howTo && (
-                        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "8px 12px", marginBottom: 8 }}>
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, background: palette.brd, borderRadius: 8, padding: "8px 12px", marginBottom: 8 }}>
                           <span style={{ fontSize: 15, marginTop: 2 }}>▶</span>
-                          <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{act.howTo}</p>
+                          <p style={{ fontSize: 13, color: palette.txt2, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{act.howTo}</p>
                         </div>
                       )}
                       <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 12 }}>
-                        <span style={{ color: "#64748B", fontFamily: "var(--font-display)" }}>
+                        <span style={{ color: palette.mute, fontFamily: "var(--font-display)" }}>
                           Impact: <span style={{ color: "#34D399", fontWeight: 600 }}>{formatInLakh(act.impact)}</span>
                         </span>
                       </div>
                     </div>
-                    <ChevronRight size={16} style={{ color: "#475569", flexShrink: 0, marginTop: 8 }} />
+                    <ChevronRight size={16} style={{ color: palette.mute, flexShrink: 0, marginTop: 8 }} />
                   </div>
                 </div>
               ))}
 
               {lockedActions.map((act, i) => (
-                <div key={act.id} style={{ background: "#0F172A", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 12, padding: 16, position: "relative", overflow: "hidden" }}>
+                <div key={act.id} style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 12, padding: 16, position: "relative", overflow: "hidden" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0, opacity: 0.5 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: palette.brd, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0, opacity: 0.5 }}>
                       {act.icon}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                        <span style={{ padding: "2px 8px", background: "rgba(100,116,139,0.15)", fontSize: 11, fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em", borderRadius: 99, fontFamily: "var(--font-display)" }}>
+                        <span style={{ padding: "2px 8px", background: "rgba(100,116,139,0.15)", fontSize: 11, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", borderRadius: 99, fontFamily: "var(--font-display)" }}>
                           #{FREE_ACTIONS_LIMIT + i + 1}
                         </span>
-                        <h4 style={{ fontSize: 15, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{act.title}</h4>
+                        <h4 style={{ fontSize: 15, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{act.title}</h4>
                       </div>
                       <div style={{ filter: "blur(6px)", userSelect: "none", pointerEvents: "none" }}>
-                        <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{act.description}</p>
+                        <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{act.description}</p>
                       </div>
                     </div>
                     <Lock size={16} style={{ color: "rgba(245,158,11,0.6)", flexShrink: 0, marginTop: 4 }} />
@@ -322,7 +324,7 @@ export default function DashboardSummaryPage() {
               <div style={{ marginTop: 12, background: "linear-gradient(135deg, rgba(245,158,11,0.05), rgba(234,88,12,0.05))", border: "1px solid rgba(245,158,11,0.15)", borderRadius: 12, padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <Lock size={20} style={{ color: "#FBBF24" }} />
-                  <span style={{ fontSize: 13, color: "#94A3B8", fontFamily: "var(--font-display)" }}>Unlock all {actionsTriggered} actions with step-by-step guides</span>
+                  <span style={{ fontSize: 13, color: palette.mute, fontFamily: "var(--font-display)" }}>Unlock all {actionsTriggered} actions with step-by-step guides</span>
                 </div>
                 <span style={{ fontSize: 13, color: "#FBBF24", fontWeight: 700, whiteSpace: "nowrap", fontFamily: "var(--font-display)" }}>Upgrade →</span>
               </div>
@@ -355,8 +357,8 @@ export default function DashboardSummaryPage() {
         }}>
           <div style={{ position: "absolute", inset: 0, opacity: 0.3, background: "radial-gradient(circle at 50% 0%, rgba(245,158,11,0.2), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative", zIndex: 1 }}>
-            <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F1F5F9", marginBottom: 8, fontFamily: "var(--font-display)" }}>Unlock Your Full Financial Blueprint</h3>
-            <p style={{ fontSize: 15, color: "#94A3B8", marginBottom: 20, maxWidth: 512, margin: "0 auto 20px", lineHeight: 1.6, fontFamily: "var(--font-display)" }}>
+            <h3 style={{ fontSize: 22, fontWeight: 700, color: palette.txt, marginBottom: 8, fontFamily: "var(--font-display)" }}>Unlock Your Full Financial Blueprint</h3>
+            <p style={{ fontSize: 15, color: palette.mute, marginBottom: 20, maxWidth: 512, margin: "0 auto 20px", lineHeight: 1.6, fontFamily: "var(--font-display)" }}>
               Get personalized action plans, detailed pillar breakdowns, and step-by-step recommendations to reach 90+ score.
             </p>
             <button style={{

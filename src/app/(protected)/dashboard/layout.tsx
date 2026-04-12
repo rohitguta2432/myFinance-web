@@ -7,6 +7,7 @@ import {
   BarChart3, Zap, Shield, Calculator,
   RefreshCw, Lock, Crown, Check, X, Settings,
 } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "nitin@financial.in"];
 
@@ -26,7 +27,9 @@ const PREMIUM_FEATURES = [
 ];
 
 function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose: () => void; tabLabel: string }) {
+  const palette = useAppTheme();
   if (!isOpen) return null;
+  /* palette used in JSX below */
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={onClose} />
@@ -34,7 +37,7 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
         position: "relative",
         width: "100%",
         maxWidth: 448,
-        background: "#0F172A",
+        background: palette.s1,
         border: "1px solid rgba(255,255,255,0.1)",
         borderRadius: 24,
         boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
@@ -43,11 +46,11 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
         <div style={{ position: "absolute", inset: 0, opacity: 0.4, pointerEvents: "none", background: "radial-gradient(circle at 50% 0%, rgba(245,158,11,0.25), transparent 60%)" }} />
         <button onClick={onClose} style={{
           position: "absolute", top: 16, right: 16, zIndex: 20,
-          width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.05)",
+          width: 32, height: 32, borderRadius: "50%", background: palette.brd,
           display: "flex", alignItems: "center", justifyContent: "center",
           border: "none", cursor: "pointer",
         }}>
-          <X size={16} style={{ color: "#94A3B8" }} />
+          <X size={16} style={{ color: palette.mute }} />
         </button>
         <div style={{ position: "relative", zIndex: 10, padding: "32px 32px 32px", paddingTop: 40, textAlign: "center" }}>
           <div style={{
@@ -58,17 +61,17 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
           }}>
             <Lock size={28} style={{ color: "#FBBF24" }} />
           </div>
-          <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F1F5F9", marginBottom: 8, fontFamily: "var(--font-display)" }}>
+          <h3 style={{ fontSize: 22, fontWeight: 700, color: palette.txt, marginBottom: 8, fontFamily: "var(--font-display)" }}>
             {tabLabel} is a Premium Feature
           </h3>
-          <p style={{ fontSize: 15, color: "#94A3B8", marginBottom: 24, lineHeight: 1.6, fontFamily: "var(--font-display)" }}>
+          <p style={{ fontSize: 15, color: palette.mute, marginBottom: 24, lineHeight: 1.6, fontFamily: "var(--font-display)" }}>
             Upgrade to unlock detailed analysis and personalized recommendations.
           </p>
           <div style={{ textAlign: "left", display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
             {PREMIUM_FEATURES.map((feat, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                 <Check size={20} style={{ color: "#34D399", flexShrink: 0, marginTop: 2 }} />
-                <span style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{feat}</span>
+                <span style={{ fontSize: 14, color: palette.txt2, lineHeight: 1.5, fontFamily: "var(--font-display)" }}>{feat}</span>
               </div>
             ))}
           </div>
@@ -88,7 +91,7 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
             Upgrade to Premium
             <span style={{ display: "block", fontSize: 13, fontWeight: 500, opacity: 0.8, marginTop: 2 }}>₹999/year — Cancel anytime</span>
           </button>
-          <p style={{ fontSize: 12, color: "#475569", marginTop: 12, fontFamily: "var(--font-display)" }}>No credit card required · 7-day free trial</p>
+          <p style={{ fontSize: 12, color: palette.mute, marginTop: 12, fontFamily: "var(--font-display)" }}>No credit card required · 7-day free trial</p>
         </div>
       </div>
     </div>
@@ -96,6 +99,7 @@ function UpgradeModal({ isOpen, onClose, tabLabel }: { isOpen: boolean; onClose:
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const palette = useAppTheme();
   const pathname = usePathname();
   const router = useRouter();
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -146,7 +150,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 700, background: "linear-gradient(135deg, #FBBF24, #FB923C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontFamily: "var(--font-display)" }}>Premium</span>
             </div>
           ) : (
-            <p style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, color: "#64748B", marginBottom: 16, padding: "0 12px", fontFamily: "var(--font-display)" }}>Dashboard</p>
+            <p style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, color: palette.mute, marginBottom: 16, padding: "0 12px", fontFamily: "var(--font-display)" }}>Dashboard</p>
           )}
 
           {SIDEBAR_TABS.map((tab) => {
@@ -173,8 +177,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   fontFamily: "var(--font-display)",
                 }}
               >
-                <Icon size={20} style={{ flexShrink: 0, color: isActive ? "#10B981" : isLocked ? "#475569" : "#64748B" }} />
-                <span style={{ fontSize: 14, fontWeight: 600, flex: 1, color: isActive ? "#10B981" : isLocked ? "#475569" : "#94A3B8" }}>{tab.label}</span>
+                <Icon size={20} style={{ flexShrink: 0, color: isActive ? "#10B981" : isLocked ? palette.mute : palette.mute }} />
+                <span style={{ fontSize: 14, fontWeight: 600, flex: 1, color: isActive ? "#10B981" : isLocked ? palette.mute : palette.mute }}>{tab.label}</span>
                 {isLocked && <Lock size={16} style={{ color: "rgba(245,158,11,0.5)", flexShrink: 0 }} />}
               </button>
             );
@@ -193,7 +197,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 borderRadius: 12,
                 border: pathname === "/admin" ? "1px solid rgba(245,158,11,0.3)" : "1px solid transparent",
                 background: pathname === "/admin" ? "rgba(245,158,11,0.1)" : "transparent",
-                color: pathname === "/admin" ? "#FBBF24" : "#64748B",
+                color: pathname === "/admin" ? "#FBBF24" : palette.mute,
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: "pointer",
@@ -207,7 +211,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           )}
 
           {/* Retake Assessment */}
-          <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ marginTop: 16, paddingTop: 12, borderTop: `1px solid ${palette.brd}` }}>
             <Link href="/assessment/step-1" style={{
               display: "flex",
               alignItems: "center",
@@ -227,7 +231,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Sidebar Footer */}
         {!isPremium && (
-          <div style={{ padding: 16, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ padding: 16, borderTop: `1px solid ${palette.brd}` }}>
             <button
               onClick={() => { setUpgradeTabLabel("Premium"); setShowUpgradeModal(true); }}
               style={{
@@ -242,7 +246,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               }}
             >
               <span style={{ fontSize: 13, fontWeight: 700, color: "#FBBF24", display: "block" }}>🔓 Upgrade to Premium</span>
-              <span style={{ fontSize: 11, color: "#475569", display: "block", marginTop: 2 }}>Unlock all features</span>
+              <span style={{ fontSize: 11, color: palette.mute, display: "block", marginTop: 2 }}>Unlock all features</span>
             </button>
           </div>
         )}
@@ -292,7 +296,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 border: "none",
                 cursor: "pointer",
                 background: isActive ? "rgba(16,185,129,0.15)" : "transparent",
-                color: isActive ? "#10B981" : isLocked ? "#475569" : "#64748B",
+                color: isActive ? "#10B981" : isLocked ? palette.mute : palette.mute,
                 fontFamily: "var(--font-display)",
               }}
             >
@@ -317,7 +321,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               border: "none",
               cursor: "pointer",
               background: pathname === "/admin" ? "rgba(245,158,11,0.15)" : "transparent",
-              color: pathname === "/admin" ? "#FBBF24" : "#64748B",
+              color: pathname === "/admin" ? "#FBBF24" : palette.mute,
               fontFamily: "var(--font-display)",
             }}
           >

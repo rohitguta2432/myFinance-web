@@ -7,6 +7,7 @@ import { Menu, Moon, Sun, X } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useTheme } from "next-themes";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const PAGE_TITLES: Record<string, string> = {
     "/assessment/step-1": "Personal Profile",
@@ -46,6 +47,7 @@ interface User {
 }
 
 export function Navbar() {
+    const palette = useAppTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -124,7 +126,7 @@ export function Navbar() {
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                color: "#94A3B8",
+                color: palette.mute,
                 transition: "all 0.15s",
             }}
         >
@@ -153,10 +155,10 @@ export function Navbar() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 height: 64,
-                background: "rgba(8,14,18,0.75)",
+                background: resolvedTheme === "light" ? "rgba(248,250,252,0.80)" : "rgba(8,14,18,0.75)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                borderBottom: `1px solid ${palette.brd}`,
                 boxShadow: "0 1px 12px rgba(0,0,0,0.4), 0 4px 24px rgba(0,0,0,0.2), inset 0 -1px 0 rgba(255,255,255,0.03)",
             }}
         >
@@ -170,7 +172,7 @@ export function Navbar() {
                         fontFamily: "var(--font-display)",
                         fontSize: 16,
                         fontWeight: 700,
-                        color: "#F1F5F9",
+                        color: palette.txt,
                         letterSpacing: "-0.01em",
                     }}>
                         {pageTitle}
@@ -185,7 +187,7 @@ export function Navbar() {
                                 style={{
                                     fontFamily: "var(--font-display)",
                                     fontSize: 14,
-                                    color: "#CBD5E1",
+                                    color: palette.txt2,
                                     fontWeight: 600,
                                     letterSpacing: "0.01em",
                                     textDecoration: "none",
@@ -228,8 +230,8 @@ export function Navbar() {
                                     position: "absolute",
                                     top: "calc(100% + 8px)",
                                     right: 0,
-                                    background: "#0F172A",
-                                    border: "1px solid rgba(255,255,255,0.08)",
+                                    background: palette.s1,
+                                    border: `1px solid ${palette.brd2}`,
                                     borderRadius: 10,
                                     padding: "6px 0",
                                     minWidth: 180,
@@ -247,7 +249,7 @@ export function Navbar() {
                                             fontFamily: "var(--font-display)",
                                             fontSize: 14,
                                             fontWeight: 600,
-                                            color: "#CBD5E1",
+                                            color: palette.txt2,
                                             padding: "10px 16px",
                                             textDecoration: "none",
                                             transition: "background 0.1s",
@@ -309,7 +311,7 @@ export function Navbar() {
             <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="md:hidden"
-                style={{ color: "#64748B", background: "none", border: "none", cursor: "pointer" }}
+                style={{ color: palette.mute, background: "none", border: "none", cursor: "pointer" }}
             >
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -322,13 +324,13 @@ export function Navbar() {
                         top: 64,
                         left: 0,
                         right: 0,
-                        background: "#0C1319",
+                        background: palette.bg,
                         borderTop: "1px solid rgba(255,255,255,0.05)",
                         padding: 16,
                     }}
                 >
                     <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0" }}>
-                        <span style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#64748B" }}>Theme</span>
+                        <span style={{ fontFamily: "var(--font-display)", fontSize: 13, color: palette.mute }}>Theme</span>
                         {ThemeToggleButton}
                     </div>
                     <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "4px 0" }} />
@@ -341,7 +343,7 @@ export function Navbar() {
                                 fontFamily: "var(--font-display)",
                                 fontSize: 14,
                                 fontWeight: 600,
-                                color: "#64748B",
+                                color: palette.mute,
                                 padding: "8px 0",
                                 textDecoration: "none",
                             }}
@@ -360,7 +362,7 @@ export function Navbar() {
                                     referrerPolicy="no-referrer"
                                     style={{ width: 28, height: 28, borderRadius: "50%" }}
                                 />
-                                <span style={{ fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 600, color: "#CBD5E1" }}>
+                                <span style={{ fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 600, color: palette.txt2 }}>
                                     {user.name}
                                 </span>
                             </div>
@@ -373,7 +375,7 @@ export function Navbar() {
                                         fontFamily: "var(--font-display)",
                                         fontSize: 14,
                                         fontWeight: 600,
-                                        color: "#64748B",
+                                        color: palette.mute,
                                         padding: "8px 0 8px 38px",
                                         textDecoration: "none",
                                     }}

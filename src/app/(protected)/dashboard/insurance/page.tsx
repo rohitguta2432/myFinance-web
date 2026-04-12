@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useInsuranceAnalysis } from "@/hooks/dashboard/useInsuranceAnalysis";
 import { SectionNav } from "@/components/dashboard/SectionNav";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const INSURANCE_SECTIONS = [
   { id: "life", label: "Term Life" },
@@ -16,6 +17,7 @@ const INSURANCE_SECTIONS = [
 ];
 
 function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }) {
+  const palette = useAppTheme();
   const [open, setOpen] = useState(false);
   const isDoList = type === "do";
   const Icon = isDoList ? Check : X;
@@ -41,7 +43,7 @@ function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }
               <div style={{ width: 20, height: 20, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2, background: isDoList ? "rgba(52,211,153,0.2)" : "rgba(239,68,68,0.2)" }}>
                 <Icon size={12} style={{ color }} />
               </div>
-              <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{item}</p>
+              <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>{item}</p>
             </div>
           ))}
         </div>
@@ -51,16 +53,17 @@ function GuidancePanel({ items, type }: { items: string[]; type: "do" | "dont" }
 }
 
 function CoverBar({ pct, color, label, isAdequate }: { pct: number; color: string; label: string; isAdequate: boolean }) {
+  const palette = useAppTheme();
   return (
     <div style={{ marginTop: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
         <span style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color, fontFamily: "var(--font-display)" }}>{label}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "#F1F5F9", display: "flex", alignItems: "center", gap: 4, fontFamily: "var(--font-display)" }}>
+        <span style={{ fontSize: 11, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: palette.txt, display: "flex", alignItems: "center", gap: 4, fontFamily: "var(--font-display)" }}>
           {Math.round(pct)}%
           {isAdequate && <CheckCircle2 size={14} style={{ color: "#34D399" }} />}
         </span>
       </div>
-      <div style={{ width: "100%", height: 10, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden" }}>
+      <div style={{ width: "100%", height: 10, background: palette.brd, borderRadius: 99, overflow: "hidden" }}>
         <div style={{
           height: "100%",
           borderRadius: 99,
@@ -75,16 +78,17 @@ function CoverBar({ pct, color, label, isAdequate }: { pct: number; color: strin
 }
 
 function MetricRow({ label, sublabel, value, icon }: { label: string; sublabel?: string; value: string; icon?: string }) {
+  const palette = useAppTheme();
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${palette.brd}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {icon && <span style={{ fontSize: 14 }}>{icon}</span>}
         <div>
-          <p style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", margin: 0, fontFamily: "var(--font-display)" }}>{label}</p>
-          {sublabel && <p style={{ fontSize: 11, color: "#64748B", margin: 0, fontFamily: "var(--font-display)" }}>{sublabel}</p>}
+          <p style={{ fontSize: 11, fontWeight: 600, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{label}</p>
+          {sublabel && <p style={{ fontSize: 11, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>{sublabel}</p>}
         </div>
       </div>
-      <span style={{ fontSize: 13, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "#F1F5F9", fontFamily: "var(--font-display)" }}>{value}</span>
+      <span style={{ fontSize: 13, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: palette.txt, fontFamily: "var(--font-display)" }}>{value}</span>
     </div>
   );
 }
@@ -93,6 +97,7 @@ const fmtCurrency = (n: number) =>
   new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
 
 export default function InsurancePage() {
+  const palette = useAppTheme();
   const data = useInsuranceAnalysis();
   const { termLife, healthInsurance, additionalCoverage, age, city } = data;
 
@@ -139,22 +144,22 @@ export default function InsurancePage() {
 
       {/* Page Title */}
       <div>
-        <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>Insurance Analysis</h2>
-        <p style={{ fontSize: 12, color: "#64748B", marginTop: 2, fontFamily: "var(--font-display)" }}>
+        <h2 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em", color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Insurance Analysis</h2>
+        <p style={{ fontSize: 12, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>
           {city ? `📍 ${city}` : ""} · Personalised coverage assessment
         </p>
       </div>
 
       {/* TERM LIFE */}
-      <section id="life" style={{ background: "#0F172A", borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
+      <section id="life" style={{ background: palette.s1, borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
         <div style={{ background: "linear-gradient(90deg, rgba(59,130,246,0.1), transparent)", padding: 24, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(59,130,246,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Shield size={20} style={{ color: "#60A5FA" }} />
             </div>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>Term Life Insurance</h3>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>Pillar of family security</span>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Term Life Insurance</h3>
+              <span style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>Pillar of family security</span>
             </div>
           </div>
         </div>
@@ -163,13 +168,13 @@ export default function InsurancePage() {
             <h4 style={{ fontSize: 11, fontWeight: 600, color: "#60A5FA", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 8, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>
               <Info size={14} /> Why Term Insurance Matters
             </h4>
-            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
               Term insurance is the foundation of your family&apos;s financial security. It is the only instrument that provides crore-level cover at a monthly cost of ₹500–2,000.
             </p>
           </div>
 
-          <div style={{ background: "#0B0F1A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
-            <h4 style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>Your Numbers</h4>
+          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+            <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>Your Numbers</h4>
             <MetricRow label="HLV Method" sublabel={`Annual Salary × (60 − ${age})`} value={termLife.hlvFormatted} icon="📊" />
             <MetricRow label="Needs Analysis" sublabel="Loans + (10 × Salary) + Goals" value={termLife.needsAnalysisFormatted} icon="📋" />
             <MetricRow label="Required Cover (Max)" value={termLife.requiredCoverFormatted} icon="🎯" />
@@ -200,15 +205,15 @@ export default function InsurancePage() {
       </section>
 
       {/* HEALTH INSURANCE */}
-      <section id="health" style={{ background: "#0F172A", borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
+      <section id="health" style={{ background: palette.s1, borderRadius: 24, border: "1px solid rgba(255,255,255,0.05)", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", overflow: "hidden" }}>
         <div style={{ background: "linear-gradient(90deg, rgba(20,184,166,0.1), transparent)", padding: 24, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(20,184,166,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <HeartPulse size={20} style={{ color: "#2DD4BF" }} />
             </div>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>Health Insurance</h3>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>Medical protection</span>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Health Insurance</h3>
+              <span style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>Medical protection</span>
             </div>
           </div>
         </div>
@@ -217,14 +222,14 @@ export default function InsurancePage() {
             <h4 style={{ fontSize: 11, fontWeight: 600, color: "#2DD4BF", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 8, margin: 0, marginBottom: 8, fontFamily: "var(--font-display)" }}>
               <Info size={14} /> Why Health Insurance Matters
             </h4>
-            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
               A single ICU admission in a metro hospital costs ₹3–8 lakh. Without adequate cover, one hospitalisation can wipe out years of savings.
             </p>
           </div>
 
           {/* City Benchmark grid */}
-          <div style={{ background: "#0B0F1A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
-            <h4 style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>City-Based Benchmark</h4>
+          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+            <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12, fontFamily: "var(--font-display)" }}>City-Based Benchmark</h4>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 12 }}>
               {[
                 { tier: "Metro", cover: "₹20 L", cities: "Mumbai, Delhi…", active: healthInsurance.cityTier === "metro" },
@@ -240,7 +245,7 @@ export default function InsurancePage() {
                 }}>
                   <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4, color: t.active ? "#2DD4BF" : "#64748B", fontFamily: "var(--font-display)" }}>{t.tier}</p>
                   <p style={{ fontSize: 13, fontWeight: 700, color: t.active ? "#F1F5F9" : "#475569", margin: 0, fontFamily: "var(--font-display)" }}>{t.cover}</p>
-                  <p style={{ fontSize: 11, color: "#64748B", marginTop: 2, fontFamily: "var(--font-display)" }}>{t.cities}</p>
+                  <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, fontFamily: "var(--font-display)" }}>{t.cities}</p>
                 </div>
               ))}
             </div>
@@ -272,7 +277,7 @@ export default function InsurancePage() {
               <AlertTriangle size={20} style={{ color: "#FBBF24", flexShrink: 0, marginTop: 2 }} />
               <div>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "#FBBF24", marginBottom: 4, fontFamily: "var(--font-display)" }}>Employer-Dependent Cover</p>
-                <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>Corporate health insurance ends the day you change jobs, leaving your family exposed.</p>
+                <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>Corporate health insurance ends the day you change jobs, leaving your family exposed.</p>
               </div>
             </div>
           )}
@@ -282,7 +287,7 @@ export default function InsurancePage() {
               <ArrowUpRight size={20} style={{ color: "#2DD4BF", flexShrink: 0, marginTop: 2 }} />
               <div>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "#2DD4BF", marginBottom: 4, fontFamily: "var(--font-display)" }}>Super Top-Up Recommended</p>
-                <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>
+                <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, margin: 0, fontFamily: "var(--font-display)" }}>
                   Add a ₹50L super top-up to reach {healthInsurance.totalWithTopUp} total cover at minimal cost.
                 </p>
               </div>
@@ -290,8 +295,8 @@ export default function InsurancePage() {
           )}
 
           {/* 80D */}
-          <div style={{ background: "#0B0F1A", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
-            <h4 style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "var(--font-display)" }}>Section 80D Tax Benefits</h4>
+          <div style={{ background: palette.bg, borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: 16 }}>
+            <h4 style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontFamily: "var(--font-display)" }}>Section 80D Tax Benefits</h4>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
               {[
                 { value: "₹25,000", label: "Self / Family" },
@@ -300,7 +305,7 @@ export default function InsurancePage() {
               ].map((item) => (
                 <div key={item.label} style={{ textAlign: "center" }}>
                   <p style={{ fontSize: 13, fontWeight: 700, color: "#10B981", margin: 0, fontFamily: "var(--font-display)" }}>{item.value}</p>
-                  <p style={{ fontSize: 11, color: "#64748B", fontFamily: "var(--font-display)" }}>{item.label}</p>
+                  <p style={{ fontSize: 11, color: palette.mute, fontFamily: "var(--font-display)" }}>{item.label}</p>
                 </div>
               ))}
             </div>
@@ -321,27 +326,27 @@ export default function InsurancePage() {
               <Shield size={16} style={{ color: "#FBBF24" }} />
             </div>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>Additional Coverage</h3>
-              <p style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", margin: 0, fontFamily: "var(--font-display)" }}>Based on your profile</p>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>Additional Coverage</h3>
+              <p style={{ fontSize: 11, fontWeight: 600, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", margin: 0, fontFamily: "var(--font-display)" }}>Based on your profile</p>
             </div>
           </div>
           <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
             {additionalCoverage.map((card) => (
-              <div key={card.id} style={{ background: "#0F172A", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, padding: 20 }}>
+              <div key={card.id} style={{ background: palette.s1, border: "1px solid rgba(255,255,255,0.05)", borderRadius: 16, padding: 20 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                   <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(245,158,11,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
                     {card.icon}
                   </div>
                   <div>
-                    <h4 style={{ fontSize: 13, fontWeight: 700, color: "#F1F5F9", margin: 0, fontFamily: "var(--font-display)" }}>{card.title}</h4>
+                    <h4 style={{ fontSize: 13, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>{card.title}</h4>
                     <span style={{ fontSize: 11, color: "#FBBF24", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "var(--font-display)" }}>Recommended for you</span>
                   </div>
                 </div>
-                <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, marginBottom: 12, fontFamily: "var(--font-display)" }}>{card.explanation}</p>
+                <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.5, marginBottom: 12, fontFamily: "var(--font-display)" }}>{card.explanation}</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "8px 12px" }}>
-                  <Wallet size={14} style={{ color: "#94A3B8", flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, color: "#94A3B8", fontFamily: "var(--font-display)" }}>
-                    Estimated: <span style={{ fontWeight: 700, color: "#F1F5F9" }}>
+                  <Wallet size={14} style={{ color: palette.mute, flexShrink: 0 }} />
+                  <span style={{ fontSize: 12, color: palette.mute, fontFamily: "var(--font-display)" }}>
+                    Estimated: <span style={{ fontWeight: 700, color: palette.txt }}>
                       {typeof card.estimatedPremium === "number"
                         ? `₹${card.estimatedPremium.toLocaleString("en-IN")}/year`
                         : `${card.estimatedPremium}/year`}
