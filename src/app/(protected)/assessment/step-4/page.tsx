@@ -20,6 +20,8 @@ import {
     CheckCircle2,
     AlertTriangle,
     ArrowUpRight,
+    ChevronUp,
+    ChevronDown,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
@@ -31,6 +33,8 @@ import {
 } from "@/hooks/assessment/useGoals";
 import { useGoalProjectionQuery } from "@/hooks/assessment/useGoalProjection";
 import { useRetirementAutoFillQuery } from "@/hooks/assessment/useRetirementAutoFill";
+import { useRetirementCorpus } from "@/hooks/assessment/useRetirementCorpus";
+import { useProfileQuery, useProfileMutation } from "@/hooks/assessment/useProfile";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import type { GoalAPIItem, GoalProjection } from "@/lib/assessment-api";
 import { useAppTheme } from "@/hooks/useAppTheme";
@@ -251,6 +255,35 @@ export default function Step4FinancialGoals() {
     const [showRetirementPanel, setShowRetirementPanel] = useState(false);
     const { data: retirementData, isLoading: isRetirementLoading } = useRetirementAutoFillQuery();
     const isPremium = true;
+
+    // Phase 9.1: Editable retirement age + corpus SWP
+    const { data: profileData } = useProfileQuery();
+    const { mutateAsync: updateProfile } = useProfileMutation();
+    const corpus = useRetirementCorpus();
+    const [editableRetirementAge, setEditableRetirementAge] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (retirementData && editableRetirementAge === null) {
+            setEditableRetirementAge(retirementData.retirementAge);
+        }
+    }, [retirementData, editableRetirementAge]);
+
+    const currentAge = retirementData?.currentAge ?? 0;
+    const retireAge = editableRetirementAge ?? retirementData?.retirementAge ?? 60;
+    const isRetired = currentAge > 0 && currentAge >= retireAge;
+    const yearsLeft = Math.max(0, retireAge - currentAge);
+
+    const handleRetirementAgeChange = async (newAge: number) => {
+        const clamped = Math.max(50, Math.min(75, newAge));
+        setEditableRetirementAge(clamped);
+        if (profileData) {
+            try {
+                await updateProfile({ ...profileData, retirementAge: clamped } as Parameters<typeof updateProfile>[0]);
+            } catch {
+                // Local state still reflects change
+            }
+        }
+    };
 
     // Sync API goals to store on load
     useEffect(() => {
@@ -480,16 +513,96 @@ export default function Step4FinancialGoals() {
                             </div>
 
                             <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
-                                {/* Age strip */}
+                                {/* Age strip — editable retirement age (D-01, D-02, D-15) */}
                                 <div style={{ ...S.row, background: "rgba(255,255,255,0.02)", borderRadius: 8, padding: "10px 16px", border: `1px solid ${palette.brd}` }}>
-                                    <div style={{ display: "flex", gap: 24, fontSize: 13 }}>
+                                    <div style={{ display: "flex", gap: 24, fontSize: 13, alignItems: "center" }}>
                                         <span style={{ color: palette.mute }}>Age <strong style={{ color: palette.txt, marginLeft: 4 }}>{retirementData.currentAge}</strong></span>
-                                        <span style={{ color: palette.mute }}>Retire at <strong style={{ color: palette.txt, marginLeft: 4 }}>{retirementData.retirementAge}</strong></span>
+                                        <span style={{ color: palette.mute, display: "flex", alignItems: "center", gap: 6 }}>Retire at
+                                            <span style={{ display: "inline-flex", alignItems: "center", background: palette.brd, borderRadius: 8, overflow: "hidden" }}>
+                                                <input
+                                                    type="number"
+                                                    value={retireAge}
+                                                    min={50}
+                                                    max={75}
+                                                    onChange={(e) => handleRetirementAgeChange(parseInt(e.target.value) || 60)}
+                                                    style={{ width: 48, padding: "4px 6px", background: "transparent", border: "none", color: palette.txt, fontWeight: 700, fontSize: 13, textAlign: "center", outline: "none", fontFamily: "var(--font-display)" }}
+                                                />
+                                                <span style={{ display: "flex", flexDirection: "column", borderLeft: `1px solid ${palette.brd2}` }}>
+                                                    <button onClick={() => handleRetirementAgeChange(retireAge + 1)} style={{ padding: "0 4px", background: "transparent", border: "none", cursor: "pointer", color: palette.mute, lineHeight: 1, display: "flex" }}><ChevronUp style={{ width: 12, height: 12 }} /></button>
+                                                    <button onClick={() => handleRetirementAgeChange(retireAge - 1)} style={{ padding: "0 4px", background: "transparent", border: "none", cursor: "pointer", color: palette.mute, lineHeight: 1, display: "flex" }}><ChevronDown style={{ width: 12, height: 12 }} /></button>
+                                                </span>
+                                            </span>
+                                        </span>
                                     </div>
-                                    <span style={{ fontSize: 13, fontWeight: 700, color: palette.accent }}>{retirementData.yearsToRetirement} years left</span>
+                                    {isRetired ? (
+                                        <span style={{ padding: "4px 12px", borderRadius: 8, fontSize: 11, fontWeight: 700, background: "rgba(16,185,129,0.15)", color: "#34D399", border: "1px solid rgba(16,185,129,0.3)" }}>Retired</span>
+                                    ) : (
+                                        <span style={{ fontSize: 13, fontWeight: 700, color: palette.accent }}>{yearsLeft} years left</span>
+                                    )}
                                 </div>
 
-                                {/* What You Need vs Have */}
+                                {/* Retired state — corpus breakdown + SWP income (D-05, D-08, D-11, D-12) */}
+                                {isRetired ? (
+                                    <>
+                                        {/* Corpus Breakdown Table */}
+                                        <div style={{ background: palette.brd, borderRadius: 12, padding: 16 }}>
+                                            <p style={{ fontSize: 10, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase", marginBottom: 12 }}>Retirement Corpus Breakdown</p>
+                                            {[
+                                                { label: "EPF (Provident Fund)", value: corpus.epfTotal },
+                                                { label: "PPF (Public Provident Fund)", value: corpus.ppfTotal },
+                                                { label: "NPS (National Pension)", value: corpus.npsTotal },
+                                                { label: "Other Retirement Instruments", value: corpus.otherRetirementTotal },
+                                            ].map((row) => (
+                                                <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${palette.brd2}` }}>
+                                                    <span style={{ fontSize: 13, color: palette.mute }}>{row.label}</span>
+                                                    <span style={{ fontSize: 13, fontWeight: 600, color: palette.txt }}>{formatToCrLakh(row.value)}</span>
+                                                </div>
+                                            ))}
+                                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 12, marginTop: 4 }}>
+                                                <span style={{ fontSize: 14, fontWeight: 700, color: palette.txt }}>Total Corpus</span>
+                                                <span style={{ fontSize: 18, fontWeight: 700, color: palette.accent }}>{formatToCrLakh(corpus.totalCorpus)}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* SWP Income Highlight */}
+                                        <div style={{ background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 12, padding: 20, textAlign: "center" }}>
+                                            <p style={{ fontSize: 11, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Your Monthly Retirement Income via SWP</p>
+                                            <p style={{ fontSize: 28, fontWeight: 700, color: palette.accent, fontFamily: "var(--font-display)" }}>{formatToCrLakh(corpus.monthlySWP)}</p>
+                                            <p style={{ fontSize: 12, color: palette.mute, marginTop: 6 }}>Based on 3% annual withdrawal from your retirement corpus</p>
+                                        </div>
+
+                                        {/* Add Retirement Goal button for retired users */}
+                                        {!hasSingletonGoal("retirement") && (
+                                            <button
+                                                onClick={async () => {
+                                                    const retGoal = {
+                                                        type: "retirement",
+                                                        name: "Retirement",
+                                                        cost: Math.round(corpus.totalCorpus),
+                                                        horizon: 0,
+                                                        currentSavings: Math.round(corpus.totalCorpus),
+                                                        inflation: 6,
+                                                        importance: "Critical",
+                                                    };
+                                                    try {
+                                                        const saved = await addGoalApi(retGoal);
+                                                        addGoal(saved);
+                                                        toast.success("Retirement goal saved!");
+                                                        setShowRetirementPanel(false);
+                                                    } catch {
+                                                        toast.error("Could not add retirement goal — check your connection and try again");
+                                                    }
+                                                }}
+                                                style={{ ...S.btnPrimary, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+                                            >
+                                                <ArrowUpRight style={{ width: 16, height: 16 }} />
+                                                Save Retirement Goal
+                                            </button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                {/* Pre-retirement: What You Need vs Have (unchanged per D-17) */}
                                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                                     <div style={{ ...S.projBox, display: "flex", flexDirection: "column", gap: 12 }}>
                                         <p style={{ fontSize: 10, color: palette.mute, letterSpacing: "0.1em", fontWeight: 600, textTransform: "uppercase" }}>What You Need</p>
@@ -579,8 +692,8 @@ export default function Step4FinancialGoals() {
                                             const retGoal = {
                                                 type: "retirement",
                                                 name: "Retirement",
-                                                cost: Math.round(retirementData.corpusRequired / Math.pow(1.06, retirementData.yearsToRetirement)),
-                                                horizon: retirementData.yearsToRetirement,
+                                                cost: Math.round(retirementData.corpusRequired / Math.pow(1.06, yearsLeft)),
+                                                horizon: yearsLeft,
                                                 currentSavings: retirementData.currentRetirementAssets,
                                                 inflation: 6,
                                                 importance: "Critical",
@@ -599,6 +712,8 @@ export default function Step4FinancialGoals() {
                                         <ArrowUpRight style={{ width: 16, height: 16 }} />
                                         Add Retirement Goal
                                     </button>
+                                )}
+                                    </>
                                 )}
                             </div>
                         </div>
