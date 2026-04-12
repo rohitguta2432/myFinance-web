@@ -155,13 +155,13 @@ Plans:
 - [ ] 09.1-01-PLAN.md — Editable retirement age, corpus breakdown from store assets, 3% SWP monthly income, retired vs pre-retirement state bifurcation
 ### Phase 10: Goal progress dashboard (track goals over time)
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Users can view a Goals tab in the dashboard showing each financial goal's progress with feasibility-colored progress bars, expandable Recharts projection charts, summary stats, and an empty state CTA — using existing goal and projection data from the backend
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12
 **Depends on:** Phase 9
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 10 to break down)
+- [ ] 10-01-PLAN.md — Goals dashboard tab: sidebar integration, summary stats, expandable goal cards with progress bars and projection charts, empty state
 
 ### Phase 11: Net worth trend chart (track over months)
 
