@@ -206,13 +206,14 @@ Plans:
 
 ### Phase 15: Guided tooltips and coach marks on first use
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** First-time users see a guided tooltip tour on the assessment wizard (5 steps) and dashboard (4 steps) that highlights key UI sections with a spotlight overlay, advances with Next/Skip/Done controls, supports keyboard navigation, and never reappears after completion — using a custom zero-dependency portal implementation with theme-aware styling
+**Requirements**: TOUR-01, TOUR-02, TOUR-03, TOUR-04, TOUR-05, TOUR-06, TOUR-07, TOUR-08, TOUR-09
 **Depends on:** Phase 14
-**Plans:** 0 plans
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 15 to break down)
+- [ ] 15-01-PLAN.md — Tour infrastructure: useTour hook, CoachMarkTooltip component, TourProvider, tour step definitions
+- [ ] 15-02-PLAN.md — Integration: wire TourProvider into assessment layout and dashboard page with target element IDs
 
 ### Phase 16: Confetti and celebration on goal completion
 
