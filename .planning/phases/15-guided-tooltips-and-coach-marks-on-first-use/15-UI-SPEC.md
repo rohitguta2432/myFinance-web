@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: false
 preset: none
 created: 2026-04-13
+revised: 2026-04-13
 ---
 
 # Phase 15 — UI Design Contract
@@ -36,15 +37,14 @@ Declared values (must be multiples of 4):
 |-------|-------|-------|
 | xs | 4px | Icon-to-text gap, step-counter margin |
 | sm | 8px | Title-to-body gap inside tooltip |
-| md | 16px | Tooltip internal padding (horizontal) |
-| lg | 24px | Tooltip internal padding (vertical sides) |
+| md | 16px | Tooltip internal padding (vertical) |
+| lg | 24px | Tooltip internal padding (horizontal) |
 | xl | 32px | Minimum clearance between tooltip edge and viewport edge |
 | 2xl | 48px | Not used in this phase |
 | 3xl | 64px | Not used in this phase |
 
 Exceptions:
-- Tooltip card uses `padding: 16px 20px` (16 vertical, 20 horizontal — 20 is nearest even multiple of 4 above 16 that fits 320px card width).
-- Touch targets for "Skip tour" and "Next" buttons: minimum 44px height to meet WCAG 2.5.5 touch target.
+- Touch targets for "Skip tour" and "Next"/"Done" buttons: `minHeight: 44` to meet WCAG 2.5.5.
 
 ---
 
@@ -53,10 +53,12 @@ Exceptions:
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
 | Step counter | 11px | 600 (semibold) | 1.2 | "Step 2 of 5" label above title |
-| Tooltip title | 16px | 700 (bold) | 1.25 | Tooltip heading |
+| Tooltip title | 16px | 600 (semibold) | 1.25 | Tooltip heading |
 | Tooltip body | 14px | 400 (regular) | 1.5 | Explanatory copy inside tooltip |
 | Button label | 14px | 600 (semibold) | 1.0 | "Next" and "Done" CTA buttons |
-| Skip link | 13px | 400 (regular) | 1.0 | "Skip tour" text button |
+| Skip link | 12px | 400 (regular) | 1.0 | "Skip tour" text button |
+
+Exactly 2 weights in use: 400 (regular) and 600 (semibold). The tooltip title's 16px size provides hierarchy differentiation from body at 14px — weight 700 is not needed and has been removed.
 
 All text uses `fontFamily: "var(--font-display)"`.
 
@@ -115,14 +117,14 @@ The tooltip card is a single positioned card rendered into `document.body` via `
 ```
 ┌─────────────────────────────────────────────┐  ← width: 320px
 │  Step 2 of 5                                │  ← 11px, semibold, accent color, mb: 4px
-│  Your Financial Health Score                │  ← 16px, bold, palette.txt, mb: 8px
+│  Your Financial Health Score                │  ← 16px, semibold, palette.txt, mb: 8px
 │  This score is calculated from 5 pillars:   │  ← 14px, regular, palette.txt2, lh: 1.5
 │  Liquidity, Protection, Growth,             │
 │  Allocation, and Tax.                       │
 │                                             │
-│  [Skip tour]              [Next →]          │  ← 13px skip / 14px semibold Next
+│  [Skip tour]              [Next →]          │  ← 12px skip / 14px semibold Next
 └─────────────────────────────────────────────┘
-   padding: 16px 20px | borderRadius: 12px
+   padding: 16px 24px | borderRadius: 12px
 ```
 
 **Card styles (CSSProperties):**
@@ -130,9 +132,9 @@ The tooltip card is a single positioned card rendered into `document.body` via `
 - `background: palette.s1`
 - `border: "1px solid " + palette.brd`
 - `borderRadius: 12`
-- `padding: "16px 20px"`
+- `padding: "16px 24px"`
 - `boxShadow: "0 20px 60px rgba(0,0,0,0.5)"`
-- `position: "absolute"` — positioned using `rect.top + window.scrollY` and `rect.left + window.scrollX`
+- `position: "fixed"` — avoids scroll-offset math (Pitfall 5 from RESEARCH.md)
 - `zIndex: 10002`
 - `color: palette.txt`
 - `fontFamily: "var(--font-display)"`
@@ -142,7 +144,8 @@ The tooltip card is a single positioned card rendered into `document.body` via `
 - `color: "#fff"`
 - `border: "none"`
 - `borderRadius: 8`
-- `padding: "10px 18px"` — ensures 44px minimum touch target height when combined with line-height
+- `padding: "8px 16px"`
+- `minHeight: 44`
 - `fontSize: 14`
 - `fontWeight: 600`
 - `cursor: "pointer"`
@@ -151,9 +154,10 @@ The tooltip card is a single positioned card rendered into `document.body` via `
 - `background: "none"`
 - `border: "none"`
 - `color: palette.mute`
-- `fontSize: 13`
+- `fontSize: 12`
 - `cursor: "pointer"`
-- `padding: "10px 0"` — ensures 44px touch target
+- `padding: "8px 0"`
+- `minHeight: 44`
 
 ---
 
@@ -259,7 +263,7 @@ No external animation library is added. Transitions use CSS only:
 
 | Requirement | Implementation |
 |-------------|---------------|
-| WCAG 2.5.5 touch targets | "Next"/"Done" and "Skip tour" buttons: minimum 44px height via padding |
+| WCAG 2.5.5 touch targets | "Next"/"Done" and "Skip tour" buttons: `minHeight: 44` with `padding: "8px 16px"` / `padding: "8px 0"` |
 | Focus management | Focus moves to "Next"/"Done" button on each step render |
 | Tab order | Skip → Next (left to right within tooltip, no other focusable elements) |
 | Escape key | Closes tour |
@@ -295,6 +299,11 @@ No new dependencies. Custom implementation uses only `ReactDOM.createPortal` (Re
 | `position: fixed` for tooltip | RESEARCH.md Pitfall 5 mitigation |
 | Data-loaded gate before tour activation | RESEARCH.md Pitfall 1 mitigation |
 | `mounted` SSR guard | RESEARCH.md Pitfall 2 mitigation |
+| Tooltip title weight changed 700 → 600 | Checker revision — max 2 weights; 16px size provides sufficient hierarchy |
+| Tooltip card padding changed "16px 20px" → "16px 24px" | Checker revision — 20px is not in standard spacing set |
+| Next/Done button padding changed "10px 18px" → "8px 16px" + minHeight 44 | Checker revision — 10px and 18px are not multiples of 4 |
+| Skip button padding changed "10px 0" → "8px 0" + minHeight 44 | Checker revision — 10px is not a multiple of 4 |
+| Skip link font size changed 13px → 12px | Checker recommendation — 13px and 14px are visually indistinguishable |
 
 ---
 
