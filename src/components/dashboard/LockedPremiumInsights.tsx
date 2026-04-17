@@ -4,6 +4,7 @@ import { Lock } from "lucide-react";
 import { useLockedInsights } from "@/hooks/dashboard/useLockedInsights";
 import type { LockedInsightCard } from "@/hooks/dashboard/useLockedInsights";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 function LockedInsightCardItem({ card }: { card: LockedInsightCard }) {
   const palette = useAppTheme();
@@ -46,8 +47,10 @@ function LockedInsightCardItem({ card }: { card: LockedInsightCard }) {
 
 export function LockedPremiumInsights() {
   const palette = useAppTheme();
+  const enabled = useFeatureFlag("premium_locked_insights");
   const { cards, maxFigureFormatted, hiddenCount } = useLockedInsights();
 
+  if (!enabled) return null;
   if (!cards || cards.length === 0) return null;
 
   return (

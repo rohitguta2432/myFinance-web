@@ -21,7 +21,9 @@ import {
   Clock,
   FileText,
   TrendingUp,
+  Flag,
 } from 'lucide-react';
+import { FeatureFlagsPanel } from '@/components/admin/FeatureFlagsPanel';
 
 // ─── TYPES ───────────────────────────────────────────
 interface AdminUser {
@@ -986,6 +988,7 @@ function Sidebar({
   const { SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
   const NAV = [
     { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
+    { id: 'features', label: 'Feature Flags', Icon: Flag },
     { id: 'audit', label: 'Audit Logs', Icon: FileText },
   ];
 
@@ -1312,6 +1315,8 @@ export default function AdminPage() {
         <main style={{ flex: 1, padding: 24, overflowY: 'auto' }}>
           {activeTab === 'audit' ? (
             <AuditLogsView />
+          ) : activeTab === 'features' ? (
+            <FeatureFlagsPanel />
           ) : (
             <OverviewView
               stats={stats}
