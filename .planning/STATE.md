@@ -5,7 +5,7 @@ milestone_name: milestone
 status: executing
 stopped_at: Phase 15 UI-SPEC approved
 last_updated: "2026-04-13T14:25:53.723Z"
-last_activity: 2026-04-13 -- Phase 15 planning complete
+last_activity: 2026-04-17 -- Completed quick task 260417-n7i: Fix assessment-storage localStorage leak across users
 progress:
   total_phases: 18
   completed_phases: 6
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 Phase: 13
 Plan: Not started
 Status: Ready to execute
-Last activity: 2026-04-13 -- Phase 15 planning complete
+Last activity: 2026-04-17 -- Completed quick task 260417-n7i: Fix assessment-storage localStorage leak across users
 
 Progress: [██████░░░░░░░░░░░░░░] ~32% (5.5 of 17 phases — Phase 6 halfway)
 
@@ -113,6 +113,12 @@ None yet.
 ### Blockers/Concerns
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260417-n7i | Fix assessment-storage localStorage leak across users — scope persist key per userId, wipe on logout, wipe on login mismatch | 2026-04-17 | f4af71a | [260417-n7i-fix-assessment-storage-localstorage-leak](./quick/260417-n7i-fix-assessment-storage-localstorage-leak/) |
 
 ## Session Continuity
 
