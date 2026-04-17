@@ -1,9 +1,11 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function Footer() {
     const palette = useAppTheme();
+    const { resolvedTheme } = useTheme();
 
     return (
         <footer
@@ -21,7 +23,11 @@ export function Footer() {
         >
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 4 }}>
-                    <img src="/myfinancial-logo.svg" alt="MyFinancial" style={{ height: 32, width: "auto" }} />
+                    <img
+                        src={resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
+                        alt="MyFinancial"
+                        style={{ height: 32, width: "auto" }}
+                    />
                     <span style={{ color: palette.brd2 }}>—</span>
                     <span>India&apos;s Financial Diagnostic Platform</span>
                 </div>

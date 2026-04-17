@@ -182,7 +182,11 @@ export function Navbar() {
             }}
         >
             <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-                <img src="/myfinancial-logo.svg" alt="MyFinancial" style={{ height: 40, width: "auto" }} />
+                <img
+                    src={resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
+                    alt="MyFinancial"
+                    style={{ height: 40, width: "auto" }}
+                />
             </Link>
 
             {isAppRoute ? (
