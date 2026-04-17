@@ -11,7 +11,7 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
 import { useStreak } from "@/hooks/gamification/useStreak";
 
-const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "nitin@financial.in"];
+const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
 
 const SIDEBAR_TABS = [
   { id: "summary", label: "Summary", icon: BarChart3, path: "/dashboard", premium: false },
