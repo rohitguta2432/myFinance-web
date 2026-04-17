@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { AlertTriangle, Clock } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useAssessmentStore } from "@/store/useAssessmentStore";
+import { wipeAllAssessmentStorage, LAST_USER_KEY } from "@/lib/assessment-storage-cleanup";
 
 const INACTIVITY_LIMIT_MS = 20 * 60 * 1000;
 const WARNING_AT_MS = 15 * 60 * 1000;
@@ -16,6 +18,22 @@ function hasUserSession(): boolean {
 }
 
 async function logoutAndRedirect(router: ReturnType<typeof useRouter>): Promise<void> {
+    // Wipe BEFORE the network call so failure modes still protect the next user.
+    try {
+        useAssessmentStore.persist.clearStorage();
+    } catch {
+        // ignore — defensive
+    }
+    wipeAllAssessmentStorage();
+    if (typeof window !== "undefined") {
+        window.localStorage.removeItem(LAST_USER_KEY);
+    }
+    try {
+        useAssessmentStore.getState().resetAssessment();
+    } catch {
+        // ignore — defensive
+    }
+
     try {
         await fetch("/api/auth/logout", { method: "POST" });
     } catch {

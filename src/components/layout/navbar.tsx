@@ -7,6 +7,7 @@ import { Menu, Moon, Sun, X } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useTheme } from "next-themes";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
+import { wipeAllAssessmentStorage, LAST_USER_KEY } from "@/lib/assessment-storage-cleanup";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 const PAGE_TITLES: Record<string, string> = {
@@ -61,6 +62,7 @@ export function Navbar() {
     const isAppRoute = ["/assessment", "/dashboard", "/admin"].some((r) => pathname.startsWith(r));
     const pageTitle = PAGE_TITLES[pathname] || (pathname.startsWith("/assessment") ? "Assessment" : pathname.startsWith("/dashboard") ? "Dashboard" : "");
     const isComplete = useAssessmentStore((s) => s.isComplete);
+    const resetAssessment = useAssessmentStore((s) => s.resetAssessment);
 
     useEffect(() => {
         fetch("/api/auth/me")
@@ -106,7 +108,23 @@ export function Navbar() {
     });
 
     const handleSignOut = async () => {
-        await fetch("/api/auth/logout", { method: "POST" });
+        // Wipe BEFORE the network call so failure modes still protect the next user.
+        try {
+            useAssessmentStore.persist.clearStorage();
+        } catch {
+            // ignore — defensive
+        }
+        wipeAllAssessmentStorage();
+        if (typeof window !== "undefined") {
+            window.localStorage.removeItem(LAST_USER_KEY);
+        }
+        resetAssessment();
+
+        try {
+            await fetch("/api/auth/logout", { method: "POST" });
+        } catch {
+            // ignore — proceed to redirect
+        }
         setUser(null);
         setDropdownOpen(false);
         router.push("/");
