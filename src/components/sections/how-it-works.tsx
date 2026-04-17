@@ -1,4 +1,7 @@
+"use client";
+
 import { PenLine, Settings, FileText } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const steps = [
     {
@@ -22,16 +25,17 @@ const steps = [
 ];
 
 export function HowItWorksSection() {
+    const palette = useAppTheme();
     return (
-        <section className="section-padding" style={{ backgroundColor: "#111827" }} id="how-it-works">
+        <section className="section-padding" style={{ backgroundColor: palette.s1 }} id="how-it-works">
             <div className="container-marketing">
                 {/* Header */}
                 <div style={{ textAlign: "center", marginBottom: 56 }}>
                     <p className="text-overline text-accent" style={{ marginBottom: 12 }}>PROCESS</p>
-                    <h2 className="text-h2" style={{ color: "#F1F5F9", maxWidth: 700, margin: "0 auto 16px" }}>
+                    <h2 className="text-h2" style={{ color: palette.txt, maxWidth: 700, margin: "0 auto 16px" }}>
                         Financial clarity in three steps
                     </h2>
-                    <p style={{ color: "#94A3B8", maxWidth: 540, margin: "0 auto", textAlign: "center", fontSize: 16, lineHeight: 1.6 }}>
+                    <p style={{ color: palette.mute, maxWidth: 540, margin: "0 auto", textAlign: "center", fontSize: 16, lineHeight: 1.6 }}>
                         We&apos;ve simplified the complex world of personal finance into a streamlined process that respects your time.
                     </p>
                 </div>
@@ -89,10 +93,10 @@ export function HowItWorksSection() {
 
                             {/* Text */}
                             <div style={{ paddingTop: 12 }}>
-                                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F1F5F9", marginBottom: 6 }}>
+                                <h3 style={{ fontSize: 18, fontWeight: 700, color: palette.txt, marginBottom: 6 }}>
                                     {step.title}
                                 </h3>
-                                <p style={{ fontSize: 14, lineHeight: 1.7, color: "#94A3B8", margin: 0 }}>
+                                <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute, margin: 0 }}>
                                     {step.desc}
                                 </p>
                             </div>

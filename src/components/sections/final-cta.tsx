@@ -1,12 +1,16 @@
+"use client";
+
 import { Shield, ArrowRight } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function FinalCTASection() {
+    const palette = useAppTheme();
     return (
         <section
             style={{
                 paddingTop: 96,
                 paddingBottom: 96,
-                background: "linear-gradient(180deg, #111827 0%, #0B1120 100%)",
+                background: `linear-gradient(180deg, ${palette.s1} 0%, ${palette.bg} 100%)`,
             }}
         >
             <div className="container-7xl" style={{ textAlign: "center" }}>
@@ -46,7 +50,7 @@ export function FinalCTASection() {
                             fontWeight: 700,
                             lineHeight: 1.15,
                             letterSpacing: "-0.025em",
-                            color: "#F1F5F9",
+                            color: palette.txt,
                             marginBottom: 16,
                         }}
                     >
@@ -54,7 +58,7 @@ export function FinalCTASection() {
                     </h2>
 
                     {/* Subtext */}
-                    <p style={{ fontSize: 16, color: "#94A3B8", marginBottom: 32 }}>
+                    <p style={{ fontSize: 16, color: palette.mute, marginBottom: 32 }}>
                         10 minutes. Zero data shared. Complete clarity.
                     </p>
 
@@ -69,6 +73,7 @@ export function FinalCTASection() {
                             fontSize: 16,
                             boxShadow: "0 8px 30px -4px rgba(16, 185, 129, 0.35)",
                             textDecoration: "none",
+                            color: "#FFFFFF",
                         }}
                     >
                         Start Free Assessment <ArrowRight size={18} style={{ marginLeft: 8 }} />
@@ -77,7 +82,7 @@ export function FinalCTASection() {
                     {/* Trust micro-text */}
                     <div
                         className="flex items-center justify-center"
-                        style={{ gap: 12, marginTop: 24, fontSize: 12, color: "#64748B" }}
+                        style={{ gap: 12, marginTop: 24, fontSize: 12, color: palette.mute }}
                     >
                         <span>• NO NAME</span>
                         <span>• NO PHONE</span>

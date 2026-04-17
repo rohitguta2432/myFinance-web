@@ -1,3 +1,7 @@
+"use client";
+
+import { useAppTheme } from "@/hooks/useAppTheme";
+
 const testimonials = [
     { initials: "SM", name: "Sneha M.", role: "PM · Pune · ₹28L", text: "\u201c6 overlapping large-cap funds. Restructured in 3 weeks.\u201d", result: "↗ ₹2.1L saved" },
     { initials: "RK", name: "Rohit K.", role: "Eng Lead · Hyd · ₹34L", text: "\u201cWrong regime, missing NPS. CA never flagged it.\u201d", result: "↗ ₹1.84L recovered" },
@@ -7,12 +11,13 @@ const testimonials = [
 const allTestimonials = [...testimonials, ...testimonials];
 
 export function TestimonialsSection() {
+    const palette = useAppTheme();
     return (
-        <section style={{ overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.05)", padding: "clamp(80px, 10vw, 120px) 0" }}>
+        <section style={{ overflow: "hidden", borderTop: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ textAlign: "center" }}>
                     <div className="section-tag" style={{ justifyContent: "center" }}>Outcomes</div>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px" }}>
+                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", color: palette.txt }}>
                         After the <span className="text-gradient">truth hits.</span>
                     </h2>
                 </div>
@@ -24,11 +29,11 @@ export function TestimonialsSection() {
                         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
                             <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(16,185,129,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "#10B981", fontSize: 12 }}>{t.initials}</div>
                             <div>
-                                <div style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700 }}>{t.name}</div>
-                                <div style={{ fontSize: 12, color: "#94A3B8" }}>{t.role}</div>
+                                <div style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: palette.txt }}>{t.name}</div>
+                                <div style={{ fontSize: 12, color: palette.mute }}>{t.role}</div>
                             </div>
                         </div>
-                        <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.65, fontStyle: "italic", margin: 0 }}>{t.text}</p>
+                        <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.65, fontStyle: "italic", margin: 0 }}>{t.text}</p>
                         <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#10B981", background: "rgba(16,185,129,0.06)", padding: "4px 10px", borderRadius: 6 }}>{t.result}</div>
                     </div>
                 ))}
