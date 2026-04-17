@@ -1,0 +1,70 @@
+# Build output
+.next/
+out/
+build/
+dist/
+
+# Dependencies
+node_modules/
+.pnp/
+.pnp.*
+.yarn/
+
+# Cache
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# Env / secrets
+.env*.local
+.env.production
+*.pem
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Lockfiles (grep noise, rarely needed)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated types
+next-env.d.ts
+
+# Planning history (already tracked, skip when scanning)
+.planning/phases/
+.planning/quick/
+.planning/codebase/
+.planning/research/
+.planning/intel/
+.planning/workstreams/
+.planning/archive/
+
+# Agent artifacts
+.claude/worktrees/
+.agent/
+.superpowers/
+UI-REVIEW.md
+
+# Images / binaries
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+*.pdf
+*.zip
+*.tar.gz
