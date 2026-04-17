@@ -1,5 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import {
+    migrateLegacyAssessmentKey,
+    resolveAssessmentStorageKey,
+} from "@/lib/assessment-storage-cleanup";
+
+// One-time legacy localStorage key migration. MUST run before persist
+// middleware hydrates. See assessment-storage-cleanup.ts for behavior.
+if (typeof window !== "undefined") {
+    migrateLegacyAssessmentKey();
+}
 
 // ─── Type Definitions ───────────────────────────────────────────────────────
 
@@ -92,6 +102,9 @@ export interface AssessmentState {
     _hasHydrated: boolean;
     setHasHydrated: (val: boolean) => void;
 
+    // Reset all wizard state to defaults (used by logout flows).
+    resetAssessment: () => void;
+
     // Step 1
     age: number;
     setAge: (age: number) => void;
@@ -182,45 +195,69 @@ const DEFAULT_INSURANCE: InsuranceState = {
     },
 };
 
+// ─── Initial State ───────────────────────────────────────────────────────────
+// All non-action defaults lifted to a top-level constant so resetAssessment()
+// and the persist initialiser share one source of truth.
+
+const INITIAL_STATE = {
+    _hasHydrated: false,
+    age: 30,
+    state: "",
+    city: "",
+    maritalStatus: "",
+    dependents: 0,
+    childDependents: 0,
+    employmentType: "",
+    residencyStatus: "",
+    riskAnswers: {} as Record<number, number>,
+    riskTolerance: "",
+    toleranceScore: null as number | null,
+    capacityScore: null as number | null,
+    compositeScore: null as number | null,
+    incomes: [] as IncomeItem[],
+    expenses: [] as ExpenseItem[],
+    assets: [] as AssetItem[],
+    liabilities: [] as LiabilityItem[],
+    goals: [] as GoalItem[],
+    insurance: DEFAULT_INSURANCE,
+    taxRegime: "new" as "old" | "new",
+    investments80C: 0,
+    currentStep: 0,
+    isComplete: false,
+};
+
 // ─── Store ───────────────────────────────────────────────────────────────────
 
 export const useAssessmentStore = create<AssessmentState>()(
     persist(
         (set) => ({
-            _hasHydrated: false,
+            ...INITIAL_STATE,
             setHasHydrated: (val) => set({ _hasHydrated: val }),
+            resetAssessment: () =>
+                set((s) => ({
+                    ...INITIAL_STATE,
+                    // Preserve hydration flag so consumers don't go back to a
+                    // pre-hydration loading state after logout reset.
+                    _hasHydrated: s._hasHydrated,
+                })),
 
-            // Step 1 defaults
-            age: 30,
+            // Step 1 setters
             setAge: (age) => set({ age }),
-            state: "",
             setState: (state) => set({ state }),
-            city: "",
             setCity: (city) => set({ city }),
-            maritalStatus: "",
             setMaritalStatus: (v) => set({ maritalStatus: v }),
-            dependents: 0,
             setDependents: (v) => set({ dependents: v }),
-            childDependents: 0,
             setChildDependents: (v) => set({ childDependents: v }),
-            employmentType: "",
             setEmploymentType: (v) => set({ employmentType: v }),
-            residencyStatus: "",
             setResidencyStatus: (v) => set({ residencyStatus: v }),
-            riskAnswers: {},
             setRiskAnswer: (qId, score) =>
                 set((s) => ({ riskAnswers: { ...s.riskAnswers, [qId]: score } })),
-            riskTolerance: "",
             setRiskTolerance: (v) => set({ riskTolerance: v }),
-            toleranceScore: null,
             setToleranceScore: (v) => set({ toleranceScore: v }),
-            capacityScore: null,
             setCapacityScore: (v) => set({ capacityScore: v }),
-            compositeScore: null,
             setCompositeScore: (v) => set({ compositeScore: v }),
 
             // Step 2
-            incomes: [],
             addIncome: (v) => set((s) => ({ incomes: [...s.incomes, v] })),
             removeIncome: (id) =>
                 set((s) => ({ incomes: s.incomes.filter((i) => i.id !== id) })),
@@ -230,7 +267,6 @@ export const useAssessmentStore = create<AssessmentState>()(
                         i.id === id ? { ...i, ...updates } : i
                     ),
                 })),
-            expenses: [],
             addExpense: (v) => set((s) => ({ expenses: [...s.expenses, v] })),
             removeExpense: (id) =>
                 set((s) => ({ expenses: s.expenses.filter((e) => e.id !== id) })),
@@ -242,11 +278,9 @@ export const useAssessmentStore = create<AssessmentState>()(
                 })),
 
             // Step 3
-            assets: [],
             addAsset: (v) => set((s) => ({ assets: [...s.assets, v] })),
             removeAsset: (id) =>
                 set((s) => ({ assets: s.assets.filter((a) => a.id !== id) })),
-            liabilities: [],
             addLiability: (v) =>
                 set((s) => ({ liabilities: [...s.liabilities, v] })),
             removeLiability: (id) =>
@@ -255,7 +289,6 @@ export const useAssessmentStore = create<AssessmentState>()(
                 })),
 
             // Step 4
-            goals: [],
             addGoal: (v) => set((s) => ({ goals: [...s.goals, v] })),
             removeGoal: (id) =>
                 set((s) => ({ goals: s.goals.filter((g) => g.id !== id) })),
@@ -267,7 +300,6 @@ export const useAssessmentStore = create<AssessmentState>()(
                 })),
 
             // Step 5
-            insurance: DEFAULT_INSURANCE,
             updateInsurance: (updates) =>
                 set((s) => ({ insurance: { ...s.insurance, ...updates } })),
             addPersonalHealth: (policy) =>
@@ -314,19 +346,15 @@ export const useAssessmentStore = create<AssessmentState>()(
                 })),
 
             // Step 6
-            taxRegime: "new",
             setTaxRegime: (v) => set({ taxRegime: v }),
-            investments80C: 0,
             setInvestments80C: (amount) => set({ investments80C: amount }),
 
             // Navigation
-            currentStep: 0,
             setCurrentStep: (step) => set({ currentStep: step }),
-            isComplete: false,
             completeAssessment: () => set({ isComplete: true }),
         }),
         {
-            name: "assessment-storage", // matches React app — survives migration
+            name: resolveAssessmentStorageKey(),
             onRehydrateStorage: () => (state) => {
                 if (state) state.setHasHydrated(true);
             },
