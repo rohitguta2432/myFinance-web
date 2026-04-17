@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Link2, Twitter, Linkedin, Heart, Check } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; title: string; likes: number }) {
+    const palette = useAppTheme();
     const [copied, setCopied] = useState(false);
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes || 0);
@@ -30,9 +32,9 @@ export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; t
         borderRadius: 12,
         fontSize: 13,
         fontWeight: 500,
-        border: "1px solid rgba(51, 65, 85, 0.5)",
-        background: "rgba(15, 23, 42, 0.6)",
-        color: "#94A3B8",
+        border: `1px solid ${palette.brd2}`,
+        background: palette.s2,
+        color: palette.mute,
         cursor: "pointer",
         transition: "all 0.25s ease",
         backdropFilter: "blur(8px)",
@@ -50,8 +52,8 @@ export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; t
                     padding: "28px 0",
                     marginTop: 48,
                     marginBottom: 48,
-                    borderTop: "1px solid rgba(51, 65, 85, 0.4)",
-                    borderBottom: "1px solid rgba(51, 65, 85, 0.4)",
+                    borderTop: `1px solid ${palette.brd2}`,
+                    borderBottom: `1px solid ${palette.brd2}`,
                     position: "relative",
                 }}
             >
@@ -59,7 +61,7 @@ export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; t
                     position: "absolute", top: -10,
                     left: 0, fontSize: 11, fontWeight: 600,
                     textTransform: "uppercase", letterSpacing: "0.08em",
-                    color: "#475569", background: "var(--bg-primary, #0B0F1A)",
+                    color: palette.mute, background: palette.bg,
                     padding: "0 12px 0 0",
                 }}>
                     Share this article
@@ -93,9 +95,9 @@ export function ShareBar({ slug, title, likes: initialLikes }: { slug: string; t
                     className="share-bar-btn"
                     style={{
                         ...btnBase,
-                        color: liked ? "#EF4444" : "#94A3B8",
-                        borderColor: liked ? "rgba(239, 68, 68, 0.3)" : "rgba(51, 65, 85, 0.5)",
-                        background: liked ? "rgba(239, 68, 68, 0.08)" : "rgba(15, 23, 42, 0.6)",
+                        color: liked ? "#EF4444" : palette.mute,
+                        borderColor: liked ? "rgba(239, 68, 68, 0.3)" : palette.brd2,
+                        background: liked ? "rgba(239, 68, 68, 0.08)" : palette.s2,
                     }}
                 >
                     <Heart size={14} fill={liked ? "#EF4444" : "none"} />

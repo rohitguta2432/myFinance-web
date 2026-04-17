@@ -5,10 +5,12 @@ import type { BlogPost, BlogCategory } from "@/lib/types";
 import { BlogCard } from "@/components/blog/blog-card";
 import { CategoryFilter } from "@/components/blog/category-filter";
 import { BookOpen } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const POSTS_PER_PAGE = 9;
 
 export default function BlogPage() {
+    const palette = useAppTheme();
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [category, setCategory] = useState<BlogCategory | "All">("All");
@@ -52,7 +54,7 @@ export default function BlogPage() {
                         Financial Wisdom,{" "}
                         <span style={{ color: "#10B981" }}>One Article at a Time</span>
                     </h1>
-                    <p className="text-body-lg" style={{ color: "#94A3B8", maxWidth: 560, margin: "0 auto" }}>
+                    <p className="text-body-lg" style={{ color: palette.mute, maxWidth: 560, margin: "0 auto" }}>
                         Expert tips on budgeting, tax saving, insurance, investing and more — tailored for India.
                     </p>
                 </div>
@@ -67,12 +69,12 @@ export default function BlogPage() {
                 />
 
                 {loading ? (
-                    <div style={{ textAlign: "center", padding: 80, color: "#64748B" }}>
+                    <div style={{ textAlign: "center", padding: 80, color: palette.mute }}>
                         <div
                             style={{
                                 width: 32,
                                 height: 32,
-                                border: "3px solid #1E293B",
+                                border: `3px solid ${palette.s3}`,
                                 borderTopColor: "#10B981",
                                 borderRadius: 9999,
                                 animation: "spin 0.8s linear infinite",
@@ -87,10 +89,10 @@ export default function BlogPage() {
                         style={{
                             textAlign: "center",
                             padding: 80,
-                            color: "#64748B",
-                            background: "rgba(15, 23, 42, 0.4)",
+                            color: palette.mute,
+                            background: palette.s2,
                             borderRadius: 16,
-                            border: "1px solid #1E293B",
+                            border: `1px solid ${palette.brd2}`,
                         }}
                     >
                         <BookOpen size={40} style={{ margin: "0 auto 16px", opacity: 0.4 }} />
@@ -136,9 +138,9 @@ export default function BlogPage() {
                                     style={{
                                         padding: "10px 20px",
                                         borderRadius: 10,
-                                        border: "1px solid #1E293B",
-                                        background: "rgba(15, 23, 42, 0.6)",
-                                        color: page === 1 ? "#374151" : "#94A3B8",
+                                        border: `1px solid ${palette.brd2}`,
+                                        background: palette.s2,
+                                        color: page === 1 ? palette.brd2 : palette.mute,
                                         cursor: page === 1 ? "not-allowed" : "pointer",
                                         fontSize: 13,
                                         fontWeight: 500,
@@ -154,9 +156,9 @@ export default function BlogPage() {
                                             width: 36,
                                             height: 36,
                                             borderRadius: 8,
-                                            border: p === page ? "1px solid #10B981" : "1px solid #1E293B",
+                                            border: p === page ? "1px solid #10B981" : `1px solid ${palette.brd2}`,
                                             background: p === page ? "rgba(16, 185, 129, 0.15)" : "transparent",
-                                            color: p === page ? "#10B981" : "#64748B",
+                                            color: p === page ? "#10B981" : palette.mute,
                                             cursor: "pointer",
                                             fontSize: 13,
                                             fontWeight: 600,
@@ -171,9 +173,9 @@ export default function BlogPage() {
                                     style={{
                                         padding: "10px 20px",
                                         borderRadius: 10,
-                                        border: "1px solid #1E293B",
-                                        background: "rgba(15, 23, 42, 0.6)",
-                                        color: page === totalPages ? "#374151" : "#94A3B8",
+                                        border: `1px solid ${palette.brd2}`,
+                                        background: palette.s2,
+                                        color: page === totalPages ? palette.brd2 : palette.mute,
                                         cursor: page === totalPages ? "not-allowed" : "pointer",
                                         fontSize: 13,
                                         fontWeight: 500,

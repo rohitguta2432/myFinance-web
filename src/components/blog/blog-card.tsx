@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import type { BlogPost } from "@/lib/types";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const categoryColors: Record<string, { bg: string; text: string }> = {
     // Old categories
@@ -25,6 +28,7 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
 };
 
 export function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
+    const palette = useAppTheme();
     const colors = categoryColors[post.category] || categoryColors.General;
     const formattedDate = new Date(post.published_at || post.created_at).toLocaleDateString("en-IN", {
         year: "numeric",
@@ -60,7 +64,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                             style={{
                                 position: "absolute",
                                 inset: 0,
-                                background: "linear-gradient(to right, transparent 60%, rgba(15, 23, 42, 0.8))",
+                                background: `linear-gradient(to right, transparent 60%, ${palette.s1}cc)`,
                             }}
                         />
                         {/* Featured badge */}
@@ -101,13 +105,13 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                         >
                             {post.category}
                         </span>
-                        <h3 className="text-h3" style={{ marginBottom: 12 }}>
+                        <h3 className="text-h3" style={{ marginBottom: 12, color: palette.txt }}>
                             {post.title}
                         </h3>
-                        <p className="text-body-sm" style={{ color: "#94A3B8", marginBottom: 16, lineHeight: 1.6 }}>
+                        <p className="text-body-sm" style={{ color: palette.mute, marginBottom: 16, lineHeight: 1.6 }}>
                             {post.excerpt}
                         </p>
-                        <div className="text-caption" style={{ color: "#64748B" }}>
+                        <div className="text-caption" style={{ color: palette.mute }}>
                             {formattedDate} · {post.reading_time} min read
                         </div>
                     </div>
@@ -146,7 +150,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                             left: 0,
                             right: 0,
                             height: 60,
-                            background: "linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent)",
+                            background: `linear-gradient(to top, ${palette.s1}e6, transparent)`,
                         }}
                     />
                 </div>
@@ -168,13 +172,13 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                     >
                         {post.category}
                     </span>
-                    <h4 className="text-h4" style={{ marginBottom: 8, lineHeight: 1.35 }}>
+                    <h4 className="text-h4" style={{ marginBottom: 8, lineHeight: 1.35, color: palette.txt }}>
                         {post.title}
                     </h4>
                     <p
                         className="text-body-sm"
                         style={{
-                            color: "#94A3B8",
+                            color: palette.mute,
                             marginBottom: 16,
                             lineHeight: 1.5,
                             flex: 1,
@@ -186,7 +190,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                     >
                         {post.excerpt}
                     </p>
-                    <div className="text-caption" style={{ color: "#64748B" }}>
+                    <div className="text-caption" style={{ color: palette.mute }}>
                         {formattedDate} · {post.reading_time} min read
                     </div>
                 </div>

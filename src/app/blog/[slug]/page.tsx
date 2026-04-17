@@ -11,6 +11,7 @@ import { BlogCard } from "@/components/blog/blog-card";
 import { KeyTakeaways } from "@/components/blog/key-takeaways";
 import { ArrowLeft, Calendar, Clock, User, Sparkles } from "lucide-react";
 import { marked } from "marked";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const categoryColors: Record<string, { bg: string; text: string; glow: string }> = {
     "Tax Saving": { bg: "rgba(16, 185, 129, 0.15)", text: "#10B981", glow: "rgba(16, 185, 129, 0.08)" },
@@ -37,6 +38,7 @@ const categoryColors: Record<string, { bg: string; text: string; glow: string }>
 export default function BlogPostPage() {
     const params = useParams();
     const slug = params.slug as string;
+    const palette = useAppTheme();
 
     const [post, setPost] = useState<BlogPost | null>(null);
     const [related, setRelated] = useState<BlogPost[]>([]);
@@ -105,7 +107,7 @@ export default function BlogPostPage() {
                         100% { background-position: 200% 0; }
                     }
                     .blog-post-shimmer {
-                        background: linear-gradient(90deg, #1E293B 25%, #334155 50%, #1E293B 75%);
+                        background: linear-gradient(90deg, ${palette.s2} 25%, ${palette.s3} 50%, ${palette.s2} 75%);
                         background-size: 200% 100%;
                         animation: shimmer 1.8s ease-in-out infinite;
                     }
@@ -126,8 +128,8 @@ export default function BlogPostPage() {
                     }}>
                         ?
                     </div>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, color: "#F1F5F9", marginBottom: 8 }}>Article not found</h2>
-                    <p style={{ color: "#64748B", marginBottom: 28, fontSize: 15, lineHeight: 1.6 }}>
+                    <h2 style={{ fontSize: 22, fontWeight: 700, color: palette.txt, marginBottom: 8 }}>Article not found</h2>
+                    <p style={{ color: palette.mute, marginBottom: 28, fontSize: 15, lineHeight: 1.6 }}>
                         The article you&apos;re looking for doesn&apos;t exist or has been removed.
                     </p>
                     <Link href="/blog" style={{
@@ -184,12 +186,12 @@ export default function BlogPostPage() {
                             style={{
                                 display: "inline-flex", alignItems: "center", gap: 8,
                                 fontSize: 13, fontWeight: 500,
-                                color: "#64748B", textDecoration: "none",
+                                color: palette.mute, textDecoration: "none",
                                 marginBottom: 40,
                                 padding: "8px 16px 8px 12px",
                                 borderRadius: 10,
-                                background: "rgba(30, 41, 59, 0.5)",
-                                border: "1px solid rgba(51, 65, 85, 0.5)",
+                                background: palette.s2,
+                                border: `1px solid ${palette.brd2}`,
                                 backdropFilter: "blur(8px)",
                                 transition: "all 0.25s ease",
                             }}
@@ -216,7 +218,7 @@ export default function BlogPostPage() {
                             <h1 style={{
                                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
                                 fontWeight: 800, lineHeight: 1.2,
-                                color: "#F8FAFC",
+                                color: palette.txt,
                                 letterSpacing: "-0.025em",
                                 marginBottom: 24,
                             }}>
@@ -227,7 +229,7 @@ export default function BlogPostPage() {
                             {post.excerpt && (
                                 <p style={{
                                     fontSize: "clamp(1rem, 1.5vw, 1.15rem)",
-                                    lineHeight: 1.7, color: "#94A3B8",
+                                    lineHeight: 1.7, color: palette.txt2,
                                     maxWidth: 600, margin: "0 auto 28px",
                                 }}>
                                     {post.excerpt}
@@ -237,16 +239,16 @@ export default function BlogPostPage() {
                             {/* Meta row */}
                             <div style={{
                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                gap: 8, flexWrap: "wrap", fontSize: 13, color: "#64748B",
+                                gap: 8, flexWrap: "wrap", fontSize: 13, color: palette.mute,
                             }}>
                                 <span className="blog-post-meta-chip">
                                     <User size={13} /> {post.author}
                                 </span>
-                                <span style={{ color: "#334155" }}>·</span>
+                                <span style={{ color: palette.brd2 }}>·</span>
                                 <span className="blog-post-meta-chip">
                                     <Calendar size={13} /> {formattedDate}
                                 </span>
-                                <span style={{ color: "#334155" }}>·</span>
+                                <span style={{ color: palette.brd2 }}>·</span>
                                 <span className="blog-post-meta-chip">
                                     <Clock size={13} /> {post.reading_time} min read
                                 </span>
@@ -327,7 +329,7 @@ export default function BlogPostPage() {
                                     width: 4, height: 24, borderRadius: 4,
                                     background: `linear-gradient(to bottom, ${colors.text}, transparent)`,
                                 }} />
-                                <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F1F5F9", letterSpacing: "-0.01em" }}>
+                                <h3 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, letterSpacing: "-0.01em" }}>
                                     Related articles
                                 </h3>
                             </div>
@@ -348,9 +350,9 @@ export default function BlogPostPage() {
             {/* Premium prose styles */}
             <style>{`
                 .blog-post-back-link:hover {
-                    color: #CBD5E1 !important;
-                    border-color: rgba(100, 116, 139, 0.5) !important;
-                    background: rgba(30, 41, 59, 0.8) !important;
+                    color: ${palette.txt} !important;
+                    border-color: ${palette.brd2} !important;
+                    background: ${palette.s3} !important;
                     transform: translateX(-2px);
                 }
                 .blog-post-meta-chip {
@@ -363,7 +365,7 @@ export default function BlogPostPage() {
                 .blog-prose {
                     font-size: 1.0625rem;
                     line-height: 1.85;
-                    color: #CBD5E1;
+                    color: ${palette.txt2};
                 }
                 .blog-prose > *:first-child {
                     margin-top: 0;
@@ -376,23 +378,23 @@ export default function BlogPostPage() {
                     font-weight: 800;
                     line-height: 0.8;
                     margin: 6px 12px 0 0;
-                    color: #F1F5F9;
+                    color: ${palette.txt};
                 }
 
                 .blog-prose h2 {
                     font-size: 1.55rem;
                     font-weight: 750;
-                    color: #F8FAFC;
+                    color: ${palette.txt};
                     margin: 56px 0 20px;
                     letter-spacing: -0.02em;
                     line-height: 1.3;
                     padding-bottom: 12px;
-                    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+                    border-bottom: 1px solid ${palette.brd2};
                 }
                 .blog-prose h3 {
                     font-size: 1.25rem;
                     font-weight: 650;
-                    color: #F1F5F9;
+                    color: ${palette.txt};
                     margin: 40px 0 14px;
                     letter-spacing: -0.01em;
                     line-height: 1.35;
@@ -400,7 +402,7 @@ export default function BlogPostPage() {
                 .blog-prose h4 {
                     font-size: 1.1rem;
                     font-weight: 600;
-                    color: #E2E8F0;
+                    color: ${palette.txt};
                     margin: 32px 0 12px;
                 }
                 .blog-prose p {
@@ -418,7 +420,7 @@ export default function BlogPostPage() {
                     color: #34D399;
                 }
                 .blog-prose strong {
-                    color: #F1F5F9;
+                    color: ${palette.txt};
                     font-weight: 650;
                 }
                 .blog-prose ul, .blog-prose ol {
@@ -430,7 +432,7 @@ export default function BlogPostPage() {
                     padding-left: 4px;
                 }
                 .blog-prose li::marker {
-                    color: #475569;
+                    color: ${palette.mute};
                 }
 
                 /* Blockquote — editorial callout */
@@ -442,7 +444,7 @@ export default function BlogPostPage() {
                     background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.02) 100%);
                     border-radius: 12px;
                     border: 1px solid rgba(16, 185, 129, 0.12);
-                    color: #94A3B8;
+                    color: ${palette.txt2};
                     font-style: italic;
                     font-size: 1.05rem;
                     line-height: 1.75;
@@ -465,27 +467,27 @@ export default function BlogPostPage() {
 
                 /* Code */
                 .blog-prose code {
-                    background: rgba(30, 41, 59, 0.8);
+                    background: ${palette.s2};
                     padding: 3px 8px;
                     border-radius: 6px;
                     font-size: 0.875em;
                     color: #10B981;
-                    border: 1px solid rgba(51, 65, 85, 0.5);
+                    border: 1px solid ${palette.brd2};
                     font-weight: 500;
                 }
                 .blog-prose pre {
-                    background: linear-gradient(180deg, #0F172A 0%, #0C1322 100%);
+                    background: ${palette.s2};
                     padding: 24px;
                     border-radius: 14px;
-                    border: 1px solid rgba(51, 65, 85, 0.5);
+                    border: 1px solid ${palette.brd2};
                     overflow-x: auto;
                     margin: 28px 0;
-                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+                    box-shadow: inset 0 1px 0 ${palette.brd};
                 }
                 .blog-prose pre code {
                     background: none;
                     padding: 0;
-                    color: #CBD5E1;
+                    color: ${palette.txt2};
                     border: none;
                     font-size: 0.85em;
                 }
@@ -496,7 +498,7 @@ export default function BlogPostPage() {
                     border-radius: 14px;
                     margin: 28px 0;
                     box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.4);
-                    border: 1px solid rgba(51, 65, 85, 0.3);
+                    border: 1px solid ${palette.brd2};
                 }
 
                 /* Tables */
@@ -507,17 +509,17 @@ export default function BlogPostPage() {
                     margin: 28px 0;
                     border-radius: 12px;
                     overflow: hidden;
-                    border: 1px solid rgba(51, 65, 85, 0.5);
+                    border: 1px solid ${palette.brd2};
                 }
                 .blog-prose th, .blog-prose td {
                     padding: 12px 16px;
                     text-align: left;
-                    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+                    border-bottom: 1px solid ${palette.brd2};
                 }
                 .blog-prose th {
-                    background: rgba(15, 23, 42, 0.9);
+                    background: ${palette.s2};
                     font-weight: 650;
-                    color: #F1F5F9;
+                    color: ${palette.txt};
                     font-size: 0.875rem;
                     text-transform: uppercase;
                     letter-spacing: 0.04em;
@@ -526,7 +528,7 @@ export default function BlogPostPage() {
                     border-bottom: none;
                 }
                 .blog-prose tr:nth-child(even) td {
-                    background: rgba(15, 23, 42, 0.3);
+                    background: ${palette.s2};
                 }
 
                 /* HR / divider */
@@ -535,7 +537,7 @@ export default function BlogPostPage() {
                     height: 1px;
                     margin: 48px auto;
                     max-width: 120px;
-                    background: linear-gradient(90deg, transparent, #334155, transparent);
+                    background: linear-gradient(90deg, transparent, ${palette.brd2}, transparent);
                 }
 
                 /* TOC sidebar */
