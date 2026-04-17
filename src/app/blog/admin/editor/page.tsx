@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { BLOG_CATEGORIES } from "@/lib/types";
 import type { BlogCategory } from "@/lib/types";
+import { useAppTheme, type AppPalette } from "@/hooks/useAppTheme";
 import {
     ArrowLeft,
     Save,
@@ -27,34 +28,34 @@ import {
 
 /* ─────────── styles ─────────── */
 
-const inputStyle: React.CSSProperties = {
+const makeInputStyle = (palette: AppPalette): React.CSSProperties => ({
     width: "100%",
     padding: "12px 16px",
     borderRadius: 10,
-    border: "1px solid #1E293B",
-    background: "rgba(15, 23, 42, 0.6)",
-    color: "#F1F5F9",
+    border: `1px solid ${palette.brd2}`,
+    background: palette.s1,
+    color: palette.txt,
     fontSize: 14,
     outline: "none",
     fontFamily: "inherit",
-};
+});
 
-const labelStyle: React.CSSProperties = {
+const makeLabelStyle = (palette: AppPalette): React.CSSProperties => ({
     display: "block",
     fontSize: 13,
     fontWeight: 600,
-    color: "#94A3B8",
+    color: palette.mute,
     marginBottom: 6,
-};
+});
 
-const cardGlass: React.CSSProperties = {
+const makeCardGlass = (palette: AppPalette): React.CSSProperties => ({
     borderRadius: 14,
-    border: "1px solid rgba(30, 41, 59, 0.8)",
-    background: "rgba(15, 23, 42, 0.65)",
+    border: `1px solid ${palette.brd2}`,
+    background: palette.s1,
     backdropFilter: "blur(16px)",
     WebkitBackdropFilter: "blur(16px)",
     padding: 20,
-};
+});
 
 /* ─────────── Import URL Panel ─────────── */
 
@@ -68,6 +69,9 @@ function ImportUrlPanel({
         cover_image: string | null;
     }) => void;
 }) {
+    const palette = useAppTheme();
+    const inputStyle = makeInputStyle(palette);
+    const cardGlass = makeCardGlass(palette);
     const [open, setOpen] = useState(false);
     const [url, setUrl] = useState("");
     const [loading, setLoading] = useState(false);
@@ -117,11 +121,11 @@ function ImportUrlPanel({
                     gap: 8,
                     padding: "10px 18px",
                     borderRadius: 10,
-                    border: "1px solid #1E293B",
+                    border: `1px solid ${palette.brd2}`,
                     background: open
                         ? "rgba(59, 130, 246, 0.1)"
                         : "transparent",
-                    color: open ? "#60A5FA" : "#94A3B8",
+                    color: open ? "#60A5FA" : palette.mute,
                     fontSize: 14,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -145,7 +149,7 @@ function ImportUrlPanel({
                     <p
                         style={{
                             fontSize: 13,
-                            color: "#64748B",
+                            color: palette.mute,
                             margin: "0 0 12px",
                         }}
                     >
@@ -173,7 +177,7 @@ function ImportUrlPanel({
                                     ? "#EF4444"
                                     : success
                                         ? "#10B981"
-                                        : "#1E293B",
+                                        : palette.brd2,
                             }}
                         />
                         <button
@@ -258,6 +262,9 @@ function AiWriterModal({
         excerpt?: string;
     }) => void;
 }) {
+    const palette = useAppTheme();
+    const inputStyle = makeInputStyle(palette);
+    const labelStyle = makeLabelStyle(palette);
     const [action, setAction] = useState<AiAction>("generate");
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
@@ -374,8 +381,7 @@ function AiWriterModal({
                     overflowY: "auto",
                     borderRadius: 16,
                     border: "1px solid rgba(139, 92, 246, 0.25)",
-                    background:
-                        "linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 15, 60, 0.9))",
+                    background: palette.s1,
                     backdropFilter: "blur(24px)",
                     padding: 28,
                     animation: "scaleIn 0.25s ease-out",
@@ -421,7 +427,7 @@ function AiWriterModal({
                                     margin: 0,
                                     fontSize: 18,
                                     fontWeight: 700,
-                                    color: "#F1F5F9",
+                                    color: palette.txt,
                                 }}
                             >
                                 AI Writer
@@ -430,7 +436,7 @@ function AiWriterModal({
                                 style={{
                                     margin: 0,
                                     fontSize: 12,
-                                    color: "#94A3B8",
+                                    color: palette.mute,
                                 }}
                             >
                                 Powered by AWS Bedrock · Claude Sonnet
@@ -443,9 +449,9 @@ function AiWriterModal({
                         style={{
                             padding: 8,
                             borderRadius: 8,
-                            border: "1px solid #1E293B",
+                            border: `1px solid ${palette.brd2}`,
                             background: "transparent",
-                            color: "#64748B",
+                            color: palette.mute,
                             cursor: "pointer",
                         }}
                     >
@@ -478,10 +484,10 @@ function AiWriterModal({
                                     borderRadius: 12,
                                     border: selected
                                         ? "1px solid rgba(139, 92, 246, 0.5)"
-                                        : "1px solid #1E293B",
+                                        : `1px solid ${palette.brd2}`,
                                     background: selected
                                         ? "rgba(139, 92, 246, 0.12)"
-                                        : "rgba(15, 23, 42, 0.5)",
+                                        : palette.s2,
                                     cursor: "pointer",
                                     textAlign: "center",
                                     transition: "all 0.2s",
@@ -492,7 +498,7 @@ function AiWriterModal({
                                     style={{
                                         color: selected
                                             ? "#A78BFA"
-                                            : "#64748B",
+                                            : palette.mute,
                                         marginBottom: 6,
                                     }}
                                 />
@@ -501,8 +507,8 @@ function AiWriterModal({
                                         fontSize: 13,
                                         fontWeight: 600,
                                         color: selected
-                                            ? "#E2E8F0"
-                                            : "#94A3B8",
+                                            ? palette.txt
+                                            : palette.txt2,
                                     }}
                                 >
                                     {a.label}
@@ -510,7 +516,7 @@ function AiWriterModal({
                                 <div
                                     style={{
                                         fontSize: 11,
-                                        color: "#64748B",
+                                        color: palette.mute,
                                         marginTop: 2,
                                     }}
                                 >
@@ -643,7 +649,7 @@ function AiWriterModal({
                                 ✨ AI Generated Preview
                             </span>
                             <span
-                                style={{ fontSize: 11, color: "#64748B" }}
+                                style={{ fontSize: 11, color: palette.mute }}
                             >
                                 {preview.split(/\s+/).length} words
                             </span>
@@ -654,10 +660,10 @@ function AiWriterModal({
                                 overflowY: "auto",
                                 padding: 16,
                                 borderRadius: 12,
-                                background: "rgba(15, 23, 42, 0.7)",
+                                background: palette.s2,
                                 border: "1px solid rgba(139, 92, 246, 0.15)",
                                 fontSize: 13,
-                                color: "#CBD5E1",
+                                color: palette.txt2,
                                 lineHeight: 1.7,
                                 fontFamily:
                                     "'JetBrains Mono', 'Fira Code', monospace",
@@ -707,9 +713,9 @@ function AiWriterModal({
                                     gap: 6,
                                     padding: "12px 20px",
                                     borderRadius: 10,
-                                    border: "1px solid #1E293B",
+                                    border: `1px solid ${palette.brd2}`,
                                     background: "transparent",
-                                    color: "#94A3B8",
+                                    color: palette.txt2,
                                     fontSize: 14,
                                     fontWeight: 600,
                                     cursor: "pointer",
@@ -729,6 +735,9 @@ function AiWriterModal({
 /* ─────────── Main Editor Form ─────────── */
 
 function EditorForm() {
+    const palette = useAppTheme();
+    const inputStyle = makeInputStyle(palette);
+    const labelStyle = makeLabelStyle(palette);
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get("id");
@@ -888,7 +897,7 @@ function EditorForm() {
                 className="section-padding"
                 style={{ textAlign: "center", minHeight: "60vh" }}
             >
-                <p style={{ color: "#64748B" }}>Loading post...</p>
+                <p style={{ color: palette.mute }}>Loading post...</p>
             </div>
         );
     }
@@ -946,14 +955,14 @@ function EditorForm() {
                                 width: 36,
                                 height: 36,
                                 borderRadius: 8,
-                                border: "1px solid #1E293B",
-                                color: "#94A3B8",
+                                border: `1px solid ${palette.brd2}`,
+                                color: palette.mute,
                                 textDecoration: "none",
                             }}
                         >
                             <ArrowLeft size={16} />
                         </Link>
-                        <h1 className="text-h3">
+                        <h1 className="text-h3" style={{ color: palette.txt }}>
                             {editId ? "Edit Post" : "New Post"}
                         </h1>
                     </div>
@@ -967,9 +976,9 @@ function EditorForm() {
                                 gap: 6,
                                 padding: "10px 20px",
                                 borderRadius: 10,
-                                border: "1px solid #1E293B",
+                                border: `1px solid ${palette.brd2}`,
                                 background: "transparent",
-                                color: "#94A3B8",
+                                color: palette.txt2,
                                 fontSize: 14,
                                 fontWeight: 600,
                                 cursor: "pointer",
@@ -1066,10 +1075,10 @@ function EditorForm() {
                                 style={{
                                     padding: "12px 14px",
                                     borderRadius: "10px 0 0 10px",
-                                    border: "1px solid #1E293B",
+                                    border: `1px solid ${palette.brd2}`,
                                     borderRight: "none",
-                                    background: "rgba(15, 23, 42, 0.8)",
-                                    color: "#64748B",
+                                    background: palette.s2,
+                                    color: palette.mute,
                                     fontSize: 14,
                                     whiteSpace: "nowrap",
                                 }}
@@ -1144,7 +1153,7 @@ function EditorForm() {
                                     borderRadius: 10,
                                     overflow: "hidden",
                                     background: `url(${coverImage}) center/cover no-repeat`,
-                                    border: "1px solid #1E293B",
+                                    border: `1px solid ${palette.brd2}`,
                                 }}
                             />
                         )}
@@ -1219,9 +1228,9 @@ function EditorForm() {
                                         style={{
                                             padding: 8,
                                             borderRadius: 8,
-                                            border: "1px solid #1E293B",
+                                            border: `1px solid ${palette.brd2}`,
                                             background: "transparent",
-                                            color: "#64748B",
+                                            color: palette.mute,
                                             cursor: "pointer",
                                         }}
                                     >
@@ -1238,9 +1247,9 @@ function EditorForm() {
                                         gap: 6,
                                         padding: "8px 14px",
                                         borderRadius: 8,
-                                        border: "1px dashed #334155",
+                                        border: `1px dashed ${palette.brd2}`,
                                         background: "transparent",
-                                        color: "#64748B",
+                                        color: palette.mute,
                                         fontSize: 13,
                                         cursor: "pointer",
                                         width: "fit-content",

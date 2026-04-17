@@ -3,8 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Comment } from "@/lib/types";
 import { MessageSquare, ThumbsUp, Reply, Shield } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function CommentSection({ postId }: { postId: string }) {
+    const palette = useAppTheme();
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState("");
@@ -91,9 +93,9 @@ export function CommentSection({ postId }: { postId: string }) {
         width: "100%",
         padding: "12px 16px",
         borderRadius: 10,
-        border: "1px solid #1E293B",
-        background: "rgba(15, 23, 42, 0.6)",
-        color: "#F1F5F9",
+        border: `1px solid ${palette.brd2}`,
+        background: palette.s1,
+        color: palette.txt,
         fontSize: 14,
         outline: "none",
         transition: "border-color 0.2s",
@@ -104,7 +106,7 @@ export function CommentSection({ postId }: { postId: string }) {
             key={comment.id}
             style={{
                 paddingLeft: isReply ? 32 : 0,
-                borderLeft: isReply ? "2px solid #1E293B" : "none",
+                borderLeft: isReply ? `2px solid ${palette.brd2}` : "none",
                 marginLeft: isReply ? 20 : 0,
                 marginTop: isReply ? 12 : 0,
             }}
@@ -113,8 +115,8 @@ export function CommentSection({ postId }: { postId: string }) {
                 style={{
                     padding: 16,
                     borderRadius: 12,
-                    background: isReply ? "rgba(15, 23, 42, 0.3)" : "rgba(15, 23, 42, 0.6)",
-                    border: "1px solid rgba(255, 255, 255, 0.04)",
+                    background: isReply ? palette.s1 : palette.s2,
+                    border: `1px solid ${palette.brd}`,
                 }}
             >
                 {/* Author line */}
@@ -137,7 +139,7 @@ export function CommentSection({ postId }: { postId: string }) {
                     >
                         {comment.author_name[0]?.toUpperCase()}
                     </div>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: "#F1F5F9" }}>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: palette.txt }}>
                         {comment.author_name}
                     </span>
                     {comment.is_admin && (
@@ -157,11 +159,11 @@ export function CommentSection({ postId }: { postId: string }) {
                             <Shield size={10} /> Admin
                         </span>
                     )}
-                    <span style={{ fontSize: 12, color: "#64748B" }}>· {timeAgo(comment.created_at)}</span>
+                    <span style={{ fontSize: 12, color: palette.mute }}>· {timeAgo(comment.created_at)}</span>
                 </div>
 
                 {/* Content */}
-                <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 14, color: palette.txt2, lineHeight: 1.6, margin: 0 }}>
                     {comment.content}
                 </p>
 
@@ -175,7 +177,7 @@ export function CommentSection({ postId }: { postId: string }) {
                                 alignItems: "center",
                                 gap: 4,
                                 fontSize: 12,
-                                color: "#64748B",
+                                color: palette.mute,
                                 background: "none",
                                 border: "none",
                                 cursor: "pointer",
@@ -231,8 +233,8 @@ export function CommentSection({ postId }: { postId: string }) {
                 style={{
                     padding: 20,
                     borderRadius: 16,
-                    background: "rgba(15, 23, 42, 0.6)",
-                    border: "1px solid #1E293B",
+                    background: palette.s1,
+                    border: `1px solid ${palette.brd2}`,
                     marginBottom: 24,
                 }}
             >
@@ -281,17 +283,17 @@ export function CommentSection({ postId }: { postId: string }) {
 
             {/* Comments list */}
             {loading ? (
-                <div style={{ textAlign: "center", color: "#64748B", padding: 40, fontSize: 14 }}>
+                <div style={{ textAlign: "center", color: palette.mute, padding: 40, fontSize: 14 }}>
                     Loading comments...
                 </div>
             ) : comments.length === 0 ? (
                 <div
                     style={{
                         textAlign: "center",
-                        color: "#64748B",
+                        color: palette.mute,
                         padding: 40,
                         fontSize: 14,
-                        background: "rgba(15, 23, 42, 0.3)",
+                        background: palette.s1,
                         borderRadius: 12,
                     }}
                 >

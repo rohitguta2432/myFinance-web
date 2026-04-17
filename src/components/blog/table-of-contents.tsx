@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface TOCItem {
     id: string;
@@ -9,6 +10,7 @@ interface TOCItem {
 }
 
 export function TableOfContents({ contentHtml }: { contentHtml: string }) {
+    const palette = useAppTheme();
     const [headings, setHeadings] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState("");
 
@@ -61,9 +63,9 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
                 padding: 20,
                 maxHeight: "calc(100vh - 120px)",
                 overflowY: "auto",
-                background: "rgba(15, 23, 42, 0.6)",
+                background: palette.s1,
                 borderRadius: 16,
-                border: "1px solid rgba(51, 65, 85, 0.6)",
+                border: `1px solid ${palette.brd2}`,
                 backdropFilter: "blur(12px)",
             }}
         >
@@ -73,10 +75,10 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
-                    color: "#94A3B8",
+                    color: palette.mute,
                     marginBottom: 16,
                     paddingBottom: 12,
-                    borderBottom: "1px solid rgba(51, 65, 85, 0.4)",
+                    borderBottom: `1px solid ${palette.brd}`,
                 }}
             >
                 On this page
@@ -98,7 +100,7 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
                                     paddingLeft: h.level === 3 ? 20 : 10,
                                     fontSize: 12.5,
                                     fontWeight: isActive ? 600 : 400,
-                                    color: isActive ? "#10B981" : "#CBD5E1",
+                                    color: isActive ? "#10B981" : palette.txt2,
                                     textDecoration: "none",
                                     borderRadius: 8,
                                     background: isActive ? "rgba(16, 185, 129, 0.08)" : "transparent",

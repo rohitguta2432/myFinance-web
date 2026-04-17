@@ -1,6 +1,10 @@
+"use client";
+
 import { Zap } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function KeyTakeaways({ takeaways }: { takeaways: string[] }) {
+    const palette = useAppTheme();
     if (!takeaways || takeaways.length === 0) return null;
 
     return (
@@ -9,7 +13,7 @@ export function KeyTakeaways({ takeaways }: { takeaways: string[] }) {
                 position: "relative",
                 borderRadius: 16,
                 border: "1px solid rgba(16, 185, 129, 0.2)",
-                background: "linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(16, 185, 129, 0.04) 100%)",
+                background: palette.s1,
                 backdropFilter: "blur(16px)",
                 padding: "28px 32px",
                 boxShadow: "0 0 40px -12px rgba(16, 185, 129, 0.12)",
@@ -51,7 +55,7 @@ export function KeyTakeaways({ takeaways }: { takeaways: string[] }) {
                     margin: 0,
                     fontSize: 15,
                     fontWeight: 700,
-                    color: "#F1F5F9",
+                    color: palette.txt,
                     letterSpacing: "-0.01em",
                 }}>
                     Key Takeaways
@@ -80,7 +84,7 @@ export function KeyTakeaways({ takeaways }: { takeaways: string[] }) {
                             gap: 12,
                             fontSize: "0.95rem",
                             lineHeight: 1.6,
-                            color: "#CBD5E1",
+                            color: palette.txt2,
                         }}
                     >
                         <span

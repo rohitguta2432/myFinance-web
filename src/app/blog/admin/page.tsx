@@ -14,10 +14,12 @@ import {
     LayoutDashboard,
     LogOut,
 } from "lucide-react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 type Tab = "posts" | "comments";
 
 export default function AdminPage() {
+    const palette = useAppTheme();
     const [authenticated, setAuthenticated] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -101,9 +103,9 @@ export default function AdminPage() {
         width: "100%",
         padding: "14px 18px",
         borderRadius: 10,
-        border: "1px solid #1E293B",
-        background: "rgba(15, 23, 42, 0.6)",
-        color: "#F1F5F9",
+        border: `1px solid ${palette.brd2}`,
+        background: palette.s1,
+        color: palette.txt,
         fontSize: 15,
         outline: "none",
     };
@@ -144,8 +146,8 @@ export default function AdminPage() {
                         >
                             <LayoutDashboard size={22} color="#fff" />
                         </div>
-                        <h2 className="text-h3">Blog Admin</h2>
-                        <p style={{ color: "#64748B", fontSize: 14, marginTop: 4 }}>
+                        <h2 className="text-h3" style={{ color: palette.txt }}>Blog Admin</h2>
+                        <p style={{ color: palette.mute, fontSize: 14, marginTop: 4 }}>
                             Sign in to manage posts & comments
                         </p>
                     </div>
@@ -224,8 +226,8 @@ export default function AdminPage() {
                     }}
                 >
                     <div>
-                        <h1 className="text-h2">Blog Admin</h1>
-                        <p style={{ color: "#64748B", fontSize: 14, marginTop: 4 }}>
+                        <h1 className="text-h2" style={{ color: palette.txt }}>Blog Admin</h1>
+                        <p style={{ color: palette.mute, fontSize: 14, marginTop: 4 }}>
                             Manage your blog posts and comments
                         </p>
                     </div>
@@ -249,9 +251,9 @@ export default function AdminPage() {
                                 gap: 6,
                                 padding: "12px 20px",
                                 borderRadius: 10,
-                                border: "1px solid #1E293B",
+                                border: `1px solid ${palette.brd2}`,
                                 background: "transparent",
-                                color: "#64748B",
+                                color: palette.mute,
                                 fontSize: 14,
                                 cursor: "pointer",
                             }}
@@ -267,7 +269,7 @@ export default function AdminPage() {
                         display: "flex",
                         gap: 4,
                         marginBottom: 24,
-                        background: "rgba(15, 23, 42, 0.6)",
+                        background: palette.s1,
                         borderRadius: 12,
                         padding: 4,
                         width: "fit-content",
@@ -285,7 +287,7 @@ export default function AdminPage() {
                                 borderRadius: 8,
                                 border: "none",
                                 background: activeTab === tab ? "#10B981" : "transparent",
-                                color: activeTab === tab ? "#fff" : "#64748B",
+                                color: activeTab === tab ? "#fff" : palette.mute,
                                 fontSize: 14,
                                 fontWeight: 600,
                                 cursor: "pointer",
@@ -299,7 +301,7 @@ export default function AdminPage() {
                 </div>
 
                 {loading && (
-                    <div style={{ textAlign: "center", padding: 60, color: "#64748B" }}>Loading...</div>
+                    <div style={{ textAlign: "center", padding: 60, color: palette.mute }}>Loading...</div>
                 )}
 
                 {/* POSTS TAB */}
@@ -310,8 +312,8 @@ export default function AdminPage() {
                                 style={{
                                     textAlign: "center",
                                     padding: 60,
-                                    color: "#64748B",
-                                    background: "rgba(15, 23, 42, 0.4)",
+                                    color: palette.mute,
+                                    background: palette.s1,
                                     borderRadius: 12,
                                 }}
                             >
@@ -327,12 +329,12 @@ export default function AdminPage() {
                                 }}
                             >
                                 <thead>
-                                    <tr style={{ borderBottom: "1px solid #1E293B" }}>
-                                        <th style={{ padding: "12px 16px", textAlign: "left", color: "#64748B", fontWeight: 600 }}>Title</th>
-                                        <th style={{ padding: "12px 16px", textAlign: "left", color: "#64748B", fontWeight: 600 }}>Category</th>
-                                        <th style={{ padding: "12px 16px", textAlign: "left", color: "#64748B", fontWeight: 600 }}>Status</th>
-                                        <th style={{ padding: "12px 16px", textAlign: "left", color: "#64748B", fontWeight: 600 }}>Date</th>
-                                        <th style={{ padding: "12px 16px", textAlign: "right", color: "#64748B", fontWeight: 600 }}>Actions</th>
+                                    <tr style={{ borderBottom: `1px solid ${palette.brd2}` }}>
+                                        <th style={{ padding: "12px 16px", textAlign: "left", color: palette.mute, fontWeight: 600 }}>Title</th>
+                                        <th style={{ padding: "12px 16px", textAlign: "left", color: palette.mute, fontWeight: 600 }}>Category</th>
+                                        <th style={{ padding: "12px 16px", textAlign: "left", color: palette.mute, fontWeight: 600 }}>Status</th>
+                                        <th style={{ padding: "12px 16px", textAlign: "left", color: palette.mute, fontWeight: 600 }}>Date</th>
+                                        <th style={{ padding: "12px 16px", textAlign: "right", color: palette.mute, fontWeight: 600 }}>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -340,14 +342,14 @@ export default function AdminPage() {
                                         <tr
                                             key={post.id}
                                             style={{
-                                                borderBottom: "1px solid rgba(30, 41, 59, 0.5)",
+                                                borderBottom: `1px solid ${palette.brd}`,
                                                 transition: "background 0.15s",
                                             }}
                                         >
-                                            <td style={{ padding: "14px 16px", fontWeight: 500, maxWidth: 300 }}>
+                                            <td style={{ padding: "14px 16px", fontWeight: 500, maxWidth: 300, color: palette.txt }}>
                                                 {post.title}
                                             </td>
-                                            <td style={{ padding: "14px 16px", color: "#94A3B8" }}>{post.category}</td>
+                                            <td style={{ padding: "14px 16px", color: palette.txt2 }}>{post.category}</td>
                                             <td style={{ padding: "14px 16px" }}>
                                                 <span
                                                     style={{
@@ -359,13 +361,13 @@ export default function AdminPage() {
                                                             post.status === "published"
                                                                 ? "rgba(16, 185, 129, 0.15)"
                                                                 : "rgba(148, 163, 184, 0.1)",
-                                                        color: post.status === "published" ? "#10B981" : "#94A3B8",
+                                                        color: post.status === "published" ? "#10B981" : palette.mute,
                                                     }}
                                                 >
                                                     {post.status === "published" ? "✅ Live" : "📝 Draft"}
                                                 </span>
                                             </td>
-                                            <td style={{ padding: "14px 16px", color: "#64748B" }}>
+                                            <td style={{ padding: "14px 16px", color: palette.mute }}>
                                                 {new Date(post.created_at).toLocaleDateString("en-IN", {
                                                     month: "short",
                                                     day: "numeric",
@@ -433,8 +435,8 @@ export default function AdminPage() {
                                 style={{
                                     textAlign: "center",
                                     padding: 60,
-                                    color: "#64748B",
-                                    background: "rgba(15, 23, 42, 0.4)",
+                                    color: palette.mute,
+                                    background: palette.s1,
                                     borderRadius: 12,
                                 }}
                             >
@@ -449,8 +451,8 @@ export default function AdminPage() {
                                         style={{
                                             padding: 16,
                                             borderRadius: 12,
-                                            background: "rgba(15, 23, 42, 0.6)",
-                                            border: "1px solid #1E293B",
+                                            background: palette.s1,
+                                            border: `1px solid ${palette.brd2}`,
                                             display: "flex",
                                             justifyContent: "space-between",
                                             alignItems: "flex-start",
@@ -459,7 +461,7 @@ export default function AdminPage() {
                                     >
                                         <div style={{ flex: 1 }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                                                <span style={{ fontWeight: 600, fontSize: 14 }}>
+                                                <span style={{ fontWeight: 600, fontSize: 14, color: palette.txt }}>
                                                     {comment.author_name}
                                                 </span>
                                                 {comment.is_admin && (
@@ -476,11 +478,11 @@ export default function AdminPage() {
                                                         Admin
                                                     </span>
                                                 )}
-                                                <span style={{ fontSize: 12, color: "#64748B" }}>
+                                                <span style={{ fontSize: 12, color: palette.mute }}>
                                                     on &quot;{comment.blog_posts?.title || "Unknown"}&quot;
                                                 </span>
                                             </div>
-                                            <p style={{ fontSize: 14, color: "#CBD5E1", margin: 0 }}>
+                                            <p style={{ fontSize: 14, color: palette.txt2, margin: 0 }}>
                                                 {comment.content}
                                             </p>
                                         </div>
