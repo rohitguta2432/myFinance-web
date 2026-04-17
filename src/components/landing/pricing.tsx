@@ -1,10 +1,11 @@
 "use client";
 
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
-const plans = [
+const getPlans = (palette: { s2: string; mute: string }) => [
     {
-        badge: "Free", badgeBg: "#121A22", badgeColor: "#94A3B8",
+        badge: "Free", badgeBg: palette.s2, badgeColor: palette.mute,
         name: "Essentials", tagline: "Your financial blind spots, revealed", price: "₹0", cycle: "No credit card needed",
         features: [
             { text: "Basic financial health score", ok: true },
@@ -66,8 +67,10 @@ const plans = [
 ];
 
 export function PricingSection() {
+    const palette = useAppTheme();
+    const plans = getPlans(palette);
     return (
-        <section id="pricing" style={{ background: "#0C1319", borderTop: "1px solid rgba(255,255,255,0.05)", padding: "clamp(80px, 10vw, 120px) 0" }}>
+        <section id="pricing" style={{ background: palette.s1, borderTop: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 8px" }}>
                     <div className="section-tag" style={{ justifyContent: "center" }}>Pricing</div>
@@ -81,14 +84,14 @@ export function PricingSection() {
                         <div key={p.name} className={p.popular ? "plan-card popular" : "plan-card"}>
                             <span style={{ fontFamily: "var(--font-display)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 6, marginBottom: 14, width: "fit-content", background: p.badgeBg, color: p.badgeColor }}>{p.badge}</span>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 2 }}>{p.name}</div>
-                            <div style={{ fontSize: 13, color: "#CBD5E1", marginBottom: 16 }}>{p.tagline}</div>
+                            <div style={{ fontSize: 13, color: palette.txt2, marginBottom: 16 }}>{p.tagline}</div>
                             <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 38, fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-1.5px" }}>{p.price}</div>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: "#CBD5E1", marginBottom: 20 }}>{p.cycle}</div>
+                            <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: palette.txt2, marginBottom: 20 }}>{p.cycle}</div>
 
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
                                 {p.features.map((f) => (
-                                    <li key={f.text} style={{ fontSize: 13, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? "#E2E8F0" : "#64748B" }}>
-                                        <span style={{ color: f.ok ? "#10B981" : "#64748B", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
+                                    <li key={f.text} style={{ fontSize: 13, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? palette.txt2 : palette.mute }}>
+                                        <span style={{ color: f.ok ? "#10B981" : palette.mute, fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
                                         {f.text}
                                     </li>
                                 ))}

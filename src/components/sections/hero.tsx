@@ -2,6 +2,7 @@
 
 import { Lock, UserX, Monitor, Trash2, ArrowRight } from "lucide-react";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const trustItems = [
     {
@@ -301,6 +302,7 @@ function PhoneDashboard() {
 }
 
 export function HeroSection() {
+    const palette = useAppTheme();
     return (
         <section className="relative" style={{ paddingTop: 80, paddingBottom: 48 }}>
             {/* Background Gradients */}
@@ -371,7 +373,7 @@ export function HeroSection() {
                                 fontWeight: 800,
                                 letterSpacing: "-0.025em",
                                 lineHeight: 1.1,
-                                color: "#F1F5F9",
+                                color: palette.txt,
                                 marginBottom: 20,
                             }}
                         >
@@ -386,7 +388,7 @@ export function HeroSection() {
                                 maxWidth: 520,
                                 fontSize: "1.1rem",
                                 lineHeight: 1.7,
-                                color: "#94A3B8",
+                                color: palette.mute,
                                 marginBottom: 32,
                             }}
                         >
@@ -418,7 +420,7 @@ export function HeroSection() {
                             style={{
                                 marginTop: 16,
                                 fontSize: 13,
-                                color: "#64748B",
+                                color: palette.mute,
                             }}
                         >
                             ✦ No credit card &nbsp;·&nbsp; 10 min setup &nbsp;·&nbsp; 100% browser-based
@@ -459,20 +461,20 @@ export function HeroSection() {
                                 style={{
                                     width: 40,
                                     height: 40,
-                                    backgroundColor: "rgba(255,255,255,0.05)",
-                                    color: "#94A3B8",
-                                    border: "1px solid rgba(255,255,255,0.06)",
+                                    backgroundColor: palette.s2,
+                                    color: palette.mute,
+                                    border: `1px solid ${palette.brd}`,
                                 }}
                             >
                                 {item.icon}
                             </div>
                             <h3
                                 className="font-bold"
-                                style={{ color: "#F1F5F9", fontSize: 14 }}
+                                style={{ color: palette.txt, fontSize: 14 }}
                             >
                                 {item.title}
                             </h3>
-                            <p style={{ fontSize: 14, color: "#64748B" }}>{item.sub}</p>
+                            <p style={{ fontSize: 14, color: palette.mute }}>{item.sub}</p>
                         </div>
                     ))}
                 </div>

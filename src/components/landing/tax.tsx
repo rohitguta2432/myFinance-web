@@ -1,6 +1,7 @@
 "use client";
 
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const rules = [
     { icon: "🍽️", title: "Meal Coupons: ₹50 → ₹200/meal", sub: "~₹1.05L annual tax-free" },
@@ -19,8 +20,9 @@ const taxRows = [
 ];
 
 export function TaxSection() {
+    const palette = useAppTheme();
     return (
-        <section style={{ background: "#0C1319", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", padding: "clamp(80px, 10vw, 120px) 0" }}>
+        <section style={{ background: palette.s1, borderTop: `1px solid ${palette.brd}`, borderBottom: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div className="tax-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
                     {/* Left */}
@@ -29,17 +31,17 @@ export function TaxSection() {
                         <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
                             2026 rules changed. Most employees <span className="text-gradient">don&apos;t know yet.</span>
                         </h2>
-                        <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: "#94A3B8", lineHeight: 1.75, maxWidth: 520, fontStyle: "italic", marginBottom: 16 }}>
+                        <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: palette.mute, lineHeight: 1.75, maxWidth: 520, fontStyle: "italic", marginBottom: 16 }}>
                             Significantly raised allowances. Most haven&apos;t acted.
                         </p>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "20px 0 28px" }}>
                             {rules.map((r) => (
-                                <div key={r.title} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: 14, background: "#121A22", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 10 }}>
-                                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "#1A242F", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{r.icon}</div>
+                                <div key={r.title} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: 14, background: palette.s2, border: `1px solid ${palette.brd}`, borderRadius: 10 }}>
+                                    <div style={{ width: 36, height: 36, borderRadius: 8, background: palette.s3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{r.icon}</div>
                                     <div>
-                                        <b style={{ fontFamily: "var(--font-display)", display: "block", fontSize: 13, color: "#F0F4F8" }}>{r.title}</b>
-                                        <span style={{ fontSize: 13, color: "#94A3B8" }}>{r.sub}</span>
+                                        <b style={{ fontFamily: "var(--font-display)", display: "block", fontSize: 13, color: palette.txt }}>{r.title}</b>
+                                        <span style={{ fontSize: 13, color: palette.mute }}>{r.sub}</span>
                                     </div>
                                 </div>
                             ))}
@@ -49,8 +51,8 @@ export function TaxSection() {
                     </div>
 
                     {/* Right — Tax Card */}
-                    <div style={{ background: "#121A22", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 14, overflow: "hidden" }}>
-                        <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ background: palette.s2, border: `1px solid ${palette.brd}`, borderRadius: 14, overflow: "hidden" }}>
+                        <div style={{ padding: "14px 20px", borderBottom: `1px solid ${palette.brd}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <h4 style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, margin: 0 }}>
                                 Illustrative Opportunity
                                 <span style={{ background: "rgba(16,185,129,0.06)", color: "#10B981", fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 4 }}>New Rules</span>
@@ -58,18 +60,18 @@ export function TaxSection() {
                         </div>
                         <div style={{ padding: "6px 20px" }}>
                             {taxRows.map((row) => (
-                                <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 0", borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                                    <span style={{ fontSize: 13, color: "#CBD5E1" }}>
+                                <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 0", borderBottom: `1px solid ${palette.brd}` }}>
+                                    <span style={{ fontSize: 13, color: palette.txt2 }}>
                                         {row.label}
-                                        {row.sub && <small style={{ display: "block", fontSize: 12, color: "#64748B", marginTop: 1 }}>{row.sub}</small>}
+                                        {row.sub && <small style={{ display: "block", fontSize: 12, color: palette.mute, marginTop: 1 }}>{row.sub}</small>}
                                     </span>
-                                    <span style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: "#FB923C", whiteSpace: "nowrap" }}>{row.val}</span>
+                                    <span style={{ fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 700, color: palette.warn, whiteSpace: "nowrap" }}>{row.val}</span>
                                 </div>
                             ))}
                         </div>
-                        <div style={{ padding: "14px 20px", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(251,146,60,0.03)" }}>
+                        <div style={{ padding: "14px 20px", borderTop: `1px solid ${palette.brd}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(251,146,60,0.03)" }}>
                             <span style={{ fontFamily: "var(--font-display)", fontSize: 14, fontWeight: 700 }}>Potential savings</span>
-                            <span style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 800, color: "#FB923C", letterSpacing: "-0.5px" }}>₹5,42,200</span>
+                            <span style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 800, color: palette.warn, letterSpacing: "-0.5px" }}>₹5,42,200</span>
                         </div>
                     </div>
                 </div>

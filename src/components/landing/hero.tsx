@@ -1,8 +1,10 @@
 "use client";
 
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function HeroSection() {
+    const palette = useAppTheme();
     return (
         <section
             style={{
@@ -64,8 +66,8 @@ export function HeroSection() {
                         borderRadius: 100,
                         marginBottom: 28,
                         background: "rgba(255,255,255,0.03)",
-                        border: "1px solid rgba(255,255,255,0.05)",
-                        color: "#94A3B8",
+                        border: `1px solid ${palette.brd}`,
+                        color: palette.mute,
                         animation: "fade-up 0.8s 0.2s both",
                     }}
                 >
@@ -102,9 +104,9 @@ export function HeroSection() {
                     <span
                         style={{
                             textDecoration: "line-through",
-                            textDecorationColor: "#F87171",
+                            textDecorationColor: palette.danger,
                             textDecorationThickness: 3,
-                            color: "#334155",
+                            color: palette.mute,
                         }}
                     >
                         sorted.
@@ -119,7 +121,7 @@ export function HeroSection() {
                     style={{
                         fontFamily: "var(--font-serif)",
                         fontSize: 18,
-                        color: "#94A3B8",
+                        color: palette.mute,
                         maxWidth: 520,
                         margin: "0 auto 36px",
                         lineHeight: 1.75,
@@ -128,7 +130,7 @@ export function HeroSection() {
                     }}
                 >
                     Most professionals earning ₹15L+ silently lose{" "}
-                    <b style={{ color: "#CBD5E1", fontStyle: "normal", fontWeight: 600 }}>
+                    <b style={{ color: palette.txt2, fontStyle: "normal", fontWeight: 600 }}>
                         ₹3–8 lakh/year
                     </b>{" "}
                     through tax leakage, portfolio drift, and insurance traps.
@@ -158,7 +160,7 @@ export function HeroSection() {
                     style={{
                         fontFamily: "var(--font-display)",
                         fontSize: 14,
-                        color: "#94A3B8",
+                        color: palette.mute,
                         marginTop: 14,
                         display: "flex",
                         flexWrap: "wrap",
@@ -183,7 +185,7 @@ export function HeroSection() {
                         display: "flex",
                         flexWrap: "wrap",
                         marginTop: 64,
-                        border: "1px solid rgba(255,255,255,0.05)",
+                        border: `1px solid ${palette.brd}`,
                         borderRadius: 14,
                         overflow: "hidden",
                         background: "rgba(255,255,255,0.015)",
@@ -202,7 +204,7 @@ export function HeroSection() {
                                 flex: 1,
                                 padding: "20px 0",
                                 textAlign: "center",
-                                borderRight: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                                borderRight: i < arr.length - 1 ? `1px solid ${palette.brd}` : "none",
                             }}
                         >
                             <div
@@ -220,7 +222,7 @@ export function HeroSection() {
                                 style={{
                                     fontFamily: "var(--font-display)",
                                     fontSize: 12,
-                                    color: "#94A3B8",
+                                    color: palette.mute,
                                     marginTop: 2,
                                     letterSpacing: "0.06em",
                                     textTransform: "uppercase",
