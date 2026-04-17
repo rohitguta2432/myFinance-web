@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, Clock } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const INACTIVITY_LIMIT_MS = 20 * 60 * 1000;
 const WARNING_AT_MS = 15 * 60 * 1000;
@@ -25,6 +26,7 @@ async function logoutAndRedirect(router: ReturnType<typeof useRouter>): Promise<
 
 export function InactivityGuard({ children }: { children: ReactNode }) {
     const router = useRouter();
+    const palette = useAppTheme();
     const lastActivityRef = useRef(0);
 
     useEffect(() => {
@@ -143,13 +145,13 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                         className="inactivity-modal"
                         style={{
                             position: "relative",
-                            background: "#0F172A",
+                            background: palette.s1,
                             width: "100%",
                             maxWidth: 360,
                             borderRadius: 20,
                             padding: 24,
                             boxShadow: "0 25px 50px rgba(0,0,0,0.6)",
-                            border: "1px solid rgba(255,255,255,0.08)",
+                            border: `1px solid ${palette.brd2}`,
                             textAlign: "center",
                         }}
                     >
@@ -159,8 +161,8 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                                 width: 56,
                                 height: 56,
                                 borderRadius: "50%",
-                                background: "rgba(245,158,11,0.10)",
-                                border: "1px solid rgba(245,158,11,0.20)",
+                                background: `${palette.warn}1A`,
+                                border: `1px solid ${palette.warn}33`,
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -168,7 +170,7 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                             }}
                         >
                             <AlertTriangle
-                                style={{ width: 28, height: 28, color: "#F59E0B" }}
+                                style={{ width: 28, height: 28, color: palette.warn }}
                             />
                         </div>
 
@@ -176,7 +178,7 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                             style={{
                                 fontSize: 18,
                                 fontWeight: 700,
-                                color: "#F1F5F9",
+                                color: palette.txt,
                                 marginBottom: 8,
                             }}
                         >
@@ -185,7 +187,7 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                         <p
                             style={{
                                 fontSize: 14,
-                                color: "#94A3B8",
+                                color: palette.mute,
                                 marginBottom: 16,
                                 lineHeight: 1.5,
                             }}
@@ -202,12 +204,12 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                                 marginBottom: 20,
                             }}
                         >
-                            <Clock style={{ width: 20, height: 20, color: "#F59E0B" }} />
+                            <Clock style={{ width: 20, height: 20, color: palette.warn }} />
                             <span
                                 style={{
                                     fontSize: 32,
                                     fontWeight: 700,
-                                    color: "#F59E0B",
+                                    color: palette.warn,
                                     fontVariantNumeric: "tabular-nums",
                                 }}
                             >
@@ -221,7 +223,7 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                                 width: "100%",
                                 padding: "12px 0",
                                 background: "#10B981",
-                                color: "#0B0F1A",
+                                color: "#FFFFFF",
                                 fontWeight: 700,
                                 fontSize: 15,
                                 border: "none",
@@ -239,7 +241,7 @@ export function InactivityGuard({ children }: { children: ReactNode }) {
                             I&apos;m Still Here
                         </button>
 
-                        <p style={{ fontSize: 11, color: "#475569", marginTop: 12 }}>
+                        <p style={{ fontSize: 11, color: palette.mute, marginTop: 12, opacity: 0.7 }}>
                             Any mouse or keyboard activity will also reset the timer
                         </p>
                     </div>

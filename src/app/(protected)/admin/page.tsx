@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useAppTheme, type AppPalette } from '@/hooks/useAppTheme';
 import {
   Users,
   Activity,
@@ -126,14 +127,21 @@ const timeAgo = (d: string | null | undefined): string => {
 };
 
 // ─── THEME ───────────────────────────────────────────
-const BG = '#0B0F1A';
-const SURFACE = '#0F172A';
-const BORDER = '1px solid rgba(255,255,255,0.05)';
-const TEXT = '#F1F5F9';
-const TEXT2 = '#CBD5E1';
-const MUTED = '#94A3B8';
 const ACCENT = '#10B981';
 const FONT = "var(--font-display, 'DM Sans', sans-serif)";
+
+// Palette-derived helpers returned from useAppTheme()
+// BG / SURFACE / BORDER / TEXT / TEXT2 / MUTED are sourced per-component.
+function themeTokens(palette: AppPalette) {
+  return {
+    BG: palette.bg,
+    SURFACE: palette.s1,
+    BORDER: `1px solid ${palette.brd}`,
+    TEXT: palette.txt,
+    TEXT2: palette.txt2,
+    MUTED: palette.mute,
+  };
+}
 
 // Fetch helper using Next.js API proxy
 const fetchAdmin = (path: string) =>
@@ -158,11 +166,13 @@ function StatCard({
   iconBg: string;
   accent?: boolean;
 }) {
+  const palette = useAppTheme();
+  const { BG, SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
   return (
     <div
       style={{
         borderRadius: 16,
-        border: accent ? `1px solid ${ACCENT}55` : BORDER.replace('1px solid ', '1px solid '),
+        border: accent ? `1px solid ${ACCENT}55` : BORDER,
         padding: 20,
         display: 'flex',
         flexDirection: 'column',
@@ -181,11 +191,11 @@ function StatCard({
           background: accent ? 'rgba(255,255,255,0.15)' : iconBg,
         }}
       >
-        <Icon size={20} color={accent ? BG : color} />
+        <Icon size={20} color={accent ? '#FFFFFF' : color} />
       </div>
       <div>
-        <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600, color: accent ? `${BG}99` : MUTED }}>{label}</p>
-        <p style={{ fontSize: 24, fontWeight: 700, color: accent ? BG : TEXT, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{value}</p>
+        <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600, color: accent ? 'rgba(255,255,255,0.75)' : MUTED }}>{label}</p>
+        <p style={{ fontSize: 24, fontWeight: 700, color: accent ? '#FFFFFF' : TEXT, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{value}</p>
       </div>
     </div>
   );
@@ -193,13 +203,15 @@ function StatCard({
 
 // ─── GOAL RING ───────────────────────────────────────
 function GoalRing({ pct }: { pct: number }) {
+  const palette = useAppTheme();
+  const { TEXT, MUTED } = themeTokens(palette);
   const r = 60, stroke = 8;
   const circ = 2 * Math.PI * r;
   const offset = circ - (pct / 100) * circ;
   return (
     <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <svg width="150" height="150" viewBox="0 0 150 150" style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx="75" cy="75" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+        <circle cx="75" cy="75" r={r} fill="none" stroke={palette.brd2} strokeWidth={stroke} />
         <circle
           cx="75" cy="75" r={r} fill="none"
           stroke={ACCENT} strokeWidth={stroke}
@@ -243,6 +255,8 @@ function StepBadge({ steps }: { steps: number }) {
 
 // ─── USER DETAIL PANEL ───────────────────────────────
 function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => void }) {
+  const palette = useAppTheme();
+  const { SURFACE, BORDER, TEXT, TEXT2, MUTED } = themeTokens(palette);
   const { data, isLoading } = useQuery<UserDetail>({
     queryKey: ['admin-user-detail', userId],
     queryFn: () => fetchAdmin(`/admin/users/${userId}`),
@@ -277,7 +291,7 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
       {isLoading ? (
         <div style={{ padding: 24 }}>
           {[...Array(8)].map((_, i) => (
-            <div key={i} style={{ height: 32, background: 'rgba(255,255,255,0.04)', borderRadius: 8, marginBottom: 12 }} />
+            <div key={i} style={{ height: 32, background: palette.s2, borderRadius: 8, marginBottom: 12 }} />
           ))}
         </div>
       ) : !data ? null : (
@@ -333,16 +347,16 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
             {/* Meta tags */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
               {data.summary.city && (
-                <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.04)', border: BORDER }}>
+                <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: palette.s2, border: BORDER }}>
                   {data.summary.city}, {data.summary.state}
                 </span>
               )}
               {data.summary.age && (
-                <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.04)', border: BORDER }}>
+                <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: palette.s2, border: BORDER }}>
                   Age {data.summary.age}
                 </span>
               )}
-              <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.04)', border: BORDER }}>
+              <span style={{ fontSize: 12, color: MUTED, padding: '4px 10px', borderRadius: 8, background: palette.s2, border: BORDER }}>
                 Joined {fmtDate(data.summary.createdAt)}
               </span>
             </div>
@@ -361,7 +375,7 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
                       padding: '8px 10px',
                       borderRadius: 12,
                       border: st.done ? `1px solid ${ACCENT}33` : BORDER,
-                      background: st.done ? `${ACCENT}18` : 'rgba(255,255,255,0.02)',
+                      background: st.done ? `${ACCENT}18` : palette.s2,
                       color: st.done ? ACCENT : MUTED,
                     }}
                   >
@@ -460,9 +474,10 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
 }
 
 function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
+  const palette = useAppTheme();
   return (
     <div style={{ marginBottom: 20 }}>
-      <h4 style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: MUTED, marginBottom: 12 }}>
+      <h4 style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: palette.mute, marginBottom: 12 }}>
         {title}
       </h4>
       {children}
@@ -471,15 +486,16 @@ function DetailSection({ title, children }: { title: string; children: React.Rea
 }
 
 function DetailRow({ label, value, highlight, warn }: { label: string; value: string; highlight?: boolean; warn?: boolean }) {
+  const palette = useAppTheme();
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-      <span style={{ fontSize: 13, color: MUTED }}>{label}</span>
+      <span style={{ fontSize: 13, color: palette.mute }}>{label}</span>
       <span
         style={{
           fontSize: 13,
           fontWeight: 600,
           fontVariantNumeric: 'tabular-nums',
-          color: warn ? '#EF4444' : highlight ? ACCENT : TEXT2,
+          color: warn ? palette.danger : highlight ? ACCENT : palette.txt2,
         }}
       >
         {value}
@@ -490,6 +506,8 @@ function DetailRow({ label, value, highlight, warn }: { label: string; value: st
 
 // ─── AUDIT LOGS VIEW ─────────────────────────────────
 function AuditLogsView() {
+  const palette = useAppTheme();
+  const { SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
   const { data: logs, isLoading } = useQuery<AuditLog[]>({
     queryKey: ['admin-audit-logs'],
     queryFn: () => fetchAdmin('/admin/audit-logs'),
@@ -527,7 +545,7 @@ function AuditLogsView() {
         {isLoading ? (
           <div style={{ padding: 24 }}>
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} style={{ height: 56, background: 'rgba(255,255,255,0.03)', borderRadius: 12, marginBottom: 12 }} />
+              <div key={i} style={{ height: 56, background: palette.s2, borderRadius: 12, marginBottom: 12 }} />
             ))}
           </div>
         ) : !logs?.length ? (
@@ -538,7 +556,7 @@ function AuditLogsView() {
         ) : (
           <div>
             {logs.map((log) => {
-              const ac = actionColors[log.action] || { bg: 'rgba(255,255,255,0.04)', color: MUTED, border: 'rgba(255,255,255,0.08)' };
+              const ac = actionColors[log.action] || { bg: palette.s2, color: MUTED, border: palette.brd2 };
               return (
                 <div
                   key={log.id}
@@ -581,7 +599,7 @@ function AuditLogsView() {
                   </div>
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
                     <p style={{ fontSize: 12, color: MUTED }}>{timeAgo(log.createdAt)}</p>
-                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>{log.userEmail}</p>
+                    <p style={{ fontSize: 12, color: palette.mute, opacity: 0.6 }}>{log.userEmail}</p>
                   </div>
                 </div>
               );
@@ -615,6 +633,8 @@ function OverviewView({
   activityError?: boolean;
   onSelectUser: (id: string) => void;
 }) {
+  const palette = useAppTheme();
+  const { BG, SURFACE, BORDER, TEXT, TEXT2, MUTED } = themeTokens(palette);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const perPage = 10;
@@ -622,12 +642,12 @@ function OverviewView({
   if (statsError || usersError || activityError) {
     return (
       <div style={{ padding: 40, textAlign: 'center' }}>
-        <div style={{ width: 48, height: 48, background: 'rgba(239,68,68,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-          <span style={{ fontSize: 24 }}>!</span>
+        <div style={{ width: 48, height: 48, background: `${palette.danger}26`, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <span style={{ fontSize: 24, color: palette.danger }}>!</span>
         </div>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: '#F1F5F9', marginBottom: 8 }}>Failed to load dashboard data</h3>
-        <p style={{ fontSize: 13, color: '#94A3B8', marginBottom: 16 }}>Check your connection or try refreshing the page.</p>
-        <button onClick={() => window.location.reload()} style={{ padding: '8px 20px', background: '#1E293B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#F1F5F9', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: TEXT, marginBottom: 8 }}>Failed to load dashboard data</h3>
+        <p style={{ fontSize: 13, color: MUTED, marginBottom: 16 }}>Check your connection or try refreshing the page.</p>
+        <button onClick={() => window.location.reload()} style={{ padding: '8px 20px', background: palette.s2, border: `1px solid ${palette.brd2}`, borderRadius: 8, color: TEXT, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           Retry
         </button>
       </div>
@@ -739,7 +759,7 @@ function OverviewView({
               placeholder="Search users..."
               style={{
                 padding: '8px 12px',
-                background: 'rgba(255,255,255,0.04)',
+                background: palette.s2,
                 border: BORDER,
                 borderRadius: 10,
                 color: TEXT,
@@ -773,7 +793,7 @@ function OverviewView({
         {usersLoading ? (
           <div style={{ padding: 24 }}>
             {[1, 2, 3].map((i) => (
-              <div key={i} style={{ height: 64, background: 'rgba(255,255,255,0.03)', borderRadius: 12, marginBottom: 12 }} />
+              <div key={i} style={{ height: 64, background: palette.s2, borderRadius: 12, marginBottom: 12 }} />
             ))}
           </div>
         ) : (
@@ -803,7 +823,7 @@ function OverviewView({
                 </thead>
                 <tbody>
                   {pagedUsers.map((u) => (
-                    <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', height: 68 }}>
+                    <tr key={u.id} style={{ borderBottom: `1px solid ${palette.brd}`, height: 68 }}>
                       <td style={{ padding: '12px 16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                           <img
@@ -920,7 +940,7 @@ function OverviewView({
                         cursor: 'pointer',
                         fontFamily: FONT,
                         background: page === i + 1 ? ACCENT : 'transparent',
-                        color: page === i + 1 ? BG : MUTED,
+                        color: page === i + 1 ? '#FFFFFF' : MUTED,
                       }}
                     >
                       {i + 1}
@@ -962,6 +982,8 @@ function Sidebar({
   onExport: () => void;
 }) {
   const router = useRouter();
+  const palette = useAppTheme();
+  const { SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
   const NAV = [
     { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
     { id: 'audit', label: 'Audit Logs', Icon: FileText },
@@ -1055,7 +1077,7 @@ function Sidebar({
             borderRadius: 12,
             border: 'none',
             background: ACCENT,
-            color: BG,
+            color: '#FFFFFF',
             fontSize: 13,
             fontWeight: 700,
             cursor: 'pointer',
@@ -1091,6 +1113,8 @@ function Sidebar({
 
 // ─── LOGIN FORM ──────────────────────────────────────
 function LoginGate({ onAuth }: { onAuth: () => void }) {
+  const palette = useAppTheme();
+  const { BG, SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -1160,7 +1184,7 @@ function LoginGate({ onAuth }: { onAuth: () => void }) {
             style={{
               width: '100%',
               padding: '12px 16px',
-              background: 'rgba(255,255,255,0.04)',
+              background: palette.s2,
               border: BORDER,
               borderRadius: 12,
               color: TEXT,
@@ -1172,7 +1196,7 @@ function LoginGate({ onAuth }: { onAuth: () => void }) {
             }}
           />
           {error && (
-            <p style={{ fontSize: 13, color: '#EF4444', marginBottom: 12, textAlign: 'center' }}>{error}</p>
+            <p style={{ fontSize: 13, color: palette.danger, marginBottom: 12, textAlign: 'center' }}>{error}</p>
           )}
           <button
             type="submit"
@@ -1183,7 +1207,7 @@ function LoginGate({ onAuth }: { onAuth: () => void }) {
               background: ACCENT,
               border: 'none',
               borderRadius: 12,
-              color: BG,
+              color: '#FFFFFF',
               fontSize: 14,
               fontWeight: 700,
               cursor: loading ? 'default' : 'pointer',
@@ -1201,6 +1225,8 @@ function LoginGate({ onAuth }: { onAuth: () => void }) {
 
 // ─── MAIN ADMIN PAGE ─────────────────────────────────
 export default function AdminPage() {
+  const palette = useAppTheme();
+  const { BG, SURFACE, BORDER, TEXT } = themeTokens(palette);
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
