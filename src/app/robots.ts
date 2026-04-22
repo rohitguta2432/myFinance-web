@@ -5,8 +5,9 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: "*",
             allow: "/",
-            disallow: [],
+            disallow: ["/admin", "/api/", "/dashboard", "/assessment"],
         },
         sitemap: "https://myfinancial.in/sitemap.xml",
+        host: "https://myfinancial.in",
     };
 }

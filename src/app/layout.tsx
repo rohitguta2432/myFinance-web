@@ -34,8 +34,13 @@ export const metadata: Metadata = {
         "post tax calculator",
         "net worth India",
     ],
-    authors: [{ name: "MyFinancial" }],
+    authors: [{ name: "Nithin Pushkaran", url: "https://myfinancial.in/about" }],
+    creator: "Nithin Pushkaran",
+    publisher: "MyFinancial",
     metadataBase: new URL("https://myfinancial.in"),
+    alternates: {
+        canonical: "/",
+    },
     openGraph: {
         type: "website",
         locale: "en_IN",
@@ -44,12 +49,21 @@ export const metadata: Metadata = {
         title: "MyFinancial — Know Your Money. Own Your Future.",
         description:
             "Free, privacy-first personal finance tool for Indians. Post-tax reality, tax regime optimizer, insurance gap check — zero data shared.",
+        images: [
+            {
+                url: "/og-default.png",
+                width: 1200,
+                height: 630,
+                alt: "MyFinancial — Know Your Money. Own Your Future.",
+            },
+        ],
     },
     twitter: {
         card: "summary_large_image",
         title: "MyFinancial — Know Your Money. Own Your Future.",
         description:
             "Free, privacy-first personal finance tool for Indians. No signup, no data sharing.",
+        images: ["/og-default.png"],
     },
     robots: {
         index: true,
