@@ -1,13 +1,98 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronRight, Flame, Lock } from "lucide-react";
-import { useTimeMachine } from "@/hooks/dashboard/useTimeMachine";
+import { Hourglass, Lock } from "lucide-react";
+import { useTimeMachine, type TimeMachineCard, type TimeMachineCardTone } from "@/hooks/dashboard/useTimeMachine";
 import { ProjectionChart } from "./ProjectionChart";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 interface Props {
   isPremium?: boolean;
+}
+
+const TONE_COLORS: Record<TimeMachineCardTone, { badgeBg: string; badgeText: string; amount: string }> = {
+  danger: { badgeBg: "rgba(239,68,68,0.15)", badgeText: "#F87171", amount: "#EF4444" },
+  warning: { badgeBg: "rgba(245,158,11,0.15)", badgeText: "#FBBF24", amount: "#F59E0B" },
+  positive: { badgeBg: "rgba(59,130,246,0.15)", badgeText: "#60A5FA", amount: "#3B82F6" },
+};
+
+function renderBold(text: string): React.ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} style={{ fontWeight: 700, color: "#F1F5F9" }}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
+function Card({ card, palette }: { card: TimeMachineCard; palette: ReturnType<typeof useAppTheme> }) {
+  const tone = TONE_COLORS[card.tone] ?? TONE_COLORS.danger;
+  return (
+    <div style={{
+      padding: 20,
+      borderRadius: 12,
+      background: palette.brd,
+      border: `1px solid ${palette.brd2}`,
+      display: "flex",
+      flexDirection: "column",
+      gap: 10,
+    }}>
+      <span style={{
+        alignSelf: "flex-start",
+        padding: "4px 10px",
+        borderRadius: 6,
+        background: tone.badgeBg,
+        color: tone.badgeText,
+        fontSize: 10,
+        fontWeight: 700,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        fontFamily: "var(--font-display)",
+      }}>{card.badge}</span>
+      <p style={{
+        fontSize: 28,
+        fontWeight: 700,
+        color: tone.amount,
+        margin: 0,
+        fontVariantNumeric: "tabular-nums",
+        letterSpacing: "-0.02em",
+        fontFamily: "var(--font-display)",
+      }}>
+        {card.amountPrefix ?? ""}{card.amountFormatted}
+        {card.amountSuffix && <span style={{ fontSize: 18, marginLeft: 2 }}>{card.amountSuffix}</span>}
+      </p>
+      <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>
+        {card.heading}
+      </p>
+      <p style={{ fontSize: 12, lineHeight: 1.6, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
+        {renderBold(card.body)}
+      </p>
+      {card.formula && (
+        <div style={{
+          marginTop: 4,
+          padding: "8px 10px",
+          borderRadius: 6,
+          background: "rgba(0,0,0,0.2)",
+          border: `1px solid ${palette.brd2}`,
+        }}>
+          <p style={{
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: palette.mute,
+            margin: 0,
+            marginBottom: 4,
+            fontFamily: "var(--font-display)",
+          }}>Formula</p>
+          <p style={{ fontSize: 11, color: palette.mute, margin: 0, fontFamily: "var(--font-mono, monospace)" }}>
+            {card.formula}
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function FinancialTimeMachine({ isPremium = false }: Props) {
@@ -34,7 +119,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
 
   if (!data || data.dailyCost <= 0) return null;
 
-  const { missedWealthFormatted, totalDelayCostFormatted, oneYearPenaltyFormatted, streak, topAction } = data;
+  const { missedWealthFormatted, avgYearlyCostFormatted, delayYears, heroSubtitle, explanation, cards } = data;
 
   return (
     <div style={{
@@ -64,10 +149,10 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
               Financial Time Machine
             </h3>
           </div>
-          {streak > 1 && (
+          {delayYears > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 99 }}>
-              <Flame size={16} style={{ color: "#FB923C" }} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#FB923C", fontFamily: "var(--font-display)" }}>{streak}-day streak</span>
+              <Hourglass size={14} style={{ color: "#FB923C" }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#FB923C", fontFamily: "var(--font-display)" }}>{delayYears}-yr delay</span>
             </div>
           )}
         </div>
@@ -89,48 +174,50 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
               ₹{tickerCost.toLocaleString("en-IN")}/day
             </p>
             <p style={{ fontSize: 14, color: palette.mute, marginTop: 4, margin: 0, fontFamily: "var(--font-display)" }}>
-              is slipping away while you wait
+              {heroSubtitle ?? "is slipping away while you wait"}
             </p>
           </div>
         </div>
 
-        {/* 3 Mini Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 20 }}>
-          <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)" }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: "#059669", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{missedWealthFormatted}</p>
-            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>missed by not starting 5 yrs ago</p>
-          </div>
-          <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: "#D97706", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{totalDelayCostFormatted}</p>
-            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>total delay cost so far</p>
-          </div>
-          <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: "#DC2626", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{oneYearPenaltyFormatted}</p>
-            <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>more if you wait another year</p>
-          </div>
-        </div>
-
-        {/* Top Action */}
-        {topAction && (
-          <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: 11, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8, fontFamily: "var(--font-display)" }}>
-              Your #1 action to stop the bleed
-            </p>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: 12,
-              borderRadius: 12,
-              background: palette.brd,
-              border: `1px solid ${palette.brd}`,
-              cursor: "pointer",
+        {explanation && (
+          <div style={{
+            padding: 16,
+            borderRadius: 12,
+            background: palette.brd,
+            border: `1px solid ${palette.brd}`,
+            marginBottom: 20,
+          }}>
+            <p style={{
+              fontSize: 13,
+              lineHeight: 1.6,
+              color: palette.mute,
+              margin: 0,
+              fontFamily: "var(--font-display)",
             }}>
-              <span style={{ fontSize: 20 }}>{topAction.icon}</span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 14, fontWeight: 700, color: palette.txt, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: 0, fontFamily: "var(--font-display)" }}>{topAction.title}</p>
-              </div>
-              <ChevronRight size={20} style={{ color: palette.mute, flexShrink: 0 }} />
+              <strong style={{ color: palette.txt, fontWeight: 700 }}>How to read this:</strong>{" "}
+              {explanation}
+            </p>
+          </div>
+        )}
+
+        {cards ? (
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${Math.min(cards.length, 3)}, 1fr)`,
+            gap: 12,
+            marginBottom: 20,
+          }}>
+            {cards.map((card, i) => <Card key={i} card={card} palette={palette} />)}
+          </div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginBottom: 20 }}>
+            <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)" }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "#059669", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{missedWealthFormatted}</p>
+              <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>missed by not starting {delayYears} yrs ago</p>
+            </div>
+            <div style={{ borderRadius: 12, padding: 12, textAlign: "center", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "#DC2626", fontVariantNumeric: "tabular-nums", margin: 0, fontFamily: "var(--font-display)" }}>{avgYearlyCostFormatted}</p>
+              <p style={{ fontSize: 11, color: palette.mute, marginTop: 2, lineHeight: 1.4, margin: 0, fontFamily: "var(--font-display)" }}>average cost per year of delay</p>
             </div>
           </div>
         )}
