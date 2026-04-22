@@ -76,7 +76,7 @@ export default function NetWorthPage() {
                     {[120, 200, 300].map((h, i) => (
                         <div key={i} style={{
                             height: h, borderRadius: 16,
-                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
+                            backgroundImage: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.4s ease infinite",
                             animationDelay: `${i * 0.1}s`,

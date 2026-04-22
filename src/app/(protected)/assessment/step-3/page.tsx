@@ -405,7 +405,7 @@ export default function Step3Page() {
                     <div
                         key={i}
                         style={{
-                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s3} 50%, ${palette.s1} 75%)`,
+                            backgroundImage: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s3} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.5s infinite",
                             borderRadius: 16,

@@ -316,14 +316,14 @@ export default function GoalsDashboardPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 960, margin: "0 auto" }}>
                     <div style={{
                         height: 100, borderRadius: 16,
-                        background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
+                        backgroundImage: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
                         backgroundSize: "200% 100%",
                         animation: "shimmer 1.4s ease infinite",
                     }} />
                     {[0, 1, 2].map((i) => (
                         <div key={i} style={{
                             height: 160, borderRadius: 16,
-                            background: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
+                            backgroundImage: `linear-gradient(90deg, ${palette.s1} 25%, ${palette.s2} 50%, ${palette.s1} 75%)`,
                             backgroundSize: "200% 100%",
                             animation: "shimmer 1.4s ease infinite",
                             animationDelay: `${i * 0.1}s`,

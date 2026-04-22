@@ -78,7 +78,7 @@ export default function DashboardSummaryPage() {
     return (
       <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ textAlign: "center" }}>
-          <div style={{ width: 48, height: 48, borderRadius: "50%", border: "3px solid rgba(16,185,129,0.3)", borderTopColor: "#10B981", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
+          <div style={{ width: 48, height: 48, borderRadius: "50%", borderStyle: "solid", borderWidth: 3, borderTopColor: "#10B981", borderRightColor: "rgba(16,185,129,0.3)", borderBottomColor: "rgba(16,185,129,0.3)", borderLeftColor: "rgba(16,185,129,0.3)", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
           <p style={{ color: palette.mute, fontFamily: "var(--font-display)" }}>Loading your dashboard...</p>
         </div>

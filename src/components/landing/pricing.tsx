@@ -88,7 +88,7 @@ export function PricingSection() {
                             <div className="text-gradient" style={{ fontFamily: "var(--font-display)", fontSize: 38, fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-1.5px" }}>{p.price}</div>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: 13, color: palette.txt2, marginBottom: 20 }}>{p.cycle}</div>
 
-                            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginBottom: "auto", paddingBottom: 20, margin: 0, padding: "0 0 20px 0" }}>
+                            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 7, marginTop: 0, marginRight: 0, marginBottom: "auto", marginLeft: 0, paddingTop: 0, paddingRight: 0, paddingBottom: 20, paddingLeft: 0 }}>
                                 {p.features.map((f) => (
                                     <li key={f.text} style={{ fontSize: 13, display: "flex", gap: 6, lineHeight: 1.5, color: f.ok ? palette.txt2 : palette.mute }}>
                                         <span style={{ color: f.ok ? "#10B981" : palette.mute, fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>

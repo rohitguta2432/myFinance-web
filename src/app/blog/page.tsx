@@ -74,8 +74,12 @@ export default function BlogPage() {
                             style={{
                                 width: 32,
                                 height: 32,
-                                border: `3px solid ${palette.s3}`,
+                                borderStyle: "solid",
+                                borderWidth: 3,
                                 borderTopColor: "#10B981",
+                                borderRightColor: palette.s3,
+                                borderBottomColor: palette.s3,
+                                borderLeftColor: palette.s3,
                                 borderRadius: 9999,
                                 animation: "spin 0.8s linear infinite",
                                 margin: "0 auto 16px",

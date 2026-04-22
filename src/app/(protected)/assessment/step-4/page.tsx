@@ -514,7 +514,7 @@ export default function Step4FinancialGoals() {
                         </div>
                     ) : isRetirementLoading ? (
                         <div style={{ ...S.card, padding: 32, display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-                            <div style={{ width: 24, height: 24, border: "2px solid #10B981", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
+                            <div style={{ width: 24, height: 24, borderStyle: "solid", borderWidth: 2, borderTopColor: "transparent", borderRightColor: "#10B981", borderBottomColor: "#10B981", borderLeftColor: "#10B981", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
                             <span style={{ color: palette.mute }}>Calculating your retirement plan...</span>
                         </div>
                     ) : retirementData ? (
