@@ -1188,123 +1188,10 @@ function Sidebar({
   );
 }
 
-// ─── LOGIN FORM ──────────────────────────────────────
-function LoginGate({ onAuth }: { onAuth: () => void }) {
-  const palette = useAppTheme();
-  const { BG, SURFACE, BORDER, TEXT, MUTED } = themeTokens(palette);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    const res = await fetch('/api/admin/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'admin', password }),
-    });
-    setLoading(false);
-    if (res.ok) {
-      onAuth();
-    } else {
-      setError('Invalid admin password');
-    }
-  };
-
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: BG,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: FONT,
-      }}
-    >
-      <div
-        style={{
-          background: SURFACE,
-          border: BORDER,
-          borderRadius: 20,
-          padding: 40,
-          width: 360,
-        }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 16,
-              background: `${ACCENT}22`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 16px',
-            }}
-          >
-            <Shield size={28} color={ACCENT} />
-          </div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: TEXT, marginBottom: 6 }}>Admin Panel</h1>
-          <p style={{ fontSize: 13, color: MUTED }}>MyFinancial — Restricted Access</p>
-        </div>
-        <form onSubmit={handleLogin}>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Admin password"
-            required
-            style={{
-              width: '100%',
-              padding: '12px 16px',
-              background: palette.s2,
-              border: BORDER,
-              borderRadius: 12,
-              color: TEXT,
-              fontSize: 14,
-              outline: 'none',
-              marginBottom: 12,
-              boxSizing: 'border-box',
-              fontFamily: FONT,
-            }}
-          />
-          {error && (
-            <p style={{ fontSize: 13, color: palette.danger, marginBottom: 12, textAlign: 'center' }}>{error}</p>
-          )}
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '12px',
-              background: ACCENT,
-              border: 'none',
-              borderRadius: 12,
-              color: '#FFFFFF',
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: loading ? 'default' : 'pointer',
-              opacity: loading ? 0.7 : 1,
-              fontFamily: FONT,
-            }}
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 // ─── MAIN ADMIN PAGE ─────────────────────────────────
 export default function AdminPage() {
   const palette = useAppTheme();
   const { BG, SURFACE, BORDER, TEXT } = themeTokens(palette);
-  const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [meId, setMeId] = useState<string | null>(null);
@@ -1322,19 +1209,16 @@ export default function AdminPage() {
   const { data: stats, isLoading: statsLoading, isError: statsError } = useQuery<AdminStats>({
     queryKey: ['admin-stats'],
     queryFn: () => fetchAdmin('/admin/stats'),
-    enabled: authenticated,
   });
 
   const { data: users, isLoading: usersLoading, isError: usersError } = useQuery<AdminUser[]>({
     queryKey: ['admin-users'],
     queryFn: () => fetchAdmin('/admin/users'),
-    enabled: authenticated,
   });
 
   const { data: activity, isError: activityError } = useQuery<ActivityDay[]>({
     queryKey: ['admin-activity'],
     queryFn: () => fetchAdmin('/admin/activity?days=7'),
-    enabled: authenticated,
   });
 
   const handleExport = useCallback(() => {
@@ -1361,10 +1245,6 @@ export default function AdminPage() {
     a.click();
     URL.revokeObjectURL(url);
   }, [users]);
-
-  if (!authenticated) {
-    return <LoginGate onAuth={() => setAuthenticated(true)} />;
-  }
 
   return (
     <div
