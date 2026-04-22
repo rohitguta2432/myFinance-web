@@ -16,11 +16,11 @@ const TONE_COLORS: Record<TimeMachineCardTone, { badgeBg: string; badgeText: str
   positive: { badgeBg: "rgba(59,130,246,0.15)", badgeText: "#60A5FA", amount: "#3B82F6" },
 };
 
-function renderBold(text: string): React.ReactNode[] {
+function renderBold(text: string, boldColor: string): React.ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={i} style={{ fontWeight: 700, color: "#F1F5F9" }}>{part.slice(2, -2)}</strong>;
+      return <strong key={i} style={{ fontWeight: 700, color: boldColor }}>{part.slice(2, -2)}</strong>;
     }
     return <span key={i}>{part}</span>;
   });
@@ -66,31 +66,8 @@ function Card({ card, palette }: { card: TimeMachineCard; palette: ReturnType<ty
         {card.heading}
       </p>
       <p style={{ fontSize: 12, lineHeight: 1.6, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>
-        {renderBold(card.body)}
+        {renderBold(card.body, palette.txt)}
       </p>
-      {card.formula && (
-        <div style={{
-          marginTop: 4,
-          padding: "8px 10px",
-          borderRadius: 6,
-          background: "rgba(0,0,0,0.2)",
-          border: `1px solid ${palette.brd2}`,
-        }}>
-          <p style={{
-            fontSize: 9,
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: palette.mute,
-            margin: 0,
-            marginBottom: 4,
-            fontFamily: "var(--font-display)",
-          }}>Formula</p>
-          <p style={{ fontSize: 11, color: palette.mute, margin: 0, fontFamily: "var(--font-mono, monospace)" }}>
-            {card.formula}
-          </p>
-        </div>
-      )}
     </div>
   );
 }
@@ -119,7 +96,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
 
   if (!data || data.dailyCost <= 0) return null;
 
-  const { missedWealthFormatted, avgYearlyCostFormatted, delayYears, heroSubtitle, explanation, cards } = data;
+  const { missedWealthFormatted, avgYearlyCostFormatted, delayYears, explanation, cards } = data;
 
   return (
     <div style={{
@@ -159,7 +136,7 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
 
         {/* Hero ₹/day */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "16px 32px", borderRadius: 12, background: palette.brd, border: `1px solid ${palette.brd}` }}>
+          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "16px 32px", borderRadius: 12, background: palette.brd, border: `1px solid ${palette.brd}`, maxWidth: 640 }}>
             <p style={{
               fontSize: 36,
               fontWeight: 700,
@@ -173,32 +150,22 @@ export function FinancialTimeMachine({ isPremium = false }: Props) {
             }}>
               ₹{tickerCost.toLocaleString("en-IN")}/day
             </p>
-            <p style={{ fontSize: 14, color: palette.mute, marginTop: 4, margin: 0, fontFamily: "var(--font-display)" }}>
-              {heroSubtitle ?? "is slipping away while you wait"}
-            </p>
+            {explanation && (
+              <p style={{
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: palette.mute,
+                marginTop: 10,
+                margin: 0,
+                fontFamily: "var(--font-display)",
+                textAlign: "center",
+              }}>
+                {explanation}
+              </p>
+            )}
           </div>
         </div>
 
-        {explanation && (
-          <div style={{
-            padding: 16,
-            borderRadius: 12,
-            background: palette.brd,
-            border: `1px solid ${palette.brd}`,
-            marginBottom: 20,
-          }}>
-            <p style={{
-              fontSize: 13,
-              lineHeight: 1.6,
-              color: palette.mute,
-              margin: 0,
-              fontFamily: "var(--font-display)",
-            }}>
-              <strong style={{ color: palette.txt, fontWeight: 700 }}>How to read this:</strong>{" "}
-              {explanation}
-            </p>
-          </div>
-        )}
 
         {cards ? (
           <div style={{
