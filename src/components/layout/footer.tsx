@@ -1,11 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 export function Footer() {
     const palette = useAppTheme();
     const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
 
     return (
         <footer
@@ -24,7 +28,7 @@ export function Footer() {
             <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 4 }}>
                     <img
-                        src={resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
+                        src={mounted && resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
                         alt="MyFinancial"
                         style={{ height: 32, width: "auto" }}
                     />
