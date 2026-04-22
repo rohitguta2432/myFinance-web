@@ -58,6 +58,8 @@ export function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
     const { resolvedTheme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
 
     const isAppRoute = ["/assessment", "/dashboard", "/admin"].some((r) => pathname.startsWith(r));
     const pageTitle = PAGE_TITLES[pathname] || (pathname.startsWith("/assessment") ? "Assessment" : pathname.startsWith("/dashboard") ? "Dashboard" : "");
@@ -131,12 +133,13 @@ export function Navbar() {
         router.refresh();
     };
 
-    const isLight = resolvedTheme === "light";
+    const isLight = mounted && resolvedTheme === "light";
 
     const ThemeToggleButton = (
         <button
             onClick={() => setTheme(isLight ? "dark" : "light")}
             aria-label="Toggle theme"
+            suppressHydrationWarning
             style={{
                 background: "none",
                 border: `1px solid ${palette.brd}`,
@@ -147,9 +150,11 @@ export function Navbar() {
                 alignItems: "center",
                 color: palette.mute,
                 transition: "all 0.15s",
+                width: 32,
+                height: 30,
             }}
         >
-            {isLight ? <Moon size={16} /> : <Sun size={16} />}
+            {mounted ? (isLight ? <Moon size={16} /> : <Sun size={16} />) : null}
         </button>
     );
 
@@ -174,7 +179,7 @@ export function Navbar() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 height: 64,
-                background: resolvedTheme === "light" ? "rgba(248,250,252,0.80)" : "rgba(8,14,18,0.75)",
+                background: mounted && resolvedTheme === "light" ? "rgba(248,250,252,0.80)" : "rgba(8,14,18,0.75)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
                 borderBottom: `1px solid ${palette.brd}`,
@@ -183,7 +188,7 @@ export function Navbar() {
         >
             <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                 <img
-                    src={resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
+                    src={mounted && resolvedTheme === "light" ? "/myfinancial-logo-light.svg" : "/myfinancial-logo.svg"}
                     alt="MyFinancial"
                     style={{ height: 40, width: "auto" }}
                 />
