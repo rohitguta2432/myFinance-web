@@ -109,6 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [upgradeTabLabel, setUpgradeTabLabel] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [isAdminFromApi, setIsAdminFromApi] = useState(false);
   const streak = useStreak();
 
   useEffect(() => {
@@ -116,9 +117,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => { if (data?.user?.email) setUserEmail(data.user.email); })
       .catch(() => {});
+
+    fetch("/api/proxy/admin/me", { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => { if (data?.isAdmin) setIsAdminFromApi(true); })
+      .catch(() => {});
   }, []);
 
-  const isAdmin = ADMIN_EMAILS.includes(userEmail);
+  const isAdmin = isAdminFromApi || ADMIN_EMAILS.includes(userEmail);
 
   // Premium state from localStorage
   const isPremium = typeof window !== "undefined"

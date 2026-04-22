@@ -71,3 +71,8 @@ export const DELETE = (
     req: NextRequest,
     { params }: { params: Promise<{ path: string[] }> }
 ) => proxyRequest(req, params);
+
+export const PATCH = (
+    req: NextRequest,
+    { params }: { params: Promise<{ path: string[] }> }
+) => proxyRequest(req, params);

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useCallback, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useAppTheme, type AppPalette } from '@/hooks/useAppTheme';
 import {
@@ -39,6 +39,7 @@ interface AdminUser {
   netWorth: number;
   monthlyIncome: number;
   savingsRate?: number;
+  isAdmin?: boolean;
 }
 
 interface AdminStats {
@@ -151,6 +152,18 @@ const fetchAdmin = (path: string) =>
     if (!r.ok) throw new Error('API error');
     return r.json();
   });
+
+const patchAdmin = async (path: string, body: unknown) => {
+  const res = await fetch(`/api/proxy${path}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || 'Request failed');
+  return data;
+};
 
 // ─── STAT CARD ───────────────────────────────────────
 function StatCard({
@@ -624,6 +637,7 @@ function OverviewView({
   activity,
   activityError,
   onSelectUser,
+  meId,
 }: {
   stats?: AdminStats;
   statsLoading: boolean;
@@ -634,12 +648,27 @@ function OverviewView({
   activity?: ActivityDay[];
   activityError?: boolean;
   onSelectUser: (id: string) => void;
+  meId: string | null;
 }) {
   const palette = useAppTheme();
   const { BG, SURFACE, BORDER, TEXT, TEXT2, MUTED } = themeTokens(palette);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [roleError, setRoleError] = useState<string>('');
   const perPage = 10;
+  const queryClient = useQueryClient();
+
+  const roleMutation = useMutation({
+    mutationFn: ({ id, isAdmin }: { id: string; isAdmin: boolean }) =>
+      patchAdmin(`/admin/users/${id}/role`, { isAdmin }),
+    onSuccess: () => {
+      setRoleError('');
+      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+    },
+    onError: (err: Error) => setRoleError(err.message),
+  });
+
+  const adminCount = (users || []).filter((u) => u.isAdmin).length;
 
   if (statsError || usersError || activityError) {
     return (
@@ -747,6 +776,12 @@ function OverviewView({
         </div>
       </div>
 
+      {roleError && (
+        <div style={{ background: `${palette.danger}18`, border: `1px solid ${palette.danger}44`, color: palette.danger, padding: '10px 14px', borderRadius: 12, fontSize: 13 }}>
+          {roleError}
+        </div>
+      )}
+
       {/* Users table */}
       <div style={{ background: SURFACE, borderRadius: 16, border: BORDER, overflow: 'hidden' }}>
         <div style={{ padding: '16px 24px', borderBottom: BORDER, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -804,11 +839,11 @@ function OverviewView({
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                 <thead>
                   <tr style={{ borderBottom: BORDER }}>
-                    {['User', 'City', 'Joined', 'Last Login', 'Steps', 'Net Worth', 'Income/mo', 'Savings %', ''].map((h) => (
+                    {['User', 'City', 'Joined', 'Last Login', 'Steps', 'Net Worth', 'Income/mo', 'Savings %', 'Role', ''].map((h) => (
                       <th
                         key={h}
                         style={{
-                          textAlign: h === 'Net Worth' || h === 'Income/mo' || h === 'Savings %' || h === '' ? 'right' : h === 'Steps' ? 'center' : 'left',
+                          textAlign: h === 'Net Worth' || h === 'Income/mo' || h === 'Savings %' || h === '' ? 'right' : h === 'Steps' || h === 'Role' ? 'center' : 'left',
                           padding: '12px 16px',
                           fontSize: 11,
                           fontWeight: 600,
@@ -874,6 +909,45 @@ function OverviewView({
                           {u.savingsRate?.toFixed(0) || 0}%
                         </span>
                       </td>
+                      <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                        {(() => {
+                          const isSelf = meId != null && String(u.id) === String(meId);
+                          const isLastAdmin = !!u.isAdmin && adminCount <= 1;
+                          const disabled = isSelf || isLastAdmin || roleMutation.isPending;
+                          const title = isSelf
+                            ? 'Cannot change your own role'
+                            : isLastAdmin
+                            ? 'Cannot demote the last admin'
+                            : u.isAdmin
+                            ? 'Revoke admin'
+                            : 'Grant admin';
+                          return (
+                            <button
+                              title={title}
+                              disabled={disabled}
+                              onClick={() => roleMutation.mutate({ id: u.id, isAdmin: !u.isAdmin })}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                padding: '4px 10px',
+                                borderRadius: 20,
+                                fontSize: 12,
+                                fontWeight: 700,
+                                cursor: disabled ? 'not-allowed' : 'pointer',
+                                opacity: disabled ? 0.55 : 1,
+                                border: u.isAdmin ? `1px solid ${ACCENT}55` : `1px solid ${palette.brd2}`,
+                                background: u.isAdmin ? `${ACCENT}18` : palette.s2,
+                                color: u.isAdmin ? ACCENT : MUTED,
+                                fontFamily: FONT,
+                              }}
+                            >
+                              <Shield size={12} />
+                              {u.isAdmin ? 'Admin' : 'User'}
+                            </button>
+                          );
+                        })()}
+                      </td>
                       <td style={{ padding: '12px 16px', textAlign: 'right' }}>
                         <button
                           onClick={() => onSelectUser(u.id)}
@@ -897,7 +971,7 @@ function OverviewView({
                   ))}
                   {pagedUsers.length === 0 && (
                     <tr>
-                      <td colSpan={9} style={{ padding: 40, textAlign: 'center', color: MUTED, fontSize: 13 }}>
+                      <td colSpan={10} style={{ padding: 40, textAlign: 'center', color: MUTED, fontSize: 13 }}>
                         {search ? 'No users match your search.' : 'No users yet.'}
                       </td>
                     </tr>
@@ -1233,6 +1307,17 @@ export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [meId, setMeId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const match = document.cookie.match(/(?:^|;\s*)user_profile=([^;]+)/);
+    if (!match) return;
+    try {
+      const profile = JSON.parse(decodeURIComponent(match[1]));
+      if (profile?.id != null) setMeId(String(profile.id));
+    } catch {}
+  }, []);
 
   const { data: stats, isLoading: statsLoading, isError: statsError } = useQuery<AdminStats>({
     queryKey: ['admin-stats'],
@@ -1328,6 +1413,7 @@ export default function AdminPage() {
               activity={activity}
               activityError={activityError}
               onSelectUser={setSelectedUserId}
+              meId={meId}
             />
           )}
         </main>
