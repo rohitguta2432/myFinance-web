@@ -46,21 +46,87 @@ function buildProjectionData(
     return points;
 }
 
-// Group assets by category and sum amounts
-function groupAssetsByCategory(assets: AssetItem[]): Array<{ category: string; amount: number; pct: number }> {
-    const totalAssets = assets.reduce((s, a) => s + a.amount, 0);
+// Group items by category and sum amounts (works for both assets and liabilities)
+function groupByCategory(
+    items: Array<{ category: string; amount: number }>
+): Array<{ category: string; amount: number; pct: number }> {
+    const total = items.reduce((s, i) => s + i.amount, 0);
     const map: Record<string, number> = {};
-    for (const asset of assets) {
-        const cat = asset.category || "Other";
-        map[cat] = (map[cat] ?? 0) + asset.amount;
+    for (const item of items) {
+        const cat = item.category || "Other";
+        map[cat] = (map[cat] ?? 0) + item.amount;
     }
     return Object.entries(map)
         .map(([category, amount]) => ({
             category,
             amount,
-            pct: totalAssets > 0 ? Math.round((amount / totalAssets) * 100) : 0,
+            pct: total > 0 ? Math.round((amount / total) * 100) : 0,
         }))
         .sort((a, b) => b.amount - a.amount);
+}
+
+interface BreakdownTableProps {
+    title: string;
+    rows: Array<{ category: string; amount: number; pct: number }>;
+    emptyText: string;
+    pctColor: string;
+    palette: ReturnType<typeof useAppTheme>;
+}
+
+function BreakdownTable({ title, rows, emptyText, pctColor, palette }: BreakdownTableProps) {
+    return (
+        <div style={{
+            background: palette.s1,
+            border: `1px solid ${palette.brd}`,
+            borderRadius: 16,
+            padding: "20px 24px",
+            overflow: "hidden",
+        }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: palette.txt, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                {title}
+            </h3>
+            {rows.length === 0 ? (
+                <p style={{ fontSize: 13, color: palette.mute, textAlign: "center", padding: "16px 0" }}>
+                    {emptyText}
+                </p>
+            ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr auto auto",
+                        gap: 12,
+                        padding: "6px 10px",
+                        borderBottom: `1px solid ${palette.brd}`,
+                        marginBottom: 4,
+                    }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em" }}>Category</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em", textAlign: "right" }}>Amount</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em", textAlign: "right", minWidth: 36 }}>%</span>
+                    </div>
+                    {rows.map((row, i) => (
+                        <div key={row.category} style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr auto auto",
+                            gap: 12,
+                            padding: "8px 10px",
+                            borderRadius: 8,
+                            background: i % 2 === 0 ? "transparent" : palette.s2,
+                        }}>
+                            <span style={{ fontSize: 13, color: palette.txt, fontWeight: 500, textTransform: "capitalize" }}>
+                                {row.category.replace(/_/g, " ")}
+                            </span>
+                            <span style={{ fontSize: 13, color: palette.txt2, fontWeight: 600, textAlign: "right" }}>
+                                {formatCurrency(row.amount, true)}
+                            </span>
+                            <span style={{ fontSize: 13, color: pctColor, fontWeight: 700, textAlign: "right", minWidth: 36 }}>
+                                {row.pct}%
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default function NetWorthPage() {
@@ -142,7 +208,8 @@ export default function NetWorthPage() {
     const DONUT_COLORS = ["#10B981", "#F87171"];
 
     // Category breakdown
-    const categoryRows = groupAssetsByCategory(assets);
+    const assetCategoryRows = groupByCategory(assets);
+    const liabilityCategoryRows = groupByCategory(liabilities);
 
     // Projection chart data
     const projectionData = buildProjectionData(totalAssets, totalLiabilities, totalMonthlyEMI);
@@ -310,59 +377,23 @@ export default function NetWorthPage() {
                         </div>
                     </div>
 
-                    {/* Category breakdown table */}
-                    <div style={{
-                        background: palette.s1,
-                        border: `1px solid ${palette.brd}`,
-                        borderRadius: 16,
-                        padding: "20px 24px",
-                        overflow: "hidden",
-                    }}>
-                        <h3 style={{ fontSize: 14, fontWeight: 700, color: palette.txt, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                            Asset Breakdown
-                        </h3>
-                        {categoryRows.length === 0 ? (
-                            <p style={{ fontSize: 13, color: palette.mute, textAlign: "center", padding: "16px 0" }}>
-                                No assets recorded
-                            </p>
-                        ) : (
-                            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                                {/* Header */}
-                                <div style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "1fr auto auto",
-                                    gap: 12,
-                                    padding: "6px 10px",
-                                    borderBottom: `1px solid ${palette.brd}`,
-                                    marginBottom: 4,
-                                }}>
-                                    <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em" }}>Category</span>
-                                    <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em", textAlign: "right" }}>Amount</span>
-                                    <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.07em", textAlign: "right", minWidth: 36 }}>%</span>
-                                </div>
-                                {categoryRows.map((row, i) => (
-                                    <div key={row.category} style={{
-                                        display: "grid",
-                                        gridTemplateColumns: "1fr auto auto",
-                                        gap: 12,
-                                        padding: "8px 10px",
-                                        borderRadius: 8,
-                                        background: i % 2 === 0 ? "transparent" : palette.s2,
-                                    }}>
-                                        <span style={{ fontSize: 13, color: palette.txt, fontWeight: 500, textTransform: "capitalize" }}>
-                                            {row.category.replace(/_/g, " ")}
-                                        </span>
-                                        <span style={{ fontSize: 13, color: palette.txt2, fontWeight: 600, textAlign: "right" }}>
-                                            {formatCurrency(row.amount, true)}
-                                        </span>
-                                        <span style={{ fontSize: 13, color: "#10B981", fontWeight: 700, textAlign: "right", minWidth: 36 }}>
-                                            {row.pct}%
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    {/* Asset breakdown table */}
+                    <BreakdownTable
+                        title="Asset Breakdown"
+                        rows={assetCategoryRows}
+                        emptyText="No assets recorded"
+                        pctColor="#10B981"
+                        palette={palette}
+                    />
+
+                    {/* Liability breakdown table */}
+                    <BreakdownTable
+                        title="Liabilities Breakdown"
+                        rows={liabilityCategoryRows}
+                        emptyText="No liabilities recorded"
+                        pctColor="#F87171"
+                        palette={palette}
+                    />
                 </div>
 
                 {/* Right column: 12-month projection chart */}
