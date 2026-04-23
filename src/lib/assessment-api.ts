@@ -575,7 +575,7 @@ export async function getGoalProjection(): Promise<GoalProjection> {
 }
 
 export async function getRetirementAutoFill(): Promise<RetirementAutoFill> {
-    return api.get<RetirementAutoFill>("/goals/retirement-autofill");
+    return api.get<RetirementAutoFill>("/retirement-autofill");
 }
 
 // ─── Step 5: Insurance ────────────────────────────────────────────────────────
