@@ -11,12 +11,12 @@ import { wipeAllAssessmentStorage, LAST_USER_KEY } from "@/lib/assessment-storag
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 const PAGE_TITLES: Record<string, string> = {
-    "/assessment/step-1": "Personal Profile",
-    "/assessment/step-2": "Income & Expenses",
-    "/assessment/step-3": "Assets & Liabilities",
-    "/assessment/step-4": "Financial Goals",
-    "/assessment/step-5": "Insurance Gap",
-    "/assessment/step-6": "Tax Optimization",
+    "/assessment/profile": "Personal Profile",
+    "/assessment/cash-flow": "Income & Expenses",
+    "/assessment/assets-liabilities": "Assets & Liabilities",
+    "/assessment/goals": "Financial Goals",
+    "/assessment/insurance": "Insurance Gap",
+    "/assessment/tax": "Tax Optimization",
     "/assessment/complete": "Assessment Complete",
     "/dashboard": "Financial Dashboard",
     "/dashboard/action-plan": "Action Plan",
@@ -35,7 +35,7 @@ const navLinks = [
 ];
 
 const dropdownLinks = [
-    { label: "Assessment", href: "/assessment/step-1" },
+    { label: "Assessment", href: "/assessment/profile" },
     { label: "Dashboard", href: "/dashboard" },
     { label: "Blog", href: "/blog" },
     { label: "Home", href: "/" },
@@ -100,7 +100,7 @@ export function Navbar() {
                     const data = await res.json();
                     setUser(data.user);
                     // Route new users to assessment, returning users to dashboard (FLOW-01)
-                    router.push(isComplete ? "/dashboard" : "/assessment/step-1");
+                    router.push(isComplete ? "/dashboard" : "/assessment/profile");
                 }
             } finally {
                 setLoading(false);
@@ -160,7 +160,7 @@ export function Navbar() {
 
     const handleGetStarted = () => {
         if (user) {
-            router.push(isComplete ? "/dashboard" : "/assessment/step-1");
+            router.push(isComplete ? "/dashboard" : "/assessment/profile");
         } else {
             login();
         }

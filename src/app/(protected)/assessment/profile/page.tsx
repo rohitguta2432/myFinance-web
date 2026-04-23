@@ -261,7 +261,7 @@ export default function Step1Page() {
         } catch (err) {
             console.warn("API save failed, continuing with local data:", err);
         }
-        router.push("/assessment/step-2");
+        router.push("/assessment/cash-flow");
     };
 
     // Loading skeleton

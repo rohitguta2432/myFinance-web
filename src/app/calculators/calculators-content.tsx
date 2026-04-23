@@ -130,7 +130,7 @@ export function CalculatorsContent() {
                     <p style={{ fontSize: 15, color: palette.mute, marginBottom: 20 }}>
                         Want a complete picture of your finances?
                     </p>
-                    <Link href="/assessment/step-1" className="btn-teal">
+                    <Link href="/assessment/profile" className="btn-teal">
                         Get Your Full Financial Diagnosis →
                     </Link>
                 </div>

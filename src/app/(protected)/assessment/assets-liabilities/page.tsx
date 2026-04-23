@@ -687,7 +687,7 @@ export default function Step3Page() {
                                     <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>
                                         Please update the EMI amount in{" "}
                                         <button
-                                            onClick={() => router.push("/assessment/step-2")}
+                                            onClick={() => router.push("/assessment/cash-flow")}
                                             style={{ background: "none", border: "none", color: palette.accent, fontWeight: 600, cursor: "pointer", textDecoration: "underline", fontSize: 12 }}
                                         >
                                             Cash Flow (Step 2)
@@ -900,14 +900,14 @@ export default function Step3Page() {
             {/* Bottom Navigation */}
             <StepNavigation
                 step={3}
-                backPath="/assessment/step-2"
+                backPath="/assessment/cash-flow"
                 onNext={() => {
                     const storeHasData = assets.length > 0 || liabilities.length > 0;
                     if (totalAssets === 0 && totalLiabilities === 0 && !storeHasData) {
                         toast.error("Add your assets or liabilities — savings, FDs, loans, etc.", { id: "step3-guide" });
                         return;
                     }
-                    router.push("/assessment/step-4");
+                    router.push("/assessment/goals");
                 }}
                 isValid={true}
             />

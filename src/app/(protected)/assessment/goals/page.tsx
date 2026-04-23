@@ -1144,13 +1144,13 @@ export default function Step4FinancialGoals() {
 
             <StepNavigation
                 step={4}
-                backPath="/assessment/step-3"
+                backPath="/assessment/assets-liabilities"
                 onNext={() => {
                     if (goals.length === 0) {
                         toast.error("Add at least one financial goal — home, retirement, education, etc.", { id: "step4-guide" });
                         return;
                     }
-                    router.push("/assessment/step-5");
+                    router.push("/assessment/insurance");
                 }}
                 isValid={goals.length > 0}
                 validationMessage="Add at least one financial goal to continue"

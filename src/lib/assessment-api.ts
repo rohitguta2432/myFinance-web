@@ -592,9 +592,28 @@ export async function getInsuranceGap(): Promise<InsuranceGapData> {
 
 // ─── Step 6: Tax ──────────────────────────────────────────────────────────────
 
+/** All granular deduction inputs persisted on /tax POST. Backend recomputes totals. */
 export interface TaxData {
-    taxRegime: "old" | "new";
-    investments80C: number;
+    selectedRegime: "OLD" | "NEW";
+    // 80C components
+    ppfElssAmount?: number;
+    epfVpfAmount?: number;
+    tuitionFeesAmount?: number;
+    licPremiumAmount?: number;
+    homeLoanPrincipal?: number;
+    nscFdAmount?: number;
+    // 80D medical
+    healthInsurancePremium?: number;
+    parentsHealthInsurance?: number;
+    parentsHealthInsuranceSenior?: number;
+    // Other
+    additionalNpsAmount?: number;       // 80CCD(1B)
+    homeLoanInterest?: number;          // 24(b)
+    educationLoanInterest?: number;     // 80E
+    donationsAmount?: number;           // 80G
+    // Server-computed (read-only)
+    calculatedTaxOld?: number;
+    calculatedTaxNew?: number;
 }
 
 export interface TaxRegimeDetail {
@@ -625,27 +644,36 @@ export interface TaxCalculationResult {
     savings: number;
 }
 
+/** Granular deduction inputs sent to /tax-calculation query. */
 export interface TaxCalculationParams {
-    deductions80C: number;
-    deductions80D: number;
-    otherDeductions: number;
+    ppfNps?: number;
+    homeLoanPrincipal?: number;
+    tuitionFees?: number;
+    nscFd?: number;
+    medSelfSpouse?: number;
+    medParentsLt60?: number;
+    medParentsGt60?: number;
+    additionalNps?: number;
+    homeLoanInterest?: number;
+    educationLoanInterest?: number;
+    donations?: number;
 }
 
 export async function getTax(): Promise<TaxData> {
     return api.get<TaxData>("/tax");
 }
 
-export async function saveTax(data: TaxData): Promise<void> {
-    await api.post("/tax", data);
+export async function saveTax(data: TaxData): Promise<TaxData> {
+    return api.post<TaxData>("/tax", data);
 }
 
 export async function getTaxCalculation(
     params: TaxCalculationParams
 ): Promise<TaxCalculationResult> {
-    const query = new URLSearchParams({
-        deductions80C: String(params.deductions80C),
-        deductions80D: String(params.deductions80D),
-        otherDeductions: String(params.otherDeductions),
-    }).toString();
+    const query = new URLSearchParams(
+        Object.fromEntries(
+            Object.entries(params).map(([k, v]) => [k, String(v ?? 0)])
+        )
+    ).toString();
     return api.get<TaxCalculationResult>(`/tax-calculation?${query}`);
 }

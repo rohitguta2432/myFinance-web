@@ -72,7 +72,11 @@ export default function Step6TaxOptimization() {
     const [homeLoanInterest, setHomeLoanInterest] = useState(0);
     const [donations, setDonations] = useState(0);
 
-    const [debouncedParams, setDebouncedParams] = useState({ deductions80C: 0, deductions80D: 0, otherDeductions: 0 });
+    const [debouncedParams, setDebouncedParams] = useState({
+        ppfNps: 0, homeLoanPrincipal: 0, tuitionFees: 0, nscFd: 0,
+        medSelfSpouse: 0, medParentsLt60: 0, medParentsGt60: 0,
+        additionalNps: 0, homeLoanInterest: 0, educationLoanInterest: 0, donations: 0,
+    });
     const { data: calcData, isLoading: calcLoading } = useTaxCalculationQuery(debouncedParams);
 
     const autoEpf = calcData?.autoEpf ?? 0;
@@ -85,10 +89,15 @@ export default function Step6TaxOptimization() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setDebouncedParams({ deductions80C: final80C, deductions80D: final80D, otherDeductions: finalOtherDeductions });
+            setDebouncedParams({
+                ppfNps, homeLoanPrincipal, tuitionFees, nscFd,
+                medSelfSpouse, medParentsLt60, medParentsGt60,
+                additionalNps: otherNps,
+                homeLoanInterest, educationLoanInterest: eduLoanInterest, donations,
+            });
         }, 300);
         return () => clearTimeout(timer);
-    }, [final80C, final80D, finalOtherDeductions]);
+    }, [ppfNps, homeLoanPrincipal, tuitionFees, nscFd, medSelfSpouse, medParentsLt60, medParentsGt60, otherNps, homeLoanInterest, eduLoanInterest, donations]);
 
     useEffect(() => { setInvestments80C(final80C); }, [final80C, setInvestments80C]);
 
@@ -128,7 +137,23 @@ export default function Step6TaxOptimization() {
             return;
         }
         try {
-            await saveTaxApi({ taxRegime, investments80C: final80C });
+            await saveTaxApi({
+                selectedRegime: taxRegime.toUpperCase() as "OLD" | "NEW",
+                // 80C components
+                ppfElssAmount: ppfNps,
+                homeLoanPrincipal,
+                tuitionFeesAmount: tuitionFees,
+                nscFdAmount: nscFd,
+                // 80D medical
+                healthInsurancePremium: medSelfSpouse,
+                parentsHealthInsurance: medParentsLt60,
+                parentsHealthInsuranceSenior: medParentsGt60,
+                // Other
+                additionalNpsAmount: otherNps,
+                homeLoanInterest,
+                educationLoanInterest: eduLoanInterest,
+                donationsAmount: donations,
+            });
         } catch (err) {
             console.warn("Tax API save failed:", err);
         }
@@ -422,7 +447,7 @@ export default function Step6TaxOptimization() {
 
             <StepNavigation
                 step={6}
-                backPath="/assessment/step-5"
+                backPath="/assessment/insurance"
                 onNext={handleComplete}
                 isSaving={isSaving}
                 isValid={!!taxRegime}

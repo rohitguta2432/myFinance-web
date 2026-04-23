@@ -57,6 +57,13 @@ const nextConfig: NextConfig = {
             destination: "https://myfinancial.in/:path*",
             permanent: true,
         },
+        // Legacy step-N → semantic slug
+        { source: "/assessment/step-1", destination: "/assessment/profile", permanent: true },
+        { source: "/assessment/step-2", destination: "/assessment/cash-flow", permanent: true },
+        { source: "/assessment/step-3", destination: "/assessment/assets-liabilities", permanent: true },
+        { source: "/assessment/step-4", destination: "/assessment/goals", permanent: true },
+        { source: "/assessment/step-5", destination: "/assessment/insurance", permanent: true },
+        { source: "/assessment/step-6", destination: "/assessment/tax", permanent: true },
     ],
 };
 

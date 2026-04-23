@@ -72,7 +72,7 @@ export function CalculatorLayout({ title, description, inputs, results, relatedL
 
                 {/* CTA */}
                 <div style={{ marginTop: 48, textAlign: "center" }}>
-                    <Link href="/assessment/step-1" className="btn-teal">
+                    <Link href="/assessment/profile" className="btn-teal">
                         Get Your Full Financial Diagnosis →
                     </Link>
                 </div>

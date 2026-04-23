@@ -645,7 +645,7 @@ export default function Step2Page() {
                         <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>
                             Please update the EMI amount here or correct the EMI values in{" "}
                             <button
-                                onClick={() => router.push("/assessment/step-3")}
+                                onClick={() => router.push("/assessment/assets-liabilities")}
                                 style={{ background: "none", border: "none", color: "#10B981", fontWeight: 600, cursor: "pointer", textDecoration: "underline", fontSize: 12 }}
                             >
                                 Liabilities (Step 3)
@@ -659,7 +659,7 @@ export default function Step2Page() {
             {/* Bottom Navigation */}
             <StepNavigation
                 step={2}
-                backPath="/assessment/step-1"
+                backPath="/assessment/profile"
                 onNext={() => {
                     if (totalMonthlyIncome === 0 && totalMonthlyExpenses === 0) {
                         toast.error("Add at least one income source and one expense to continue", { id: "step2-guide" });
@@ -672,7 +672,7 @@ export default function Step2Page() {
                     if (totalMonthlyExpenses === 0) {
                         toast("💡 Tip: Add your expenses for a better financial picture", { id: "step2-guide" });
                     }
-                    router.push("/assessment/step-3");
+                    router.push("/assessment/assets-liabilities");
                 }}
                 isValid={true}
             />

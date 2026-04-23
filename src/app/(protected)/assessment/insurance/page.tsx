@@ -237,7 +237,7 @@ export default function Step5InsuranceGap() {
         } catch (e) {
             console.warn("Insurance API fail ignored", e);
         }
-        router.push("/assessment/step-6");
+        router.push("/assessment/tax");
     };
 
     const scrollTo = (id: string) => {
@@ -633,7 +633,7 @@ export default function Step5InsuranceGap() {
 
             <StepNavigation
                 step={5}
-                backPath="/assessment/step-4"
+                backPath="/assessment/goals"
                 onNext={handleNext}
                 isSaving={isSaving}
             />

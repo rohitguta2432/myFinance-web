@@ -9,12 +9,12 @@ import { useAppTheme, type AppPalette } from "@/hooks/useAppTheme";
 // ─── Steps Config ─────────────────────────────────────────────────────────────
 
 const STEPS = [
-    { num: 1, title: "Personal Profile",     icon: User,        path: "/assessment/step-1" },
-    { num: 2, title: "Cash Flow",            icon: DollarSign,  path: "/assessment/step-2" },
-    { num: 3, title: "Assets & Liabilities", icon: Wallet,      path: "/assessment/step-3" },
-    { num: 4, title: "Financial Goals",      icon: Flag,        path: "/assessment/step-4" },
-    { num: 5, title: "Insurance Gap",        icon: Shield,      path: "/assessment/step-5" },
-    { num: 6, title: "Tax Planning",         icon: Calculator,  path: "/assessment/step-6" },
+    { num: 1, title: "Personal Profile",     icon: User,        path: "/assessment/profile" },
+    { num: 2, title: "Cash Flow",            icon: DollarSign,  path: "/assessment/cash-flow" },
+    { num: 3, title: "Assets & Liabilities", icon: Wallet,      path: "/assessment/assets-liabilities" },
+    { num: 4, title: "Financial Goals",      icon: Flag,        path: "/assessment/goals" },
+    { num: 5, title: "Insurance Gap",        icon: Shield,      path: "/assessment/insurance" },
+    { num: 6, title: "Tax Planning",         icon: Calculator,  path: "/assessment/tax" },
 ] as const;
 
 const STEP_PROGRESS: Record<number, number> = {

@@ -355,7 +355,7 @@ export default function GoalsDashboardPage() {
                 <p style={{ fontSize: 15, color: palette.mute, marginBottom: 28, maxWidth: 340, lineHeight: 1.6 }}>
                     Set your first financial goal to start tracking progress toward your dreams.
                 </p>
-                <Link href="/assessment/step-4" style={{
+                <Link href="/assessment/goals" style={{
                     display: "inline-block",
                     background: "#10B981",
                     color: "#fff",

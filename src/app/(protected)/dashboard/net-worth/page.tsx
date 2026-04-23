@@ -108,7 +108,7 @@ export default function NetWorthPage() {
                 <p style={{ fontSize: 15, color: palette.mute, marginBottom: 28, maxWidth: 340, lineHeight: 1.6 }}>
                     Complete your financial assessment to see net worth analysis.
                 </p>
-                <Link href="/assessment/step-3" style={{
+                <Link href="/assessment/assets-liabilities" style={{
                     display: "inline-block",
                     background: "#10B981",
                     color: "#fff",

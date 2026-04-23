@@ -238,7 +238,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Retake Assessment */}
           <div style={{ marginTop: 16, paddingTop: 12, borderTop: `1px solid ${palette.brd}` }}>
-            <Link href="/assessment/step-1" style={{
+            <Link href="/assessment/profile" style={{
               display: "flex",
               alignItems: "center",
               gap: 12,
