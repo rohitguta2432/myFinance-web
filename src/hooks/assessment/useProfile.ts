@@ -24,6 +24,8 @@ export const useProfileMutation = () => {
             queryClient.invalidateQueries({ queryKey: ["risk-scoring"] });
             queryClient.invalidateQueries({ queryKey: ["portfolio-analysis"] });
             queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
+            queryClient.invalidateQueries({ queryKey: ["retirement-autofill"] });
+            queryClient.invalidateQueries({ queryKey: ["goal-projection"] });
         },
     });
 };
