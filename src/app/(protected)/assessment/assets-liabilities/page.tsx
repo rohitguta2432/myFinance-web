@@ -360,12 +360,9 @@ export default function Step3Page() {
     const goldTotal = portfolio?.goldTotal ?? 0;
     const otherTotal = portfolio?.otherTotal ?? 0;
 
-    const targetEquity = riskData?.targetEquity ?? 50;
-    const targetDebt = riskData?.targetDebt ?? 30;
-    const targetGold = riskData?.targetGold ?? 5;
-    const targetRealEstate = riskData?.targetRealEstate ?? 15;
+    const allocationRows = portfolio?.allocationStatus ?? [];
     const profileLabel = riskData?.profileLabel ?? "Moderate";
-    const hasRiskData = !!riskData && !isRiskError && riskData.profileLabel != null;
+    const hasRiskData = !!riskData && !isRiskError && riskData.profileLabel != null && allocationRows.length > 0;
 
     const conicGradient =
         totalAssets > 0
@@ -379,20 +376,34 @@ export default function Step3Page() {
             : `conic-gradient(${palette.txt2} 0% 100%)`;
 
     function getMismatchAlert() {
-        if (totalAssets === 0) return null;
-        if (realEstatePct > targetRealEstate + 20) {
-            return {
-                title: `⚠️ Your Real Estate exposure is ${(realEstatePct - targetRealEstate).toFixed(0)}% above target.`,
-                msg: `This concentrates risk. Consider gradually shifting ₹${((realEstatePct - targetRealEstate) / 100 * totalAssets / 100000).toFixed(1)} lakhs to equity over 2-3 years.`,
-            };
-        }
-        if (equityPct < targetEquity - 20) {
-            return {
-                title: `⚠️ Your Equity exposure is ${(targetEquity - equityPct).toFixed(0)}% below target.`,
-                msg: "Consider gradually increasing your investments in mutual funds and stocks.",
-            };
-        }
-        return null;
+        if (totalAssets === 0 || allocationRows.length === 0) return null;
+        const ADVICE: Record<string, { over: string; under: string }> = {
+            "Real Estate": {
+                over: "This concentrates risk. Consider gradually shifting some real-estate exposure to equity over 2-3 years.",
+                under: "Consider adding REITs or property exposure to diversify.",
+            },
+            Equity: {
+                over: "High equity concentration — rebalance some gains into debt/gold to reduce volatility.",
+                under: "Consider gradually increasing your investments in mutual funds and stocks.",
+            },
+            Debt: {
+                over: "Too much in debt — long-term returns may lag inflation. Shift some to equity.",
+                under: "Add debt funds or FDs for stability and emergency buffer.",
+            },
+            Gold: {
+                over: "Gold is over-weighted — trim exposure; gold is a hedge, not a growth asset.",
+                under: "Add 5-10% gold (SGB or ETF) for portfolio hedge against inflation.",
+            },
+        };
+        const breach = allocationRows.find((r) => r.status !== "ON_TRACK");
+        if (!breach) return null;
+        const advice = ADVICE[breach.label] ?? { over: "Above target.", under: "Below target." };
+        const direction = breach.status === "ABOVE" ? "above" : "below";
+        const msg = breach.status === "ABOVE" ? advice.over : advice.under;
+        return {
+            title: `⚠️ Your ${breach.label} exposure is ${Math.abs(breach.diffPct).toFixed(1)}% ${direction} target.`,
+            msg,
+        };
     }
     const allocationAlert = getMismatchAlert();
 
@@ -563,21 +574,14 @@ export default function Step3Page() {
                                     <span style={{ textAlign: "center" }}>Target</span>
                                     <span style={{ textAlign: "right" }}>Status</span>
                                 </div>
-                                {[
-                                    { label: "Equity", current: equityPct, target: targetEquity },
-                                    { label: "Debt", current: debtPct, target: targetDebt },
-                                    { label: "Real Estate", current: realEstatePct, target: targetRealEstate },
-                                    { label: "Gold", current: goldPct, target: targetGold },
-                                ].map((row) => {
-                                    const diff = Math.round(row.current) - row.target;
-                                    const threshold = row.target * 0.4;
+                                {allocationRows.map((row) => {
                                     let statusText: string;
                                     let statusColor: string;
-                                    if (diff > threshold) {
-                                        statusText = `⚠️ ${Math.abs(diff)}% above`;
+                                    if (row.status === "ABOVE") {
+                                        statusText = `⚠️ ${Math.abs(row.diffPct).toFixed(1)}% above`;
                                         statusColor = "#F59E0B";
-                                    } else if (diff < -threshold) {
-                                        statusText = `⚠️ ${Math.abs(diff)}% below`;
+                                    } else if (row.status === "BELOW") {
+                                        statusText = `⚠️ ${Math.abs(row.diffPct).toFixed(1)}% below`;
                                         statusColor = "#F59E0B";
                                     } else {
                                         statusText = "✓ On track";
@@ -586,8 +590,8 @@ export default function Step3Page() {
                                     return (
                                         <div key={row.label} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", fontSize: 14, alignItems: "center", padding: "6px 0", borderBottom: `1px solid ${palette.brd}` }}>
                                             <span style={{ color: palette.txt2 }}>{row.label}</span>
-                                            <span style={{ textAlign: "center", fontWeight: 700, color: palette.txt }}>{row.current.toFixed(0)}%</span>
-                                            <span style={{ textAlign: "center", color: palette.mute }}>{row.target}%</span>
+                                            <span style={{ textAlign: "center", fontWeight: 700, color: palette.txt }}>{row.currentPct.toFixed(0)}%</span>
+                                            <span style={{ textAlign: "center", color: palette.mute }}>{row.targetPct}%</span>
                                             <span style={{ textAlign: "right", fontSize: 12, color: statusColor }}>{statusText}</span>
                                         </div>
                                     );

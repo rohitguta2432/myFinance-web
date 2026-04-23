@@ -103,6 +103,17 @@ export interface BalanceSheetData {
     liabilities: LiabilityItem[];
 }
 
+export type AllocationStatus = "ON_TRACK" | "ABOVE" | "BELOW";
+
+export interface AllocationRow {
+    label: string;
+    currentPct: number;
+    targetPct: number;
+    diffPct: number;
+    thresholdPct: number;
+    status: AllocationStatus;
+}
+
 export interface PortfolioAnalysis {
     totalAssets: number;
     totalLiabilities: number;
@@ -123,6 +134,7 @@ export interface PortfolioAnalysis {
     realEstateTotal: number;
     goldTotal: number;
     otherTotal: number;
+    allocationStatus?: AllocationRow[];
 }
 
 export interface RiskScoring {
