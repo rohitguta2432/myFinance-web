@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import type { BlogPost, BlogCategory } from "@/lib/types";
 import { BlogCard } from "@/components/blog/blog-card";
 import { CategoryFilter } from "@/components/blog/category-filter";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Search as SearchIcon, X } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 const POSTS_PER_PAGE = 9;
@@ -16,6 +16,17 @@ export default function BlogPage() {
     const [category, setCategory] = useState<BlogCategory | "All">("All");
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
+    const [searchInput, setSearchInput] = useState("");
+    const [search, setSearch] = useState("");
+
+    // Debounce search input → actual search query
+    useEffect(() => {
+        const t = setTimeout(() => {
+            setSearch(searchInput.trim());
+            setPage(1);
+        }, 300);
+        return () => clearTimeout(t);
+    }, [searchInput]);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -25,6 +36,7 @@ export default function BlogPage() {
             params.set("page", String(page));
             params.set("limit", String(POSTS_PER_PAGE));
             if (category !== "All") params.set("category", category);
+            if (search) params.set("search", search);
 
             const res = await fetch(`/api/blog/posts?${params}`);
             if (res.ok) {
@@ -35,10 +47,10 @@ export default function BlogPage() {
             setLoading(false);
         };
         fetchPosts();
-    }, [category, page]);
+    }, [category, page, search]);
 
     const totalPages = Math.ceil(total / POSTS_PER_PAGE);
-    const featured = page === 1 && category === "All" ? posts[0] : null;
+    const featured = page === 1 && category === "All" && !search ? posts[0] : null;
     const gridPosts = featured ? posts.slice(1) : posts;
 
     return (
@@ -59,6 +71,44 @@ export default function BlogPage() {
                     </p>
                 </div>
 
+                {/* Search */}
+                <div style={{ maxWidth: 560, margin: "0 auto 24px", position: "relative" }}>
+                    <SearchIcon
+                        size={16}
+                        style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: palette.mute, pointerEvents: "none" }}
+                    />
+                    <input
+                        type="search"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        placeholder="Search articles by title, excerpt, or tag..."
+                        aria-label="Search articles"
+                        style={{
+                            width: "100%",
+                            padding: "12px 40px 12px 44px",
+                            borderRadius: 12,
+                            border: `1px solid ${palette.brd2}`,
+                            background: palette.s2,
+                            color: palette.txt,
+                            fontSize: 14,
+                            outline: "none",
+                        }}
+                    />
+                    {searchInput && (
+                        <button
+                            onClick={() => setSearchInput("")}
+                            aria-label="Clear search"
+                            style={{
+                                position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+                                width: 24, height: 24, borderRadius: 6, border: "none", background: "transparent",
+                                color: palette.mute, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                            }}
+                        >
+                            <X size={14} />
+                        </button>
+                    )}
+                </div>
+
                 {/* Category Filter */}
                 <CategoryFilter
                     selected={category}
@@ -67,6 +117,15 @@ export default function BlogPage() {
                         setPage(1);
                     }}
                 />
+
+                {/* Search result count */}
+                {search && !loading && (
+                    <div style={{ textAlign: "center", margin: "-16px 0 24px", fontSize: 13, color: palette.mute }}>
+                        {total === 0
+                            ? `No results for "${search}"`
+                            : `${total} ${total === 1 ? "result" : "results"} for "${search}"`}
+                    </div>
+                )}
 
                 {loading ? (
                     <div style={{ textAlign: "center", padding: 80, color: palette.mute }}>

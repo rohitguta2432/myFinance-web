@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get("status") || "published";
     const category = searchParams.get("category");
     const exclude = searchParams.get("exclude");
+    const search = searchParams.get("search")?.trim().toLowerCase() || "";
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
 
@@ -44,6 +45,16 @@ export async function GET(request: NextRequest) {
         // Exclude specific post (for related posts)
         if (exclude) {
             posts = posts.filter(p => p.id !== exclude);
+        }
+
+        // Search by title / excerpt / tags (substring, case-insensitive)
+        if (search) {
+            posts = posts.filter((p) => {
+                const title = (p.title || "").toLowerCase();
+                const excerpt = (p.excerpt || "").toLowerCase();
+                const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
+                return title.includes(search) || excerpt.includes(search) || tags.includes(search);
+            });
         }
 
         // Paginate

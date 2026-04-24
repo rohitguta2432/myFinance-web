@@ -27,6 +27,13 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
     General: { bg: "rgba(148, 163, 184, 0.12)", text: "#94A3B8" }, // Slate
 };
 
+const BRAND_AUTHORS = new Set(["MyFinancial", "myfinancial", ""]);
+
+function resolveAuthor(raw: string | undefined): string {
+    if (!raw) return "Nithin Pushkaran";
+    return BRAND_AUTHORS.has(raw.trim()) ? "Nithin Pushkaran" : raw;
+}
+
 export function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
     const palette = useAppTheme();
     const colors = categoryColors[post.category] || categoryColors.General;
@@ -35,6 +42,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
         month: "short",
         day: "numeric",
     });
+    const authorDisplay = resolveAuthor(post.author);
 
     if (featured) {
         return (
@@ -112,7 +120,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                             {post.excerpt}
                         </p>
                         <div className="text-caption" style={{ color: palette.mute }}>
-                            {formattedDate} · {post.reading_time} min read
+                            <span style={{ color: palette.txt2, fontWeight: 600 }}>{authorDisplay}</span> · {formattedDate} · {post.reading_time} min read
                         </div>
                     </div>
                 </article>
@@ -191,7 +199,7 @@ export function BlogCard({ post, featured = false }: { post: BlogPost; featured?
                         {post.excerpt}
                     </p>
                     <div className="text-caption" style={{ color: palette.mute }}>
-                        {formattedDate} · {post.reading_time} min read
+                        <span style={{ color: palette.txt2, fontWeight: 600 }}>{authorDisplay}</span> · {formattedDate} · {post.reading_time} min read
                     </div>
                 </div>
             </article>
