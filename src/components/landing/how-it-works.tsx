@@ -13,11 +13,11 @@ export function HowItWorksSection() {
     const palette = useAppTheme();
     return (
         <section id="how" style={{ padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <ScrollReveal>
                     <div style={{ textAlign: "center", maxWidth: 600, margin: "0 auto" }}>
                         <div className="section-tag" style={{ justifyContent: "center" }}>How it works</div>
-                        <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
+                        <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
                             Not a consultation. A <span className="text-gradient">truth reveal.</span>
                         </h2>
                     </div>

@@ -100,7 +100,7 @@ export default function Step1Page() {
     const palette = useAppTheme();
 
     const card: React.CSSProperties = {
-        background: palette.s1,
+        backgroundColor: palette.s1,
         border: `1px solid ${palette.brd}`,
         borderRadius: 16,
         padding: 20,

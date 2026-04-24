@@ -6,7 +6,7 @@ export function FounderSection() {
     const palette = useAppTheme();
     return (
         <section id="founder" style={{ padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <div className="founder-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 48, alignItems: "center" }}>
                     {/* Visual */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
@@ -26,7 +26,7 @@ export function FounderSection() {
                     {/* Text */}
                     <div>
                         <div className="section-tag">The founder</div>
-                        <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16, color: palette.txt }}>
+                        <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16, color: palette.txt }}>
                             Built on One Belief: Every Earning Professional Deserves a <span className="text-gradient">Clear, Honest Picture.</span>
                         </h2>
                         <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontStyle: "italic", lineHeight: 1.5, color: palette.txt2, margin: "20px 0", paddingLeft: 20, borderLeft: "2px solid #10B981" }}>

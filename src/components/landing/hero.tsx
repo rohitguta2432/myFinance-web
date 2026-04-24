@@ -23,8 +23,8 @@ export function HeroSection() {
                 <div
                     style={{
                         position: "absolute",
-                        width: "45vw",
-                        height: "45vw",
+                        width: 540,
+                        height: 540,
                         background: "#10B981",
                         top: "-5%",
                         left: "15%",
@@ -37,8 +37,8 @@ export function HeroSection() {
                 <div
                     style={{
                         position: "absolute",
-                        width: "30vw",
-                        height: "30vw",
+                        width: 360,
+                        height: 360,
                         background: "#F5C842",
                         bottom: "10%",
                         right: "15%",
@@ -90,9 +90,9 @@ export function HeroSection() {
 
                 {/* Headline */}
                 <h1
+                    className="hero-h1"
                     style={{
                         fontFamily: "var(--font-display)",
-                        fontSize: "clamp(40px, 6vw, 80px)",
                         fontWeight: 800,
                         lineHeight: 1.02,
                         letterSpacing: -3,
@@ -234,6 +234,11 @@ export function HeroSection() {
                     ))}
                 </div>
             </div>
+            <style>{`
+                .hero-h1 { font-size: 80px; }
+                @media (max-width: 900px) { .hero-h1 { font-size: 48px; letter-spacing: -1.5px; } }
+                @media (max-width: 600px) { .hero-h1 { font-size: 40px; } }
+            `}</style>
         </section>
     );
 }

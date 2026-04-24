@@ -71,10 +71,10 @@ export function PricingSection() {
     const plans = getPlans(palette);
     return (
         <section id="pricing" style={{ background: palette.s1, borderTop: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 8px" }}>
                     <div className="section-tag" style={{ justifyContent: "center" }}>Pricing</div>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px" }}>
+                    <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px" }}>
                         What does <span className="text-gradient">clarity</span> cost?
                     </h2>
                 </div>

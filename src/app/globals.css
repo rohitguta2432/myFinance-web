@@ -510,6 +510,18 @@ body::after {
   .section-padding-lg { padding-top: var(--spacing-4xl); padding-bottom: var(--spacing-4xl); }
 }
 
+/* ── Landing heading sizes (fixed across all desktop widths) ── */
+.landing-h2 { font-size: 48px; }
+.landing-h2-lg { font-size: 60px; }
+@media (max-width: 900px) {
+  .landing-h2 { font-size: 32px; letter-spacing: -1px; }
+  .landing-h2-lg { font-size: 36px; letter-spacing: -1px; }
+}
+@media (max-width: 600px) {
+  .landing-h2 { font-size: 28px; }
+  .landing-h2-lg { font-size: 32px; }
+}
+
 /* ── Accessibility ──────────────────────────────────────────── */
 .sr-only {
   position: absolute;

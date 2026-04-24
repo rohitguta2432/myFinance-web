@@ -14,10 +14,10 @@ export function TestimonialsSection() {
     const palette = useAppTheme();
     return (
         <section style={{ overflow: "hidden", borderTop: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <div style={{ textAlign: "center" }}>
                     <div className="section-tag" style={{ justifyContent: "center" }}>Outcomes</div>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", color: palette.txt }}>
+                    <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", color: palette.txt }}>
                         After the <span className="text-gradient">truth hits.</span>
                     </h2>
                 </div>
