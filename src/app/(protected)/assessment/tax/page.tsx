@@ -8,6 +8,7 @@ import {
     AlertTriangle,
     Loader2,
     Sparkles,
+    Shield,
     TrendingUp,
     Users,
 } from "lucide-react";
@@ -285,6 +286,38 @@ export default function Step6TaxOptimization() {
                     </div>
                 )}
             </div>
+
+            {/* Marginal Relief Banner — shown only when §87A marginal relief applies under new regime */}
+            {newRegime.marginalReliefApplied && (
+                <div
+                    style={{
+                        borderRadius: 12,
+                        padding: "14px 18px",
+                        marginBottom: 24,
+                        border: "1px solid rgba(16,185,129,0.25)",
+                        background: "rgba(16,185,129,0.06)",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 12,
+                    }}
+                >
+                    <Shield style={{ width: 20, height: 20, color: palette.accent, flexShrink: 0, marginTop: 2 }} />
+                    <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: palette.txt, marginBottom: 4 }}>
+                            §87A Marginal Relief Applied:{" "}
+                            <span style={{ color: palette.accent }}>{fmt(newRegime.marginalRelief)}</span>
+                        </div>
+                        <div style={{ fontSize: 12, color: palette.mute, lineHeight: 1.5 }}>
+                            Your taxable income just crossed ₹12,00,000, so the new regime caps your tax at the
+                            extra income above ₹12L instead of charging the full slab tax of{" "}
+                            <span style={{ fontFamily: "monospace", color: palette.txt2 }}>
+                                {fmt((newRegime.baseTax ?? 0) + (newRegime.marginalRelief ?? 0))}
+                            </span>
+                            .
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Two-column: Deductions | HRA */}
             <div id="deductions" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, paddingBottom: 16 }}>
