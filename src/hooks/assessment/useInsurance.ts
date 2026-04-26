@@ -50,7 +50,9 @@ export const useInsuranceMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: InsuranceSavePayload) => saveInsurance(data),
-        onSuccess: () =>
-            queryClient.invalidateQueries({ queryKey: ["insurance"] }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["insurance"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
+        },
     });
 };
