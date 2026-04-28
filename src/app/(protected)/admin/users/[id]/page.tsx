@@ -508,11 +508,22 @@ function EmptyStep({ label }: { label: string }) {
     );
 }
 
+function Stat({ label, value, color }: { label: string; value: string; color: string }) {
+    const palette = useAppTheme();
+    const { MUTED } = tokens(palette);
+    return (
+        <div style={{ minWidth: 84 }}>
+            <p style={{ fontSize: 11, color: MUTED, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>{label}</p>
+            <p style={{ fontSize: 18, fontWeight: 700, color, fontVariantNumeric: "tabular-nums", marginTop: 2 }}>{value}</p>
+        </div>
+    );
+}
+
 // ─── PAGE ────────────────────────────────────────────
 const STEPS = [
     { id: "profile", label: "Profile", Icon: User, key: "hasProfile" as const },
     { id: "cashflow", label: "Cash Flow", Icon: Wallet, key: "hasCashFlow" as const },
-    { id: "networth", label: "Assets & Liabilities", Icon: Building2, key: "hasNetWorth" as const },
+    { id: "networth", label: "Net Worth", Icon: Building2, key: "hasNetWorth" as const },
     { id: "goals", label: "Goals", Icon: Target, key: "hasGoals" as const },
     { id: "insurance", label: "Insurance", Icon: Shield, key: "hasInsurance" as const },
     { id: "tax", label: "Tax", Icon: Receipt, key: "hasTax" as const },
@@ -584,61 +595,53 @@ export default function AdminUserDetailPage({ params }: { params: Promise<{ id: 
             </button>
 
             {/* Identity header */}
-            <div style={{ background: SURFACE, border: BORDER, borderRadius: 16, padding: 24, marginBottom: 20, display: "flex", alignItems: "center", gap: 20 }}>
-                <img
-                    src={
-                        data.summary.pictureUrl ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(data.summary.name || "U")}&background=10B981&color=fff&size=64`
-                    }
-                    alt=""
-                    style={{ width: 64, height: 64, borderRadius: "50%" }}
-                />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <h1 style={{ fontSize: 22, fontWeight: 700, color: TEXT, letterSpacing: "-0.02em" }}>{data.summary.name}</h1>
-                    <p style={{ fontSize: 13, color: MUTED, marginTop: 2 }}>{data.summary.email}</p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
-                        {data.summary.city && (
-                            <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
-                                {data.summary.city}, {data.summary.state}
-                            </span>
-                        )}
-                        {data.summary.age && (
-                            <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
-                                Age {data.summary.age}
-                            </span>
-                        )}
-                        <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
-                            Joined {fmtDate(data.summary.createdAt)}
-                        </span>
-                        <span
-                            style={{
-                                fontSize: 12,
-                                padding: "4px 10px",
-                                borderRadius: 8,
-                                background: data.summary.stepsCompleted === 6 ? `${ACCENT}18` : palette.s2,
-                                color: data.summary.stepsCompleted === 6 ? ACCENT : MUTED,
-                                fontWeight: 700,
-                            }}
-                        >
-                            {data.summary.stepsCompleted}/6 steps
-                        </span>
+            <div style={{ background: SURFACE, border: BORDER, borderRadius: 16, padding: 24, marginBottom: 20 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 20 }}>
+                    <img
+                        src={
+                            data.summary.pictureUrl ||
+                            `https://ui-avatars.com/api/?name=${encodeURIComponent(data.summary.name || "U")}&background=10B981&color=fff&size=64`
+                        }
+                        alt=""
+                        style={{ width: 64, height: 64, borderRadius: "50%", flexShrink: 0 }}
+                    />
+                    <div style={{ flex: "1 1 240px", minWidth: 0 }}>
+                        <h1 style={{ fontSize: 22, fontWeight: 700, color: TEXT, letterSpacing: "-0.02em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{data.summary.name}</h1>
+                        <p style={{ fontSize: 13, color: MUTED, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{data.summary.email}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: 24, flexShrink: 0, flexWrap: "wrap" }}>
+                        <Stat label="Net Worth" value={fmt(data.summary.netWorth)} color={TEXT} />
+                        <Stat label="Income/mo" value={fmt(data.summary.monthlyIncome)} color={TEXT2} />
+                        <Stat label="Savings %" value={`${data.summary.savingsRate?.toFixed(0) || 0}%`} color={ACCENT} />
                     </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: "8px 24px", textAlign: "right" }}>
-                    <div>
-                        <p style={{ fontSize: 11, color: MUTED, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Net Worth</p>
-                        <p style={{ fontSize: 18, fontWeight: 700, color: TEXT, fontVariantNumeric: "tabular-nums" }}>{fmt(data.summary.netWorth)}</p>
-                    </div>
-                    <div>
-                        <p style={{ fontSize: 11, color: MUTED, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Income/mo</p>
-                        <p style={{ fontSize: 18, fontWeight: 700, color: TEXT2, fontVariantNumeric: "tabular-nums" }}>{fmt(data.summary.monthlyIncome)}</p>
-                    </div>
-                    <div>
-                        <p style={{ fontSize: 11, color: MUTED, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Savings %</p>
-                        <p style={{ fontSize: 18, fontWeight: 700, color: ACCENT, fontVariantNumeric: "tabular-nums" }}>
-                            {data.summary.savingsRate?.toFixed(0) || 0}%
-                        </p>
-                    </div>
+                {/* Meta tags */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+                    {data.summary.city && (
+                        <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
+                            {data.summary.city}, {data.summary.state}
+                        </span>
+                    )}
+                    {data.summary.age && (
+                        <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
+                            Age {data.summary.age}
+                        </span>
+                    )}
+                    <span style={{ fontSize: 12, color: MUTED, padding: "4px 10px", borderRadius: 8, background: palette.s2 }}>
+                        Joined {fmtDate(data.summary.createdAt)}
+                    </span>
+                    <span
+                        style={{
+                            fontSize: 12,
+                            padding: "4px 10px",
+                            borderRadius: 8,
+                            background: data.summary.stepsCompleted === 6 ? `${ACCENT}18` : palette.s2,
+                            color: data.summary.stepsCompleted === 6 ? ACCENT : MUTED,
+                            fontWeight: 700,
+                        }}
+                    >
+                        {data.summary.stepsCompleted}/6 steps
+                    </span>
                 </div>
             </div>
 
@@ -663,13 +666,13 @@ export default function AdminUserDetailPage({ params }: { params: Promise<{ id: 
                             key={stepId}
                             onClick={() => setActiveStep(stepId)}
                             style={{
-                                flex: 1,
-                                minWidth: 140,
+                                flex: "1 1 auto",
+                                minWidth: 110,
                                 display: "inline-flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                gap: 8,
-                                padding: "10px 14px",
+                                gap: 6,
+                                padding: "10px 12px",
                                 borderRadius: 10,
                                 border: "none",
                                 background: active ? `${ACCENT}18` : "transparent",
@@ -679,6 +682,7 @@ export default function AdminUserDetailPage({ params }: { params: Promise<{ id: 
                                 cursor: "pointer",
                                 fontFamily: FONT,
                                 transition: "all 0.15s",
+                                whiteSpace: "nowrap",
                             }}
                         >
                             <Icon size={15} />
