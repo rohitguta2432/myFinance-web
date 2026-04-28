@@ -67,6 +67,7 @@ export function TableOfContents({ contentHtml }: { contentHtml: string }) {
                 borderRadius: 16,
                 border: `1px solid ${palette.brd2}`,
                 backdropFilter: "blur(12px)",
+                fontFamily: "var(--font-display)",
             }}
         >
             <p

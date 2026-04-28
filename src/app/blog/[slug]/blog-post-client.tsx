@@ -106,6 +106,7 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                             className="blog-post-back-link"
                             style={{
                                 display: "inline-flex", alignItems: "center", gap: 8,
+                                fontFamily: "var(--font-display)",
                                 fontSize: 13, fontWeight: 500,
                                 color: palette.mute, textDecoration: "none",
                                 marginBottom: 40,
@@ -126,6 +127,7 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                             <span style={{
                                 display: "inline-flex", alignItems: "center", gap: 6,
                                 padding: "6px 16px", borderRadius: 9999,
+                                fontFamily: "var(--font-display)",
                                 fontSize: 12, fontWeight: 600, letterSpacing: "0.03em",
                                 background: colors.bg, color: colors.text,
                                 border: `1px solid ${colors.text}22`,
@@ -138,9 +140,9 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                             {/* Title */}
                             <h1 style={{
                                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
-                                fontWeight: 800, lineHeight: 1.2,
+                                fontWeight: 700, lineHeight: 1.15,
                                 color: palette.txt,
-                                letterSpacing: "-0.025em",
+                                letterSpacing: "-0.03em",
                                 marginBottom: 24,
                             }}>
                                 {post.title}
@@ -160,7 +162,9 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                             {/* Meta row */}
                             <div style={{
                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                gap: 8, flexWrap: "wrap", fontSize: 13, color: palette.mute,
+                                gap: 8, flexWrap: "wrap",
+                                fontFamily: "var(--font-display)",
+                                fontSize: 13, color: palette.mute,
                             }}>
                                 <Link
                                     href="/about"
@@ -254,7 +258,7 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                                     width: 4, height: 24, borderRadius: 4,
                                     background: `linear-gradient(to bottom, ${colors.text}, transparent)`,
                                 }} />
-                                <h3 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, letterSpacing: "-0.01em" }}>
+                                <h3 style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 700, color: palette.txt, letterSpacing: "-0.01em" }}>
                                     More in {post.category}
                                 </h3>
                             </div>
@@ -288,8 +292,8 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
 
                 /* ─── Prose typography ─── */
                 .blog-prose {
-                    font-size: 1.0625rem;
-                    line-height: 1.85;
+                    font-size: 1.125rem;
+                    line-height: 1.75;
                     color: ${palette.txt2};
                 }
                 .blog-prose > *:first-child {
@@ -300,28 +304,28 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                 .blog-prose > p:first-of-type::first-letter {
                     float: left;
                     font-size: 3.4em;
-                    font-weight: 800;
+                    font-weight: 700;
                     line-height: 0.8;
                     margin: 6px 12px 0 0;
                     color: ${palette.txt};
                 }
 
                 .blog-prose h2 {
-                    font-size: 1.55rem;
-                    font-weight: 750;
+                    font-size: 1.875rem;
+                    font-weight: 600;
                     color: ${palette.txt};
-                    margin: 56px 0 20px;
-                    letter-spacing: -0.02em;
-                    line-height: 1.3;
+                    margin: 64px 0 20px;
+                    letter-spacing: -0.025em;
+                    line-height: 1.25;
                     padding-bottom: 12px;
                     border-bottom: 1px solid ${palette.brd2};
                 }
                 .blog-prose h3 {
-                    font-size: 1.25rem;
-                    font-weight: 650;
+                    font-size: 1.375rem;
+                    font-weight: 600;
                     color: ${palette.txt};
                     margin: 40px 0 14px;
-                    letter-spacing: -0.01em;
+                    letter-spacing: -0.015em;
                     line-height: 1.35;
                 }
                 .blog-prose h4 {
@@ -334,15 +338,16 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                     margin: 0 0 24px;
                 }
                 .blog-prose a {
-                    color: #10B981;
-                    text-decoration: none;
-                    background: linear-gradient(to top, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.15) 30%, transparent 30%);
-                    transition: background 0.25s ease;
-                    padding-bottom: 1px;
+                    color: #059669;
+                    text-decoration: underline;
+                    text-decoration-color: rgba(5, 150, 105, 0.4);
+                    text-decoration-thickness: 1px;
+                    text-underline-offset: 3px;
+                    transition: color 0.2s ease, text-decoration-color 0.2s ease;
                 }
                 .blog-prose a:hover {
-                    background: linear-gradient(to top, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.3) 100%, transparent 100%);
-                    color: #34D399;
+                    color: #10B981;
+                    text-decoration-color: #10B981;
                 }
                 .blog-prose strong {
                     color: ${palette.txt};
@@ -443,11 +448,12 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                 }
                 .blog-prose th {
                     background: ${palette.s2};
-                    font-weight: 650;
+                    font-family: var(--font-display);
+                    font-weight: 600;
                     color: ${palette.txt};
-                    font-size: 0.875rem;
+                    font-size: 0.8125rem;
                     text-transform: uppercase;
-                    letter-spacing: 0.04em;
+                    letter-spacing: 0.06em;
                 }
                 .blog-prose tr:last-child td {
                     border-bottom: none;
