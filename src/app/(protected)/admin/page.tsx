@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppTheme, type AppPalette } from '@/hooks/useAppTheme';
 import {
   Users,
@@ -342,6 +343,22 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
                 {data.summary.email}
               </p>
             </div>
+            <Link
+              href={`/admin/users/${userId}`}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 8,
+                background: `${ACCENT}18`,
+                border: `1px solid ${ACCENT}55`,
+                color: ACCENT,
+                fontSize: 12,
+                fontWeight: 700,
+                textDecoration: 'none',
+                fontFamily: FONT,
+              }}
+            >
+              View Full Data
+            </Link>
             <button
               onClick={onClose}
               style={{
