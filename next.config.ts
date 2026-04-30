@@ -64,6 +64,11 @@ const nextConfig: NextConfig = {
         { source: "/assessment/step-4", destination: "/assessment/goals", permanent: true },
         { source: "/assessment/step-5", destination: "/assessment/insurance", permanent: true },
         { source: "/assessment/step-6", destination: "/assessment/tax", permanent: true },
+        // Stale Wix URLs → canonical
+        { source: "/privacy-policy", destination: "/privacy", permanent: true },
+        { source: "/book-online", destination: "/pricing", permanent: true },
+        { source: "/blank", destination: "/", permanent: true },
+        { source: "/blank-:n", destination: "/", permanent: true },
     ],
 };
 
