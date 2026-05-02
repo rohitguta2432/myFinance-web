@@ -20,7 +20,7 @@ const getPlans = (palette: { s2: string; mute: string }) => [
     },
     {
         badge: "Starter", badgeBg: "rgba(16,185,129,0.06)", badgeColor: "#10B981",
-        name: "Comprehensive", tagline: "Full financial picture, instant clarity", price: "₹999", cycle: "One-time · Interactive dashboard",
+        name: "Comprehensive (Diagnostic)", tagline: "Full financial picture, instant clarity", price: "₹999", cycle: "One-time · Interactive dashboard",
         features: [
             { text: "Complete financial health score (out of 100)", ok: true },
             { text: "Income & expense analysis", ok: true },
@@ -30,39 +30,39 @@ const getPlans = (palette: { s2: string; mute: string }) => [
             { text: "Goal planning overview", ok: true },
             { text: "Step-by-step action guides", ok: true },
             { text: "Understand where you stand & what to do next", ok: true },
-            { text: "1-on-1 advisor session", ok: false },
+            { text: "1-on-1 diagnostic walkthrough", ok: false },
         ],
         btnText: "Get My Dashboard →", popular: false,
     },
     {
         badge: "Most Popular", badgeBg: "linear-gradient(135deg, #10B981, #F5C842)", badgeColor: "#080E12",
-        name: "Advisory", tagline: "Guidance", price: "₹2,999", cycle: "One-time engagement",
+        name: "Guided Diagnostic", tagline: "Self-serve review", price: "₹2,999", cycle: "One-time engagement",
         features: [
             { text: "Everything in Comprehensive", ok: true },
-            { text: "60-min 1-on-1 advisor session", ok: true },
+            { text: "60-min 1-on-1 diagnostic walkthrough (educational only)", ok: true },
             { text: "Risk profiling assessment", ok: true },
-            { text: "Portfolio review based on your risk profile", ok: true },
+            { text: "Portfolio diagnostic snapshot based on your risk profile", ok: true },
             { text: "Tax optimisation blueprint", ok: true },
-            { text: "Quarterly reviews", ok: false },
+            { text: "Quarterly diagnostic snapshots", ok: false },
         ],
-        btnText: "Get Advisory →", popular: true,
+        btnText: "Get Guided Diagnostic →", popular: true,
     },
     {
         badge: "Best Value", badgeBg: "rgba(245,200,66,0.06)", badgeColor: "#F5C842",
-        name: "Annual", tagline: "Year-round financial partnership", price: "₹9,999", cycle: "Annual · Only 15 clients/month",
+        name: "Annual Diagnostic", tagline: "Year-round diagnostic partnership", price: "₹9,999", cycle: "Annual · Only 15 clients/month",
         features: [
-            { text: "Everything in Advisory", ok: true },
-            { text: "Portfolio correction guidelines", ok: true },
-            { text: "Personalised investment restructuring plan", ok: true },
-            { text: "Quarterly portfolio reviews", ok: true },
-            { text: "Quarterly financial check-ins & course corrections", ok: true },
-            { text: "Investment planning guidance (quarterly)", ok: true },
-            { text: "Tax filing support & planning", ok: true },
-            { text: "Annual tax strategy session", ok: true },
+            { text: "Everything in Guided Diagnostic", ok: true },
+            { text: "Portfolio diagnostic guidelines", ok: true },
+            { text: "Personalised investment restructuring worksheet", ok: true },
+            { text: "Quarterly portfolio diagnostic snapshots", ok: true },
+            { text: "Quarterly self-serve reviews & course corrections", ok: true },
+            { text: "Investment planning education (quarterly)", ok: true },
+            { text: "Tax-filing checklist + DIY worksheet", ok: true },
+            { text: "Annual tax strategy session (educational only)", ok: true },
             { text: "Goal tracking & rebalancing alerts", ok: true },
             { text: "Annual net worth tracking", ok: true },
         ],
-        btnText: "Apply for Annual →", popular: false, gold: true,
+        btnText: "Apply for Annual Diagnostic →", popular: false, gold: true,
     },
 ];
 
@@ -98,6 +98,9 @@ export function PricingSection() {
                             </ul>
 
                             <GoogleSignInButton className={p.popular ? "btn-plan popular" : "btn-plan"} style={p.gold ? { borderColor: "#F5C842", color: "#F5C842", textAlign: "center" } : { textAlign: "center" }}>{p.btnText}</GoogleSignInButton>
+                            <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
+                                Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
+                            </div>
                         </div>
                     ))}
                 </div>

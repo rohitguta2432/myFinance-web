@@ -1,79 +1,78 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 const APP_URL = "/dashboard";
 
 const plans = [
     {
-        name: "Free",
+        name: "Essentials",
         price: "₹0",
-        priceLabel: "forever",
-        description: "Perfect for getting started with your financial health check.",
+        priceLabel: "free forever",
+        description: "Your financial blind spots, revealed. No credit card needed.",
         features: [
-            "Basic Assessment",
-            "Limited Reports",
-            "Community Access",
+            { text: "Basic financial health score", ok: true },
+            { text: "Highlights key problems & issues in your financial life", ok: true },
+            { text: "Protection, Wealth & Debt snapshot", ok: true },
+            { text: "Identifies critical gaps to address", ok: true },
+            { text: "Full 5-dimension analysis", ok: false },
+            { text: "Action plan & step-by-step guides", ok: false },
         ],
         cta: "Start Free →",
         highlight: false,
     },
     {
-        name: "Premium",
-        price: "₹499",
-        priceLabel: "/year",
-        description: "Comprehensive tools for serious financial planning and growth.",
+        name: "Comprehensive (Diagnostic)",
+        price: "₹999",
+        priceLabel: "one-time",
+        description: "Full financial picture, instant clarity. Interactive dashboard.",
         features: [
-            "Full Financial Audit",
-            "Advanced Analysis",
-            "Export Tools (CSV/PDF)",
-            "Priority Support",
+            { text: "Complete financial health score (out of 100)", ok: true },
+            { text: "Income & expense analysis", ok: true },
+            { text: "Insurance gap assessment", ok: true },
+            { text: "Investment health review", ok: true },
+            { text: "Tax optimisation insights", ok: true },
+            { text: "Goal planning overview", ok: true },
+            { text: "Step-by-step action guides", ok: true },
         ],
-        cta: "Get Premium →",
+        cta: "Get My Dashboard →",
+        highlight: false,
+    },
+    {
+        name: "Guided Diagnostic",
+        price: "₹2,999",
+        priceLabel: "one-time",
+        description: "Self-serve review with a 60-min 1-on-1 diagnostic walkthrough (educational only).",
+        features: [
+            { text: "Everything in Comprehensive", ok: true },
+            { text: "60-min 1-on-1 diagnostic walkthrough (educational only)", ok: true },
+            { text: "Risk profiling assessment", ok: true },
+            { text: "Portfolio diagnostic snapshot based on your risk profile", ok: true },
+            { text: "Tax optimisation blueprint", ok: true },
+        ],
+        cta: "Get Guided Diagnostic →",
         highlight: true,
-        badge: "Recommended",
-    },
-];
-
-const compareCategories = [
-    {
-        title: "CORE ASSESSMENT",
-        features: [
-            { name: "Core Assessment Checks", free: true, premium: true },
-            { name: "Basic Budgeting Tool", free: true, premium: true },
-            { name: "Expense Tracking", free: true, premium: true },
-            { name: "Mobile App Access", free: true, premium: true },
-            { name: "Data Security", free: true, premium: true },
-            { name: "Community Forum", free: true, premium: true },
-        ],
+        badge: "Most Popular",
     },
     {
-        title: "ADVANCED ANALYSIS",
+        name: "Annual Diagnostic",
+        price: "₹9,999",
+        priceLabel: "/ year",
+        description: "Year-round diagnostic partnership. Only 15 clients per month.",
         features: [
-            { name: "Advanced Investment Analysis", free: false, premium: true },
-            { name: "Retirement Planning Pro", free: false, premium: true },
-            { name: "Tax Optimization Reports", free: false, premium: true },
-            { name: "Personalized Recommendations", free: false, premium: true },
-            { name: "Scenario Modeling", free: false, premium: true },
+            { text: "Everything in Guided Diagnostic", ok: true },
+            { text: "Portfolio diagnostic guidelines", ok: true },
+            { text: "Personalised investment restructuring worksheet", ok: true },
+            { text: "Quarterly portfolio diagnostic snapshots", ok: true },
+            { text: "Quarterly self-serve reviews & course corrections", ok: true },
+            { text: "Tax-filing checklist + DIY worksheet", ok: true },
+            { text: "Annual tax strategy session (educational only)", ok: true },
+            { text: "Goal tracking & rebalancing alerts", ok: true },
+            { text: "Annual net worth tracking", ok: true },
         ],
-    },
-    {
-        title: "EXPORT & TRACKING",
-        features: [
-            { name: "Export Data (CSV/PDF)", free: false, premium: true },
-            { name: "Historical Tracking", free: "Up to 3", premium: "Unlimited" },
-            { name: "Custom Categories", free: "Up to 5", premium: "Unlimited" },
-            { name: "Bank Syncing", free: false, premium: true },
-        ],
-    },
-    {
-        title: "SUPPORT",
-        features: [
-            { name: "Help Center Access", free: true, premium: true },
-            { name: "Email Support", free: "Standard", premium: "Priority" },
-            { name: "Onboarding Call", free: false, premium: true },
-        ],
+        cta: "Apply for Annual Diagnostic →",
+        highlight: false,
     },
 ];
 
@@ -89,8 +88,8 @@ export function PricingContent() {
                     <h1 className="text-h1" style={{ color: palette.txt, marginBottom: 16 }}>
                         Simple, Transparent Pricing
                     </h1>
-                    <p className="text-body-lg" style={{ color: palette.mute, maxWidth: 500, marginLeft: "auto", marginRight: "auto" }}>
-                        Start for free, upgrade to Premium for advanced insights when you&apos;re ready to take control.
+                    <p className="text-body-lg" style={{ color: palette.mute, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
+                        Educational diagnostic platform. Start free, upgrade when you&apos;re ready for a deeper diagnostic.
                     </p>
                 </div>
             </section>
@@ -98,14 +97,14 @@ export function PricingContent() {
             {/* Plan Cards */}
             <section style={{ paddingBottom: 80, backgroundColor: palette.bg }}>
                 <div className="container-marketing">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" style={{ maxWidth: 1200, marginLeft: "auto", marginRight: "auto" }}>
                         {plans.map((plan, i) => (
                             <div
                                 key={i}
                                 style={{
                                     position: "relative",
                                     borderRadius: 16,
-                                    padding: 32,
+                                    padding: 28,
                                     backgroundColor: palette.s1,
                                     border: plan.highlight
                                         ? "1px solid rgba(16,185,129,0.3)"
@@ -114,6 +113,8 @@ export function PricingContent() {
                                     boxShadow: plan.highlight
                                         ? "0 0 40px -10px rgba(16,185,129,0.2)"
                                         : "none",
+                                    display: "flex",
+                                    flexDirection: "column",
                                 }}
                             >
                                 {plan.badge && (
@@ -149,21 +150,27 @@ export function PricingContent() {
                                     <span style={{ fontSize: 14, color: palette.mute, marginLeft: 4 }}>{plan.priceLabel}</span>
                                 </div>
                                 <p style={{ fontSize: 14, color: palette.mute, marginBottom: 24, lineHeight: 1.6 }}>{plan.description}</p>
-                                <ul style={{ listStyle: "none", padding: 0, margin: 0, marginBottom: 32 }} className="space-y-2.5">
+                                <ul style={{ listStyle: "none", padding: 0, margin: 0, marginBottom: 24, flex: 1 }} className="space-y-2.5">
                                     {plan.features.map((f, j) => (
-                                        <li key={j} className="flex items-center gap-2.5" style={{ fontSize: 14, color: palette.txt }}>
+                                        <li key={j} className="flex items-start gap-2.5" style={{ fontSize: 14, color: f.ok ? palette.txt : palette.mute, marginBottom: 8 }}>
                                             <span
                                                 className="flex items-center justify-center"
                                                 style={{
                                                     width: 20,
                                                     height: 20,
                                                     borderRadius: 9999,
-                                                    backgroundColor: "rgba(16,185,129,0.1)",
+                                                    backgroundColor: f.ok ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.04)",
+                                                    flexShrink: 0,
+                                                    marginTop: 2,
                                                 }}
                                             >
-                                                <Check size={12} style={{ color: "#10B981" }} />
+                                                {f.ok ? (
+                                                    <Check size={12} style={{ color: "#10B981" }} />
+                                                ) : (
+                                                    <X size={12} style={{ color: palette.mute }} />
+                                                )}
                                             </span>
-                                            {f}
+                                            <span>{f.text}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -191,73 +198,39 @@ export function PricingContent() {
                                 >
                                     {plan.cta}
                                 </a>
+                                <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
+                                    Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Compare Features */}
+            {/* Compliance Notice */}
             <section className="section-padding" style={{ backgroundColor: palette.s1 }}>
-                <div className="container-marketing">
-                    <h2 className="text-h3 text-center" style={{ color: palette.txt, marginBottom: 40 }}>Compare Features</h2>
-
-                    <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
-                        {/* Header */}
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 100px 100px",
-                                alignItems: "end",
-                                borderBottom: `1px solid ${palette.brd}`,
-                                paddingBottom: 12,
-                            }}
-                        >
-                            <span style={{ fontSize: 14, fontWeight: 600, color: palette.mute }}>Feature</span>
-                            <span className="text-center" style={{ fontSize: 14, fontWeight: 600, color: palette.txt }}>Free</span>
-                            <span className="text-center" style={{ fontSize: 14, fontWeight: 600, color: "#10B981" }}>Premium</span>
-                        </div>
-
-                        {compareCategories.map((cat, ci) => (
-                            <div key={ci}>
-                                {/* Category Header */}
-                                <div style={{ paddingTop: 16, paddingBottom: 12, marginTop: 16 }}>
-                                    <span style={{ fontSize: 10, fontWeight: 700, color: palette.mute, textTransform: "uppercase", letterSpacing: "0.05em" }}>{cat.title}</span>
-                                </div>
-                                {cat.features.map((f, fi) => (
-                                    <div
-                                        key={fi}
-                                        style={{
-                                            display: "grid",
-                                            gridTemplateColumns: "1fr 100px 100px",
-                                            alignItems: "center",
-                                            padding: "12px 0",
-                                            borderBottom: `1px solid ${palette.brd}`,
-                                        }}
-                                    >
-                                        <span style={{ fontSize: 14, color: palette.txt }}>{f.name}</span>
-                                        <div className="flex justify-center">
-                                            {f.free === true ? (
-                                                <Check size={16} style={{ color: "#10B981" }} />
-                                            ) : f.free === false ? (
-                                                <span style={{ color: palette.mute }}>—</span>
-                                            ) : (
-                                                <span style={{ fontSize: 12, color: palette.mute }}>{f.free}</span>
-                                            )}
-                                        </div>
-                                        <div className="flex justify-center">
-                                            {f.premium === true ? (
-                                                <Check size={16} style={{ color: "#10B981" }} />
-                                            ) : f.premium === false ? (
-                                                <span style={{ color: palette.mute }}>—</span>
-                                            ) : (
-                                                <span style={{ fontSize: 12, fontWeight: 600, color: "#10B981" }}>{f.premium}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
+                <div className="container-marketing" style={{ maxWidth: 720 }}>
+                    <div
+                        style={{
+                            border: `1px solid ${palette.brd}`,
+                            borderRadius: 16,
+                            padding: 24,
+                            background: palette.bg,
+                        }}
+                    >
+                        <h2 className="text-h3" style={{ color: palette.txt, marginBottom: 12, fontSize: 18 }}>Important: What you&apos;re paying for</h2>
+                        <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute, marginBottom: 12 }}>
+                            MyFinancial is an <strong style={{ color: palette.txt2 }}>educational diagnostic platform</strong>. All tiers
+                            provide informational tools, dashboards, checklists, and walkthroughs designed to help you
+                            understand your own financial position. Nothing in any tier constitutes investment advice,
+                            tax advice, or insurance recommendations.
+                        </p>
+                        <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute }}>
+                            We are <strong style={{ color: palette.txt2 }}>not</strong> SEBI-registered investment advisors,
+                            AMFI-certified mutual fund distributors, or licensed insurance intermediaries. For
+                            personalised advice, please consult a SEBI-registered investment adviser or a qualified
+                            chartered accountant.
+                        </p>
                     </div>
                 </div>
             </section>

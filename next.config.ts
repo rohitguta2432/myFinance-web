@@ -42,9 +42,40 @@ const securityHeaders = [
     },
 ];
 
+// Embed-only headers — partner sites iframe /embed/* routes, so we
+// must NOT block framing. Empty/permissive frame-ancestors and ALLOWALL
+// X-Frame-Options. Source order matters: more specific paths win, so
+// /embed/(.*) is listed before /(.*) below.
+const embedHeaders = [
+    {
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains; preload",
+    },
+    {
+        key: "X-Content-Type-Options",
+        value: "nosniff",
+    },
+    {
+        key: "X-Frame-Options",
+        value: "ALLOWALL",
+    },
+    {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin",
+    },
+    {
+        key: "Content-Security-Policy",
+        value: "frame-ancestors *",
+    },
+];
+
 const nextConfig: NextConfig = {
     output: "standalone",
     headers: async () => [
+        {
+            source: "/embed/:path*",
+            headers: embedHeaders,
+        },
         {
             source: "/(.*)",
             headers: securityHeaders,

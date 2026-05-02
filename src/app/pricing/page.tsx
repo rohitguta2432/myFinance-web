@@ -4,11 +4,11 @@ import { PricingContent } from "./pricing-content";
 export const metadata: Metadata = {
     title: "Pricing",
     description:
-        "Simple, transparent pricing for MyFinancial. Start free, upgrade when ready. Privacy-first personal finance for Indians.",
+        "Simple, transparent pricing for MyFinancial — an educational diagnostic platform. Start free, upgrade when ready. Not investment advice.",
     alternates: { canonical: "/pricing" },
     openGraph: {
         title: "Pricing | MyFinancial",
-        description: "Simple, transparent pricing. Start free, upgrade when ready.",
+        description: "Educational diagnostic platform. Start free, upgrade when ready.",
         url: "https://myfinancial.in/pricing",
         type: "website",
     },

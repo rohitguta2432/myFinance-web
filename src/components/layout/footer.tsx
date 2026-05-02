@@ -35,7 +35,7 @@ export function Footer() {
                     <span style={{ color: palette.brd2 }}>—</span>
                     <span>India&apos;s Financial Diagnostic Platform</span>
                 </div>
-                <p style={{ marginTop: 4, color: palette.mute }}>SEBI RIA In Progress · Mumbai · © 2026</p>
+                <p style={{ marginTop: 4, color: palette.mute }}>Educational diagnostic platform · Not investment advice · Mumbai · © 2026</p>
                 <div
                     style={{
                         marginTop: 16,
