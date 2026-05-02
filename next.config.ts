@@ -77,7 +77,10 @@ const nextConfig: NextConfig = {
             headers: embedHeaders,
         },
         {
-            source: "/(.*)",
+            // Negative-lookahead so the security catch-all does NOT match
+            // /embed/* — otherwise its X-Frame-Options: DENY merges in and
+            // overrides ALLOWALL, breaking partner iframes.
+            source: "/:path((?!embed/).*)",
             headers: securityHeaders,
         },
     ],
