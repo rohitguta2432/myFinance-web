@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /assessment/
+Disallow: /preview/
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://myfinancial.in/sitemap.xml
