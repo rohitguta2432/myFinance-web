@@ -1,9 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/lib/api-client";
 
-// ── Response shape — mirrors MFRecommendationResponse on the Spring Boot side ──
+// ── Response shape — mirrors the /api/mf-recommendations Next.js route. ──
 
 export type RiskProfile = "CONSERVATIVE" | "MODERATE" | "AGGRESSIVE";
 
@@ -75,28 +74,27 @@ interface Params {
 }
 
 /**
- * Fetches mutual fund recommendations for the authenticated user.
- * Backend caches the heavy DB join keyed only on userId — amount changes
- * recompute fast in-memory without busting the cache.
+ * Fetches mutual fund recommendations from the Next.js API route, which reads
+ * `src/data/funds.json` (generated nightly from `mf-data-fetcher` CSV output).
+ * No backend dependency — works on a fresh Amplify deploy.
  */
 export function useMFRecommendations({ lumpsum, monthlyAmount }: Params = {}) {
     return useQuery<MFRecommendationResponse>({
         queryKey: ["mf-recommendations", lumpsum ?? 0, monthlyAmount ?? 0],
-        queryFn: () => {
+        queryFn: async () => {
             const params = new URLSearchParams();
             if (lumpsum != null && lumpsum > 0) params.set("lumpsum", String(lumpsum));
             if (monthlyAmount != null && monthlyAmount > 0) params.set("monthlyAmount", String(monthlyAmount));
             const qs = params.toString();
-            return api.get<MFRecommendationResponse>(`/mf-recommendations${qs ? `?${qs}` : ""}`);
+            const res = await fetch(`/api/mf-recommendations${qs ? `?${qs}` : ""}`);
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({ message: `HTTP ${res.status}` }));
+                throw new Error(body.message ?? `HTTP ${res.status}`);
+            }
+            return res.json();
         },
         staleTime: 5 * 60 * 1000,
         gcTime: 30 * 60 * 1000,
         refetchOnWindowFocus: false,
-        retry: (failureCount, error) => {
-            // Don't retry on 400 (missing risk profile — needs assessment)
-            const message = String((error as Error)?.message ?? "");
-            if (message.includes("Risk profile missing")) return false;
-            return failureCount < 2;
-        },
     });
 }
