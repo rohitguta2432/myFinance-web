@@ -16,7 +16,7 @@ const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
 const SIDEBAR_TABS = [
   { id: "summary", label: "Summary", icon: BarChart3, path: "/dashboard", premium: false },
   { id: "action-plan", label: "Action Plan", icon: Zap, path: "/dashboard/action-plan", premium: false },
-  { id: "investments", label: "Investments", icon: LineChart, path: "/dashboard/investments", premium: true },
+  { id: "investments", label: "Investments", icon: LineChart, path: "/dashboard/investments", premium: false },
   { id: "insurance", label: "Insurance", icon: Shield, path: "/dashboard/insurance", premium: false },
   { id: "tax", label: "Tax Planning", icon: Calculator, path: "/dashboard/tax", premium: false },
   { id: "goals", label: "Goals", icon: Target, path: "/dashboard/goals", premium: false },

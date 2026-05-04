@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
     Lock, ChevronDown, ChevronUp, Calendar, Award,
-    Shield, Crown, AlertCircle, Wallet, Repeat,
+    Shield, Crown, AlertCircle, Wallet, Repeat, Sparkles,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { useMFRecommendations, type MFFund, type MFBucket } from "@/hooks/dashboard/useMFRecommendations";
+import { useMFRecommendations, type MFFund, type MFBucket, type MFRecommendationResponse } from "@/hooks/dashboard/useMFRecommendations";
 import { useDashboardSummary } from "@/hooks/dashboard/useDashboardSummary";
+
+// Admins always see Premium content + use demo data smoothly during early rollout.
+const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
 
 // Bucket colors keyed by bucketId so the legend stays stable across renders.
 const BUCKET_COLORS: Record<string, string> = {
@@ -21,6 +24,92 @@ const BUCKET_COLORS: Record<string, string> = {
 const FALLBACK_COLOR = "#64748B";
 
 const FREE_LUMPSUM_DEFAULT = 250000;
+
+// Demo dataset shown when the backend isn't deployed yet OR returns no data.
+// Real fund names sourced from the daily MF ranker output.
+const DEMO_DATA: MFRecommendationResponse = {
+    riskProfile: "AGGRESSIVE",
+    riskProfileLabel: "Aggressive",
+    lumpsum: FREE_LUMPSUM_DEFAULT,
+    monthlyAmount: 15000,
+    lastRefreshedAt: "2026-04-30T18:30:00",
+    qualityFundCount: 84,
+    buckets: [
+        {
+            bucketId: "flexi", bucketLabel: "Equity Diversified", categoryLabel: "Flexi Cap",
+            blurb: "Diversified equity across market caps. Best for long-term wealth.",
+            targetPct: 25, lumpsumAmount: 62500, monthlyAmount: 3750,
+            funds: [
+                fund(148404, "BANK OF INDIA Flexi Cap Fund Direct Plan", "Flexi Cap", 1, 86.0, 23.37, 20.02, 1.11, -23.73, 99.5),
+                fund(120843, "quant Flexi Cap Fund Direct Plan", "Flexi Cap", 2, 80.8, 19.03, 19.91, 0.89, -41.28, 96.4),
+                fund(120492, "JM Flexicap Fund Direct Plan", "Flexi Cap", 3, 80.5, 19.81, 18.51, 0.99, -34.95, 97.8),
+                fund(140353, "Edelweiss Flexi Cap Fund Direct Plan", "Flexi Cap", 4, 78.6, 18.81, 16.94, 0.98, -36.10, 96.1),
+                fund(118955, "HDFC Flexi Cap Fund Direct Plan", "Flexi Cap", 5, 78.3, 19.40, 20.34, 1.22, -41.84, 95.4),
+            ],
+        },
+        {
+            bucketId: "mid", bucketLabel: "Equity Growth", categoryLabel: "Mid Cap",
+            blurb: "Higher growth potential with higher volatility. 7+ year horizon.",
+            targetPct: 20, lumpsumAmount: 50000, monthlyAmount: 3000,
+            funds: [
+                fund(147704, "Motilal Oswal Large and Midcap Fund Direct Plan", "Mid Cap", 1, 87.8, 26.83, 22.55, 1.25, -37.44, 99.0),
+                fund(120381, "ICICI Prudential MidCap Fund Direct Plan", "Mid Cap", 2, 87.5, 26.93, 21.63, 1.34, -44.04, 98.2),
+                fund(120403, "Invesco India Midcap Fund Direct Plan", "Mid Cap", 3, 87.5, 26.96, 22.50, 1.39, -34.09, 98.5),
+                fund(118665, "Nippon India Growth Mid Cap Fund Direct Plan", "Mid Cap", 4, 87.4, 26.20, 23.07, 1.35, -35.32, 98.7),
+                fund(125354, "Kotak Emerging Equity Fund Direct Plan", "Mid Cap", 5, 86.2, 25.10, 21.80, 1.28, -36.50, 97.9),
+            ],
+        },
+        {
+            bucketId: "elss", bucketLabel: "Tax Saver", categoryLabel: "ELSS",
+            blurb: "Save up to ₹46,800 in tax under 80C. 3-year lock-in.",
+            targetPct: 15, lumpsumAmount: 37500, monthlyAmount: 2250,
+            funds: [
+                fund(133386, "Motilal Oswal ELSS Tax Saver Fund Direct Plan", "ELSS", 1, 86.0, 26.08, 20.81, 1.21, -37.72, 98.4),
+                fund(120847, "quant ELSS Tax Saver Fund Direct Plan", "ELSS", 2, 80.2, 18.39, 18.61, 0.85, -36.12, 95.8),
+                fund(119723, "SBI ELSS Tax Saver Fund Direct Plan", "ELSS", 3, 79.8, 21.28, 19.18, 1.25, -38.20, 96.7),
+                fund(147541, "ITI ELSS Tax Saver Fund Direct Plan", "ELSS", 4, 79.7, 20.95, 15.28, 0.99, -38.49, 96.0),
+                fund(120494, "JM ELSS Tax Saver Fund Direct Plan", "ELSS", 5, 78.3, 19.04, 16.58, 0.92, -37.39, 95.6),
+            ],
+        },
+        {
+            bucketId: "hybrid", bucketLabel: "Hybrid", categoryLabel: "Aggressive Hybrid",
+            blurb: "Equity + debt mix. Smoother ride than pure equity.",
+            targetPct: 25, lumpsumAmount: 62500, monthlyAmount: 3750,
+            funds: [
+                fund(120700, "ICICI Prudential Aggressive Hybrid Active FOF Direct Plan", "Aggressive Hybrid", 1, 74.3, 17.71, 17.19, 1.27, -35.74, 96.5),
+                fund(147446, "Mahindra Manulife Aggressive Hybrid Fund Direct Plan", "Aggressive Hybrid", 2, 73.3, 16.47, 15.38, 1.06, -25.41, 100.0),
+                fund(118624, "Edelweiss Aggressive Hybrid Fund Direct Plan", "Aggressive Hybrid", 3, 72.0, 16.90, 16.44, 1.10, -28.60, 99.8),
+                fund(120484, "JM Aggressive Hybrid Fund Direct Plan", "Aggressive Hybrid", 4, 70.6, 17.94, 15.32, 1.04, -36.57, 96.7),
+                fund(120819, "quant Aggressive Hybrid Fund Direct Plan", "Aggressive Hybrid", 5, 70.0, 15.18, 15.77, 0.79, -28.69, 99.6),
+            ],
+        },
+        {
+            bucketId: "debt", bucketLabel: "Debt", categoryLabel: "Debt — Short Duration",
+            blurb: "Stability + liquidity. Low risk, low return.",
+            targetPct: 15, lumpsumAmount: 37500, monthlyAmount: 2250,
+            funds: [
+                fund(120541, "Invesco India Ultra Short Duration Fund Direct Plan", "Debt - Short Duration", 1, 69.2, 7.33, 6.33, 3.50, -2.69, 100.0),
+                fund(120746, "UTI Ultra Short Duration Fund Direct Plan", "Debt - Short Duration", 2, 63.5, 7.32, 6.92, 3.48, -3.61, 100.0),
+                fund(143494, "Nippon India Ultra Short Duration Fund Direct Plan", "Debt - Short Duration", 3, 63.1, 7.58, 7.52, 4.13, -5.24, 100.0),
+                fund(119828, "SBI Ultra Short Duration Fund Direct Plan", "Debt - Short Duration", 4, 62.8, 7.19, 6.20, 2.81, -0.95, 100.0),
+                fund(119226, "HDFC Ultra Short Term Fund Direct Plan", "Debt - Short Duration", 5, 61.9, 7.10, 6.10, 2.74, -1.20, 100.0),
+            ],
+        },
+    ],
+};
+
+function fund(schemeId: number, name: string, category: string, rank: number, expertScore: number, return3y: number, return5y: number, sharpe3y: number, maxDrawdown: number, pctPos3y: number): MFFund {
+    return {
+        schemeId, name, category, rank, expertScore,
+        return1y: null, return3y, return5y, return10y: null, returnInception: null,
+        sipReturn1y: null, sipReturn3y: null, sipReturn5y: null,
+        sharpe3y, sortino3y: null, volatility3y: null, maxDrawdown, calmar3y: null, var95: null,
+        upsideCapture: null, downsideCapture: null,
+        alpha3y: null, beta3y: null, rSquared3y: null, informationRatio: null,
+        pctPos1y: null, pctPos3y,
+        navLatest: null, navDate: "2026-04-30", inceptionDate: null, historyYears: null, percentileRank: null,
+    };
+}
 
 function formatINR(v: number | null | undefined): string {
     if (v == null) return "₹—";
@@ -53,6 +142,14 @@ export default function InvestmentsPage() {
     const [mode, setMode] = useState<"lumpsum" | "sip">("lumpsum");
     const [lumpsumInput, setLumpsumInput] = useState(FREE_LUMPSUM_DEFAULT);
     const [expandedFund, setExpandedFund] = useState<number | null>(null);
+    const [userEmail, setUserEmail] = useState("");
+
+    useEffect(() => {
+        fetch("/api/auth/me")
+            .then((res) => (res.ok ? res.json() : null))
+            .then((d) => { if (d?.user?.email) setUserEmail(d.user.email); })
+            .catch(() => {});
+    }, []);
 
     // Real data sources
     const dashSummary = useDashboardSummary();
@@ -63,12 +160,13 @@ export default function InvestmentsPage() {
         return Number(v?.monthlySurplus) || 0;
     })();
 
-    const { data, isLoading, error } = useMFRecommendations({
+    const { data: apiData, isLoading, error } = useMFRecommendations({
         lumpsum: lumpsumInput,
         monthlyAmount: monthlySurplusFromSummary,
     });
 
-    const isPremium = typeof window !== "undefined"
+    const isAdmin = ADMIN_EMAILS.includes(userEmail);
+    const isPremiumStored = typeof window !== "undefined"
         ? localStorage.getItem("myfinancial_premium") === "true"
         : false;
 
@@ -85,22 +183,18 @@ export default function InvestmentsPage() {
         );
     }
 
-    // ── Error state ──
+    // ── "No risk profile" hard block — always send to assessment ──
     const errMsg = String((error as Error | undefined)?.message ?? "");
     const noProfile = errMsg.includes("Risk profile missing");
-    if (error || !data) {
+    if (noProfile) {
         return (
             <div style={{ width: "100%", maxWidth: 720, margin: "0 auto", padding: 32, textAlign: "center", fontFamily: "var(--font-display)" }}>
-                <div style={{ width: 64, height: 64, borderRadius: 16, background: noProfile ? "rgba(245,158,11,0.10)" : "rgba(239,68,68,0.10)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                    <AlertCircle size={28} style={{ color: noProfile ? "#FBBF24" : palette.danger }} />
+                <div style={{ width: 64, height: 64, borderRadius: 16, background: "rgba(245,158,11,0.10)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                    <AlertCircle size={28} style={{ color: "#FBBF24" }} />
                 </div>
-                <h2 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0 }}>
-                    {noProfile ? "Complete your assessment first" : "Couldn't load recommendations"}
-                </h2>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0 }}>Complete your assessment first</h2>
                 <p style={{ fontSize: 14, color: palette.mute, margin: "8px 0 24px" }}>
-                    {noProfile
-                        ? "We need your risk profile before showing personalised fund picks."
-                        : errMsg || "Something went wrong. Please try again."}
+                    We need your risk profile before showing personalised fund picks.
                 </p>
                 <Link href="/assessment/profile" style={{ display: "inline-block", padding: "12px 24px", borderRadius: 12, background: palette.accent, color: "#000", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
                     Take 5-minute assessment
@@ -108,6 +202,15 @@ export default function InvestmentsPage() {
             </div>
         );
     }
+
+    // ── Demo fallback: backend not deployed yet OR returning empty data ──
+    const apiHasData = !!apiData && (apiData.buckets?.length ?? 0) > 0
+        && apiData.buckets.some(b => b.funds.length > 0);
+    const isDemoMode = !apiHasData;
+    const data: MFRecommendationResponse = apiHasData ? (apiData as MFRecommendationResponse) : DEMO_DATA;
+
+    // Admins always see Premium content. In demo mode, default to Premium so the design isn't half-blurred.
+    const isPremium = isAdmin || isPremiumStored || isDemoMode;
 
     const buckets: MFBucket[] = data.buckets ?? [];
     const totalAmount = mode === "lumpsum" ? data.lumpsum : data.monthlyAmount;
@@ -123,6 +226,12 @@ export default function InvestmentsPage() {
                     Top funds for you
                 </h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
+                    {isDemoMode && (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 999, background: "rgba(139,92,246,0.10)", border: "1px solid rgba(139,92,246,0.25)", color: "#A78BFA", fontSize: 12, fontWeight: 700, fontFamily: "var(--font-display)" }}>
+                            <Sparkles size={12} />
+                            Demo data — backend deploying
+                        </span>
+                    )}
                     {data.riskProfileLabel && (
                         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 999, background: "rgba(16,185,129,0.10)", border: "1px solid rgba(16,185,129,0.25)", color: palette.accent, fontSize: 12, fontWeight: 700, fontFamily: "var(--font-display)" }}>
                             <Shield size={12} />
