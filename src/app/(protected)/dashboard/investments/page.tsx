@@ -9,6 +9,7 @@ import {
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useMFRecommendations, type MFFund, type MFBucket, type MFRecommendationResponse } from "@/hooks/dashboard/useMFRecommendations";
 import { useDashboardSummary } from "@/hooks/dashboard/useDashboardSummary";
+import { SectionNav } from "@/components/dashboard/SectionNav";
 
 // Admins always see Premium content + use demo data smoothly during early rollout.
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
@@ -216,11 +217,20 @@ export default function InvestmentsPage() {
     const totalAmount = mode === "lumpsum" ? data.lumpsum : data.monthlyAmount;
     const hasFunds = buckets.some(b => b.funds.length > 0);
 
+    const navSections = [
+        { id: "overview", label: "Overview" },
+        { id: "allocation", label: "Allocation" },
+        ...buckets.map((b) => ({ id: b.bucketId, label: b.bucketLabel })),
+        ...(!isPremium && hasFunds ? [{ id: "premium", label: "Premium" }] : []),
+    ];
+
     return (
+        <>
+        <SectionNav sections={navSections} />
         <div style={{ width: "100%", maxWidth: 1152, margin: "0 auto", padding: "32px 24px 96px", display: "flex", flexDirection: "column", gap: 24 }}>
 
             {/* Header */}
-            <div>
+            <div id="overview">
                 <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 700, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>Dashboard · Investments</p>
                 <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.025em", color: palette.txt, margin: "4px 0 0", fontFamily: "var(--font-display)" }}>
                     Top funds for you
@@ -259,7 +269,7 @@ export default function InvestmentsPage() {
             </div>
 
             {/* Wealth toggle + allocation overview */}
-            <div style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 16, padding: 20 }}>
+            <div id="allocation" style={{ background: palette.s1, border: `1px solid ${palette.brd}`, borderRadius: 16, padding: 20 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
                     <div>
                         <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, color: palette.mute, margin: 0, fontFamily: "var(--font-display)" }}>How are you investing?</p>
@@ -336,7 +346,7 @@ export default function InvestmentsPage() {
             {buckets.map((bucket) => {
                 const allocAmount = mode === "lumpsum" ? bucket.lumpsumAmount : bucket.monthlyAmount;
                 return (
-                    <section key={bucket.bucketId} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <section key={bucket.bucketId} id={bucket.bucketId} style={{ display: "flex", flexDirection: "column", gap: 12, scrollMarginTop: 80 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
                             <div>
                                 <h2 style={{ fontSize: 20, fontWeight: 700, color: palette.txt, margin: 0, fontFamily: "var(--font-display)" }}>
@@ -387,7 +397,7 @@ export default function InvestmentsPage() {
 
             {/* Premium upgrade card */}
             {!isPremium && hasFunds && (
-                <div style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.10), rgba(234,88,12,0.05))", border: "1px solid rgba(245,158,11,0.25)", borderRadius: 16, padding: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+                <div id="premium" style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.10), rgba(234,88,12,0.05))", border: "1px solid rgba(245,158,11,0.25)", borderRadius: 16, padding: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                         <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(245,158,11,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                             <Crown size={22} style={{ color: "#FBBF24" }} />
@@ -409,6 +419,7 @@ export default function InvestmentsPage() {
                 Past performance is not indicative of future returns. MyFinancial does not provide investment advice unless engaged in a paid advisory relationship.
             </p>
         </div>
+        </>
     );
 }
 
