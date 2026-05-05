@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { ShieldCheck, BookOpen, Sparkles } from "lucide-react";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 export function AboutContent() {
     const palette = useAppTheme();
+    const showSebi = useFeatureFlag("show_sebi_disclaimers");
 
     return (
         <section style={{ padding: "clamp(64px, 8vw, 96px) 24px", minHeight: "80vh" }}>
@@ -123,11 +125,13 @@ export function AboutContent() {
                             structured diagnosis. Just fragmented advice from people with products
                             to sell.
                         </p>
-                        <p style={{ marginBottom: 14 }}>
-                            Nithin is certified by the National Institute of Securities Markets
-                            (NISM), the educational initiative of SEBI. He writes every article on
-                            this site himself and reviews every tool that ships.
-                        </p>
+                        {showSebi && (
+                            <p style={{ marginBottom: 14 }}>
+                                Nithin is certified by the National Institute of Securities Markets
+                                (NISM), the educational initiative of SEBI. He writes every article on
+                                this site himself and reviews every tool that ships.
+                            </p>
+                        )}
                         <p>
                             MyFinancial is his answer: a structured, transparent, and conflict-free
                             way to understand where you truly stand. The problem was never the
@@ -154,7 +158,9 @@ export function AboutContent() {
                         {
                             icon: <BookOpen size={20} color="#10B981" />,
                             title: "Conflict-free",
-                            body: "No brokerage. No product commissions. SEBI RIA registration in progress — current status disclosed on every page.",
+                            body: showSebi
+                                ? "No brokerage. No product commissions. SEBI RIA registration in progress — current status disclosed on every page."
+                                : "No brokerage. No product commissions. Independent and transparent guidance.",
                         },
                         {
                             icon: <Sparkles size={20} color="#10B981" />,
@@ -206,7 +212,7 @@ export function AboutContent() {
                     <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.txt2, margin: "0 0 8px" }}>
                         Every blog post is written by Nithin Pushkaran and reflects personal
                         research plus primary sources (Budget documents, Income Tax Department
-                        circulars, SEBI and IRDAI disclosures). We do not accept sponsored posts
+                        circulars{showSebi ? ", SEBI and IRDAI disclosures" : ", and regulatory disclosures"}). We do not accept sponsored posts
                         or paid placements.
                     </p>
                     <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.txt2, margin: 0 }}>

@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Check, X } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag, useFeatureFlagsPublic } from "@/hooks/useFeatureFlags";
 
 const APP_URL = "/dashboard";
 
@@ -78,6 +81,16 @@ const plans = [
 
 export function PricingContent() {
     const palette = useAppTheme();
+    const router = useRouter();
+    const { isLoading: flagsLoading } = useFeatureFlagsPublic();
+    const showPricing = useFeatureFlag("show_pricing");
+    const showSebi = useFeatureFlag("show_sebi_disclaimers");
+
+    useEffect(() => {
+        if (!flagsLoading && !showPricing) router.replace("/");
+    }, [flagsLoading, showPricing, router]);
+
+    if (flagsLoading || !showPricing) return null;
 
     return (
         <main style={{ minHeight: "100vh", backgroundColor: palette.bg }}>
@@ -198,9 +211,11 @@ export function PricingContent() {
                                 >
                                     {plan.cta}
                                 </a>
-                                <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
-                                    Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
-                                </div>
+                                {showSebi && (
+                                    <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
+                                        Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -208,32 +223,34 @@ export function PricingContent() {
             </section>
 
             {/* Compliance Notice */}
-            <section className="section-padding" style={{ backgroundColor: palette.s1 }}>
-                <div className="container-marketing" style={{ maxWidth: 720 }}>
-                    <div
-                        style={{
-                            border: `1px solid ${palette.brd}`,
-                            borderRadius: 16,
-                            padding: 24,
-                            background: palette.bg,
-                        }}
-                    >
-                        <h2 className="text-h3" style={{ color: palette.txt, marginBottom: 12, fontSize: 18 }}>Important: What you&apos;re paying for</h2>
-                        <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute, marginBottom: 12 }}>
-                            MyFinancial is an <strong style={{ color: palette.txt2 }}>educational diagnostic platform</strong>. All tiers
-                            provide informational tools, dashboards, checklists, and walkthroughs designed to help you
-                            understand your own financial position. Nothing in any tier constitutes investment advice,
-                            tax advice, or insurance recommendations.
-                        </p>
-                        <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute }}>
-                            We are <strong style={{ color: palette.txt2 }}>not</strong> SEBI-registered investment advisors,
-                            AMFI-certified mutual fund distributors, or licensed insurance intermediaries. For
-                            personalised advice, please consult a SEBI-registered investment adviser or a qualified
-                            chartered accountant.
-                        </p>
+            {showSebi && (
+                <section className="section-padding" style={{ backgroundColor: palette.s1 }}>
+                    <div className="container-marketing" style={{ maxWidth: 720 }}>
+                        <div
+                            style={{
+                                border: `1px solid ${palette.brd}`,
+                                borderRadius: 16,
+                                padding: 24,
+                                background: palette.bg,
+                            }}
+                        >
+                            <h2 className="text-h3" style={{ color: palette.txt, marginBottom: 12, fontSize: 18 }}>Important: What you&apos;re paying for</h2>
+                            <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute, marginBottom: 12 }}>
+                                MyFinancial is an <strong style={{ color: palette.txt2 }}>educational diagnostic platform</strong>. All tiers
+                                provide informational tools, dashboards, checklists, and walkthroughs designed to help you
+                                understand your own financial position. Nothing in any tier constitutes investment advice,
+                                tax advice, or insurance recommendations.
+                            </p>
+                            <p style={{ fontSize: 14, lineHeight: 1.7, color: palette.mute }}>
+                                We are <strong style={{ color: palette.txt2 }}>not</strong> SEBI-registered investment advisors,
+                                AMFI-certified mutual fund distributors, or licensed insurance intermediaries. For
+                                personalised advice, please consult a SEBI-registered investment adviser or a qualified
+                                chartered accountant.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
         </main>
     );
 }

@@ -28,6 +28,7 @@ import { useRiskScoringQuery } from "@/hooks/assessment/useRiskScoring";
 import { StepNavigation } from "@/components/assessment/step-navigation";
 import type { AssetItem, LiabilityItem } from "@/lib/assessment-api";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 // ─── Category Data ─────────────────────────────────────────────────────────────
 
@@ -102,6 +103,7 @@ function formatNetWorth(amount: number, dangerColor = "#F87171", txtColor = "#F0
 
 export default function Step3Page() {
     const palette = useAppTheme();
+    const showAssetAllocation = useFeatureFlag("show_asset_allocation");
 
     const inputStyle: React.CSSProperties = {
         width: "100%",
@@ -521,7 +523,7 @@ export default function Step3Page() {
             </div>
 
             {/* ── Asset Allocation Chart ─────────────────────────────────────── */}
-            {totalAssets > 0 && activeTab === "assets" && (
+            {showAssetAllocation && totalAssets > 0 && activeTab === "assets" && (
                 <div style={{
                     background: palette.s1, border: `1px solid ${palette.brd}`,
                     borderRadius: 16, padding: 24, marginBottom: 24,

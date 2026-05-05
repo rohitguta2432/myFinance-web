@@ -6,10 +6,12 @@ import {
     Lock, ChevronDown, ChevronUp, Calendar, Award,
     Shield, Crown, AlertCircle, Wallet, Repeat,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useMFRecommendations, type MFFund, type MFBucket } from "@/hooks/dashboard/useMFRecommendations";
 import { useDashboardSummary } from "@/hooks/dashboard/useDashboardSummary";
 import { SectionNav } from "@/components/dashboard/SectionNav";
+import { useFeatureFlag, useFeatureFlagsPublic } from "@/hooks/useFeatureFlags";
 
 // Admins always see Premium content + use demo data smoothly during early rollout.
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
@@ -55,10 +57,17 @@ function formatDate(iso: string | null): string {
 
 export default function InvestmentsPage() {
     const palette = useAppTheme();
+    const router = useRouter();
+    const { isLoading: flagsLoading } = useFeatureFlagsPublic();
+    const showInvestmentsTab = useFeatureFlag("show_investments_tab");
     const [mode, setMode] = useState<"lumpsum" | "sip">("lumpsum");
     const [lumpsumInput, setLumpsumInput] = useState(FREE_LUMPSUM_DEFAULT);
     const [expandedFund, setExpandedFund] = useState<number | null>(null);
     const [userEmail, setUserEmail] = useState("");
+
+    useEffect(() => {
+        if (!flagsLoading && !showInvestmentsTab) router.replace("/dashboard");
+    }, [flagsLoading, showInvestmentsTab, router]);
 
     useEffect(() => {
         fetch("/api/auth/me")
@@ -85,6 +94,9 @@ export default function InvestmentsPage() {
     const isPremiumStored = typeof window !== "undefined"
         ? localStorage.getItem("myfinancial_premium") === "true"
         : false;
+
+    // Feature-flag gate (after all hooks): redirect happens via useEffect above
+    if (flagsLoading || !showInvestmentsTab) return null;
 
     // ── Loading state ──
     if (isLoading) {

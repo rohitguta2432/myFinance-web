@@ -2,6 +2,7 @@
 
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const getPlans = (palette: { s2: string; mute: string }) => [
     {
@@ -68,7 +69,10 @@ const getPlans = (palette: { s2: string; mute: string }) => [
 
 export function PricingSection() {
     const palette = useAppTheme();
+    const showPricing = useFeatureFlag("show_pricing");
+    const showSebi = useFeatureFlag("show_sebi_disclaimers");
     const plans = getPlans(palette);
+    if (!showPricing) return null;
     return (
         <section id="pricing" style={{ background: palette.s1, borderTop: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
             <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
@@ -98,9 +102,11 @@ export function PricingSection() {
                             </ul>
 
                             <GoogleSignInButton className={p.popular ? "btn-plan popular" : "btn-plan"} style={p.gold ? { borderColor: "#F5C842", color: "#F5C842", textAlign: "center" } : { textAlign: "center" }}>{p.btnText}</GoogleSignInButton>
-                            <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
-                                Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
-                            </div>
+                            {showSebi && (
+                                <div style={{ marginTop: 12, fontSize: 11, lineHeight: 1.5, color: palette.mute, fontStyle: "italic" }}>
+                                    Educational diagnostic only. Not investment advice. We are not SEBI-registered investment advisors.
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

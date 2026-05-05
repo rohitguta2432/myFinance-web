@@ -10,6 +10,7 @@ import {
 import { useActionPlan } from "@/hooks/dashboard/useActionPlan";
 import type { ActionPlanItem } from "@/hooks/dashboard/useActionPlan";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const CATEGORY_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
   SRV: { label: "Survival", bg: "rgba(239,68,68,0.15)", text: "#F87171", border: "rgba(239,68,68,0.2)" },
@@ -160,6 +161,7 @@ function ActionCard({ action, rank }: { action: ActionPlanItem; rank: number }) 
 
 export default function ActionPlanPage() {
   const palette = useAppTheme();
+  const showSebi = useFeatureFlag("show_sebi_disclaimers");
   const { actions, count, isLoading } = useActionPlan();
 
   if (isLoading) {
@@ -221,7 +223,9 @@ export default function ActionPlanPage() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "12px 16px", borderRadius: 12, background: palette.brd, border: `1px solid ${palette.brd}` }}>
             <Info size={15} style={{ color: palette.mute, marginTop: 2, flexShrink: 0 }} />
             <p style={{ fontSize: 13, color: palette.mute, lineHeight: 1.6, margin: 0, fontFamily: "var(--font-display)" }}>
-              These recommendations are based on the data you provided during assessment. They are not financial advice. Consult a SEBI-registered advisor for personalised planning.
+              {showSebi
+                ? "These recommendations are based on the data you provided during assessment. They are not financial advice. Consult a SEBI-registered advisor for personalised planning."
+                : "These recommendations are based on the data you provided during assessment. They are not financial advice. Consult a qualified financial advisor for personalised planning."}
             </p>
           </div>
         )}

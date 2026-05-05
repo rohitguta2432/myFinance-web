@@ -10,6 +10,7 @@ import {
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
 import { useStreak } from "@/hooks/gamification/useStreak";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
 
@@ -112,6 +113,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [userEmail, setUserEmail] = useState("");
   const [isAdminFromApi, setIsAdminFromApi] = useState(false);
   const streak = useStreak();
+  const showInvestmentsTab = useFeatureFlag("show_investments_tab");
+  const visibleTabs = SIDEBAR_TABS.filter((t) => t.id !== "investments" || showInvestmentsTab);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -175,7 +178,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           )}
 
-          {SIDEBAR_TABS.map((tab) => {
+          {visibleTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = pathname === tab.path || (tab.path === "/dashboard" && pathname === "/dashboard");
             const isLocked = tab.premium && !isPremium;
@@ -310,7 +313,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         )}
 
-        {SIDEBAR_TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = pathname === tab.path;
           const isLocked = tab.premium && !isPremium;

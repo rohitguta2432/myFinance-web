@@ -266,6 +266,7 @@ export function FeatureFlagsPanel() {
                 </div>
             </header>
 
+            <CategorySection title="Site Policy" flags={grouped.policy ?? []} />
             <CategorySection title="Premium Features" flags={grouped.premium ?? []} />
             <CategorySection title="Experimental" flags={grouped.experimental ?? []} />
             <CategorySection title="Core" flags={grouped.core ?? []} />

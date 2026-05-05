@@ -2,6 +2,7 @@
 
 import { AlertTriangle } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const sections = [
     {
@@ -48,6 +49,8 @@ const sections = [
 
 export function DisclaimerContent() {
     const palette = useAppTheme();
+    const showSebi = useFeatureFlag("show_sebi_disclaimers");
+    const visibleSections = sections.filter((s) => showSebi || !/\bSEBI\b/i.test(s.content));
 
     return (
         <>
@@ -78,13 +81,13 @@ export function DisclaimerContent() {
             {/* Sections */}
             <section className="section-padding" style={{ backgroundColor: palette.s1 }}>
                 <div className="container-marketing" style={{ maxWidth: 700 }}>
-                    {sections.map((s, i) => (
+                    {visibleSections.map((s, i) => (
                         <div
                             key={i}
                             style={{
                                 paddingTop: 32,
                                 paddingBottom: 32,
-                                borderBottom: i < sections.length - 1 ? `1px solid ${palette.brd}` : "none",
+                                borderBottom: i < visibleSections.length - 1 ? `1px solid ${palette.brd}` : "none",
                             }}
                         >
                             <h2 style={{ fontSize: 18, fontWeight: 600, color: palette.txt, marginBottom: 12 }}>
