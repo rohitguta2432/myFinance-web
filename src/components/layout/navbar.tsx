@@ -23,6 +23,7 @@ const PAGE_TITLES: Record<string, string> = {
     "/dashboard/action-plan": "Action Plan",
     "/dashboard/insurance": "Insurance Analysis",
     "/dashboard/tax": "Tax Planning",
+    "/dashboard/file-itr": "File ITR",
     "/admin": "Admin Panel",
 };
 

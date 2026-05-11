@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3, Zap, Shield, Calculator, Target, Wallet, LineChart,
-  RefreshCw, Lock, Crown, Check, X, Settings, Flame,
+  RefreshCw, Lock, Crown, Check, X, Settings, Flame, FileText,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
@@ -20,6 +20,7 @@ const SIDEBAR_TABS = [
   { id: "investments", label: "Investments", icon: LineChart, path: "/dashboard/investments", premium: false },
   { id: "insurance", label: "Insurance", icon: Shield, path: "/dashboard/insurance", premium: false },
   { id: "tax", label: "Tax Planning", icon: Calculator, path: "/dashboard/tax", premium: false },
+  { id: "file-itr", label: "File ITR", icon: FileText, path: "/dashboard/file-itr", premium: false },
   { id: "goals", label: "Goals", icon: Target, path: "/dashboard/goals", premium: false },
   { id: "net-worth", label: "Net Worth", icon: Wallet, path: "/dashboard/net-worth", premium: false },
 ] as const;
