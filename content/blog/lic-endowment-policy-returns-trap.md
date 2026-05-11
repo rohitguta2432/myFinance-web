@@ -173,4 +173,4 @@ Most professionals I work with have at least one blind spot like this. The free 
 
 ---
 
-*This post is published by MyFinancial for educational purposes only and does not constitute investment, tax, or insurance advice. SEBI RIA registration in progress. All numbers are illustrative. Consult a SEBI-registered advisor before making financial decisions.*
+*This post is published by MyFinancial for educational purposes only and does not constitute investment, tax, or insurance advice. All numbers are illustrative. Consult a SEBI-registered advisor before making financial decisions.*

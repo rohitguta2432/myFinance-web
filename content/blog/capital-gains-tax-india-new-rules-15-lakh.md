@@ -145,4 +145,4 @@ Section 54F exempts LTCG on the sale of any long-term asset (other than resident
 
 ---
 
-*This post is published by MyFinancial for educational purposes only and does not constitute investment, tax, or insurance advice. SEBI RIA registration in progress. All numbers are illustrative. Consult a SEBI-registered advisor before making financial decisions.*
+*This post is published by MyFinancial for educational purposes only and does not constitute investment, tax, or insurance advice. All numbers are illustrative. Consult a SEBI-registered advisor before making financial decisions.*
