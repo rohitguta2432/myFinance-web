@@ -1,23 +1,10 @@
-import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-const CANVAS_MODEL = "amazon.nova-canvas-v1:0";
-
-const CANVAS_REGION = process.env.BEDROCK_CANVAS_REGION || "us-east-1";
 const S3_BUCKET = process.env.S3_BLOG_BUCKET || "myfinancial-blog-assets";
 const S3_REGION = process.env.S3_BLOG_REGION || "ap-south-1";
 
-function getCanvasClient(): BedrockRuntimeClient {
-    const accessKeyId = process.env.BEDROCK_ACCESS_KEY_ID || process.env.DYNAMODB_ACCESS_KEY_ID;
-    const secretAccessKey = process.env.BEDROCK_SECRET_ACCESS_KEY || process.env.DYNAMODB_SECRET_ACCESS_KEY;
-    if (accessKeyId && secretAccessKey) {
-        return new BedrockRuntimeClient({
-            region: CANVAS_REGION,
-            credentials: { accessKeyId, secretAccessKey },
-        });
-    }
-    return new BedrockRuntimeClient({ region: CANVAS_REGION });
-}
+const POLLINATIONS_BASE = "https://image.pollinations.ai/prompt/";
+const POLLINATIONS_MODEL = process.env.POLLINATIONS_MODEL || "flux";
 
 function getS3Client(): S3Client {
     const accessKeyId = process.env.S3_ACCESS_KEY_ID || process.env.BEDROCK_ACCESS_KEY_ID || process.env.DYNAMODB_ACCESS_KEY_ID;
@@ -34,19 +21,15 @@ function getS3Client(): S3Client {
 function buildPrompt(title: string, category: string): string {
     return [
         `Editorial illustration for a personal finance article titled "${title}". Category: ${category}.`,
-        "Minimalist modern flat illustration, financial editorial style.",
+        "Minimalist modern flat illustration, financial editorial magazine cover style.",
         "Dark navy background (#0B0F1A to #0F172A gradient).",
         "Single subtle emerald green accent (#10B981).",
-        "Abstract geometric shapes, simple icons of charts/coins/graphs/buildings as appropriate.",
-        "Indian financial context (rupee symbol allowed as a graphic shape).",
-        "Composition leaves negative space.",
-        "Magazine cover quality, high contrast, professional.",
-        "Strictly NO TEXT, NO WORDS, NO NUMBERS, NO LOGOS, NO PEOPLE FACES.",
-        "16:9 horizontal aspect ratio.",
+        "Abstract geometric shapes, simple icons of charts, coins, graphs.",
+        "Indian financial context. Composition leaves negative space.",
+        "High contrast, professional, magazine cover quality.",
+        "NO TEXT, NO WORDS, NO NUMBERS, NO LOGOS, NO PEOPLE FACES.",
     ].join(" ");
 }
-
-const NEGATIVE_PROMPT = "text, words, letters, numbers, captions, watermarks, logos, signatures, low quality, blurry, distorted, ugly, deformed, generic stock photo, photo of person, face, hands, photograph";
 
 export async function generateThumbnail(opts: {
     slug: string;
@@ -55,46 +38,42 @@ export async function generateThumbnail(opts: {
 }): Promise<string> {
     const { slug, title, category } = opts;
 
-    const client = getCanvasClient();
-    const body = {
-        taskType: "TEXT_IMAGE",
-        textToImageParams: {
-            text: buildPrompt(title, category),
-            negativeText: NEGATIVE_PROMPT,
-        },
-        imageGenerationConfig: {
-            numberOfImages: 1,
-            width: 1280,
-            height: 720,
-            cfgScale: 7.5,
-            quality: "standard",
-            seed: Math.floor(Math.random() * 858993459),
-        },
-    };
-
-    const cmd = new InvokeModelCommand({
-        modelId: CANVAS_MODEL,
-        contentType: "application/json",
-        accept: "application/json",
-        body: JSON.stringify(body),
+    const prompt = buildPrompt(title, category);
+    const seed = Math.floor(Math.random() * 1_000_000);
+    const params = new URLSearchParams({
+        width: "1280",
+        height: "720",
+        model: POLLINATIONS_MODEL,
+        nologo: "true",
+        enhance: "false",
+        seed: String(seed),
     });
+    const url = `${POLLINATIONS_BASE}${encodeURIComponent(prompt)}?${params.toString()}`;
 
-    const res = await client.send(cmd);
-    const responseBody = JSON.parse(new TextDecoder().decode(res.body));
-    const base64Image: string | undefined = responseBody?.images?.[0];
-    if (!base64Image) {
-        throw new Error(`Nova Canvas returned no image (response: ${JSON.stringify(responseBody).slice(0, 300)})`);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 90_000);
+    let imageBytes: Buffer;
+    try {
+        const res = await fetch(url, { signal: controller.signal });
+        if (!res.ok) {
+            throw new Error(`Pollinations returned HTTP ${res.status}`);
+        }
+        const buf = await res.arrayBuffer();
+        imageBytes = Buffer.from(buf);
+        if (imageBytes.byteLength < 5_000) {
+            throw new Error(`Pollinations returned suspiciously small image (${imageBytes.byteLength} bytes)`);
+        }
+    } finally {
+        clearTimeout(timer);
     }
 
-    const imageBytes = Buffer.from(base64Image, "base64");
-
-    const key = `thumbnails/${slug}.png`;
+    const key = `thumbnails/${slug}.jpg`;
     const s3 = getS3Client();
     await s3.send(new PutObjectCommand({
         Bucket: S3_BUCKET,
         Key: key,
         Body: imageBytes,
-        ContentType: "image/png",
+        ContentType: "image/jpeg",
         CacheControl: "public, max-age=31536000, immutable",
     }));
 

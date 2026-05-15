@@ -1,48 +1,27 @@
-# S3 Setup — AI Blog Thumbnails
+# Blog Thumbnails — Setup Notes
 
-The daily-blog cron, admin post creation, and `/api/admin/backfill-thumbnails` all generate thumbnails via Bedrock Nova Canvas and upload them to S3. You need to provision the bucket and grant the existing IAM principal `s3:PutObject` once. After that everything is automatic.
+The daily-blog cron, admin post creation, and `/api/admin/backfill-thumbnails` generate thumbnails via **Pollinations.ai** (free, no API key, FLUX-backed) and upload them to S3. The AWS side is already provisioned — these notes are for reference.
 
-## One-time AWS setup
+## Pipeline
 
-### 1. Create the bucket (region: ap-south-1 / Mumbai)
+1. App constructs an editorial prompt from the post title + category.
+2. `GET https://image.pollinations.ai/prompt/<encoded-prompt>?width=1280&height=720&model=flux&nologo=true&enhance=false&seed=<random>` returns a JPG.
+3. App uploads the JPG to `s3://myfinancial-blog-assets/thumbnails/<slug>.jpg`.
+4. `cover_image` is set to `https://myfinancial-blog-assets.s3.ap-south-1.amazonaws.com/thumbnails/<slug>.jpg`.
 
-```bash
-aws s3api create-bucket \
-  --bucket myfinancial-blog-assets \
-  --region ap-south-1 \
-  --create-bucket-configuration LocationConstraint=ap-south-1
-```
+## AWS state (already done — recorded for handover)
 
-### 2. Allow public-read on `thumbnails/*`
+| Resource | Value |
+|---|---|
+| S3 bucket | `myfinancial-blog-assets` |
+| Region | `ap-south-1` (Mumbai) |
+| Public-access block | Acls=block, Policy=allow |
+| Bucket policy | `s3:GetObject` allowed for `*` on `/thumbnails/*` |
+| IAM user | `myfinance-bedrock-user` (account `610405653642`) |
+| IAM inline policy | `BlogThumbnailsS3` → `s3:PutObject` on `/thumbnails/*` |
+| Image provider | Pollinations.ai (no AWS Bedrock dependency for thumbnails) |
 
-S3 blocks public access by default. Unblock the policy layer (object ACLs stay locked):
-
-```bash
-aws s3api put-public-access-block \
-  --bucket myfinancial-blog-assets \
-  --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=false,RestrictPublicBuckets=false"
-```
-
-Apply the bucket policy:
-
-```bash
-aws s3api put-bucket-policy \
-  --bucket myfinancial-blog-assets \
-  --policy '{
-    "Version": "2012-10-17",
-    "Statement": [{
-      "Sid": "PublicReadThumbnails",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::myfinancial-blog-assets/thumbnails/*"
-    }]
-  }'
-```
-
-### 3. Grant the app's IAM user `s3:PutObject` on the bucket
-
-The app reuses the same IAM credentials as Bedrock/DynamoDB (env vars `BEDROCK_ACCESS_KEY_ID` / `DYNAMODB_ACCESS_KEY_ID`). Attach this inline policy to that IAM user:
+The `BlogThumbnailsS3` inline policy attached to `myfinance-bedrock-user`:
 
 ```json
 {
@@ -55,37 +34,43 @@ The app reuses the same IAM credentials as Bedrock/DynamoDB (env vars `BEDROCK_A
 }
 ```
 
-### 4. Enable Bedrock Nova Canvas in us-east-1
+The bucket policy:
 
-Nova Canvas is only available in `us-east-1`. The IAM user already has Bedrock access, but the model itself needs to be enabled for the account:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "PublicReadThumbnails",
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::myfinancial-blog-assets/thumbnails/*"
+  }]
+}
+```
 
-AWS Console → Bedrock → Model access → Edit → enable **Amazon · Nova Canvas** → Save.
-
-## Env vars (optional — defaults work)
-
-Add to Amplify env vars only if you want to override the defaults:
+## Env vars (defaults work — override only if needed)
 
 | Var | Default | Purpose |
-|-----|---------|---------|
+|---|---|---|
 | `S3_BLOG_BUCKET` | `myfinancial-blog-assets` | bucket name |
 | `S3_BLOG_REGION` | `ap-south-1` | bucket region |
-| `BEDROCK_CANVAS_REGION` | `us-east-1` | Nova Canvas region |
+| `POLLINATIONS_MODEL` | `flux` | image model (`flux`, `flux-realism`, `flux-anime`, `turbo`) |
 | `S3_ACCESS_KEY_ID` | falls back to `BEDROCK_ACCESS_KEY_ID` | separate S3 IAM (optional) |
 | `S3_SECRET_ACCESS_KEY` | falls back to `BEDROCK_SECRET_ACCESS_KEY` | separate S3 IAM (optional) |
 
-## Verify
+## Backfill (one-time)
 
-After deploy:
+After deploy, fill in missing covers for posts already in DynamoDB:
 
 ```bash
-# Trigger one backfill batch (processes 20 posts per call)
 curl -X POST 'https://myfinancial.in/api/admin/backfill-thumbnails' \
-  -H 'Cookie: admin_session=<your-admin-session>'
+  -H 'Cookie: admin_session=<your-admin-session-cookie>'
 ```
 
-Repeat until `remaining: 0`. Each call: ~$0.04 × 20 images = ~$0.80 worst case. Already-thumbed posts are skipped.
+Each call processes up to 20 posts. Repeat until `remaining: 0`. Pollinations rate-limits to ~1 req / 5s, so a 20-post batch takes ~2 minutes (Lambda max is 5 min).
 
-To regenerate all (e.g. style change):
+To regenerate every post (e.g. style change):
 
 ```bash
 curl -X POST 'https://myfinancial.in/api/admin/backfill-thumbnails?force=true&limit=10'
@@ -93,8 +78,15 @@ curl -X POST 'https://myfinancial.in/api/admin/backfill-thumbnails?force=true&li
 
 ## Cost
 
-- Nova Canvas: ~$0.04 per 1280×720 image (us-east-1).
-- S3 storage: ~$0.025/GB/mo. Each PNG is ~200–500KB → 30 posts ≈ 15MB ≈ $0.0004/mo.
-- S3 cross-region GET from CloudFront/users: negligible at this scale.
+- Pollinations.ai: **free** (rate-limited).
+- S3 storage: ~$0.025/GB/mo. Each JPG is ~40-80KB → 30 posts ≈ 1.5MB ≈ $0.00004/mo.
+- S3 GET egress: a few cents/mo at expected blog traffic.
 
-Total: a few cents per month + $0.04 per new blog post.
+Total: pennies per month, no per-image cost.
+
+## Troubleshooting
+
+- **Cron returns `{skipped: true, reason: "Thumbnail generation/upload failed..."}`** — Pollinations is throttling or down, or S3 PutObject failed. Check CloudWatch logs for the daily-blog Lambda.
+- **Backfill returns `failed` for a row** — same; details in the `error` field of each result.
+- **Image looks generic** — tweak the prompt in `src/lib/thumbnail-gen.ts:buildPrompt`. Each post uses a deterministic seed via `slug` — change the seed strategy if you want regenerable variants.
+- **Want a different provider** — drop in OpenAI/Replicate/Stability by swapping `generateThumbnail` body in `src/lib/thumbnail-gen.ts`. S3 + IAM stay as-is.
