@@ -39,7 +39,7 @@ function getS3Client(): S3Client {
     return new S3Client({ region: S3_REGION });
 }
 
-const FALLBACK_PROMPT = "Stacked coins, abstract rupee glyph, dark navy background, emerald-green accent, minimalist flat editorial illustration, magazine cover, no text, no faces, generous negative space, 16:9.";
+const FALLBACK_PROMPT = "Abstract geometric shapes, stacked coins, dark navy background, emerald-green accent, minimalist flat editorial illustration, 16:9.";
 
 async function buildPromptViaLLM(title: string, category: string): Promise<string> {
     try {
@@ -50,10 +50,10 @@ async function buildPromptViaLLM(title: string, category: string): Promise<strin
             messages: [{
                 role: "user",
                 content: [{
-                    text: `Write a UNDER 40 WORDS image-generation prompt for a finance blog cover.\n\nTitle: "${title}"\nCategory: ${category}\n\nRequired:\n- Pick 2 concrete visual elements tied to the topic (e.g. stacked coins, arrows, chart bars, building silhouette, rupee glyph, scales, vault, ledger, shield)\n- Style: minimalist flat editorial illustration, dark navy + emerald-green accent, magazine cover, no text, no faces, generous negative space, 16:9.\n\nReply with only the prompt. Under 40 words.`,
+                    text: `Write a UNDER 35 WORDS image-generation prompt for a finance blog background image.\n\nTitle: "${title}"\nCategory: ${category}\n\nRequired:\n- Pick 2 concrete abstract visual elements tied to the topic (e.g. stacked coins, arrows, chart bars, building silhouette, rupee glyph, scales, vault, ledger, shield, gears)\n- Style: minimalist flat editorial illustration, dark navy + emerald-green accent, subject on RIGHT side of frame, LEFT half empty for text overlay\n- No text, no faces, 16:9.\n\nReply with only the prompt. Under 35 words.`,
                 }],
             }],
-            inferenceConfig: { maxTokens: 150, temperature: 0.6 },
+            inferenceConfig: { maxTokens: 120, temperature: 0.6 },
         }));
         const text = res.output?.message?.content?.[0]?.text?.trim().replace(/^["']|["']$/g, "");
         if (!text) return FALLBACK_PROMPT;
@@ -64,7 +64,7 @@ async function buildPromptViaLLM(title: string, category: string): Promise<strin
     }
 }
 
-async function fetchPollinations(prompt: string, seed: number): Promise<Buffer> {
+async function fetchPollinations(prompt: string, seed: number, attempt = 1): Promise<Buffer> {
     const params = new URLSearchParams({
         width: String(NATIVE_W),
         height: String(NATIVE_H),
@@ -75,16 +75,85 @@ async function fetchPollinations(prompt: string, seed: number): Promise<Buffer> 
     });
     const url = `${POLLINATIONS_BASE}${encodeURIComponent(prompt)}?${params.toString()}`;
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 120_000);
+    const timer = setTimeout(() => controller.abort(), 150_000);
     try {
         const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) throw new Error(`Pollinations HTTP ${res.status}`);
         const buf = Buffer.from(await res.arrayBuffer());
         if (buf.byteLength < 5_000) throw new Error(`Pollinations returned ${buf.byteLength}b (too small)`);
         return buf;
+    } catch (err) {
+        if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, 10_000));
+            return fetchPollinations(prompt, seed + attempt, attempt + 1);
+        }
+        throw err;
     } finally {
         clearTimeout(timer);
     }
+}
+
+function escapeXml(s: string): string {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+
+function wrapTitle(title: string, max: number, maxLines: number): string[] {
+    const words = title.trim().split(/\s+/);
+    const lines: string[] = [];
+    let cur = "";
+    for (const w of words) {
+        const n = cur ? `${cur} ${w}` : w;
+        if (n.length > max && cur) {
+            lines.push(cur);
+            cur = w;
+            if (lines.length === maxLines - 1) {
+                const rest = words.slice(words.indexOf(w)).join(" ");
+                lines.push(rest.length > max ? rest.slice(0, max - 1).trimEnd() + "…" : rest);
+                cur = "";
+                break;
+            }
+        } else {
+            cur = n;
+        }
+    }
+    if (cur) lines.push(cur);
+    return lines;
+}
+
+function buildOverlaySvg(title: string, category: string): Buffer {
+    // Overlay is the FULL output size, with dark panel on left ~55% fading to transparent.
+    const lines = wrapTitle(title, 22, 4);
+    const fontSize = lines.length <= 2 ? 116 : lines.length === 3 ? 100 : 84;
+    const lineHeight = Math.round(fontSize * 1.18);
+    const blockHeight = lines.length * lineHeight;
+    const startY = Math.round(OUTPUT_H / 2 - blockHeight / 2 + fontSize * 0.85);
+    const tspans = lines
+        .map((line, i) => `<tspan x="200" y="${startY + i * lineHeight}">${escapeXml(line)}</tspan>`)
+        .join("");
+    const cat = escapeXml(category.toUpperCase());
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${OUTPUT_W} ${OUTPUT_H}" width="${OUTPUT_W}" height="${OUTPUT_H}">
+  <defs>
+    <linearGradient id="leftPanel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0B0F1A" stop-opacity="0.97"/>
+      <stop offset="50%" stop-color="#0B0F1A" stop-opacity="0.92"/>
+      <stop offset="75%" stop-color="#0B0F1A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0B0F1A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bottomShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0B0F1A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0B0F1A" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="${OUTPUT_W}" height="${OUTPUT_H}" fill="url(#bottomShade)"/>
+  <rect x="0" y="0" width="${Math.round(OUTPUT_W * 0.7)}" height="${OUTPUT_H}" fill="url(#leftPanel)"/>
+  <rect x="0" y="0" width="14" height="${OUTPUT_H}" fill="#10B981"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif">
+    <text x="200" y="280" font-size="48" font-weight="600" fill="#10B981" letter-spacing="4">${cat}</text>
+    <text font-size="${fontSize}" font-weight="800" fill="#F1F5F9" letter-spacing="-2">${tspans}</text>
+    <text x="200" y="${OUTPUT_H - 180}" font-size="56" font-weight="700" fill="#CBD5E1">my<tspan fill="#10B981">financial</tspan></text>
+  </g>
+</svg>`;
+    return Buffer.from(svg, "utf-8");
 }
 
 export async function generateThumbnail(opts: {
@@ -98,8 +167,10 @@ export async function generateThumbnail(opts: {
     const seed = Math.floor(Math.random() * 1_000_000);
     const nativeBytes = await fetchPollinations(prompt, seed);
 
-    const upscaled = await sharp(nativeBytes)
+    const overlay = buildOverlaySvg(title, category);
+    const composed = await sharp(nativeBytes)
         .resize(OUTPUT_W, OUTPUT_H, { kernel: sharp.kernel.lanczos3 })
+        .composite([{ input: overlay, top: 0, left: 0 }])
         .jpeg({ quality: 88, mozjpeg: true })
         .toBuffer();
 
@@ -108,7 +179,7 @@ export async function generateThumbnail(opts: {
     await s3.send(new PutObjectCommand({
         Bucket: S3_BUCKET,
         Key: key,
-        Body: upscaled,
+        Body: composed,
         ContentType: "image/jpeg",
         CacheControl: "public, max-age=31536000, immutable",
     }));
