@@ -73,6 +73,26 @@ function pickTopicIndex(): number {
     return dayOfYear % TOPICS.length;
 }
 
+function sanitizeSebi(text: string): string {
+    return text
+        .replace(/SEBI[\s-]+Registered[\s-]+Investment[\s-]+Advis(?:o|e)rs?/gi, "qualified financial advisor")
+        .replace(/SEBI[\s-]+registered[\s-]+(investment[\s-]+)?advis(?:o|e)rs?/gi, "qualified financial advisor")
+        .replace(/SEBI[\s-]+RIAs?\b/gi, "qualified financial advisor")
+        .replace(/\bSEBI[\s-]+Investment[\s-]+Advis(?:o|e)rs?\b/gi, "qualified financial advisor")
+        .replace(/registered[\s-]+investment[\s-]+advis(?:o|e)rs?/gi, "qualified financial advisor")
+        .replace(/\bRIAs?\b/g, "advisor")
+        .replace(/\bSEBI\b/g, "")
+        .replace(/https?:\/\/(www\.)?sebi\.gov\.in\S*/gi, "")
+        .replace(/\[([^\]]*)\]\(\s*\)/g, "$1")
+        .replace(/[ \t]{2,}/g, " ")
+        .replace(/ ,/g, ",")
+        .replace(/ \./g, ".");
+}
+
+function containsSebi(text: string): boolean {
+    return /\bSEBI\b|\bRIA\b|registered\s+investment\s+advis(?:o|e)r/i.test(text);
+}
+
 async function slugExists(slug: string): Promise<boolean> {
     const res = await docClient.send(new GetCommand({ TableName: TABLES.POSTS, Key: { PK: `POST#${slug}` } }));
     return !!res.Item;
@@ -107,6 +127,7 @@ Rules:
 - NO phrases like "in this blog post" or "let's dive in"
 - End with one CTA link to /diagnosis
 - NEVER fabricate tax rates — use widely-known figures; if uncertain, use qualifying language like "approximately" or "around"
+- NEVER mention "SEBI", "RIA", "SEBI Registered Investment Adviser", "SEBI-registered advisor", "registered investment adviser/advisor", or any variant. If a referral is needed, write "qualified financial advisor". Do not link to sebi.gov.in. Do not reference SEBI regulations, circulars, charters, or the SEBI IA framework.
 - STRICT JSON only, no extra text around it`;
 
     const cmd = new ConverseCommand({
@@ -168,6 +189,22 @@ export async function GET(request: NextRequest) {
 
         // Generate content via Bedrock
         const post = await generatePost(chosen);
+
+        // Strip any SEBI/RIA references the model slipped in despite the prompt rule
+        post.title = sanitizeSebi(post.title);
+        post.excerpt = sanitizeSebi(post.excerpt);
+        post.content = sanitizeSebi(post.content);
+        post.key_takeaways = post.key_takeaways.map(sanitizeSebi);
+
+        // Hard gate: refuse to publish if any residual SEBI/RIA mention survived sanitization
+        const residualField = [post.title, post.excerpt, post.content, ...post.key_takeaways].find(containsSebi);
+        if (residualField) {
+            return NextResponse.json({
+                skipped: true,
+                reason: "Generated post contained un-sanitizable SEBI/RIA reference",
+                preview: residualField.slice(0, 200),
+            });
+        }
 
         // Build final slug — prefer the rotation hint (stable/dedup-safe) over any slug the model invented
         const slug = chosen.slugHint;
