@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { BedrockRuntimeClient, ConverseCommand } from "@aws-sdk/client-bedrock-runtime";
 import { docClient, TABLES } from "@/lib/dynamodb";
 import { GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { safeGenerateThumbnail } from "@/lib/thumbnail-gen";
 import crypto from "crypto";
 
 export const runtime = "nodejs";
@@ -216,6 +217,19 @@ export async function GET(request: NextRequest) {
         const wordCount = (post.content || "").split(/\s+/).length;
         const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
+        const coverImage = await safeGenerateThumbnail({
+            slug,
+            title: post.title,
+            category: chosen.category,
+        });
+        if (!coverImage) {
+            return NextResponse.json({
+                skipped: true,
+                reason: "Thumbnail generation/upload failed — refusing to publish without cover image. Check Bedrock + S3 logs.",
+                slug,
+            });
+        }
+
         const item = {
             PK: `POST#${slug}`,
             id: crypto.randomUUID(),
@@ -223,7 +237,7 @@ export async function GET(request: NextRequest) {
             slug,
             excerpt: post.excerpt,
             content: post.content,
-            cover_image: null,
+            cover_image: coverImage,
             category: chosen.category,
             tags: [chosen.category.toLowerCase().replace(/\s+/g, "-"), "fy-2025-26", "budget-2026"],
             author: AUTHOR,

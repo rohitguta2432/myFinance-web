@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/admin-auth";
 import { docClient, TABLES } from "@/lib/dynamodb";
 import { GetCommand, PutCommand, DeleteCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { safeGenerateThumbnail } from "@/lib/thumbnail-gen";
 import crypto from "crypto";
 
 // GET — List all posts (drafts + published)
@@ -43,6 +44,15 @@ export async function POST(request: NextRequest) {
         const now = new Date().toISOString();
         const id = crypto.randomUUID();
 
+        let coverImage: string | null = body.cover_image || null;
+        if (!coverImage) {
+            coverImage = await safeGenerateThumbnail({
+                slug: body.slug,
+                title: body.title,
+                category: body.category || "General",
+            });
+        }
+
         const postData = {
             PK: `POST#${body.slug}`,
             id,
@@ -50,7 +60,7 @@ export async function POST(request: NextRequest) {
             slug: body.slug,
             excerpt: body.excerpt,
             content: body.content,
-            cover_image: body.cover_image || null,
+            cover_image: coverImage,
             category: body.category || "General",
             tags: body.tags || [],
             author: body.author || "MyFinancial",
