@@ -104,6 +104,23 @@ export async function PUT(request: NextRequest) {
 
         const now = new Date().toISOString();
 
+        // Preserve / generate cover_image — never let an update wipe it.
+        let coverImage: string | null = body.cover_image || null;
+        if (!coverImage) {
+            const existing = await docClient.send(new GetCommand({
+                TableName: TABLES.POSTS,
+                Key: { PK: `POST#${body.slug}` },
+            }));
+            coverImage = existing.Item?.cover_image || null;
+            if (!coverImage) {
+                coverImage = await safeGenerateThumbnail({
+                    slug: body.slug,
+                    title: body.title,
+                    category: body.category || "General",
+                });
+            }
+        }
+
         const updateData = {
             PK: `POST#${body.slug}`,
             id: body.id,
@@ -111,7 +128,7 @@ export async function PUT(request: NextRequest) {
             slug: body.slug,
             excerpt: body.excerpt,
             content: body.content,
-            cover_image: body.cover_image || null,
+            cover_image: coverImage,
             category: body.category || "General",
             tags: body.tags || [],
             author: body.author || "MyFinancial",
