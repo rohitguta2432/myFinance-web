@@ -16,11 +16,20 @@ type PostRow = {
     cover_image?: string | null;
 };
 
+function authorize(request: NextRequest): boolean {
+    if (isAuthenticated(request)) return true;
+    const cronSecret = process.env.CRON_SECRET;
+    if (!cronSecret) return false;
+    const url = new URL(request.url);
+    return url.searchParams.get("token") === cronSecret;
+}
+
 // POST — backfill cover_image for every published post missing one.
+// Auth: admin_session cookie OR ?token=<CRON_SECRET>.
 // Optional ?force=true regenerates even posts that already have a cover.
 // Optional ?limit=N caps how many to process in one call (default 20 to stay under Lambda timeout).
 export async function POST(request: NextRequest) {
-    if (!isAuthenticated(request)) {
+    if (!authorize(request)) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
