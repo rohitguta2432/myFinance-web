@@ -184,7 +184,10 @@ export async function generateThumbnail(opts: {
         CacheControl: "public, max-age=31536000, immutable",
     }));
 
-    return `https://${S3_BUCKET}.s3.${S3_REGION}.amazonaws.com/${key}`;
+    // ?v=<timestamp> is a cache-bust marker. The S3 file ignores query strings,
+    // but browsers treat the URL as unique — so re-generations (admin PUT, backfill,
+    // future style refreshes) bust client caches without changing the S3 key.
+    return `https://${S3_BUCKET}.s3.${S3_REGION}.amazonaws.com/${key}?v=${Date.now()}`;
 }
 
 export function safeGenerateThumbnail(opts: {
