@@ -3,6 +3,8 @@ import { isAuthenticated } from "@/lib/admin-auth";
 import { docClient, TABLES } from "@/lib/dynamodb";
 import { GetCommand, PutCommand, DeleteCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { safeGenerateThumbnail } from "@/lib/thumbnail-gen";
+import { broadcastNewPost } from "@/lib/email";
+import type { BlogPost } from "@/lib/types";
 import crypto from "crypto";
 
 // GET — List all posts (drafts + published)
@@ -78,6 +80,12 @@ export async function POST(request: NextRequest) {
             Item: postData,
         }));
 
+        if (postData.status === "published") {
+            void broadcastNewPost(postData as unknown as BlogPost).catch((e) =>
+                console.error("[newsletter] broadcast failed:", e)
+            );
+        }
+
         return NextResponse.json(postData, { status: 201 });
     } catch (error) {
         console.error("Admin posts POST error:", error);
@@ -104,13 +112,17 @@ export async function PUT(request: NextRequest) {
 
         const now = new Date().toISOString();
 
+        // Read existing post once so we can both preserve cover_image
+        // and detect a draft → published transition for the newsletter.
+        const existing = await docClient.send(new GetCommand({
+            TableName: TABLES.POSTS,
+            Key: { PK: `POST#${body.slug}` },
+        }));
+        const wasPublished = existing.Item?.status === "published";
+
         // Preserve / generate cover_image — never let an update wipe it.
         let coverImage: string | null = body.cover_image || null;
         if (!coverImage) {
-            const existing = await docClient.send(new GetCommand({
-                TableName: TABLES.POSTS,
-                Key: { PK: `POST#${body.slug}` },
-            }));
             coverImage = existing.Item?.cover_image || null;
             if (!coverImage) {
                 coverImage = await safeGenerateThumbnail({
@@ -144,6 +156,12 @@ export async function PUT(request: NextRequest) {
             TableName: TABLES.POSTS,
             Item: updateData,
         }));
+
+        if (updateData.status === "published" && !wasPublished) {
+            void broadcastNewPost(updateData as unknown as BlogPost).catch((e) =>
+                console.error("[newsletter] broadcast failed:", e)
+            );
+        }
 
         return NextResponse.json(updateData);
     } catch (error) {

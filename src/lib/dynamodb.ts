@@ -16,4 +16,5 @@ export const docClient = DynamoDBDocumentClient.from(client, {
 export const TABLES = {
     POSTS: "myfinancial-blog-posts",
     COMMENTS: "myfinancial-comments",
+    NEWSLETTER_SUBSCRIBERS: "myfinancial-newsletter-subscribers",
 } as const;

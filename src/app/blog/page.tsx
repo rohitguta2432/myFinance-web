@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import type { BlogPost, BlogCategory } from "@/lib/types";
 import { BlogCard } from "@/components/blog/blog-card";
 import { CategoryFilter } from "@/components/blog/category-filter";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { BookOpen, Search as SearchIcon, X } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
@@ -250,6 +251,9 @@ export default function BlogPage() {
                         )}
                     </>
                 )}
+
+                {/* Newsletter signup */}
+                <NewsletterSignup source="blog-index" />
             </div>
         </section>
     );

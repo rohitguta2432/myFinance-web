@@ -8,6 +8,7 @@ import { ShareBar } from "@/components/blog/share-bar";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { BlogCard } from "@/components/blog/blog-card";
 import { KeyTakeaways } from "@/components/blog/key-takeaways";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { ArrowLeft, Calendar, Clock, User, Sparkles } from "lucide-react";
 import { marked } from "marked";
 import { useAppTheme } from "@/hooks/useAppTheme";
@@ -273,6 +274,10 @@ export function BlogPostClient({ post, related, authorDisplay }: BlogPostClientP
                             </div>
                         </section>
                     )}
+
+                    <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 24px" }}>
+                        <NewsletterSignup source={`post:${post.slug}`} />
+                    </div>
                 </div>
             </article>
 
