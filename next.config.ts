@@ -71,6 +71,12 @@ const embedHeaders = [
 
 const nextConfig: NextConfig = {
     output: "standalone",
+    images: {
+        remotePatterns: [
+            { protocol: "https", hostname: "myfinancial-blog-assets.s3.ap-south-1.amazonaws.com" },
+            { protocol: "https", hostname: "myfinancial.in" },
+        ],
+    },
     headers: async () => [
         {
             source: "/embed/:path*",
