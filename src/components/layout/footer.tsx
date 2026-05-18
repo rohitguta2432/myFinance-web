@@ -44,9 +44,9 @@ function NewsletterBand() {
         <div
             style={{
                 position: "relative",
-                borderRadius: 20,
-                padding: "36px 28px",
-                marginBottom: 48,
+                borderRadius: 16,
+                padding: "22px 24px",
+                marginBottom: 28,
                 background: `linear-gradient(135deg, rgba(16,185,129,0.10) 0%, ${palette.s2} 55%, ${palette.s1} 100%)`,
                 border: `1px solid ${palette.brd2}`,
                 overflow: "hidden",
@@ -69,15 +69,15 @@ function NewsletterBand() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 6,
-                        padding: "6px 12px",
+                        padding: "4px 10px",
                         borderRadius: 999,
                         background: "rgba(16,185,129,0.12)",
                         color: "#10B981",
-                        fontSize: 11,
+                        fontSize: 10,
                         fontWeight: 600,
                         letterSpacing: 0.6,
                         textTransform: "uppercase",
-                        marginBottom: 14,
+                        marginBottom: 8,
                     }}
                 >
                     <Sparkles size={12} />
@@ -85,10 +85,10 @@ function NewsletterBand() {
                 </span>
                 <h3
                     style={{
-                        fontSize: 22,
+                        fontSize: 17,
                         fontWeight: 700,
                         color: palette.txt,
-                        margin: "0 0 8px",
+                        margin: "0 0 4px",
                         lineHeight: 1.3,
                     }}
                 >
@@ -96,13 +96,13 @@ function NewsletterBand() {
                 </h3>
                 <p
                     style={{
-                        fontSize: 14,
+                        fontSize: 13,
                         color: palette.mute,
-                        margin: "0 0 22px",
-                        lineHeight: 1.6,
+                        margin: "0 0 14px",
+                        lineHeight: 1.5,
                     }}
                 >
-                    One short email when we publish a new article. No spam, unsubscribe anytime.
+                    One short email when we publish. No spam, unsubscribe anytime.
                 </p>
 
                 <form
@@ -194,9 +194,9 @@ function NewsletterBand() {
                 <div
                     role={status === "error" ? "alert" : "status"}
                     style={{
-                        minHeight: 18,
-                        marginTop: 12,
-                        fontSize: 12,
+                        minHeight: 16,
+                        marginTop: 8,
+                        fontSize: 11,
                         color:
                             status === "error"
                                 ? "#F87171"
@@ -206,8 +206,8 @@ function NewsletterBand() {
                     }}
                 >
                     {message || (
-                        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                            <ShieldCheck size={12} aria-hidden />
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                            <ShieldCheck size={11} aria-hidden />
                             Your email stays private. We never share it.
                         </span>
                     )}
@@ -239,17 +239,17 @@ function LinkColumn({ title, links }: { title: string; links: { label: string; h
         <div>
             <h4
                 style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: 1,
                     color: palette.txt,
-                    margin: "0 0 14px",
+                    margin: "0 0 10px",
                 }}
             >
                 {title}
             </h4>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 10 }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 6 }}>
                 {links.map((l) => (
                     <li key={l.label}>
                         <Link
@@ -282,7 +282,7 @@ export function Footer() {
         <footer
             style={{
                 borderTop: `1px solid ${palette.brd}`,
-                padding: "56px 0 28px",
+                padding: "32px 0 20px",
                 color: palette.mute,
                 fontFamily: "var(--font-display)",
                 fontSize: 13,
@@ -296,7 +296,7 @@ export function Footer() {
 
                 <div className="footer-grid">
                     <div className="footer-brand">
-                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                             <img
                                 src={
                                     mounted && resolvedTheme === "light"
@@ -304,15 +304,14 @@ export function Footer() {
                                         : "/myfinancial-logo.svg"
                                 }
                                 alt="MyFinancial"
-                                style={{ height: 32, width: "auto" }}
+                                style={{ height: 26, width: "auto" }}
                             />
                         </div>
-                        <p style={{ fontSize: 13, color: palette.mute, margin: "0 0 14px", maxWidth: 320 }}>
-                            India&apos;s financial diagnostic platform — clear, honest guidance on tax,
-                            insurance, investing and budgeting for Indian households.
+                        <p style={{ fontSize: 12, color: palette.mute, margin: "0 0 6px", maxWidth: 320, lineHeight: 1.5 }}>
+                            India&apos;s financial diagnostic platform — clear, honest guidance for Indian households.
                         </p>
-                        <p style={{ fontSize: 12, color: palette.mute, margin: 0 }}>
-                            Made with care in Mumbai · © 2026 MyFinancial
+                        <p style={{ fontSize: 11, color: palette.mute, margin: 0 }}>
+                            Made in Mumbai · © 2026 MyFinancial
                         </p>
                     </div>
 
@@ -322,23 +321,15 @@ export function Footer() {
 
                 <div
                     style={{
-                        marginTop: 36,
-                        paddingTop: 20,
+                        marginTop: 20,
+                        paddingTop: 14,
                         borderTop: `1px solid ${palette.brd}`,
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 12,
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        fontSize: 12,
+                        textAlign: "center",
+                        fontSize: 11,
                         color: palette.mute,
                     }}
                 >
-                    <span>Educational diagnostic platform · Not investment advice</span>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                        <ShieldCheck size={12} aria-hidden />
-                        SEBI-registered partners
-                    </span>
+                    Educational diagnostic platform · Not investment advice
                 </div>
             </div>
 
@@ -346,14 +337,14 @@ export function Footer() {
                 .footer-grid {
                     display: grid;
                     grid-template-columns: 2fr 1fr 1fr;
-                    gap: 48px;
+                    gap: 32px;
                     align-items: start;
                 }
                 .footer-link:hover { color: ${palette.txt} !important; }
                 @media (max-width: 720px) {
                     .footer-grid {
                         grid-template-columns: 1fr 1fr;
-                        gap: 32px;
+                        gap: 24px;
                     }
                     .footer-brand {
                         grid-column: 1 / -1;
