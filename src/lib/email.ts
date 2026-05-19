@@ -1,5 +1,5 @@
 import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
-import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { GetCommand, ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient, TABLES } from "@/lib/dynamodb";
 import type { BlogPost } from "@/lib/types";
 import crypto from "crypto";
@@ -175,7 +175,15 @@ ${postBlock}
 Unsubscribe: ${unsubscribeUrl}`;
 }
 
-export async function sendWelcomeWithLatestPost(email: string): Promise<void> {
+export async function sendWelcomeWithLatestPost(email: string): Promise<"sent" | "skipped"> {
+    const existing = await docClient.send(new GetCommand({
+        TableName: TABLES.NEWSLETTER_SUBSCRIBERS,
+        Key: { email },
+    }));
+    if (existing.Item?.welcome_sent_at) {
+        return "skipped";
+    }
+
     const token = unsubscribeToken(email);
     const unsubscribeUrl = `${SITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}&token=${token}`;
     let post: BlogPost | null = null;
@@ -200,6 +208,42 @@ export async function sendWelcomeWithLatestPost(email: string): Promise<void> {
             },
         },
     }));
+
+    await docClient.send(new UpdateCommand({
+        TableName: TABLES.NEWSLETTER_SUBSCRIBERS,
+        Key: { email },
+        UpdateExpression: "SET welcome_sent_at = :t",
+        ExpressionAttributeValues: { ":t": new Date().toISOString() },
+    }));
+    return "sent";
+}
+
+export async function backfillWelcomeEmails(): Promise<{ sent: number; skipped: number; failed: number }> {
+    let subscribers: Subscriber[];
+    try {
+        subscribers = await listActiveSubscribers();
+    } catch (err) {
+        console.error("[newsletter] backfill: failed to list subscribers:", err);
+        return { sent: 0, skipped: 0, failed: 0 };
+    }
+
+    let sent = 0;
+    let skipped = 0;
+    let failed = 0;
+
+    for (const sub of subscribers) {
+        try {
+            const result = await sendWelcomeWithLatestPost(sub.email);
+            if (result === "sent") sent++;
+            else skipped++;
+        } catch (err) {
+            failed++;
+            console.error(`[newsletter] backfill: failed for ${sub.email}:`, err);
+        }
+    }
+
+    console.log(`[newsletter] backfill sent=${sent} skipped=${skipped} failed=${failed}`);
+    return { sent, skipped, failed };
 }
 
 export async function broadcastNewPost(post: BlogPost): Promise<{ sent: number; failed: number }> {
