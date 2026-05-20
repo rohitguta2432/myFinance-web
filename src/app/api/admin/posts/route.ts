@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/admin-auth";
 import { docClient, TABLES } from "@/lib/dynamodb";
 import { GetCommand, PutCommand, DeleteCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { safeGenerateThumbnail } from "@/lib/thumbnail-gen";
+import { broadcastNewPost } from "@/lib/email";
+import type { BlogPost } from "@/lib/types";
 import crypto from "crypto";
 
 // GET — List all posts (drafts + published)
@@ -43,6 +46,15 @@ export async function POST(request: NextRequest) {
         const now = new Date().toISOString();
         const id = crypto.randomUUID();
 
+        let coverImage: string | null = body.cover_image || null;
+        if (!coverImage) {
+            coverImage = await safeGenerateThumbnail({
+                slug: body.slug,
+                title: body.title,
+                category: body.category || "General",
+            });
+        }
+
         const postData = {
             PK: `POST#${body.slug}`,
             id,
@@ -50,7 +62,7 @@ export async function POST(request: NextRequest) {
             slug: body.slug,
             excerpt: body.excerpt,
             content: body.content,
-            cover_image: body.cover_image || null,
+            cover_image: coverImage,
             category: body.category || "General",
             tags: body.tags || [],
             author: body.author || "MyFinancial",
@@ -67,6 +79,12 @@ export async function POST(request: NextRequest) {
             TableName: TABLES.POSTS,
             Item: postData,
         }));
+
+        if (postData.status === "published") {
+            void broadcastNewPost(postData as unknown as BlogPost).catch((e) =>
+                console.error("[newsletter] broadcast failed:", e)
+            );
+        }
 
         return NextResponse.json(postData, { status: 201 });
     } catch (error) {
@@ -94,6 +112,27 @@ export async function PUT(request: NextRequest) {
 
         const now = new Date().toISOString();
 
+        // Read existing post once so we can both preserve cover_image
+        // and detect a draft → published transition for the newsletter.
+        const existing = await docClient.send(new GetCommand({
+            TableName: TABLES.POSTS,
+            Key: { PK: `POST#${body.slug}` },
+        }));
+        const wasPublished = existing.Item?.status === "published";
+
+        // Preserve / generate cover_image — never let an update wipe it.
+        let coverImage: string | null = body.cover_image || null;
+        if (!coverImage) {
+            coverImage = existing.Item?.cover_image || null;
+            if (!coverImage) {
+                coverImage = await safeGenerateThumbnail({
+                    slug: body.slug,
+                    title: body.title,
+                    category: body.category || "General",
+                });
+            }
+        }
+
         const updateData = {
             PK: `POST#${body.slug}`,
             id: body.id,
@@ -101,7 +140,7 @@ export async function PUT(request: NextRequest) {
             slug: body.slug,
             excerpt: body.excerpt,
             content: body.content,
-            cover_image: body.cover_image || null,
+            cover_image: coverImage,
             category: body.category || "General",
             tags: body.tags || [],
             author: body.author || "MyFinancial",
@@ -117,6 +156,12 @@ export async function PUT(request: NextRequest) {
             TableName: TABLES.POSTS,
             Item: updateData,
         }));
+
+        if (updateData.status === "published" && !wasPublished) {
+            void broadcastNewPost(updateData as unknown as BlogPost).catch((e) =>
+                console.error("[newsletter] broadcast failed:", e)
+            );
+        }
 
         return NextResponse.json(updateData);
     } catch (error) {

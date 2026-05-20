@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppTheme, type AppPalette } from '@/hooks/useAppTheme';
 import {
   Users,
@@ -351,6 +352,7 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
                 border: 'none',
                 color: MUTED,
                 cursor: 'pointer',
+                flexShrink: 0,
               }}
             >
               <X size={20} />
@@ -359,6 +361,29 @@ function UserDetailPanel({ userId, onClose }: { userId: string; onClose: () => v
 
           {/* Content */}
           <div style={{ padding: 20 }}>
+            {/* View full data CTA */}
+            <Link
+              href={`/admin/users/${userId}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                width: '100%',
+                padding: '12px 16px',
+                borderRadius: 12,
+                background: ACCENT,
+                color: '#FFFFFF',
+                fontSize: 13,
+                fontWeight: 700,
+                textDecoration: 'none',
+                fontFamily: FONT,
+                marginBottom: 20,
+                transition: 'opacity 0.15s',
+              }}
+            >
+              View Full Data <ChevronRight size={16} />
+            </Link>
             {/* Meta tags */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
               {data.summary.city && (

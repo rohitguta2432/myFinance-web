@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAppTheme } from '@/hooks/useAppTheme';
+import { useFeatureFlag } from '@/hooks/useFeatureFlags';
 
 // ─── TYPES ───────────────────────────────────────────
 interface ChatMessage {
@@ -110,6 +111,12 @@ function renderMarkdown(text: string, codeBg: string): string {
 export default function ChatWidget({ user }: { user?: Record<string, unknown> }) {
   const palette = useAppTheme();
   const pathname = usePathname();
+  const showSebi = useFeatureFlag('show_sebi_disclaimers');
+  const showAssetAllocation = useFeatureFlag('show_asset_allocation');
+  const visibleFaqItems = FAQ_ITEMS.filter((f) =>
+    (showSebi || !/\bSEBI\b/i.test(f.a)) &&
+    (showAssetAllocation || !/asset allocation/i.test(f.q))
+  );
 
   // Theme-aware tokens — derived from palette so the chat panel adapts to dark/light mode
   const T = {
@@ -654,7 +661,7 @@ export default function ChatWidget({ user }: { user?: Record<string, unknown> })
               >
                 Frequently Asked Questions
               </div>
-              {FAQ_ITEMS.map((faq, idx) => (
+              {visibleFaqItems.map((faq, idx) => (
                 <div
                   key={idx}
                   className="mera-faq-item"

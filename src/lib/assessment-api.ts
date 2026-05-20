@@ -639,6 +639,8 @@ export interface TaxRegimeDetail {
     baseTax: number;
     cess: number;
     totalTax: number;
+    marginalReliefApplied?: boolean;
+    marginalRelief?: number;
 }
 
 export interface TaxCalculationResult {

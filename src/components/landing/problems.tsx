@@ -13,9 +13,9 @@ export function ProblemsSection() {
     const palette = useAppTheme();
     return (
         <section id="prob" style={{ padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <div className="section-tag">The hidden cost</div>
-                <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16, color: palette.txt }}>
+                <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16, color: palette.txt }}>
                     Investing ≠ Financial Health.<br />
                     Most earners <span className="text-gradient">confuse the two.</span>
                 </h2>

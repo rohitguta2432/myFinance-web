@@ -2,6 +2,7 @@
 
 import { AlertTriangle } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const sections = [
     {
@@ -40,6 +41,11 @@ const sections = [
             "MyFinancial, its creators, and contributors shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use or inability to use this tool or reliance on its outputs.",
     },
     {
+        title: "Third-Party Services",
+        content:
+            "MyFinancial may direct you to independent third-party services such as TaxBuddy (operated by Finbingo Wealth Tech Private Limited) for actions like income-tax return filing. These third parties are not part of MyFinancial. When you click through, you enter a separate contract directly with that third party, governed by their own terms and privacy policy. MyFinancial does not share any user data with these third parties. We may receive a referral fee when you sign up through such a link — this is disclosed in compliance with the Consumer Protection (E-Commerce) Rules, 2020 and ASCI guidelines, and does not increase what you pay the third party. To the maximum extent permitted by law, MyFinancial is not liable for the quality, accuracy, fees, refunds, or any other aspect of any third-party service.",
+    },
+    {
         title: "Governing Law",
         content:
             "This disclaimer and your use of MyFinancial shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Bengaluru, Karnataka.",
@@ -48,6 +54,8 @@ const sections = [
 
 export function DisclaimerContent() {
     const palette = useAppTheme();
+    const showSebi = useFeatureFlag("show_sebi_disclaimers");
+    const visibleSections = sections.filter((s) => showSebi || !/\bSEBI\b/i.test(s.content));
 
     return (
         <>
@@ -78,13 +86,13 @@ export function DisclaimerContent() {
             {/* Sections */}
             <section className="section-padding" style={{ backgroundColor: palette.s1 }}>
                 <div className="container-marketing" style={{ maxWidth: 700 }}>
-                    {sections.map((s, i) => (
+                    {visibleSections.map((s, i) => (
                         <div
                             key={i}
                             style={{
                                 paddingTop: 32,
                                 paddingBottom: 32,
-                                borderBottom: i < sections.length - 1 ? `1px solid ${palette.brd}` : "none",
+                                borderBottom: i < visibleSections.length - 1 ? `1px solid ${palette.brd}` : "none",
                             }}
                         >
                             <h2 style={{ fontSize: 18, fontWeight: 600, color: palette.txt, marginBottom: 12 }}>

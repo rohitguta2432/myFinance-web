@@ -2,9 +2,14 @@
 
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 export function HeroSection() {
     const palette = useAppTheme();
+    const showPricing = useFeatureFlag("show_pricing");
+    const trustBadges = showPricing
+        ? ["₹999 one-time", "Instant dashboard", "100% confidential"]
+        : ["Free to start", "Instant dashboard", "100% confidential"];
     return (
         <section
             style={{
@@ -23,8 +28,8 @@ export function HeroSection() {
                 <div
                     style={{
                         position: "absolute",
-                        width: "45vw",
-                        height: "45vw",
+                        width: 540,
+                        height: 540,
                         background: "#10B981",
                         top: "-5%",
                         left: "15%",
@@ -37,8 +42,8 @@ export function HeroSection() {
                 <div
                     style={{
                         position: "absolute",
-                        width: "30vw",
-                        height: "30vw",
+                        width: 360,
+                        height: 360,
                         background: "#F5C842",
                         bottom: "10%",
                         right: "15%",
@@ -90,9 +95,9 @@ export function HeroSection() {
 
                 {/* Headline */}
                 <h1
+                    className="hero-h1"
                     style={{
                         fontFamily: "var(--font-display)",
-                        fontSize: "clamp(40px, 6vw, 80px)",
                         fontWeight: 800,
                         lineHeight: 1.02,
                         letterSpacing: -3,
@@ -169,7 +174,7 @@ export function HeroSection() {
                         animation: "fade-up 1s 0.85s both",
                     }}
                 >
-                    {["₹999 one-time", "Instant dashboard", "100% confidential"].map((t) => (
+                    {trustBadges.map((t) => (
                         <span key={t} style={{ display: "flex", alignItems: "center", gap: 4 }}>
                             <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                                 <path d="M13.5 4.5l-7 7L3 8" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" />
@@ -234,6 +239,11 @@ export function HeroSection() {
                     ))}
                 </div>
             </div>
+            <style>{`
+                .hero-h1 { font-size: 80px; }
+                @media (max-width: 900px) { .hero-h1 { font-size: 48px; letter-spacing: -1.5px; } }
+                @media (max-width: 600px) { .hero-h1 { font-size: 40px; } }
+            `}</style>
         </section>
     );
 }

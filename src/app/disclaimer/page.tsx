@@ -4,7 +4,7 @@ import { DisclaimerContent } from "./disclaimer-content";
 export const metadata: Metadata = {
     title: "Disclaimer",
     description:
-        "MyFinancial Disclaimer — this tool is for informational purposes only and does not constitute financial advice. Consult a SEBI-registered advisor.",
+        "MyFinancial Disclaimer — this tool is for informational purposes only and does not constitute financial advice. Consult a qualified financial advisor.",
 };
 
 export default function DisclaimerPage() {

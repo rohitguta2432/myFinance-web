@@ -4,20 +4,23 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BarChart3, Zap, Shield, Calculator, Target, Wallet,
-  RefreshCw, Lock, Crown, Check, X, Settings, Flame,
+  BarChart3, Zap, Shield, Calculator, Target, Wallet, LineChart,
+  RefreshCw, Lock, Crown, Check, X, Settings, Flame, FileText,
 } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { DownloadReportButton } from "@/components/pdf/DownloadReportButton";
 import { useStreak } from "@/hooks/gamification/useStreak";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const ADMIN_EMAILS = ["rohitgupta2432@gmail.com", "myfinancial.cfp@gmail.com"];
 
 const SIDEBAR_TABS = [
   { id: "summary", label: "Summary", icon: BarChart3, path: "/dashboard", premium: false },
   { id: "action-plan", label: "Action Plan", icon: Zap, path: "/dashboard/action-plan", premium: false },
+  { id: "investments", label: "Investments", icon: LineChart, path: "/dashboard/investments", premium: false },
   { id: "insurance", label: "Insurance", icon: Shield, path: "/dashboard/insurance", premium: false },
   { id: "tax", label: "Tax Planning", icon: Calculator, path: "/dashboard/tax", premium: false },
+  { id: "file-itr", label: "File ITR", icon: FileText, path: "/dashboard/file-itr", premium: false },
   { id: "goals", label: "Goals", icon: Target, path: "/dashboard/goals", premium: false },
   { id: "net-worth", label: "Net Worth", icon: Wallet, path: "/dashboard/net-worth", premium: false },
 ] as const;
@@ -111,6 +114,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [userEmail, setUserEmail] = useState("");
   const [isAdminFromApi, setIsAdminFromApi] = useState(false);
   const streak = useStreak();
+  const showInvestmentsTab = useFeatureFlag("show_investments_tab");
+  const visibleTabs = SIDEBAR_TABS.filter((t) => t.id !== "investments" || showInvestmentsTab);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -174,7 +179,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           )}
 
-          {SIDEBAR_TABS.map((tab) => {
+          {visibleTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = pathname === tab.path || (tab.path === "/dashboard" && pathname === "/dashboard");
             const isLocked = tab.premium && !isPremium;
@@ -309,7 +314,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         )}
 
-        {SIDEBAR_TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = pathname === tab.path;
           const isLocked = tab.premium && !isPremium;

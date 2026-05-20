@@ -5,7 +5,7 @@ import { TaxSection } from "@/components/landing/tax";
 import { HowItWorksSection } from "@/components/landing/how-it-works";
 import { PricingSection } from "@/components/landing/pricing";
 import { TestimonialsSection } from "@/components/landing/testimonials";
-import { FounderSection } from "@/components/landing/founder";
+import { CompanySection } from "@/components/landing/company";
 import { FinalCTASection } from "@/components/landing/final-cta";
 import { ScrollReveal } from "@/components/landing/scroll-reveal";
 
@@ -30,7 +30,7 @@ export default function HomePage() {
                 <TestimonialsSection />
             </ScrollReveal>
             <ScrollReveal>
-                <FounderSection />
+                <CompanySection />
             </ScrollReveal>
             <ScrollReveal>
                 <FinalCTASection />

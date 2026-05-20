@@ -23,12 +23,12 @@ export function TaxSection() {
     const palette = useAppTheme();
     return (
         <section style={{ background: palette.s1, borderTop: `1px solid ${palette.brd}`, borderBottom: `1px solid ${palette.brd}`, padding: "clamp(80px, 10vw, 120px) 0" }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
                 <div className="tax-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
                     {/* Left */}
                     <div>
                         <div className="section-tag">Tax Rules · April 2026</div>
-                        <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
+                        <h2 className="landing-h2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 16 }}>
                             2026 rules changed. Most employees <span className="text-gradient">don&apos;t know yet.</span>
                         </h2>
                         <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, color: palette.mute, lineHeight: 1.75, maxWidth: 520, fontStyle: "italic", marginBottom: 16 }}>

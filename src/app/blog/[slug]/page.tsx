@@ -7,13 +7,15 @@ export const revalidate = 86400;
 export const dynamicParams = true;
 
 const SITE_URL = "https://myfinancial.in";
-const AUTHOR_NAME = "Nithin Pushkaran";
+const AUTHOR_NAME = "MyFinancial";
 const AUTHOR_URL = `${SITE_URL}/about`;
-const BRAND_AUTHORS = new Set(["MyFinancial", "myfinancial", ""]);
+const LEGACY_AUTHORS = new Set(["Nithin Pushkaran", "nithin pushkaran"]);
 
 function resolveAuthorDisplay(raw: string | undefined): string {
     if (!raw) return AUTHOR_NAME;
-    return BRAND_AUTHORS.has(raw.trim()) ? AUTHOR_NAME : raw;
+    const trimmed = raw.trim();
+    if (!trimmed || LEGACY_AUTHORS.has(trimmed)) return AUTHOR_NAME;
+    return trimmed;
 }
 
 export async function generateStaticParams() {

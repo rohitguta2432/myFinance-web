@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield, Database, UserX, Download, Trash2, Lock } from "lucide-react";
+import { Shield, Database, UserX, Download, Trash2, Lock, ExternalLink } from "lucide-react";
 import { useAppTheme } from "@/hooks/useAppTheme";
 
 const principles = [
@@ -135,6 +135,32 @@ export function PrivacyContent() {
                                 Data exists only while you choose to keep it. You can export it (JSON) for backup,
                                 re-import it in another browser, or delete it entirely. Clearing your browser data
                                 also removes everything.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 className="text-h4" style={{ color: palette.txt, marginBottom: 12 }}>
+                                <ExternalLink size={18} style={{ display: "inline", marginRight: 6, verticalAlign: "-3px" }} />
+                                Links to partner services (e.g. TaxBuddy)
+                            </h3>
+                            <p className="text-body" style={{ color: palette.mute, lineHeight: 1.7, marginBottom: 12 }}>
+                                MyFinancial may surface links to independent third-party services like TaxBuddy
+                                (for tax-return filing) on parts of the app. <strong>We do not share any of
+                                your data with them.</strong> No URL parameters, no API hand-off — clicking the
+                                link simply opens the partner&apos;s site in a new tab. You enter your details
+                                there directly, governed by their own privacy policy.
+                            </p>
+                            <p className="text-body" style={{ color: palette.mute, lineHeight: 1.7, marginBottom: 12 }}>
+                                Before any such redirect, we show a disclosure interstitial naming the partner,
+                                clarifying that you are leaving MyFinancial, and noting that we may earn a
+                                referral fee when you sign up through the link (this does not affect what you
+                                pay them and does not influence what we recommend).
+                            </p>
+                            <p className="text-body" style={{ color: palette.mute, lineHeight: 1.7 }}>
+                                For audit purposes we log anonymous click events (event type, timestamp, and a
+                                browser-scoped random token stored in your localStorage). We do not log your
+                                IP address, user identity, or any personal information. The log lets us prove
+                                the disclosure was shown without compromising your anonymity.
                             </p>
                         </div>
                     </div>

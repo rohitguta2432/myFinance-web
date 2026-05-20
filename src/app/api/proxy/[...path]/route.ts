@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
+// Paths under /api/v1/ that the backend allows anonymous (GET only).
+// Keep in sync with JwtAuthenticationFilter.EXCLUDED_PATHS on the backend.
+const PUBLIC_GET_PATHS = new Set<string>([
+    "feature-flags",
+]);
+
 async function proxyRequest(
     req: NextRequest,
     params: Promise<{ path: string[] }>
@@ -11,7 +17,10 @@ async function proxyRequest(
     const cookieStore = await cookies();
     const token = cookieStore.get("session")?.value;
 
-    if (!token) {
+    const targetPath = path.join("/");
+    const isPublicGet = req.method === "GET" && PUBLIC_GET_PATHS.has(targetPath);
+
+    if (!token && !isPublicGet) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -20,14 +29,15 @@ async function proxyRequest(
         return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
     }
 
-    const targetPath = path.join("/");
     const search = req.nextUrl.search;
     const targetUrl = `${BACKEND_URL}/api/v1/${targetPath}${search}`;
 
     const headers: HeadersInit = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
     };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
 
     const body =
         req.method !== "GET" && req.method !== "HEAD"

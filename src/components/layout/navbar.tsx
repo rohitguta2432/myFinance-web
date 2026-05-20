@@ -9,6 +9,7 @@ import { useTheme } from "next-themes";
 import { useAssessmentStore } from "@/store/useAssessmentStore";
 import { wipeAllAssessmentStorage, LAST_USER_KEY } from "@/lib/assessment-storage-cleanup";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { useFeatureFlag } from "@/hooks/useFeatureFlags";
 
 const PAGE_TITLES: Record<string, string> = {
     "/assessment/profile": "Personal Profile",
@@ -22,13 +23,14 @@ const PAGE_TITLES: Record<string, string> = {
     "/dashboard/action-plan": "Action Plan",
     "/dashboard/insurance": "Insurance Analysis",
     "/dashboard/tax": "Tax Planning",
+    "/dashboard/file-itr": "File ITR",
     "/admin": "Admin Panel",
 };
 
-const navLinks = [
+const navLinksAll = [
     { label: "Diagnosis", href: "/#prob" },
     { label: "How It Works", href: "/#how" },
-    { label: "Pricing", href: "/#pricing" },
+    { label: "Pricing", href: "/#pricing", flag: "show_pricing" as const },
     { label: "About", href: "/#founder" },
     { label: "Blog", href: "/blog" },
     { label: "Calculators", href: "/calculators" },
@@ -50,6 +52,8 @@ interface User {
 
 export function Navbar() {
     const palette = useAppTheme();
+    const showPricing = useFeatureFlag("show_pricing");
+    const navLinks = navLinksAll.filter((l) => !l.flag || (l.flag === "show_pricing" && showPricing));
     const [mobileOpen, setMobileOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);

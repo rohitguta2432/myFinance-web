@@ -59,12 +59,11 @@ export function SectionNav({ sections, scrollContainer }: { sections: Section[];
                 top: "45%",
                 transform: "translateY(-50%)",
                 zIndex: 40,
-                display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-end",
                 gap: 0,
             }}
-            className="hidden lg:flex"
+            className="section-nav"
         >
             {sections.map(({ id, label }, i) => {
                 const isActive = activeId === id;
@@ -127,6 +126,10 @@ export function SectionNav({ sections, scrollContainer }: { sections: Section[];
                     </div>
                 );
             })}
+            <style>{`
+                .section-nav { display: none; }
+                @media (min-width: 1500px) { .section-nav { display: flex; } }
+            `}</style>
         </nav>
     );
 }

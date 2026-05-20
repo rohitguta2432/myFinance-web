@@ -4,7 +4,11 @@ export type FeatureFlagKey =
     | "premium_retirement_pro"
     | "premium_export_tools"
     | "premium_kira_pro"
-    | "premium_locked_insights";
+    | "premium_locked_insights"
+    | "show_pricing"
+    | "show_investments_tab"
+    | "show_sebi_disclaimers"
+    | "show_asset_allocation";
 
 export type FlagMap = Partial<Record<FeatureFlagKey, boolean>>;
 
@@ -12,7 +16,7 @@ export interface FeatureFlag {
     key: FeatureFlagKey;
     label: string;
     description?: string;
-    category: "premium" | "experimental" | "core";
+    category: "premium" | "experimental" | "core" | "policy";
     enabled: boolean;
     updatedAt: string;
     updatedBy?: string;

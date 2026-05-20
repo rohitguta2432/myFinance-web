@@ -50,7 +50,7 @@ export function DashboardPreview() {
             <div
                 ref={dashRef}
                 style={{
-                    maxWidth: 960,
+                    maxWidth: 1120,
                     margin: "0 auto",
                     background: palette.s1,
                     border: `1px solid ${palette.brd}`,

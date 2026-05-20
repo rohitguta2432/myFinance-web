@@ -42,11 +42,51 @@ const securityHeaders = [
     },
 ];
 
+// Embed-only headers — partner sites iframe /embed/* routes, so we
+// must NOT block framing. Empty/permissive frame-ancestors and ALLOWALL
+// X-Frame-Options. Source order matters: more specific paths win, so
+// /embed/(.*) is listed before /(.*) below.
+const embedHeaders = [
+    {
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains; preload",
+    },
+    {
+        key: "X-Content-Type-Options",
+        value: "nosniff",
+    },
+    {
+        key: "X-Frame-Options",
+        value: "ALLOWALL",
+    },
+    {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin",
+    },
+    {
+        key: "Content-Security-Policy",
+        value: "frame-ancestors *",
+    },
+];
+
 const nextConfig: NextConfig = {
     output: "standalone",
+    images: {
+        remotePatterns: [
+            { protocol: "https", hostname: "myfinancial-blog-assets.s3.ap-south-1.amazonaws.com" },
+            { protocol: "https", hostname: "myfinancial.in" },
+        ],
+    },
     headers: async () => [
         {
-            source: "/(.*)",
+            source: "/embed/:path*",
+            headers: embedHeaders,
+        },
+        {
+            // Negative-lookahead so the security catch-all does NOT match
+            // /embed/* — otherwise its X-Frame-Options: DENY merges in and
+            // overrides ALLOWALL, breaking partner iframes.
+            source: "/:path((?!embed/).*)",
             headers: securityHeaders,
         },
     ],
@@ -64,6 +104,11 @@ const nextConfig: NextConfig = {
         { source: "/assessment/step-4", destination: "/assessment/goals", permanent: true },
         { source: "/assessment/step-5", destination: "/assessment/insurance", permanent: true },
         { source: "/assessment/step-6", destination: "/assessment/tax", permanent: true },
+        // Stale Wix URLs → canonical
+        { source: "/privacy-policy", destination: "/privacy", permanent: true },
+        { source: "/book-online", destination: "/pricing", permanent: true },
+        { source: "/blank", destination: "/", permanent: true },
+        { source: "/blank-:n", destination: "/", permanent: true },
     ],
 };
 
