@@ -17,4 +17,11 @@ export const TABLES = {
     POSTS: "myfinancial-blog-posts",
     COMMENTS: "myfinancial-comments",
     NEWSLETTER_SUBSCRIBERS: "myfinancial-newsletter-subscribers",
+    /**
+     * Anonymous TaxBuddy interstitial event log.
+     * Schema: PK = `EVENT#<eventId>`, SK = ISO timestamp.
+     * No PII — only `anonSessionToken` (browser-local random UUID) + event metadata.
+     * See docs/compliance/taxbuddy-redirect/05-audit-trail-schema.md
+     */
+    TAXBUDDY_EVENTS: "myfinancial-taxbuddy-events",
 } as const;

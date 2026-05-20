@@ -41,6 +41,11 @@ const sections = [
             "MyFinancial, its creators, and contributors shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use or inability to use this tool or reliance on its outputs.",
     },
     {
+        title: "Third-Party Services",
+        content:
+            "MyFinancial may direct you to independent third-party services such as TaxBuddy (operated by Finbingo Wealth Tech Private Limited) for actions like income-tax return filing. These third parties are not part of MyFinancial. When you click through, you enter a separate contract directly with that third party, governed by their own terms and privacy policy. MyFinancial does not share any user data with these third parties. We may receive a referral fee when you sign up through such a link — this is disclosed in compliance with the Consumer Protection (E-Commerce) Rules, 2020 and ASCI guidelines, and does not increase what you pay the third party. To the maximum extent permitted by law, MyFinancial is not liable for the quality, accuracy, fees, refunds, or any other aspect of any third-party service.",
+    },
+    {
         title: "Governing Law",
         content:
             "This disclaimer and your use of MyFinancial shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Bengaluru, Karnataka.",
