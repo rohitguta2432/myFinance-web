@@ -4,7 +4,7 @@ description: "The ca vs financial advisor india gap: your CA files ITRs; nobody 
 slug: "ca-vs-financial-advisor-india-15-lakh"
 category: "MyFinancial Services & Financial Diagnostics"
 tags: ["ca vs financial advisor india", "do i need financial advisor india", "sebi ria vs ca", "fee only financial advisor india", "financial planner for salaried india", "tax planning vs financial planning"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-05-02"
 cover_image_alt: "ca vs financial advisor india: scope comparison between CA and SEBI RIA for ₹15L+ salaried earners"
 ---

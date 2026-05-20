@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const MODEL_ID = "us.amazon.nova-pro-v1:0";
-const AUTHOR = "Nithin Pushkaran";
+const AUTHOR = "MyFinancial";
 
 type Topic = { topic: string; category: string; slugHint: string };
 

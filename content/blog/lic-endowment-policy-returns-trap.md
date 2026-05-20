@@ -4,7 +4,7 @@ description: "Most ₹15L+ earners hold endowment policies returning 4–5% IRR.
 slug: "lic-endowment-policy-returns-trap"
 category: "Insurance Planning"
 tags: ["endowment policy", "LIC", "term insurance", "IRR", "insurance planning", "tax saving"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-04-25"
 cover_image: "/og/lic-endowment-policy-returns-trap.webp"
 cover_image_alt: "Endowment policy returns vs Nifty 50 TRI — 25-year wealth gap chart"

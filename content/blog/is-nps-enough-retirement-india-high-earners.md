@@ -4,7 +4,7 @@ description: "₹50K/yr in NPS for the 80CCD(1B) deduction feels like retirement
 slug: "is-nps-enough-retirement-india-high-earners"
 category: "Retirement Planning"
 tags: ["NPS", "retirement planning India", "80CCD(1B)", "annuity rate", "NPS withdrawal rules 2025", "retirement corpus"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-04-28"
 cover_image: "/og/is-nps-enough-retirement-india-high-earners.webp"
 cover_image_alt: "NPS corpus vs equity index fund — 28-year retirement gap chart for ₹15L+ Indian earners"

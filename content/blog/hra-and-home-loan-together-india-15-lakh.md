@@ -4,7 +4,7 @@ description: "HRA and home loan together — most ₹15L+ earners are running 20
 slug: "hra-and-home-loan-together-india-15-lakh"
 category: "Tax Planning"
 tags: ["hra and home loan together", "section 24(b)", "hra exemption new tax regime", "home loan tax benefit india", "tax planning India", "let out property deduction"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-05-01"
 cover_image: "/og/hra-and-home-loan-together-india-15-lakh.webp"
 cover_image_alt: "HRA and home loan together deduction comparison for 15 lakh salary India under old and new tax regime"

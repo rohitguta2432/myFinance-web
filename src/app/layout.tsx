@@ -35,8 +35,8 @@ export const metadata: Metadata = {
         "post tax calculator",
         "net worth India",
     ],
-    authors: [{ name: "Nithin Pushkaran", url: "https://myfinancial.in/about" }],
-    creator: "Nithin Pushkaran",
+    authors: [{ name: "MyFinancial", url: "https://myfinancial.in/about" }],
+    creator: "MyFinancial",
     publisher: "MyFinancial",
     metadataBase: new URL("https://myfinancial.in"),
     alternates: {

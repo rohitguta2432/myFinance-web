@@ -4,7 +4,7 @@ description: "88% of Indian taxpayers picked the new tax regime by default. For 
 slug: "new-tax-regime-vs-old-regime-india-15-lakh"
 category: "Tax Planning"
 tags: ["new tax regime vs old regime", "income tax slabs FY 2025-26", "tax planning India", "section 87A rebate", "break-even deductions", "opt out new tax regime"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-04-27"
 cover_image_alt: "Old vs new tax regime break-even chart for ₹15L, ₹20L and ₹25L incomes in India"
 ---

@@ -4,7 +4,7 @@ description: "India's new capital gains tax rules: LTCG 12.5%, STCG 20%, indexat
 slug: "capital-gains-tax-india-new-rules-15-lakh"
 category: "Tax Planning"
 tags: ["capital gains tax India", "LTCG tax rate AY 2026-27", "STCG Section 111A", "indexation removal", "1.25 lakh LTCG exemption", "Budget 2024 capital gains"]
-author: "Nithin Pushkaran"
+author: "MyFinancial"
 date: "2026-05-05"
 cover_image_alt: "Capital gains tax India new rules — LTCG 12.5% and STCG 20% comparison for ₹15 lakh plus earners"
 ---
